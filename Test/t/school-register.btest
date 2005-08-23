@@ -1,0 +1,33 @@
+# Copyright (c) 2005 bivio Software, Inc. All rights reserved.
+# $Id$
+test_setup('Freiker');
+my($get_to_reg) = sub {
+    home_page();
+    follow_link('Register School');
+    verify_text('Register Your School');
+};
+
+$get_to_reg->();
+submit_form('Register Your School' => {
+    'Your Name:#0' => 'First Last',
+    'login:' => 'first@test.com',
+    'Password:' => '123456',
+    'Re-enter Password:' => '123456',
+    'Your Name:#1' => 'My School',
+    '9 Digit Zip:' => '12345-6789',
+    'School Website:' => 'http://www.myschool.com',
+});
+#verify_text('Are You a Freiker?');
+
+$get_to_reg->();
+test_deviance('You must supply a value for Your Name.');
+submit_form('Register Your School' => {
+    'Your Name:#0' => '',
+    'login:' => 'first@test.com',
+    'Password:' => '123456',
+    'Re-enter Password:' => '123456',
+    'Your Name:#1' => 'My School',
+    '9 Digit Zip:' => '12345-6789',
+    'School Website:' => 'http://www.myschool.com',
+});
+test_conformance();
