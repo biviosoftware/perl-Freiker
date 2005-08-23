@@ -55,6 +55,23 @@ sub get_delegate_info {
 	    Action.ClientRedirect->execute_next
 	    next=SITE_ROOT
 	)],
+	[qw(
+	    SCHOOL_REGISTER
+	    502
+	    GENERAL
+	    ANYBODY
+	    Model.SchoolRegisterForm
+	    View.school-register
+	    next=SITE_ROOT
+	)],
+	[qw(
+	    SCHOOL_HOME
+	    503
+	    GENERAL
+	    ANYBODY
+	    Action.ClientRedirect->execute_next
+	    next=SITE_ROOT
+	)],
     ]);
 }
 

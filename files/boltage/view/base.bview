@@ -13,7 +13,6 @@ view_main(Page({
 	    vs_site_name(),
 	    view_widget_value('base_title'),
 	]}),
-        FirstFocus(),
     ]),
     style => Style({other_styles => <<'EOF'}),
 a:link, a:visited, a:hover, a:active {text-decoration: none}
@@ -25,9 +24,8 @@ EOF
 	    cell_width => '90%',
 	    cell_align => 'center',
 	}),
-	vs_link(String('Register', 'text_button'), '/')->put( # REGISTER
-	    cell_align => 'ne',
-	),
+	vs_link(String('Register School', 'text_button'), 'SCHOOL_REGISTER')
+	    ->put(cell_align => 'ne'),
     ], [
 	Join([view_widget_value('base_content')], {
 	    cell_colspan => 3,

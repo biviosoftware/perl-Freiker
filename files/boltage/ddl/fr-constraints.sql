@@ -1,7 +1,7 @@
 -- Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
 -- $Id$
 --
--- Constraints & Indexes for PetShop Models
+-- Constraints & Indexes for Freiker Models
 --
 -- * This file is sorted alphabetically by table
 -- * The only "NOT NULL" values are for things which are optional.
@@ -19,3 +19,15 @@
 -- Non-PRIMARY KEY Constraints
 ----------------------------------------------------------------
 
+--
+-- school_t
+--
+ALTER TABLE school_t
+  ADD CONSTRAINT school_t2
+  FOREIGN KEY (school_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE UNIQUE INDEX school_t3 ON school_t (
+  website
+)
+/

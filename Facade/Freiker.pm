@@ -44,6 +44,9 @@ my($_SELF) = __PACKAGE__->new({
     http_host => 'www.freiker.org',
     mail_host => 'freiker.org',
     Color => [
+# I think I should do css.
+# All names map to classes.
+# Make forms look like Oxford.
 	[[qw(base_heading page_link page_vlink page_alink)] => 0x33cc00],
 	[page_link_hover => 0x99ff33],
 	[page_text => 0],
@@ -71,6 +74,7 @@ my($_SELF) = __PACKAGE__->new({
 	[[qw(
 		checkbox
 		form_field_label
+		form_field_description
 		form_submit
 		input_field
 		mailto
@@ -87,6 +91,8 @@ my($_SELF) = __PACKAGE__->new({
     ],
     FormError => [
 	[NULL => 'You must supply a value for vs_fe("label");.'],
+	['SchoolRegisterForm.School.website.EXISTS' =>
+	     q{This school's website is already registered.  Please try to find the "wheel" at your school.}],
     ],
     HTML => [
 	[want_secure => 0],
@@ -105,6 +111,7 @@ my($_SELF) = __PACKAGE__->new({
 	[SHELL_UTIL => undef],
 	[SITE_ROOT => '/*'],
 	[USER_HOME => '?'],
+	[SCHOOL_REGISTER => '/pub/register-school'],
     ],
     Text => [
 	[support_email => 'support'],
@@ -121,6 +128,16 @@ my($_SELF) = __PACKAGE__->new({
 	]],
 	[ok_button => '   OK   '],
 	[cancel_button => ' Cancel '],
+	[password => 'Password'],
+	[confirm_password => 'Re-enter Password'],
+	['email', 'login' => 'Your Email'],
+	[zip => '9 Digit Zip'],
+	[SchoolRegisterForm => [
+	    'RealmOwner.display_name' => 'Your Name',
+	    'RealmOwner_2.display_name' => 'School Name',
+	    'School.website' => 'School Website',
+	    ok_button => 'Register Your School',
+	]],
     ],
 });
 

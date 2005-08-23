@@ -1,0 +1,19 @@
+# Copyright (c) 2005 bivio Software, Inc..  All rights reserved.
+# $Id$
+view_parent('base');
+view_put(
+    base_title => 'Wheel and School Registration',
+    base_heading => 'Register Your School',
+    base_content => vs_simple_form(
+	'SchoolRegisterForm',
+	[qw{
+	    SchoolRegisterForm.RealmOwner.display_name
+	    SchoolRegisterForm.Email.email
+	    SchoolRegisterForm.RealmOwner.password
+	    SchoolRegisterForm.confirm_password
+	    SchoolRegisterForm.RealmOwner_2.display_name
+	    SchoolRegisterForm.Address.zip
+	    SchoolRegisterForm.School.website
+	}],
+    ),
+);
