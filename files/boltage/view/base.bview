@@ -1,0 +1,45 @@
+# Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
+# $Id$
+view_declare(qw(base_content));
+view_put(
+    base_title => '',
+    base_heading => '',
+);
+view_class_map('HTMLWidget');
+view_shortcuts('Freiker::ViewShortcuts');
+view_main(Page({
+    head => Join([
+        Title({values => [
+	    vs_site_name(),
+	    view_widget_value('base_title'),
+	]}),
+        FirstFocus(),
+    ]),
+    style => Style({other_styles => <<'EOF'}),
+a:link, a:visited, a:hover, a:active {text-decoration: none}
+EOF
+    string_font => 'page_text',
+    body => Grid([[
+	Link(Image('smiley_80'), '/'),
+	String(view_widget_value('base_heading'), 'base_heading', {
+	    cell_width => '90%',
+	    cell_align => 'center',
+	}),
+	vs_link(String('Register', 'text_button'), '/')->put( # REGISTER
+	    cell_align => 'ne',
+	),
+    ], [
+	Join([view_widget_value('base_content')], {
+	    cell_colspan => 3,
+	}),
+    ], [
+	Link(Image('bivio_power'), 'http://www.bivio.biz', {
+	    cell_colspan => 3,
+	    cell_align => 'se',
+	}),
+    ]], {
+	width => '95%',
+	align => 'center',
+#	border => 1,
+    }),
+}));
