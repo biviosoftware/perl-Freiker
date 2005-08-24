@@ -8,26 +8,28 @@ my($get_to_reg) = sub {
 };
 
 $get_to_reg->();
-submit_form('Register Your School' => {
-    'Your Name:#0' => 'First Last',
-    'login:' => 'first@test.com',
+submit_form('Cancel');
+follow_link('Register School');
+submit_form('Register School' => {
+    'Your Name:' => 'First Last',
+    'Your Email:' => 'first@test.com',
     'Password:' => '123456',
     'Re-enter Password:' => '123456',
-    'Your Name:#1' => 'My School',
-    '9 Digit Zip:' => '12345-6789',
+    'School Name:' => 'My School',
+    'School ZIP+4:' => '12345-6789',
     'School Website:' => 'http://www.myschool.com',
 });
 #verify_text('Are You a Freiker?');
 
-$get_to_reg->();
-test_deviance('You must supply a value for Your Name.');
-submit_form('Register Your School' => {
-    'Your Name:#0' => '',
-    'login:' => 'first@test.com',
-    'Password:' => '123456',
-    'Re-enter Password:' => '123456',
-    'Your Name:#1' => 'My School',
-    '9 Digit Zip:' => '12345-6789',
-    'School Website:' => 'http://www.myschool.com',
-});
-test_conformance();
+#$get_to_reg->();
+#test_deviance('You must supply a value for Your Name.');
+#submit_form('Register School' => {
+#    'Your Name:' => '',
+#    'Your Email:' => 'first@test.com',
+#    'Password:' => '123456',
+#    'Re-enter Password:' => '123456',
+#    'School Name:' => 'My School',
+#    'School ZIP+4:' => '12345-6789',
+#    'School Website:' => 'http://www.myschool.com',
+#});
+#test_conformance();
