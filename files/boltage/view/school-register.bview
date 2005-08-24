@@ -11,8 +11,8 @@ view_put(
 	    SchoolRegisterForm.Email.email
 	    SchoolRegisterForm.RealmOwner.password
 	    SchoolRegisterForm.confirm_password
-	    SchoolRegisterForm.RealmOwner_2.display_name
-	    SchoolRegisterForm.Address.zip
+	    SchoolRegisterForm.school_name
+	    SchoolRegisterForm.zip
 	    SchoolRegisterForm.School.website
 	}],
     ),

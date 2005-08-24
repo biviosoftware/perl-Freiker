@@ -42,6 +42,34 @@ C<Freiker::Model::SchoolRegisterForm>
 
 =cut
 
+=for html <a name="internal_create_models"></a>
+
+=head2 internal_create_models() : array
+
+Creates School and zip.
+
+=cut
+
+sub internal_create_models {
+    my($self) = @_;
+    my($realm, @rest) = shift->SUPER::internal_create_models(@_);
+    $self->new_other('RealmUser')->create({
+	user_id => $realm->get('realm_id'),
+        role => Bivio::Auth::Role->ADMINISTRATOR,
+	realm_id => $self->new_other('Address')->create({
+	    zip => $self->get('zip'),
+	    realm_id => $self->new_other('RealmOwner')->create({
+		display_name => $self->get('school_name'),
+		realm_type => Bivio::Auth::RealmType->SCHOOL,
+		realm_id => $self->new_other('School')->create(
+		    $self->get_model_properties('School'),
+		)->get('school_id'),
+	    })->get('realm_id'),
+	})->get('realm_id'),
+    });
+    return ($realm, @rest);
+}
+
 =for html <a name="internal_initialize"></a>
 
 =head2 internal_initialize() : hash_ref
@@ -55,14 +83,41 @@ sub internal_initialize {
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
 	visible => [
-	    'RealmOwner_2.display_name',
-	    {
-		name => 'Address.zip',
-		constraint => 'NOT_NULL',
-	    },
+	    @{$self->internal_initialize_local_fields(
+		[
+		    [school_name => 'RealmOwner.display_name'],
+		    [zip => 'USZipCode9'],
+		],
+		undef,
+		'NOT_NULL',
+	    )},
 	    'School.website',
 	],
     });
+}
+
+=for html <a name="validate"></a>
+
+=head2 validate()
+
+school name is unique wrt zip.
+
+=cut
+
+sub validate {
+    my($self) = @_;
+    return if $self->in_error;
+    my($r) = $self->new_other('RealmOwner');
+    return unless $r->unauth_load({
+	display_name => $self->get('school_name'),
+	realm_type => Bivio::Auth::RealmType->SCHOOL,
+    });
+    my($a) = $self->new_other('Address');
+    return unless $a->unauth_load({
+	zip => $self->get('zip'),
+    });
+    $self->internal_put_error('school_name', 'EXISTS');
+    return;
 }
 
 #=PRIVATE SUBROUTINES

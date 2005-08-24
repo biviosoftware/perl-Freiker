@@ -93,6 +93,8 @@ my($_SELF) = __PACKAGE__->new({
 	[NULL => 'You must supply a value for vs_fe("label");.'],
 	['SchoolRegisterForm.School.website.EXISTS' =>
 	     q{This school's website is already registered.  Please try to find the "wheel" at your school.}],
+	['SchoolRegisterForm.RealmOwner_2.display_name.EXISTS' =>
+	     q{Your school is already registered.  Please try to find the "wheel" at your school.}],
     ],
     HTML => [
 	[want_secure => 0],
@@ -130,13 +132,13 @@ my($_SELF) = __PACKAGE__->new({
 	[cancel_button => ' Cancel '],
 	[password => 'Password'],
 	[confirm_password => 'Re-enter Password'],
-	['email', 'login' => 'Your Email'],
-	[zip => '9 Digit Zip'],
+	[['email', 'login'] => 'Your Email'],
+	[zip => 'School ZIP+4'],
 	[SchoolRegisterForm => [
 	    'RealmOwner.display_name' => 'Your Name',
-	    'RealmOwner_2.display_name' => 'School Name',
+	    'school_name' => 'School Name',
 	    'School.website' => 'School Website',
-	    ok_button => 'Register Your School',
+	    ok_button => 'Register School',
 	]],
     ],
 });

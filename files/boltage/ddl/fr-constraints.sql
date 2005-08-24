@@ -22,12 +22,7 @@
 --
 -- school_t
 --
-ALTER TABLE school_t
-  ADD CONSTRAINT school_t2
-  FOREIGN KEY (school_id)
-  REFERENCES realm_owner_t(realm_id)
-/
-CREATE UNIQUE INDEX school_t3 ON school_t (
+CREATE UNIQUE INDEX school_t2 ON school_t (
   website
 )
 /

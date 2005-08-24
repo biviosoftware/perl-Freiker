@@ -27,6 +27,8 @@ EOF
 	vs_link(String('Register School', 'text_button'), 'SCHOOL_REGISTER')
 	    ->put(cell_align => 'ne'),
     ], [
+	vs_blank_cell(),
+    ], [
 	Join([view_widget_value('base_content')], {
 	    cell_colspan => 3,
 	}),
