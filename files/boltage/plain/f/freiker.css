@@ -1,0 +1,96 @@
+a:link, a:visited, a:hover, a:active {
+  text-decoration: none;
+  color: #33CC00;
+}
+a:hover {
+  color: #99FF33;
+  text-decoration: underline;
+}
+body {
+  font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif;
+  background: white;
+  color: black;
+  margin: 0px;
+  font-size: small;
+  padding: 2% 2.5% 0 2.5%;
+}
+img, table {
+  border-style: none;
+}
+p .indent {
+  text-indent: 2em;
+  margin: 2pt 0 2pt 0;
+}
+td {
+  white-space: nowrap;
+}
+.acknowledgement {
+  margin: 0 0 2em 0;
+  width: 50em;
+}
+.base_grid {
+  width: 100%;
+}
+.base_heading, .page_heading, .table_heading {
+  font-weight: bold;
+  color: #33cc00;
+}
+.base_heading {
+  font-size: 200%;
+  text-align: center;
+  line-height: 0%;
+}
+.base_menu {
+  text-align: center;
+  white-space: nowrap;
+  font-weight: bold;
+  line-height: 0%;
+}
+.base_menu_heart {
+  padding: 0 2% 0 2%;
+}
+.error {
+  font-weight: bold;
+  color: #990000;
+}
+.error_color {
+  color: #990000;
+}
+.form_field_checkbox {
+  padding-left: 3em;
+}
+.form_field_description {
+  margin: .3em 0 .7em 0;
+  width: 30em;
+  font-size: 90%;
+  line-height: 120%;
+}
+.form_field_error {
+  font-size: 90%;
+  color: #990000;
+  font-weight: bold;
+}
+.form_field_error_label {
+  color: #990000;
+  font-style: italic;
+}
+.form_field_input {
+  padding-bottom: 1em;
+}
+.form_field_label {
+  vertical-align: top;
+  text-align: right;
+  font-weight: bold;
+}
+.text_button {
+  font-weight: bold;
+  white-space: nowrap;
+  padding: 1%;
+  border-style: outset;
+  border-width: medium;
+  border-color: #33cc00;
+}
+.warning {
+  font-weight: italic;
+  color: #990001; /* must be different from .error */
+}

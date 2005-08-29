@@ -47,10 +47,15 @@ Returns the type error declarations.
 sub get_delegate_info {
     return [
 	@{shift->SUPER::get_delegate_info(@_)},
-	YOUR_ERROR_HERE => [
+	BAR_CODE => [
 	    501,
 	    undef,
-	    'Your error description here.',
+	    'Invalid bar code.',
+	],
+	CANNOT_DELETE_CLASS => [
+	    502,
+	    undef,
+	    'Implementation restriction: You cannot delete a class at this time.',
 	],
     ];
 }

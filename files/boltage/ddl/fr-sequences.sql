@@ -16,8 +16,12 @@
 --
 -- Starting at 21.  1-20 is reserved for bOP common Models.
 --
-CREATE sequence school_s
+CREATE sequence class_s
   MINVALUE 100021
+  CACHE 1 INCREMENT BY 100000
+/
+CREATE sequence school_s
+  MINVALUE 100022
   CACHE 1 INCREMENT BY 100000
 /
 

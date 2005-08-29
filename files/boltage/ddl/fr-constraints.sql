@@ -20,6 +20,31 @@
 ----------------------------------------------------------------
 
 --
+-- class_t
+--
+ALTER TABLE class_t
+  add constraint class_t2
+  foreign key (school_id)
+  references school_t(school_id)
+/
+CREATE INDEX class_t3 on class_t (
+  school_id
+)
+/
+CREATE INDEX class_t4 ON class_t (
+  class_grade
+)
+/
+CREATE INDEX class_t5 ON class_t (
+  class_size
+)
+/
+CREATE INDEX class_t6 ON class_t (
+  school_year
+)
+/
+
+--
 -- school_t
 --
 CREATE UNIQUE INDEX school_t2 ON school_t (

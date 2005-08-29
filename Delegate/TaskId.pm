@@ -48,29 +48,79 @@ sub get_delegate_info {
     my($proto) = @_;
     return $proto->merge_task_info(shift->SUPER::get_delegate_info(@_), [
 	[qw(
+	    MY_SITE
+	    4
+	    GENERAL
+	    ANY_USER
+	    Action.HomeRedirect
+	    next=SITE_ROOT
+	    wheel_task=WHEEL_CLASS_LIST
+	)],
+	[qw(
 	    LOGIN
 	    501
 	    GENERAL
 	    ANYBODY
-	    Action.ClientRedirect->execute_next
-	    next=SITE_ROOT
+	    Action.UserLogout
+	    Model.UserLoginForm
+            View.login
+	    next=MY_SITE
 	)],
 	[qw(
 	    SCHOOL_REGISTER
 	    502
 	    GENERAL
 	    ANYBODY
+	    Action.UserLogout
+	    Model.Lock
 	    Model.SchoolRegisterForm
 	    View.school-register
-	    next=SITE_ROOT
+	    next=WHEEL_CLASS_LIST
 	)],
 	[qw(
 	    SCHOOL_HOME
 	    503
-	    GENERAL
+	    SCHOOL
 	    ANYBODY
 	    Action.ClientRedirect->execute_next
 	    next=SITE_ROOT
+	)],
+	[qw(
+	    TEST_SCHOOL_DELETE
+	    504
+	    GENERAL
+	    TEST_TRANSIENT
+	    Action.SchoolDelete
+            Action.ClientRedirect->execute_next
+            next=SCHOOL_REGISTER
+	)],
+	[qw(
+	    WHEEL_CLASS_LIST
+	    505
+	    SCHOOL
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.Lock
+	    Model.ClassList->execute_load_all_with_query
+	    Model.ClassListForm
+	    View.wheel/class-list
+	    next=WHEEL_CLASS_LIST
+	)],
+	[qw(
+	    CLASS_HOME
+	    506
+	    CLASS
+	    ANYBODY
+	    Action.ClientRedirect->execute_next
+	    next=SITE_ROOT
+	)],
+	[qw(
+	    LOGOUT
+	    507
+	    GENERAL
+	    ANYBODY
+	    Action.UserLogout
+            Action.ClientRedirect->execute_next
+            next=SITE_ROOT
 	)],
     ]);
 }

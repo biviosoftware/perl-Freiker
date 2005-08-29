@@ -44,50 +44,62 @@ my($_SELF) = __PACKAGE__->new({
     http_host => 'www.freiker.org',
     mail_host => 'freiker.org',
     Color => [
-# I think I should do css.
-# All names map to classes.
-# Make forms look like Oxford.
-	[[qw(base_heading page_link page_vlink page_alink)] => 0x33cc00],
-	[page_link_hover => 0x99ff33],
-	[page_text => 0],
-	[page_bg => 0xFFFFFF],
-	[page_heading => -1],
-	[error => 0x990000],
-	[warning => 0x990001],
-	[table_heading => -1],
-	[table_even_row_bg => 0xF3F3F3],
-	[table_odd_row_bg => -1],
-	[table_separator => 0],
-	[summary_line => 0x66CC66],
+	[[qw(
+	    table_separator
+	    table_odd_row_bg
+	    table_even_row_bg
+	    page_alink
+	    page_link
+	    page_link_hover
+	    page_bg
+	    page_text
+	    page_vlink
+	    summary_line
+	    error
+	    warning
+ 	)] => -1],
     ],
     Font => [
-	[default => [
-	    'family=verdana,arial,helvetica,geneva,sunsans-regular,sans-serif',
-	    'size=small',
-	]],
-	[error => ['color=error', 'bold']],
-	[form_field_error => ['color=error', 'smaller', 'bold']],
-	[form_field_error_label => ['color=error', 'italic']],
-	[page_heading => ['bold']],
-	[table_heading => ['color=table_heading', 'bold']],
+	[default => []],
+	map([$_ => [qq{class=$_}]], qw{
+	    error
+	    warning
+	    form_field_error
+	    form_field_error_label
+	    page_heading
+	    table_heading
+	}),
+	[[qw(
+	      form_field_description
+	      form_field_label
+	      checkbox
+	      form_submit
+	      input_field
+	      mailto
+	      number_cell
+	      page_text
+	      radio
+	      search_field
+	      table_cell
+	)] => []],
+    ],
+    Font => [
+	[default => []],
 	[warning => ['color=warning', 'bold']],
 	[[qw(
-		checkbox
-		form_field_label
-		form_field_description
-		form_submit
-		input_field
-		mailto
-		number_cell
-		page_text
-		radio
-		search_field
-		table_cell
+	    table_heading
+	    table_cell
+	    search_field
+	    radio
+	    page_text
+	    number_cell
+	    mailto
+	    input_field
+	    form_submit
+	    form_field_label
+	    form_field_description
+	    checkbox
 	)] => []],
-
-	# Add your own here
-	[text_button => ['larger']],
-	[base_heading => ['size=x-large']],
     ],
     FormError => [
 	[NULL => 'You must supply a value for vs_fe("label");.'],
@@ -105,15 +117,17 @@ my($_SELF) = __PACKAGE__->new({
 	[DEFAULT_ERROR_REDIRECT_FORBIDDEN => undef],
 	[FAVICON_ICO => '/favicon.ico'],
 	[FORBIDDEN => undef],
-	[LOCAL_FILE_PLAIN => ['/i/*']],
-	[LOGIN => undef],
-#TODO:	    [LOGOUT => 'pub/logout'],
-	[MY_SITE => undef],
+	[LOCAL_FILE_PLAIN => ['/i/*', '/f/*']],
+	[LOGIN => 'pub/login'],
+	[LOGOUT => 'pub/logout'],
+	[MY_SITE => 'my-site'],
 	[MY_CLUB_SITE => undef],
 	[SHELL_UTIL => undef],
 	[SITE_ROOT => '/*'],
 	[USER_HOME => '?'],
-	[SCHOOL_REGISTER => '/pub/register-school'],
+	[SCHOOL_REGISTER => 'pub/register-school'],
+	[TEST_SCHOOL_DELETE => '_test/delete-school'],
+	[WHEEL_CLASS_LIST => '?/classes'],
     ],
     Text => [
 	[support_email => 'support'],
@@ -124,7 +138,7 @@ my($_SELF) = __PACKAGE__->new({
 	[favicon_uri => '/i/favicon.ico'],
 	[none => ''],
 	[Image_alt => [
-	    dot => '',
+	    [qw(dot heart_14 heart)] => '',
 	    bivio_power => 'Operated by bivio Software, Inc.',
 	    [qw(smiley smiley_80)] => 'Freiker: The Frequent Biker Program',
 	]],
@@ -134,11 +148,23 @@ my($_SELF) = __PACKAGE__->new({
 	[confirm_password => 'Re-enter Password'],
 	[['email', 'login'] => 'Your Email'],
 	[zip => 'School ZIP+4'],
+	[school_name => 'School Name'],
+	['School.website' => 'School Website'],
+	[class_size => 'Class Size'],
+	['RealmOwner.display_name' => 'Your Name'],
 	[SchoolRegisterForm => [
-	    'RealmOwner.display_name' => 'Your Name',
-	    'school_name' => 'School Name',
-	    'School.website' => 'School Website',
 	    ok_button => 'Register School',
+	]],
+	['User.gender' => 'Teacher'],
+	['User.first_name' => 'First Name'],
+	['User.last_name' => 'Last Name'],
+	[class_grade => 'Grade'],
+	[ClassListForm => [
+	    commit_and_add_rows => 'Add More Teachers',
+	    ok_button => 'Update',
+	]],
+	[UserLoginForm => [
+	    ok_button => 'Login',
 	]],
     ],
 });

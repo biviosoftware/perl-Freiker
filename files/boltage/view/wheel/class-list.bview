@@ -1,0 +1,32 @@
+# Copyright (c) 2005 bivio Software, Inc..  All rights reserved.
+# $Id$
+view_parent('base');
+view_put(
+    base_title => 'Classes This Year',
+    base_heading => "Enter Your School's Classes",
+    base_content => Form(
+	'ClassListForm',
+	Grid([[
+	    Table('ClassListForm', [
+		['Class.class_grade', {
+		    enum_sort => 'as_int',
+		}],
+		['User.gender', {
+		    wf_want_select => 1,
+		    enum_sort => 'get_short_desc',
+		}],
+		qw(
+		   User.first_name
+		   User.last_name
+		   Class.class_size
+	        ),
+	    ]),
+	], [
+	    FormButton('commit_and_add_rows'),
+	], [
+	    vs_blank_cell(),
+	], [
+	    StandardSubmit({cell_align => 'center'}),
+	]]),
+    ),
+);

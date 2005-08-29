@@ -63,6 +63,24 @@ sub ddl_files {
     return shift->SUPER::ddl_files(['bOP', 'fr']);
 }
 
+=for html <a name="init_realm_role"></a>
+
+=head2 init_realm_role()
+
+Adds SCHOOL and CLASS realms, copies permissions from CLUB.
+
+=cut
+
+sub init_realm_role {
+    my($self) = shift;
+    my(@res) = $self->SUPER::init_realm_role(@_);
+    map(
+	$self->new_other('Bivio::Biz::Util::RealmRole')->copy_all(club => $_),
+	qw(school class),
+    );
+    return @res;
+}
+
 #=PRIVATE SUBROUTINES
 
 =head1 COPYRIGHT
@@ -76,3 +94,4 @@ $Id$
 =cut
 
 1;
+

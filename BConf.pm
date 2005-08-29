@@ -77,15 +77,14 @@ sub merge_overrides {
 	      	'Bivio::Auth::Support' => 'Bivio::Delegate::SimpleAuthSupport',
 	      	'Bivio::Auth::RealmType' => 'Freiker::Delegate::RealmType',
 		'Bivio::TypeError' => 'Freiker::Delegate::TypeError',
-		'Bivio::UI::HTML::FormErrors' => 'Freiker::Delegate::FormErrors',
 	    },
 	    maps => {
-#TODO:	      	Action => ['Freiker::Action'],
+	      	Action => ['Freiker::Action'],
 		Facade => ['Freiker::Facade'],
 #TODO:	      	HTMLWidget => ['Freiker::HTMLWidget'],
 	      	Model => ['Freiker::Model'],
 		TestLanguage => ['Freiker::Test'],
-#TODO:	      	Type => ['Freiker::Type'],
+	      	Type => ['Freiker::Type'],
 	    },
         }),
         'Bivio::UI::Facade' => {
@@ -101,6 +100,9 @@ sub merge_overrides {
 	    critical_list => [
 	    ],
         }),
+	'Bivio::Test::HTMLParser::Forms' => {
+	    error_color => '#990000',
+	},
     };
 }
 

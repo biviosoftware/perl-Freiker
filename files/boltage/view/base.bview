@@ -1,12 +1,19 @@
 # Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
 # $Id$
 view_declare(qw(base_content));
+view_class_map('HTMLWidget');
+view_shortcuts('Freiker::ViewShortcuts');
 view_put(
     base_title => '',
     base_heading => '',
+    base_menu => Join([
+	vs_link('Wheels', 'SITE_ROOT'),
+	Image('heart_14')->put(class => 'base_menu_heart'),
+	vs_link('Freikers', 'SITE_ROOT'),
+	Image('heart_14')->put(class => 'base_menu_heart'),
+	vs_link('Rides', 'SITE_ROOT'),
+    ]),
 );
-view_class_map('HTMLWidget');
-view_shortcuts('Freiker::ViewShortcuts');
 view_main(Page({
     head => Join([
         Title({values => [
@@ -14,32 +21,32 @@ view_main(Page({
 	    view_widget_value('base_title'),
 	]}),
     ]),
-    style => Style({other_styles => <<'EOF'}),
-a:link, a:visited, a:hover, a:active {text-decoration: none}
-EOF
-    string_font => 'page_text',
+    style => StyleSheet('/f/freiker.css'),
     body => Grid([[
-	Link(Image('smiley_80'), '/'),
-	String(view_widget_value('base_heading'), 'base_heading', {
-	    cell_width => '90%',
-	    cell_align => 'center',
-	}),
-	vs_link(String('Register School', 'text_button'), 'SCHOOL_REGISTER')
-	    ->put(cell_align => 'ne'),
+	Link(Image('smiley_80', undef, {class => 'base_logo'}), '/'),
+	Join([
+	    Tag(p => view_widget_value('base_heading'), 'base_heading'),
+	    Tag(div => view_widget_value('base_menu'), 'base_menu'),
+        ]),
+	vs_link(Join(['Register School']), 'SCHOOL_REGISTER')
+	    ->put(cell_align => 'ne', class => 'text_button'),
     ], [
 	vs_blank_cell(),
+#TODO: Need aspect for tasks.
+#     ], [
+# 	vs_acknowledgement(),
     ], [
 	Join([view_widget_value('base_content')], {
 	    cell_colspan => 3,
 	}),
+    ], [
+	vs_blank_cell(),
     ], [
 	Link(Image('bivio_power'), 'http://www.bivio.biz', {
 	    cell_colspan => 3,
 	    cell_align => 'se',
 	}),
     ]], {
-	width => '95%',
-	align => 'center',
-#	border => 1,
+	class => 'base_grid',
     }),
 }));

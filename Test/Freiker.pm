@@ -42,6 +42,18 @@ C<Freiker::Test::Freiker>
 
 =cut
 
+=for html <a name="school_delete"></a>
+
+=head2 school_delete(string zip) : string
+
+Deletes the school by zip.
+
+=cut
+
+sub school_delete {
+    return shift->visit_uri('/_test/delete-school?zip=' . shift);
+}
+
 #=PRIVATE SUBROUTINES
 
 =head1 COPYRIGHT

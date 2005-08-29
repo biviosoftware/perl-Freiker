@@ -4,5 +4,9 @@ view_parent('base');
 view_put(
     base_title => 'Home',
     base_heading => 'Are You a Freiker?',
-    base_content => 'hello',
+    base_content => Prose(<<'EOF')
+Need to list the prizes;  Consider rotating the images
+Current top school;
+Images of freikers.
+EOF
 );

@@ -1,26 +1,34 @@
 # Copyright (c) 2005 bivio Software, Inc. All rights reserved.
 # $Id$
 test_setup('Freiker');
-my($get_to_reg) = sub {
-    home_page();
-    follow_link('Register School');
-    verify_text('Register Your School');
-};
-
-$get_to_reg->();
-submit_form('Cancel');
+home_page();
+school_delete(my($zip) = '123456789');
 follow_link('Register School');
 submit_form('Register School' => {
-    'Your Name:' => 'First Last',
-    'Your Email:' => 'first@test.com',
-    'Password:' => '123456',
-    'Re-enter Password:' => '123456',
-    'School Name:' => 'My School',
-    'School ZIP+4:' => '12345-6789',
-    'School Website:' => 'http://www.myschool.com',
+    'Your Name:' => 'Big Wheel',
+    'Your Email:' => (generate_local_email('big-wheel'))[0],
+    'Password:' => 'password',
+    'Re-enter Password:' => 'password',
+    'School Name:' => 'Big Wheel School',
+    'School ZIP+4:' => $zip,
+    'School Website:' => 'http://big-wheel-school.org',
 });
-#verify_text('Are You a Freiker?');
-
+submit_form('Update' => {
+    'Teacher_0' => 'Mr.',
+    'First Name_0' => 'Teacher',
+    'Last Name_0' => 'First',
+    'Class Size_0' => '11',
+    'Grade_0' => '1st',
+    'Teacher_1' => 'Ms.',
+    'First Name_1' => 'Teacher',
+    'Last Name_1' => 'Second',
+    'Class Size_1' => '99',
+    'Grade_1' => '2nd',
+});
+go_back();
+reload_page();
+verify_text(qr/First.*11.*Second.*99/s);
+submit_form('Update');
 #$get_to_reg->();
 #test_deviance('You must supply a value for Your Name.');
 #submit_form('Register School' => {

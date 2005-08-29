@@ -58,13 +58,9 @@ sub internal_create_models {
         role => Bivio::Auth::Role->ADMINISTRATOR,
 	realm_id => $self->new_other('Address')->create({
 	    zip => $self->get('zip'),
-	    realm_id => $self->new_other('RealmOwner')->create({
-		display_name => $self->get('school_name'),
-		realm_type => Bivio::Auth::RealmType->SCHOOL,
-		realm_id => $self->new_other('School')->create(
-		    $self->get_model_properties('School'),
-		)->get('school_id'),
-	    })->get('realm_id'),
+	    realm_id => $self->new_other('School')->create_realm(
+		$self->get(qw(school_name School.website)),
+	    )->get('school_id'),
 	})->get('realm_id'),
     });
     return ($realm, @rest);

@@ -46,11 +46,8 @@ sub get_delegate_info {
     my($proto) = @_;
     return [
         @{$proto->SUPER::get_delegate_info},
-        SCHOOL => [
-            21,
-            undef,
-            'School',
-        ],
+        CLASS => [21],
+        SCHOOL => [22],
     ];
 }
 
