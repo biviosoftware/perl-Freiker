@@ -82,10 +82,11 @@ td {
   text-align: right;
   font-weight: bold;
 }
+
 .text_button {
   font-weight: bold;
   white-space: nowrap;
-  padding: 1%;
+  padding: 3%;
   border-style: outset;
   border-width: medium;
   border-color: #33cc00;

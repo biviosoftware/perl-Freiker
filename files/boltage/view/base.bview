@@ -7,11 +7,13 @@ view_put(
     base_title => '',
     base_heading => '',
     base_menu => Join([
-	vs_link('Wheels', 'SITE_ROOT'),
-	Image('heart_14')->put(class => 'base_menu_heart'),
 	vs_link('Freikers', 'SITE_ROOT'),
 	Image('heart_14')->put(class => 'base_menu_heart'),
+	vs_link('Prizes', 'SITE_ROOT'),
+	Image('heart_14')->put(class => 'base_menu_heart'),
 	vs_link('Rides', 'SITE_ROOT'),
+	Image('heart_14')->put(class => 'base_menu_heart'),
+	vs_link('Wheels', 'SCHOOL_REALMLESS_REDIRECT'),
     ]),
 );
 view_main(Page({
@@ -28,8 +30,12 @@ view_main(Page({
 	    Tag(p => view_widget_value('base_heading'), 'base_heading'),
 	    Tag(div => view_widget_value('base_menu'), 'base_menu'),
         ]),
-	vs_link(Join(['Register School']), 'SCHOOL_REGISTER')
-	    ->put(cell_align => 'ne', class => 'text_button'),
+	If(['auth_user'],
+	   map(
+	       vs_link(Join([$_]), {task_id => uc($_), no_context => 1})
+	           ->put(class => 'text_button'),
+	       'Logout', 'Login'),
+	   {cell_align => 'ne'}),
     ], [
 	vs_blank_cell(),
 #TODO: Need aspect for tasks.
