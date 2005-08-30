@@ -10,5 +10,6 @@ view_put(
 	    UserLoginForm.login
 	    UserLoginForm.RealmOwner.password
 	}],
+	Link(vs_text('link', 'SCHOOL_REGISTER'), 'SCHOOL_REGISTER'),
     ),
 );
