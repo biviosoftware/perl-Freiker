@@ -1,0 +1,56 @@
+body {
+    font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif;
+    background: white;
+    color: black;
+    margin: 0px;
+    padding: 0px;
+    font-size: medium;
+    padding: 18pt 3% 0px 3%;
+}
+img, table {
+    border: none;
+}
+a:link, a:visited, a:hover, a:active {
+    text-decoration: none;
+    color: #33CC00;
+}
+a:hover {
+    color: #99FF33;
+}
+h3 {
+    font-size: 100%;
+    color: #33CC00;
+    margin: 0;
+    padding-top: 12pt;
+    text-transform: uppercase;
+}
+p {
+    text-indent: 2em;
+    margin: 2pt 0 2pt 0;
+}
+td {
+    white-space: nowrap;
+}
+.logo {
+    padding: 0px 0px 0px 10pt;
+    float: right;
+}
+#card {
+    margin: 0px 10pt 0px 0px;
+    text-align: left;
+    float: left;
+}
+.no-indent {
+    text-indent: 0em;
+    margin: 10pt 0px 0px 0px;
+}
+.email {
+    white-space: nowrap;
+    font-weight: bold;
+}
+.grade {
+    text-align: right;
+}
+.teacher {
+    text-align: right;
+}
