@@ -15,5 +15,6 @@ view_put(
 	    SchoolRegisterForm.zip
 	    SchoolRegisterForm.School.website
 	}],
+	Link(vs_text('link', 'LOGIN'), 'LOGIN'),
     ),
 );
