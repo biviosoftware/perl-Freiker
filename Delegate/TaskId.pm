@@ -82,8 +82,8 @@ sub get_delegate_info {
 	    503
 	    SCHOOL
 	    ANYBODY
-	    Action.ClientRedirect->execute_next
-	    next=SITE_ROOT
+            Action.ClientRedirect->execute_next
+            next=WHEEL_CLASS_LIST
 	)],
 	[qw(
 	    TEST_SCHOOL_DELETE
@@ -121,6 +121,16 @@ sub get_delegate_info {
 	    Action.UserLogout
             Action.ClientRedirect->execute_next
             next=SITE_ROOT
+	)],
+	[qw(
+	    SCHOOL_REALMLESS_REDIRECT
+	    508
+	    GENERAL
+	    ANYBODY
+	    Action.RealmlessRedirect
+	    visitor_task=SCHOOL_REGISTER
+	    home_task=WHEEL_CLASS_LIST
+	    unauth_task=SITE_ROOT
 	)],
     ]);
 }

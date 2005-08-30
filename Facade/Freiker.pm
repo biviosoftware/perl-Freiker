@@ -110,6 +110,9 @@ my($_SELF) = __PACKAGE__->new({
 	[SCHOOL_REGISTER => 'pub/register-school'],
 	[TEST_SCHOOL_DELETE => '_test/delete-school'],
 	[WHEEL_CLASS_LIST => '?/classes'],
+	[SCHOOL_HOME => undef],
+	[CLASS_HOME => undef],
+	[SCHOOL_REALMLESS_REDIRECT => 'rs/*'],
     ],
     Text => [
 	[support_email => 'support'],
@@ -147,6 +150,10 @@ my($_SELF) = __PACKAGE__->new({
 	]],
 	[UserLoginForm => [
 	    ok_button => 'Login',
+	]],
+	[link => [
+	    LOGIN => 'Already registered?  Click here to login.',
+	    SCHOOL_REGISTER => 'Not registered?  Wheels click here to register your school.',
 	]],
     ],
 });
