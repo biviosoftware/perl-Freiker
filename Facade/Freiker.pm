@@ -83,24 +83,6 @@ my($_SELF) = __PACKAGE__->new({
 	      table_cell
 	)] => []],
     ],
-    Font => [
-	[default => []],
-	[warning => ['color=warning', 'bold']],
-	[[qw(
-	    table_heading
-	    table_cell
-	    search_field
-	    radio
-	    page_text
-	    number_cell
-	    mailto
-	    input_field
-	    form_submit
-	    form_field_label
-	    form_field_description
-	    checkbox
-	)] => []],
-    ],
     FormError => [
 	[NULL => 'You must supply a value for vs_fe("label");.'],
 	['SchoolRegisterForm.School.website.EXISTS' =>
