@@ -7,52 +7,74 @@ view_put(
     base_title => '',
     base_heading => '',
     base_menu => Join([
-	vs_link('Freikers', 'SITE_ROOT'),
+	vs_link('Freikers', '/hm/freikers'),
 	Image('heart_14')->put(class => 'base_menu_heart'),
-	vs_link('Prizes', 'SITE_ROOT'),
+	vs_link('Prizes', '/hm/prizes'),
 	Image('heart_14')->put(class => 'base_menu_heart'),
-	vs_link('Rides', 'SITE_ROOT'),
+ 	vs_link('Schools', 'SITE_ROOT'),
 	Image('heart_14')->put(class => 'base_menu_heart'),
-	vs_link('Wheels', 'SCHOOL_REALMLESS_REDIRECT'),
+	vs_link('Wheels', '/hm/wheels'),
+#	vs_link('Wheels', 'SCHOOL_REALMLESS_REDIRECT'),
     ]),
 );
-view_main(Page({
-    head => Join([
-        Title({values => [
-	    vs_site_name(),
-	    view_widget_value('base_title'),
-	]}),
-    ]),
-    style => StyleSheet('/f/freiker.css'),
-    body => Grid([[
-	Link(Image('smiley_80', undef, {class => 'base_logo'}), '/'),
+view_main(Page(
+    Title([vs_site_name(), view_widget_value('base_title')]),
+    Grid([[
+	Link(Image('smiley_80'), '/', {
+	    cell_class => 'base_header_logo',
+	}),
 	Join([
 	    Tag(p => view_widget_value('base_heading'), 'base_heading'),
 	    Tag(div => view_widget_value('base_menu'), 'base_menu'),
-        ]),
+        ], {
+	    cell_class => 'base_header_text',
+	}),
 	If(['auth_user'],
 	   map(
-	       vs_link(Join([$_]), {task_id => uc($_), no_context => 1})
-	           ->put(class => 'text_button'),
+	       vs_link(Join([$_]), {task_id => uc($_), no_context => 1}),
 	       'Logout', 'Login'),
-	   {cell_align => 'ne'}),
+	   {
+	       cell_class => 'base_header_button',
+	       cell_align => 'ne',
+	   }),
     ], [
-	vs_blank_cell(),
-#TODO: Need aspect for tasks.
-#     ], [
-# 	vs_acknowledgement(),
+	vs_acknowledgement(),
     ], [
-	Join([view_widget_value('base_content')], {
+	Tag('div', [view_widget_value('base_content')], 'base_content', {
 	    cell_colspan => 3,
+	    cell_align => 'center',
 	}),
     ], [
-	vs_blank_cell(),
-    ], [
-	Link(Image('bivio_power'), 'http://www.bivio.biz', {
+	Grid([[
+	    Link('back to top', '#top', {
+		cell_align => 'nw',
+		cell_class => 'base_footer_top',
+	    }),
+	    Join([
+		Link('Home', '/'),
+		Image('heart_9', 'none'),
+		vs_link('Register Your School', 'SCHOOL_REGISTER'),
+	    ], {
+		cell_class => 'base_footer_menu',
+		cell_align => 'n',
+	    }),
+	    Join([
+		    'Copyright &copy; ',
+		    Bivio::Type::DateTime->now_as_year,
+		    ' bivio Software, Inc.<br />All rights reserved.<br />',
+		    Link('Developed by bivio', 'http://www.bivio.biz'),
+		], {
+		    cell_class => 'base_footer_copyright',
+		    cell_align => 'ne',
+		}),
+	]], {
+	    class => 'base_footer',
 	    cell_colspan => 3,
-	    cell_align => 'se',
 	}),
     ]], {
 	class => 'base_grid',
-    }),
-}));
+    }), {
+	style => StyleSheet('/f/base.css'),
+    },
+));
+

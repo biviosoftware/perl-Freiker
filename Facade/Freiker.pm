@@ -62,26 +62,25 @@ my($_SELF) = __PACKAGE__->new({
     Font => [
 	[default => []],
 	map([$_ => [qq{class=$_}]], qw{
+	    checkbox
 	    error
-	    warning
+	    form_field_checkbox
+	    form_field_description
 	    form_field_error
 	    form_field_error_label
+	    form_field_label
+	    form_submit
+	    input_field
+	    mailto
+	    number_cell
 	    page_heading
+	    page_text
+	    radio
+	    search_field
+	    table_cell
 	    table_heading
+	    warning
 	}),
-	[[qw(
-	      form_field_description
-	      form_field_label
-	      checkbox
-	      form_submit
-	      input_field
-	      mailto
-	      number_cell
-	      page_text
-	      radio
-	      search_field
-	      table_cell
-	)] => []],
     ],
     FormError => [
 	[NULL => 'You must supply a value for vs_fe("label");.'],
@@ -123,7 +122,7 @@ my($_SELF) = __PACKAGE__->new({
 	[favicon_uri => '/i/favicon.ico'],
 	[none => ''],
 	[Image_alt => [
-	    [qw(dot heart_14 heart)] => '',
+	    [qw(dot heart_14 heart heart_9)] => '',
 	    bivio_power => 'Operated by bivio Software, Inc.',
 	    [qw(smiley smiley_80)] => 'Freiker: The Frequent Biker Program',
 	]],
