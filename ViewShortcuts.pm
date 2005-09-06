@@ -42,6 +42,18 @@ C<Freiker::ViewShortcuts>
 
 =cut
 
+=for html <a name="vs_learn_more"></a>
+
+=head2 static vs_learn_more(string link) : Bivio::UI::Widget
+
+Creates a learn more link.
+
+=cut
+
+sub vs_learn_more {
+    return shift->vs_call('Link', '[learn more]', shift, 'learn_more');
+}
+
 =for html <a name="vs_site_name"></a>
 
 =head2 vs_site_name() : array_ref

@@ -12,14 +12,14 @@ view_put(
 The girl on the left is a happy Link('Freiker', '/hm/freiker');.
 The Freiker program encourages kids to ride to school by bike.  It's so
 much fun, because Freikers win prizes just for riding their
-bikes. Link('[learn more]', '/hm/freikers');
+bikes. vs_learn_more('hm/freikers');
 </p>
 <p>
 The friendly face on the right is a Link('Wheel', '/hm/wheel');.  He and other
 Wheels help with the Freiker program at your school.  It's very easy
 to be a Wheel, because the Freiker program provides you with a
 barcode scanner, barcodes, and all the software you need to track
-rides.  Link('[learn more]', '/hm/wheels');
+rides.  vs_learn_more('/hm/wheels');
 </p>
 <p>
 At the end of the year, the top Freikers in your
@@ -28,7 +28,7 @@ like an iPod (wow!).  And, we also keep track
 of which school does the best.  The boys below were the top Freikers
 at their school last year.  They rode every day -- even in the snow -- and had
 tons of fun!  No wonder why they look so happy.
-Link('[learn more]', '/hm/prizes');
+vs_learn_more('/hm/prizes');
 </p>
 Image('index_winners', 'none');
 EOF

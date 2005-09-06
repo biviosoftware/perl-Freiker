@@ -138,6 +138,9 @@ p .indent {
   clear: right;
   float: right;
 }
+.learn_more {
+  font-size: 80%;
+}
 .warning {
   font-weight: italic;
   color: #990001; /* must be different from .error */
