@@ -53,7 +53,7 @@ sub get_delegate_info {
 	    GENERAL
 	    ANY_USER
 	    Action.HomeRedirect
-	    next=SITE_ROOT
+	    next=USER_REALMLESS_REDIRECT
 	    wheel_task=WHEEL_BARCODE_UPLOAD
 	)],
 	[qw(
