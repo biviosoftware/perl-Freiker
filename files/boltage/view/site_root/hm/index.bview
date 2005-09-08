@@ -8,13 +8,13 @@ view_put(
 	Tag('div', '', 'index_wheel'),
 	Tag('div', Prose(<<'EOF'), 'index_content'),
 <p>
-The girl on the left is a happy Link('Freiker', '/hm/freiker');.
+The girl on the left is a happy Link('Freiker', '/hm/freikers');.
 The Freiker program encourages kids to ride to school by bike.  It's so
 much fun, because Freikers win prizes just for riding their
-bikes. vs_learn_more('hm/freikers');
+bikes. vs_learn_more('/hm/freikers');
 </p>
 <p>
-The friendly face on the right is a Link('Wheel', '/hm/wheel');.  He and other
+The friendly face on the right is a Link('Wheel', '/hm/wheels');.  He and other
 Wheels help with the Freiker program at your school.  It's very easy
 to be a Wheel, because the Freiker program provides you with a
 barcode scanner, barcodes, and all the software you need to track
