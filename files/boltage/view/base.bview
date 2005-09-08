@@ -56,7 +56,7 @@ view_main(Page(
 		Image('heart_9'),
 		vs_link('old site', '/h/index.html'),
 		Image('heart_9'),
-		vs_link('your account', '/ru/change-password'),
+		vs_link('your account', 'USER_PASSWORD'),
 		Image('heart_9'),
 		If(['auth_user'],
 		   map(
