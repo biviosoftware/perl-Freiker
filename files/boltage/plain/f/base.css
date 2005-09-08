@@ -153,6 +153,7 @@ p .indent {
 }
 .learn_more {
   font-size: 80%;
+  white-space: nowrap;
 }
 .separator {
   text-align: left;
