@@ -93,6 +93,9 @@ p .indent {
 .base_menu_heart {
   margin: 0 10px 0 10px;
 }
+.email {
+  white-space: nowrap;
+}
 .error {
   font-weight: bold;
   color: #990000;

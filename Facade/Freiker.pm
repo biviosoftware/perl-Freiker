@@ -132,6 +132,7 @@ my($_SELF) = __PACKAGE__->new({
 	[none => ''],
 	[Image_alt => [
 	    [qw(dot heart_14 heart heart_9)] => '',
+	    at => 'at sign image to help avoid spam',
 	    bivio_power => 'Operated by bivio Software, Inc.',
 	    [qw(smiley smiley_80)] => 'Freiker: The Frequent Biker Program',
 	]],
