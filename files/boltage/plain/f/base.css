@@ -152,11 +152,11 @@ p .indent {
   font-size: 80%;
 }
 .separator {
-    text-align: left;
-    font-weight: normal;
-    color: #33CC00;
-    padding: .5ex 0 1.5ex 0;
-    border-top: 1px solid #33CC00;
+  text-align: left;
+  font-weight: normal;
+  color: #33CC00;
+  padding: .5ex 0 1.5ex 0;
+  border-top: 1px solid #33CC00;
 }
 .table_heading {
   font-weight: bold;
