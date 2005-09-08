@@ -2,8 +2,7 @@
 # $Id$
 view_parent('base');
 view_put(
-    base_title => 'Wheel and School Registration',
-    base_heading => 'Register Your School',
+    base_title => 'Register Your School',
     base_content => vs_simple_form(
 	'SchoolRegisterForm',
 	[qw{
@@ -11,6 +10,7 @@ view_put(
 	    SchoolRegisterForm.Email.email
 	    SchoolRegisterForm.RealmOwner.password
 	    SchoolRegisterForm.confirm_password
+	    -school
 	    SchoolRegisterForm.school_name
 	    SchoolRegisterForm.zip
 	    SchoolRegisterForm.School.website

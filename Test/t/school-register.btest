@@ -3,15 +3,15 @@
 test_setup('Freiker');
 home_page();
 school_delete(my($zip) = '123456789');
-follow_link('Register School');
+follow_link('register your school');
 submit_form('Register School' => {
     'Your Name:' => 'Big Wheel',
     'Your Email:' => (generate_local_email('big-wheel'))[0],
     'Password:' => 'password',
     'Re-enter Password:' => 'password',
-    'School Name:' => 'Big Wheel School',
-    'School ZIP+4:' => $zip,
-    'School Website:' => 'http://big-wheel-school.org',
+    'Official Name:' => 'Big Wheel School',
+    'US ZIP+4:' => $zip,
+    'Website:' => 'http://big-wheel-school.org',
 });
 submit_form('Update' => {
     'Teacher_0' => 'Mr.',
@@ -29,6 +29,35 @@ go_back();
 reload_page();
 verify_text(qr/First.*11.*Second.*99/s);
 submit_form('Update');
+my($school) = get_uri() =~ m{http://[^/]+/(\w+)};
+my($code) = $school;
+$code++;
+use Bivio::Type::Date;
+submit_form(Upload => {
+    'Barcode File:' => file_field(
+	Bivio::Type::Date->local_now_as_file_name, <<"EOF"),
+@{[$code++]}
+@{[$code++]}
+@{[$code++]}
+@{[$code++]}
+@{[$code++]}
+@{[$code++]}
+EOF
+});
+my($v) = {};
+$code = $school;
+do_table_rows(Barcode => sub {
+    my($row, $index) = @_;
+   $code++;
+    die("$row->{Barcode} eq $code")
+	unless $row->{Barcode}->get('text') eq $code;
+    $v->{"Class_$index"} = $index % 2 ? "1st Mr. Teacher First"
+	: "2nd Ms. Teacher Second"
+	if $index != 0;
+    return 1;
+});
+submit_form(Assign => $v);
+
 #$get_to_reg->();
 #test_deviance('You must supply a value for Your Name.');
 #submit_form('Register School' => {

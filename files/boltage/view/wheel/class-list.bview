@@ -1,12 +1,18 @@
 # Copyright (c) 2005 bivio Software, Inc..  All rights reserved.
 # $Id$
-view_parent('base');
+view_parent('wheel');
 view_put(
     base_title => 'Classes This Year',
-    base_heading => "Enter Your School's Classes",
     base_content => Form(
 	'ClassListForm',
 	Grid([[
+	    Tag(p => Prose(<<'EOF'), 'form_prologue'),
+Please enter the classes for this year.   You can change the classes
+later.  This list will be used by Freikers (and their parents) to
+identify their class.  You can delete an entry by clearing all values
+and unsetting Title and Grade.
+EOF
+        ], [
 	    Table('ClassListForm', [
 		['Class.class_grade', {
 		    enum_sort => 'as_int',

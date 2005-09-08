@@ -67,7 +67,7 @@ sub create_realm {
     });
     $self->new_other('RealmUser')->create({
 	realm_id => $self->get('class_id'),
-        role => Bivio::Auth::Role->ADMINISTRATOR,
+        role => Bivio::Auth::Role->TEACHER,
 	user_id => ($self->new_other('User')->create_realm($teacher))[0]
 	    ->get('user_id'),
     });

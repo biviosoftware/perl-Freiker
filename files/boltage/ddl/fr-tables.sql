@@ -21,6 +21,13 @@ CREATE TABLE class_t (
 )
 /
 
+CREATE TABLE ride_t (
+  user_id NUMERIC(18) NOT NULL,
+  ride_date DATE NOT NULL,
+  CONSTRAINT ride_t1 PRIMARY KEY(user_id, ride_date)
+)
+/
+
 CREATE TABLE school_t (
   school_id NUMERIC(18) NOT NULL,
   website VARCHAR(255) NOT NULL,

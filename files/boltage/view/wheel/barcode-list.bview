@@ -1,0 +1,28 @@
+# Copyright (c) 2005 bivio Software, Inc..  All rights reserved.
+# $Id$
+view_parent('wheel');
+view_put(
+    base_title => 'Assign Barcodes',
+    base_content => Form(
+	'BarcodeListForm',
+	Grid([[
+	    Tag(p => Prose(<<'EOF'), 'form_prologue'),
+Please assign classes to barcodes. You can change
+the assignments later.  You need all the information, or none.
+EOF
+        ], [
+	    Table('BarcodeListForm', [
+		'RealmOwner.name',
+		['Class.class_id', {
+		    wf_want_select => 1,
+		    choices => ['Model.ClassSelectList'],
+		    list_display_field => ['class_name'],
+		}],
+	    ]),
+	], [
+	    vs_blank_cell(),
+	], [
+	    StandardSubmit({cell_align => 'center'}),
+	]]),
+    ),
+);

@@ -3,7 +3,6 @@
 view_parent('base');
 view_put(
     base_title => 'Login',
-    base_heading => 'Login',
     base_content => vs_simple_form(
 	'UserLoginForm',
 	[qw{

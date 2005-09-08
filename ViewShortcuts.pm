@@ -54,6 +54,66 @@ sub vs_learn_more {
     return shift->vs_call('Link', '[learn more]', shift, 'learn_more');
 }
 
+=for html <a name="vs_simple_form"></a>
+
+=head2 static vs_simple_form(string form_name, array_ref fields, Bivio::UI::Widget prologue, Bivio::UI::Widget epilogue) : Bivio::UI::Widget
+
+Creates a Form in a Grid.  Prologue text.
+
+=cut
+
+sub vs_simple_form {
+    my($proto, $form, $fields, $prologue, $epilogue) = @_;
+    return $proto->vs_call('Form', $form,
+	$proto->vs_call('Grid', [
+	    $prologue ? (
+		[$prologue->put(
+		    cell_colspan => 2,
+		    cell_align => 'left',
+		    cell_class => 'form_prologue',
+	        )],
+#TODO: Remove when all apps updated
+	    ) : (),
+	    map({
+		my($x);
+		if (ref($_)) {
+		    $x = [$_->put(cell_colspan => 2)];
+		}
+		elsif ($_ =~ s/^-//) {
+		    $x = [$proto->vs_call(
+			'String',
+			$proto->vs_text('separator', $_),
+			0,
+			{
+			    cell_colspan => 2,
+			    cell_class => 'separator',
+			},
+		    )];
+		}
+		else {
+		    $x = $proto->vs_descriptive_field($_);
+		    $x->[0]->put(cell_class => 'form_field_label');
+		    $x->[1]->put(cell_class => 'form_field_input');
+		}
+		$x;
+	    } @$fields),
+	    [$proto->vs_call('StandardSubmit', {
+		cell_colspan => 2,
+		cell_align => 'center',
+		cell_class => 'form_submit',
+	    })],
+	    $epilogue ? (
+		[$epilogue->put(
+		    cell_colspan => 2,
+		    cell_align => 'left',
+		    cell_class => 'form_epilogue',
+	        )],
+	    ) : (),
+	], {
+	    pad => 2,
+	}));
+}
+
 =for html <a name="vs_site_name"></a>
 
 =head2 vs_site_name() : array_ref

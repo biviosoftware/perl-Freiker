@@ -64,7 +64,7 @@ sub internal_initialize {
 	],
 	other => [
 	    {
-		name => 'teacher_name',
+		name => 'class_name',
 		type => 'Name',
 		constraint => 'NOT_NULL',
 	    },
@@ -74,7 +74,7 @@ sub internal_initialize {
 	auth_id => [qw(Class.school_id)],
 	where => [
 	    'realm_user_t.role', '=',
-	    Bivio::Auth::Role->ADMINISTRATOR->as_sql_param,
+	    Bivio::Auth::Role->TEACHER->as_sql_param,
 	],
     });
 }
@@ -83,14 +83,14 @@ sub internal_initialize {
 
 =head2 internal_post_load_row(hash_ref row) : boolean
 
-Creates teacher_name.
+Creates class_name.
 
 =cut
 
 sub internal_post_load_row {
     my($self, $row) = @_;
-    $row->{teacher_name} = join(' ',
-	$row->{'User.gender'}->get_short_desc,
+    $row->{class_name} = join(' ',
+	map($row->{$_}->get_short_desc, qw(Class.class_grade User.gender)),
 	@$row{qw(User.first_name User.last_name)},
     );
     return 1;

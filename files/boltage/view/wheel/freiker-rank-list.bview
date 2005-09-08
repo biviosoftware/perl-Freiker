@@ -1,0 +1,10 @@
+# Copyright (c) 2005 bivio Software, Inc..  All rights reserved.
+# $Id$
+view_parent('wheel');
+view_put(
+    base_title => 'Freiker Rankings',
+    base_content => Table('FreikerRankList', [
+	'ride_count',
+	'RealmOwner.name',
+    ]),
+);

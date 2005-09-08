@@ -1,0 +1,16 @@
+# Copyright (c) 2005 bivio Software, Inc..  All rights reserved.
+# $Id$
+view_parent('wheel');
+view_put(
+    base_title => 'Upload Barcodes',
+    base_content => vs_simple_form(
+	BarcodeUploadForm =>  [
+	    'BarcodeUploadForm.barcode_file',
+	],
+	Prose(<<'EOF'),
+Please upload your barcode file.  The file name must contain a date,
+e.g. 3-10-2005.txt or 20051003.txt, or all the barcode lines must
+contain a date.
+EOF
+    ),
+);

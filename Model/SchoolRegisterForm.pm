@@ -55,7 +55,7 @@ sub internal_create_models {
     my($realm, @rest) = shift->SUPER::internal_create_models(@_);
     $self->new_other('RealmUser')->create({
 	user_id => $realm->get('realm_id'),
-        role => Bivio::Auth::Role->ADMINISTRATOR,
+        role => Bivio::Auth::Role->WHEEL,
 	realm_id => $self->new_other('Address')->create({
 	    zip => $self->get('zip'),
 	    realm_id => $self->new_other('School')->create_realm(

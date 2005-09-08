@@ -35,7 +35,7 @@ C<Freiker::Model::School>
 =cut
 
 #=IMPORTS
-use Freiker::Type::BarCode;
+use Freiker::Type::Barcode;
 
 #=VARIABLES
 
@@ -99,7 +99,7 @@ sub _next_bar_code {
 	    my($m) = @_;
 	    return 1 if $m->is_default;
 	    # Sanity check
-	    my($x) = Freiker::Type::BarCode->from_literal_or_die(
+	    my($x) = Freiker::Type::Barcode->from_literal_or_die(
 		$m->get('name'));
 	    # Need to do this manually, because strings don't sort like numbers
 	    $res = $x
@@ -111,8 +111,8 @@ sub _next_bar_code {
 	    'name desc',
 	    {realm_type => Bivio::Auth::RealmType->SCHOOL},
     );
-    return $res ? Freiker::Type::BarCode->next_school($res)
-	: Freiker::Type::BarCode->get_min;
+    return $res ? Freiker::Type::Barcode->next_school($res)
+	: Freiker::Type::Barcode->get_min;
 }
 
 =head1 COPYRIGHT

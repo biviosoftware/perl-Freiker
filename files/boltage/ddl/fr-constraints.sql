@@ -45,6 +45,23 @@ CREATE INDEX class_t6 ON class_t (
 /
 
 --
+-- ride
+--
+ALTER TABLE ride_t
+  add constraint ride_t2
+  foreign key (user_id)
+  references user_t(user_id)
+/
+CREATE INDEX ride_t3 ON ride_t (
+  user_id
+)
+/
+CREATE INDEX ride_t4 ON ride_t (
+  ride_date
+)
+/
+
+--
 -- school_t
 --
 CREATE UNIQUE INDEX school_t2 ON school_t (

@@ -2,8 +2,7 @@
 # $Id$
 view_parent('base');
 view_put(
-    base_title => 'Home',
-    base_heading => Join(['Freiker: Ride and Win!']),
+    base_title => 'Ride and Win!',
     base_content => Join([
 	Tag('div', Prose(<<'EOF'), 'index_content'),
 <p>

@@ -52,8 +52,7 @@ Redirects to appropriate task.
 
 sub execute {
     my($proto, $req) = @_;
-    return 'next'
-	unless $req->get('auth_user');
+    $req->set_realm($req->get('auth_user') || return 'next');
     my($m) = Bivio::Biz::Model->new($req, 'UserRealmList')->load_all;
     return 'next'
 	unless $m->find_row_by_type(Bivio::Auth::RealmType->SCHOOL);

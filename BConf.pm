@@ -76,6 +76,7 @@ sub merge_overrides {
 		'Bivio::Agent::TaskId' => 'Freiker::Delegate::TaskId',
 	      	'Bivio::Auth::Support' => 'Bivio::Delegate::SimpleAuthSupport',
 	      	'Bivio::Auth::RealmType' => 'Freiker::Delegate::RealmType',
+	      	'Bivio::Auth::Role' => 'Freiker::Delegate::Role',
 		'Bivio::TypeError' => 'Freiker::Delegate::TypeError',
 	    },
 	    maps => {
@@ -101,7 +102,7 @@ sub merge_overrides {
 	    ],
         }),
 	'Bivio::Test::HTMLParser::Forms' => {
-	    error_color => '#990000',
+	    error_color => 'error',
 	},
     };
 }

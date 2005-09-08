@@ -54,7 +54,7 @@ sub get_delegate_info {
 	    ANY_USER
 	    Action.HomeRedirect
 	    next=SITE_ROOT
-	    wheel_task=WHEEL_CLASS_LIST
+	    wheel_task=WHEEL_BARCODE_UPLOAD
 	)],
 	[qw(
 	    LOGIN
@@ -103,7 +103,7 @@ sub get_delegate_info {
 	    Model.ClassList->execute_load_all_with_query
 	    Model.ClassListForm
 	    View.wheel/class-list
-	    next=WHEEL_CLASS_LIST
+	    next=WHEEL_BARCODE_UPLOAD
 	)],
 	[qw(
 	    CLASS_HOME
@@ -131,6 +131,44 @@ sub get_delegate_info {
 	    visitor_task=SCHOOL_REGISTER
 	    home_task=WHEEL_CLASS_LIST
 	    unauth_task=SITE_ROOT
+	)],
+	[qw(
+	    WHEEL_BARCODE_UPLOAD
+	    509
+	    SCHOOL
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.Lock
+	    Model.BarcodeUploadForm
+	    View.wheel/barcode-upload
+	    next=WHEEL_BARCODE_LIST
+	)],
+	[qw(
+	    WHEEL_BARCODE_LIST
+	    510
+	    SCHOOL
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.Lock
+	    Model.ClassSelectList->execute_load_all
+	    Model.BarcodeList->execute_load_all_with_query
+	    Model.BarcodeListForm
+	    View.wheel/barcode-list
+	    next=WHEEL_BARCODE_UPLOAD
+	)],
+	[qw(
+	    SCHOOL_RANK_LIST
+	    511
+	    GENERAL
+	    ANYBODY
+	    Model.SchoolRankList->execute_load_all
+	    View.school-rank-list
+	)],
+	[qw(
+	    WHEEL_FREIKER_RANK_LIST
+	    512
+	    SCHOOL
+	    ADMIN_READ
+	    Model.FreikerRankList->execute_load_all_with_query
+	    View.wheel/freiker-rank-list
 	)],
     ]);
 }

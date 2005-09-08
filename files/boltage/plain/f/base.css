@@ -23,27 +23,26 @@ p .indent {
 }
 .acknowledgement {
   margin: 0 0 2em 0;
-  width: 50em;
+  width: 30em;
 }
 .base_content {
-  margin: 2ex 33px 0 33px;
+  padding: 2ex 5em 1ex 5em;
 }
 .base_footer {
   margin-top: 2ex;
-  border-top: 1px solid #33CC00;
+  border-top: 1px solid #666666;
   width: 100%;
 }
 .base_footer_top {
   font-size: 80%;
   text-align: left;
   white-space: nowrap;
-  width: 20%;
 }
 .base_footer_menu {
   font-size: 80%;
   text-align: center;
   white-space: nowrap;
-  width: 60%;
+  width: 100%;
 }
 .base_footer_menu img {
   margin: 0 5px 2px 5px;
@@ -52,39 +51,44 @@ p .indent {
   font-size: 80%;
   text-align: right;
   white-space: nowrap;
-  width: 20%;
+  color: #666666;
+}
+.base_header {
+  width: 100%;
 }
 .base_header_logo {
-  width: 20%;
 }
 .base_header_text {
-  width: 60%;
   white-space: nowrap;
+  text-align: center;
 }
 .base_header_button {
   font-weight: bold;
   white-space: nowrap;
   text-transform: uppercase;
-  width: 20%;
+  vertical-align: top;
+  text-align: right;
 }
 .base_grid {
   font-size: medium;
   width: 100%;
 }
-.base_heading, .page_heading, .table_heading {
+.base_realm {
   font-weight: bold;
-  color: #33cc00;
+  color: #666666;
+  font-size: 150%;
+  padding-bottom: 1ex;
+  white-space: nowrap;
 }
-.base_heading {
-  font-size: 200%;
-  text-align: center;
-  line-height: 80%;
+.base_title {
+  border-top: 1px solid #666666;
+  margin-top: .1ex;
+  color: #666666;
+  white-space: nowrap;
+  text-transform: uppercase;
 }
 .base_menu {
-  text-align: center;
   white-space: nowrap;
-  font-weight: bold;
-  line-height: 0%;
 }
 .base_menu_heart {
   margin: 0 10px 0 10px;
@@ -100,10 +104,12 @@ p .indent {
   padding-left: 3em;
 }
 .form_field_description {
-  margin: .3em 0 .7em 0;
+  margin: -1ex 0 -.5ex 0;
   width: 30em;
   font-size: 90%;
-  line-height: 120%;
+  color: #666666;
+  clear: left;
+  float: left;
 }
 .form_field_error {
   font-size: 90%;
@@ -120,7 +126,11 @@ p .indent {
 .form_field_label {
   vertical-align: top;
   text-align: right;
-  font-weight: bold;
+/*  color: #666666; */
+}
+.form_prologue {
+  padding-bottom: 1ex;
+  width: 30em;
 }
 .index_freiker {
   background: url(/i/index_freiker.jpg) no-repeat;
@@ -134,12 +144,22 @@ p .indent {
 .index_wheel {
   background: url(/i/index_wheel.jpg) no-repeat;
   width: 200;
-  height: 300;
+  height: 400;
   clear: right;
   float: right;
 }
 .learn_more {
   font-size: 80%;
+}
+.separator {
+    text-align: left;
+    font-weight: normal;
+    color: #33CC00;
+    padding: .5ex 0 1.5ex 0;
+    border-top: 1px solid #33CC00;
+}
+.table_heading {
+  font-weight: bold;
 }
 .warning {
   font-weight: italic;

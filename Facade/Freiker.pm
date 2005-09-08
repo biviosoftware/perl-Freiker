@@ -76,6 +76,7 @@ my($_SELF) = __PACKAGE__->new({
 	    page_heading
 	    page_text
 	    radio
+	    realm_name
 	    search_field
 	    table_cell
 	    table_heading
@@ -88,6 +89,10 @@ my($_SELF) = __PACKAGE__->new({
 	     q{This school's website is already registered.  Please try to find the "wheel" at your school.}],
 	['SchoolRegisterForm.RealmOwner_2.display_name.EXISTS' =>
 	     q{Your school is already registered.  Please try to find the "wheel" at your school.}],
+	['BarcodeUploadForm.barcode_file.NUMBER_RANGE' =>
+	     qq{File errors:\nString(['Model.BarcodeUploadForm', 'file_errors']);}],
+	['BarcodeUploadForm.barcode_file.EMPTY' =>
+	     q{The file appears to be empty or may contain all duplicate rides.}],
     ],
     HTML => [
 	[want_secure => 0],
@@ -112,6 +117,10 @@ my($_SELF) = __PACKAGE__->new({
 	[SCHOOL_HOME => undef],
 	[CLASS_HOME => undef],
 	[SCHOOL_REALMLESS_REDIRECT => 'rs/*'],
+	[WHEEL_BARCODE_UPLOAD => '?/upload-barcodes'],
+	[WHEEL_BARCODE_LIST => '?/assign-barcodes'],
+	[SCHOOL_RANK_LIST => '/pub/schools'],
+	[WHEEL_FREIKER_RANK_LIST => '?/freiker-rankings'],
     ],
     Text => [
 	[support_email => 'support'],
@@ -131,9 +140,9 @@ my($_SELF) = __PACKAGE__->new({
 	[password => 'Password'],
 	[confirm_password => 'Re-enter Password'],
 	[['email', 'login'] => 'Your Email'],
-	[zip => 'School ZIP+4'],
-	[school_name => 'School Name'],
-	['School.website' => 'School Website'],
+	[zip => 'US ZIP+4'],
+	[school_name => 'Official Name'],
+	['School.website' => 'Website'],
 	[class_size => 'Class Size'],
 	['RealmOwner.display_name' => 'Your Name'],
 	[SchoolRegisterForm => [
@@ -154,6 +163,39 @@ my($_SELF) = __PACKAGE__->new({
 	    LOGIN => 'Already registered?  Click here to login.',
 	    SCHOOL_REGISTER => 'Not registered?  Wheels click here to register your school.',
 	]],
+	[barcode_file => 'Barcode File'],
+	[BarcodeUploadForm => [
+	    ok_button => 'Upload',
+	]],
+	[class_id => 'Class'],
+	['BarcodeList.RealmOwner.name' => 'Barcode'],
+	[BarcodeListForm => [
+	    ok_button => 'Assign',
+	]],
+	[separator => [
+	    school => 'School Information',
+	]],
+	[SchoolRankList => [
+	    'RealmOwner.display_name' => 'School',
+	    'Address.zip' => 'Zip',
+	]],
+	[FreikerRankList => [
+	    'RealmOwner.name' => 'Barcode',
+	    'ride_count' => 'Rides',
+	]],
+	map({
+	    my($t, $v) = @$_;
+	    map(["$_->[0].$t" => $_->[1]], @$v);
+	}
+	   [field_description => [
+	       ['SchoolRegisterForm.zip' =>
+		    q{Your school's-9 digit US zip code.}],
+	       ['SchoolRegisterForm.RealmOwner.display_name'
+		    => q{You will be the Wheel for your school.}],
+	       ['SchoolRegisterForm.Email.email'
+		    => q{We will send emails only related to running Freiker at your school.}],
+	   ]],
+	),
     ],
 });
 

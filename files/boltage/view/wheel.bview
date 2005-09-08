@@ -1,0 +1,15 @@
+# Copyright (c) 2005 bivio Software, Inc..  All rights reserved.
+# $Id$
+view_parent('base');
+view_put(
+    base_menu => Join([
+	vs_link('Classes', 'WHEEL_CLASS_LIST'),
+	Image('heart_14')->put(class => 'base_menu_heart'),
+	vs_link('Freikers', 'WHEEL_BARCODE_LIST'),
+	Image('heart_14')->put(class => 'base_menu_heart'),
+	vs_link('Rankings', 'WHEEL_FREIKER_RANK_LIST'),
+	Image('heart_14')->put(class => 'base_menu_heart'),
+	vs_link('Upload', 'WHEEL_BARCODE_UPLOAD'),
+    ]),
+    base_realm => String(['auth_realm', 'owner', 'display_name']),
+);
