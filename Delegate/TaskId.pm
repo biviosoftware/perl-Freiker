@@ -170,6 +170,25 @@ sub get_delegate_info {
 	    Model.FreikerRankList->execute_load_all_with_query
 	    View.wheel/freiker-rank-list
 	)],
+	[qw(
+	    USER_PASSWORD
+	    513
+	    USER
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.UserPasswordForm
+	    View.user-password
+	    next=MY_SITE
+	)],
+	[qw(
+	    USER_REALMLESS_REDIRECT
+	    514
+	    GENERAL
+	    ANYBODY
+	    Action.RealmlessRedirect
+	    visitor_task=SITE_ROOT
+	    home_task=USER_PASSWORD
+	    unauth_task=SITE_ROOT
+	)],
     ]);
 }
 

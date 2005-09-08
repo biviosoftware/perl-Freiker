@@ -121,6 +121,8 @@ my($_SELF) = __PACKAGE__->new({
 	[WHEEL_BARCODE_LIST => '?/assign-barcodes'],
 	[SCHOOL_RANK_LIST => '/pub/schools'],
 	[WHEEL_FREIKER_RANK_LIST => '?/freiker-rankings'],
+	[USER_PASSWORD => '?/change-password'],
+	[USER_REALMLESS_REDIRECT => 'ru/*'],
     ],
     Text => [
 	[support_email => 'support'],
@@ -183,6 +185,12 @@ my($_SELF) = __PACKAGE__->new({
 	[FreikerRankList => [
 	    'RealmOwner.name' => 'Barcode',
 	    'ride_count' => 'Rides',
+	]],
+	[UserPasswordForm => [
+	    old_password => 'Current Password',
+	    new_password => 'New Password',
+	    confirm_new_password => 'Re-enter New Password',
+	    ok_button => 'Change',
 	]],
 	map({
 	    my($t, $v) = @$_;
