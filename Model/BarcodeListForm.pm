@@ -92,7 +92,7 @@ sub execute_ok_row {
 	realm_id => $lm->get('RealmUser.user_id'),
     })->update({
 	display_name => $self->get('RealmOwner.display_name')
-	    || $self->get('RealmOwner.name'),
+	    || $lm->get('RealmOwner.name'),
     });
     return;
 }

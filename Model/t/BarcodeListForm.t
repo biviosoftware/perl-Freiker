@@ -13,7 +13,9 @@ Bivio::Test->new('Freiker::Model::BarcodeListForm')->unit([
 	execute => [
 	    [$req, {
 		'Class.class_id_0' => $bcl->EMPTY_KEY_VALUE,
+		'RealmOwner.display_name_0' => 'jonny',
 		'Class.class_id_1' => $cid,
+		'RealmOwner.display_name_0' => undef,
 	    }] => undef,
 	],
     ],
