@@ -46,17 +46,22 @@ EOF
 });
 my($v) = {};
 $code = $school;
+my($first_name_label);
 do_table_rows(Barcode => sub {
     my($row, $index) = @_;
-   $code++;
+    $first_name_label = (grep(/First/i, keys(%$row)))[0];
+    $code++;
     die("$row->{Barcode} eq $code")
 	unless $row->{Barcode}->get('text') eq $code;
-    $v->{"Class_$index"} = $index % 2 ? "1st Mr. Teacher First"
-	: "2nd Ms. Teacher Second"
-	if $index != 0;
+    $v->{"Class_$index"} = $index == 0 ? 'Select Class'
+	: $index % 2 ? "1st Mr. Teacher First"
+	: "2nd Ms. Teacher Second";
+    $v->{"${first_name_label}_$index"} = $index == 2 ? '' : "first-$code";
     return 1;
 });
 submit_form(Assign => $v);
+follow_link('Freikers');
+verify_form($v);
 
 #$get_to_reg->();
 #test_deviance('You must supply a value for Your Name.');
