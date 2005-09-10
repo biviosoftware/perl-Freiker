@@ -115,7 +115,7 @@ use Bivio::Biz::Action;
 
 =head2 static delete_all_schools() : Bivio::Agent::Request
 
-Deletes all schools and B<COMMITs>
+Deletes all schools.
 
 =cut
 
@@ -133,7 +133,6 @@ sub delete_all_schools {
 	    'name desc',
 	{realm_type => Bivio::Auth::RealmType->SCHOOL},
     );
-    Bivio::SQL::Connection->commit;
     return $req;
 }
 
