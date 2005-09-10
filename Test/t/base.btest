@@ -2,4 +2,4 @@
 # $Id$
 test_setup('Freiker');
 home_page();
-verify_text('Are You a Freiker?');
+verify_text(qr{register your school});
