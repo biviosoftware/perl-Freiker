@@ -13,6 +13,9 @@ EOF
         ], [
 	    Table('BarcodeListForm', [
 		'RealmOwner.name',
+		['RealmOwner.display_name', {
+		    column_heading => 'BarcodeListForm.RealmOwner.display_name',
+		}],
 		['Class.class_id', {
 		    wf_want_select => 1,
 		    choices => ['Model.ClassSelectList'],

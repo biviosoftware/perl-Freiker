@@ -173,6 +173,7 @@ my($_SELF) = __PACKAGE__->new({
 	[class_id => 'Class'],
 	['BarcodeList.RealmOwner.name' => 'Barcode'],
 	[BarcodeListForm => [
+	    'RealmOwner.display_name' => 'First Name (Last if needed)',
 	    ok_button => 'Assign',
 	]],
 	[separator => [

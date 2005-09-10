@@ -57,6 +57,7 @@ sub internal_initialize {
         version => 1,
 	order_by => [qw(
 	    RealmOwner.name
+	    RealmOwner.display_name
 	)],
 	other => [
 	    [qw(RealmUser.user_id RealmOwner.realm_id)],

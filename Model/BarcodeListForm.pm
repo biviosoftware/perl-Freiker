@@ -56,6 +56,9 @@ sub execute_empty_row {
     $self->internal_put_field(
 	'Class.class_id' => $lm->get('RealmUser_2.realm_id')
 	    || $lm->EMPTY_KEY_VALUE);
+    $self->internal_put_field('RealmOwner.display_name' =>
+	$lm->get('RealmOwner.name') eq $lm->get('RealmOwner.display_name')
+	    ? '' : $lm->get('RealmOwner.display_name'));
     return;
 }
 
@@ -70,19 +73,27 @@ Enter records
 sub execute_ok_row {
     my($self) = @_;
     my($lm) = $self->get_list_model;
-    return if $self->get('Class.class_id')
-	eq ($lm->get('RealmUser_2.realm_id') || $lm->EMPTY_KEY_VALUE);
-    my($ru) = $self->new_other('RealmUser');
-    $ru->unauth_delete({
-	realm_id => $lm->get('RealmUser_2.realm_id'),
-	user_id => $lm->get('RealmUser.user_id'),
-	role => Bivio::Auth::Role->STUDENT,
-    }) if $lm->get('RealmUser_2.realm_id');
-    $ru->create({
-	realm_id => $self->get('Class.class_id'),
-	user_id => $lm->get('RealmUser.user_id'),
-	role => Bivio::Auth::Role->STUDENT,
-    }) if $self->get('Class.class_id') ne $lm->EMPTY_KEY_VALUE;
+    if ($self->get('Class.class_id')
+        eq ($lm->get('RealmUser_2.realm_id') || $lm->EMPTY_KEY_VALUE)
+    ) {
+	my($ru) = $self->new_other('RealmUser');
+	$ru->unauth_delete({
+	    realm_id => $lm->get('RealmUser_2.realm_id'),
+	    user_id => $lm->get('RealmUser.user_id'),
+	    role => Bivio::Auth::Role->STUDENT,
+	}) if $lm->get('RealmUser_2.realm_id');
+	$ru->create({
+	    realm_id => $self->get('Class.class_id'),
+	    user_id => $lm->get('RealmUser.user_id'),
+	    role => Bivio::Auth::Role->STUDENT,
+	}) if $self->get('Class.class_id') ne $lm->EMPTY_KEY_VALUE;
+    }
+    $self->new_other('RealmOwner')->unauth_load_or_die({
+	realm_id => $lm->get('RealmUser.user_id'),
+    })->update({
+	display_name => $self->get('RealmOwner.display_name')
+	    || $self->get('RealmOwner.name'),
+    });
     return;
 }
 
@@ -102,6 +113,11 @@ sub internal_initialize {
 	visible => [
 	    {
 		name => 'Class.class_id',
+		in_list => 1,
+		constraint => 'NONE',
+	    },
+	    {
+		name => 'RealmOwner.display_name',
 		in_list => 1,
 		constraint => 'NONE',
 	    },
