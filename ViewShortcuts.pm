@@ -54,6 +54,41 @@ sub vs_learn_more {
     return shift->vs_call('Link', '[learn more]', shift, 'learn_more');
 }
 
+=for html <a name="vs_descriptive_field"></a>
+
+=head2 static vs_descriptive_field(string field) : array_ref
+
+Calls vs_form_field and adds I<description> to the result.  I<description>
+is an optional string, widget value, or widget.  It is always wrapped
+in a String with font form_field_description.
+
+=cut
+
+sub vs_descriptive_field {
+    my($proto, $field) = @_;
+    my($label, $input) = $proto->vs_form_field($field);
+    return [
+	$label,
+	$proto->vs_call('Join', [
+	    $input,
+	    [sub {
+		 my($req) = shift->get_request;
+		 my($proto, $field) = @_;
+#TODO: Need to create a separate space for field_descriptions so we don't
+#      default to something that we don't expect.
+		 my($v) = $req->get_nested('Bivio::UI::Facade', 'Text')
+		     ->unsafe_get_value($field, 'field_description');
+		 return $v ?
+		     $proto->vs_call(
+			 'String',
+			 $proto->vs_call('Prose', '<br><p class="form_field_description">' . $v . '</p>'),
+			 'form_field_description',
+		     ) :  '';
+	    }, $proto, $field],
+	]),
+    ];
+}
+
 =for html <a name="vs_simple_form"></a>
 
 =head2 static vs_simple_form(string form_name, array_ref fields, Bivio::UI::Widget prologue, Bivio::UI::Widget epilogue) : Bivio::UI::Widget
@@ -76,7 +111,8 @@ sub vs_simple_form {
 	    ) : (),
 	    map({
 		my($x);
-		if (ref($_)) {
+		if (UNIVERSAL::isa($_, 'Bivio::UI::Widget')) {
+		    $_->get_if_exists_else_put(cell_align => 'left'),
 		    $x = [$_->put(cell_colspan => 2)];
 		}
 		elsif ($_ =~ s/^-//) {
@@ -87,6 +123,17 @@ sub vs_simple_form {
 			{
 			    cell_colspan => 2,
 			    cell_class => 'separator',
+			},
+		    )];
+		}
+		elsif ($_ =~ s/^\*//) {
+		    $x = [$proto->vs_call(
+			'StandardSubmit',
+			{
+			    cell_colspan => 2,
+			    cell_align => 'center',
+			    cell_class => 'form_submit',
+			    $_ ? (buttons => [split(/\s+/, $_)]) : (),
 			},
 		    )];
 		}
