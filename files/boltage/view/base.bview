@@ -4,6 +4,7 @@ view_class_map('HTMLWidget');
 view_shortcuts('Freiker::ViewShortcuts');
 view_declare(qw(base_content base_title));
 view_put(
+    base_logout => 0,
     base_realm => 'Freiker',
     base_menu => Join([
 	vs_link('freikers', '/hm/freikers'),
@@ -30,8 +31,10 @@ view_main(Page(
 	    ], {
 		cell_class => 'base_header_text',
 	    }),
-	    vs_link(Join(['My School']), 'MY_SITE')->put(
-		cell_class => 'base_header_button',
+	    If(view_widget_value('base_logout'),
+	       vs_link('Logout', 'LOGOUT'),
+	       vs_link('My School', 'MY_SITE'),
+	       {cell_class => 'base_header_button'},
 	    ),
 	]], {
 	    class => 'base_header',
