@@ -5,10 +5,14 @@ view_put(
     base_title => 'Login',
     base_content => vs_simple_form(
 	'UserLoginForm',
-	[qw{
-	    UserLoginForm.login
-	    UserLoginForm.RealmOwner.password
-	}],
-	Link(vs_text('link', 'SCHOOL_REGISTER'), 'SCHOOL_REGISTER'),
+	[
+	    Link(vs_text('link', 'SCHOOL_REGISTER'), 'SCHOOL_REGISTER', {
+		cell_class => 'form_prologue',
+	    }),
+	    qw{
+	       UserLoginForm.login
+	       UserLoginForm.RealmOwner.password
+	   },
+        ],
     ),
 );
