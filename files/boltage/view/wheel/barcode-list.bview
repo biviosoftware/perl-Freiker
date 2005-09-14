@@ -12,7 +12,9 @@ the assignments later.  You need all the information, or none.
 EOF
         ], [
 	    Table('BarcodeListForm', [
-		'RealmOwner.name',
+		['RealmOwner.name', {
+		    wf_want_display => 1,
+		}],
 		['RealmOwner.display_name', {
 		    column_heading => 'BarcodeListForm.RealmOwner.display_name',
 		}],
