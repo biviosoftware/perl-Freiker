@@ -26,7 +26,7 @@ school win Link('extra prizes', '/hm/prizes');,
 like an iPod (wow!).  And, we also keep track
 of which school does the best.  The boys below were the top Freikers
 at their school last year.  They rode every day -- even in the snow -- and had
-tons of fun!  No wonder why they look so happy.
+tons of fun!  No wonder they look so happy.
 vs_learn_more('/hm/prizes');
 </p>
 Image('index_winners', 'none');
