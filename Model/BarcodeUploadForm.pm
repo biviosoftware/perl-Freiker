@@ -69,6 +69,9 @@ sub execute_ok {
     $self->internal_put_error(barcode_file => 'EMPTY')
 	unless $ok;
     $self->[$_IDI] = undef;
+    Bivio::Biz::Action->get_instance('Acknowledgement')
+        ->save_label('barcode_upload', $self->get_request)
+	unless $self->in_error;
     return;
 }
 

@@ -62,6 +62,22 @@ sub execute_empty_row {
     return;
 }
 
+=for html <a name="execute_ok_end"></a>
+
+=head2 execute_ok_end()
+
+Ack
+
+=cut
+
+sub execute_ok_end {
+    my($self) = @_;
+    Bivio::Biz::Action->get_instance('Acknowledgement')
+        ->save_label('barcode_list', $self->get_request)
+	unless $self->in_error;
+    return;
+}
+
 =for html <a name="execute_ok_row"></a>
 
 =head2 execute_ok_row()
@@ -73,7 +89,7 @@ Enter records
 sub execute_ok_row {
     my($self) = @_;
     my($lm) = $self->get_list_model;
-    if ($self->get('Class.class_id')
+    unless ($self->get('Class.class_id')
         eq ($lm->get('RealmUser_2.realm_id') || $lm->EMPTY_KEY_VALUE)
     ) {
 	my($ru) = $self->new_other('RealmUser');

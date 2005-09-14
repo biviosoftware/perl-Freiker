@@ -193,6 +193,10 @@ my($_SELF) = __PACKAGE__->new({
 	    confirm_new_password => 'Re-enter New Password',
 	    ok_button => 'Change',
 	]],
+	[acknowledgement => [
+	    [qw(barcode_list class_list)] => q{Your changes have been saved.},
+	    barcode_upload => q{Your upload was successful.},
+	]],
 	map({
 	    my($t, $v) = @$_;
 	    map(["$_->[0].$t" => $_->[1]], @$v);
