@@ -89,6 +89,9 @@ If I<button> is commit_and_add_rows, then redirect back to this page.
 
 sub execute_ok_end {
     my($self, $button) = @_;
+    Bivio::Biz::Action->get_instance('Acknowledgement')
+        ->save_label('class_list', $self->get_request)
+	unless $self->in_error;
     return $button eq 'commit_and_add_rows'
         ? $self->get_request->get('task_id')
         : undef;
