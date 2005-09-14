@@ -103,7 +103,7 @@ sub get_delegate_info {
 	    Model.ClassList->execute_load_all_with_query
 	    Model.ClassListForm
 	    View.wheel/class-list
-	    next=WHEEL_BARCODE_UPLOAD
+	    next=WHEEL_CLASS_LIST
 	)],
 	[qw(
 	    CLASS_HOME
@@ -152,7 +152,7 @@ sub get_delegate_info {
 	    Model.BarcodeList->execute_load_all_with_query
 	    Model.BarcodeListForm
 	    View.wheel/barcode-list
-	    next=WHEEL_BARCODE_UPLOAD
+	    next=WHEEL_BARCODE_LIST
 	)],
 	[qw(
 	    SCHOOL_RANK_LIST
