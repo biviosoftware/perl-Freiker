@@ -25,12 +25,11 @@ submit_form('Update' => {
     'Class Size_1' => '99',
     'Grade_1' => '2nd',
 });
-go_back();
-reload_page();
 verify_text(qr/First.*11.*Second.*99/s);
 submit_form('Update');
 my($school) = get_uri() =~ m{http://[^/]+/(\w+)};
 my($code) = $school;
+follow_link('Upload');
 $code++;
 use Bivio::Type::Date;
 submit_form(Upload => {
