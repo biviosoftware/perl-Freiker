@@ -137,6 +137,31 @@ sub initialize_test_data {
     return;
 }
 
+=for html <a name="internal_upgrade_db"></a>
+
+=head2 internal_upgrade_db()
+
+Change display_names which match names.
+
+=cut
+
+sub internal_upgrade_db {
+    my($self) = @_;
+    Bivio::Biz::Model->new($self->get_request, 'RealmOwner')->do_iterate(
+	sub {
+	    my($m) = @_;
+	    $m->update({display_name => ' '})
+		if !$m->is_default
+		&& $m->get('name') eq $m->get('display_name');
+	    return 1;
+	},
+	unauth_iterate_start => 'realm_id', {
+	    realm_type => Bivio::Auth::RealmType->USER,
+       },
+    );
+    return;
+}
+
 #=PRIVATE SUBROUTINES
 
 =head1 COPYRIGHT
