@@ -83,16 +83,17 @@ sub internal_initialize {
 
 =head2 internal_post_load_row(hash_ref row) : boolean
 
-Creates class_name.
+Creates class_name if Class.class_grade exists.
 
 =cut
 
 sub internal_post_load_row {
     my($self, $row) = @_;
-    $row->{class_name} = join(' ',
+#TODO: Denormalize in display_name?
+    $row->{class_name} = $row->{'Class.class_grade'} ? join(' ',
 	map($row->{$_}->get_short_desc, qw(Class.class_grade User.gender)),
 	@$row{qw(User.first_name User.last_name)},
-    );
+    ) : '';
     return 1;
 }
 
