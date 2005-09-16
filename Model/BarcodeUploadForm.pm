@@ -149,7 +149,7 @@ sub _get_user {
     unless ($ro->unauth_load({name => $code})) {
 	# Don't set first or last
 	($ro) = ($self->new_other('User')->create_realm(
-	    {last_name => $code}, {name => $code},
+	    {last_name => ' '}, {name => $code},
 	))[1];
 	$self->new_other('RealmUser')->create({
 	    realm_id => $self->get_request->get('auth_id'),
