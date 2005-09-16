@@ -21,12 +21,12 @@ Freiker
 
 =head1 EXTENDS
 
-L<Bivio::Biz::ListModel>
+L<Freiker::Model::ClassList>
 
 =cut
 
-use Bivio::Biz::ListModel;
-@Freiker::Model::FreikerRankList::ISA = ('Bivio::Biz::ListModel');
+use Freiker::Model::ClassList;
+@Freiker::Model::FreikerRankList::ISA = ('Freiker::Model::ClassList');
 
 =head1 DESCRIPTION
 
@@ -52,7 +52,7 @@ Returns model configuration.
 
 sub internal_initialize {
     my($self) = @_;
-    return $self->merge_initialize_info($self->SUPER::internal_initialize, {
+    return {
         version => 1,
 	order_by => [
 	    {
@@ -61,34 +61,67 @@ sub internal_initialize {
 		constraint => 'NOT_NULL',
 		in_select => 1,
 		select_value => 'COUNT(*) as ride_count',
-		sort_order => 1,
-	    },
-	    'RealmOwner.name',
+		sort_order => 0,
+	    }, qw(
+		RealmOwner.name
+		RealmOwner.display_name
+		Class.class_grade
+		User.last_name
+		User.first_name
+	    )
         ],
+	from => 'FROM ride_t, realm_owner_t, realm_user_t'
+	    . ' LEFT JOIN realm_user_t realm_user_t_2'
+	    . ' ON (realm_user_t.user_id = realm_user_t_2.user_id'
+	    . ' AND realm_user_t_2.role = '
+	    . Bivio::Auth::Role->STUDENT->as_sql_param
+	    . ') LEFT JOIN class_t'
+            . ' ON (realm_user_t_2.realm_id = class_t.class_id'
+	    . ') LEFT JOIN realm_user_t realm_user_t_3'
+            . ' ON (class_t.class_id = realm_user_t_3.realm_id'
+	    . ' AND realm_user_t_3.role = '
+	    . Bivio::Auth::Role->TEACHER->as_sql_param
+	    . ') LEFT JOIN user_t'
+            . ' ON (realm_user_t_3.user_id = user_t.user_id'
+	    . ')',
 	primary_key => [
 	    ['RealmUser.user_id', 'Ride.user_id', 'RealmOwner.realm_id'],
 	],
 	other => [
 	    {
-		name => 'Ride.ride_date',
-		in_select => 0,
+		name => 'class_name',
+		type => 'Name',
+		constraint => 'NOT_NULL',
 	    },
-	    {
-		name => 'RealmUser.realm_id',
-		in_select => 0,
-	    },
+	    'User.gender',
+	    map({
+		{
+		    name => $_,
+		    in_select => 0,
+		};
+	    } qw(
+		Ride.ride_date
+		RealmUser.realm_id
+		Class.class_id
+		User.user_id
+	    )),
 	],
 	auth_id => 'RealmUser.realm_id',
 	where => [
 	    'realm_user_t.role =', Bivio::Auth::Role->FREIKER->as_sql_param,
 	],
-	group_by => [
-	    'RealmUser.user_id',
-	    'RealmOwner.name',
-	    'RealmUser.realm_id',
-	    'RealmUser.role',
-	],
-    });
+	group_by => [qw(
+	    RealmUser.user_id
+	    RealmOwner.name
+	    RealmOwner.display_name
+	    RealmUser.realm_id
+	    RealmUser.role
+	    Class.class_grade
+	    User.last_name
+	    User.first_name
+	    User.gender
+	)],
+    };
 }
 
 #=PRIVATE SUBROUTINES
