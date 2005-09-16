@@ -22,8 +22,9 @@ p .indent {
   margin: 2pt 0 2pt 0;
 }
 .acknowledgement {
-  margin: 0 0 2em 0;
-  width: 30em;
+  margin: 0 0 1ex 0;
+  border: 1px solid #33CC00;
+  width: 20em;
 }
 .base_content {
   padding: 2ex 5em 1ex 5em;
