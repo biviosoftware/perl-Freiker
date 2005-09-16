@@ -170,7 +170,7 @@ my($_SELF) = __PACKAGE__->new({
 	[BarcodeUploadForm => [
 	    ok_button => 'Upload',
 	]],
-	[class_id => 'Class'],
+	[[qw(class_id class_name)] => 'Class'],
 	['BarcodeList.RealmOwner.name' => 'Barcode'],
 	[BarcodeListForm => [
 	    'RealmOwner.display_name' => 'First Name (Last if needed)',
@@ -185,6 +185,7 @@ my($_SELF) = __PACKAGE__->new({
 	]],
 	[FreikerRankList => [
 	    'RealmOwner.name' => 'Barcode',
+	    'RealmOwner.display_name' => 'Freiker',
 	    'ride_count' => 'Rides',
 	]],
 	[UserPasswordForm => [
