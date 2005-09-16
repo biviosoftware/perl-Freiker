@@ -40,7 +40,7 @@ view_main(Page(
 	    class => 'base_header',
 	}),
     ], [
-	vs_acknowledgement(),
+	vs_acknowledgement()->put(cell_align => 'center'),
     ], [
 	Join([[view_widget_value('base_content')]],  {
 	     cell_class => 'base_content',
