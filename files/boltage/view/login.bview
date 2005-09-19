@@ -12,7 +12,7 @@ view_put(
 	    qw{
 	       UserLoginForm.login
 	       UserLoginForm.RealmOwner.password
-	   },
+	    },
         ],
     ),
 );

@@ -5,16 +5,18 @@ view_put(
     base_title => 'Register Your School',
     base_content => vs_simple_form(
 	'SchoolRegisterForm',
-	[qw{
-	    SchoolRegisterForm.RealmOwner.display_name
-	    SchoolRegisterForm.Email.email
-	    SchoolRegisterForm.RealmOwner.password
-	    SchoolRegisterForm.confirm_password
-	    -school
-	    SchoolRegisterForm.school_name
-	    SchoolRegisterForm.zip
-	    SchoolRegisterForm.School.website
-	}],
-	Link(vs_text('link', 'LOGIN'), 'LOGIN'),
+	[
+	    Link(vs_text('link', 'LOGIN'), 'LOGIN'),
+	    qw{
+		SchoolRegisterForm.RealmOwner.display_name
+		SchoolRegisterForm.Email.email
+		SchoolRegisterForm.RealmOwner.password
+		SchoolRegisterForm.confirm_password
+		-school
+		SchoolRegisterForm.school_name
+		SchoolRegisterForm.zip
+		SchoolRegisterForm.School.website
+	    },
+	],
     ),
 );

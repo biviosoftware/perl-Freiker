@@ -5,12 +5,12 @@ view_put(
     base_title => 'Upload Barcodes',
     base_content => vs_simple_form(
 	BarcodeUploadForm =>  [
-	    'BarcodeUploadForm.barcode_file',
-	],
-	Prose(<<'EOF'),
+	    Prose(<<'EOF'),
 Please upload your barcode file.  The file name must contain a date,
 e.g. 3-10-2005.txt or 20051003.txt, or all the barcode lines must
 contain a date.
 EOF
+	    'BarcodeUploadForm.barcode_file',
+	],
     ),
 );
