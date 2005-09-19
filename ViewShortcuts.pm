@@ -55,18 +55,6 @@ sub vs_learn_more {
 }
 
 
-=for html <a name="vs_site_name"></a>
-
-=head2 vs_site_name() : array_ref
-
-Returns a widget value that 
-
-=cut
-
-sub vs_site_name {
-    return shift->vs_text('site_name');
-}
-
 #=PRIVATE METHODS
 
 =head1 COPYRIGHT
