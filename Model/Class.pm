@@ -74,6 +74,23 @@ sub create_realm {
     return $self;
 }
 
+=for html <a name="get_id_for_student"></a>
+
+=head2 get_id_for_student(string user_id) : string
+
+Returns class_id for this student or undef.
+
+=cut
+
+sub get_id_for_student {
+    my($self, $user_id) = @_;
+    my($r) = $self->new_other('RealmUser');
+    return $r->unauth_load({
+	user_id => $user_id,
+	role => Bivio::Auth::Role->STUDENT,
+    }) ? $r->get('realm_id') : undef;
+}
+
 =for html <a name="internal_initialize"></a>
 
 =head2 internal_initialize() : hash_ref

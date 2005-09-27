@@ -4,9 +4,11 @@ test_setup('Freiker');
 home_page();
 school_delete(my($zip) = '123456789');
 follow_link('register your school');
+my($email) = generate_local_email('big-wheel');
+#print(STDERR $email, "\n");
 submit_form('Register School' => {
     'Your Name:' => 'Big Wheel',
-    'Your Email:' => (generate_local_email('big-wheel'))[0],
+    'Your Email:' => $email,
     'Password:' => 'password',
     'Re-enter Password:' => 'password',
     'Official Name:' => 'Big Wheel School',
@@ -24,19 +26,34 @@ submit_form('Update' => {
     'Last Name_1' => 'Second',
     'Class Size_1' => '99',
     'Grade_1' => '2nd',
+    'Teacher_3' => 'Ms.',
+    'First Name_3' => 'Teacher',
+    'Last Name_3' => 'Third',
+    'Class Size_3' => '88',
+    'Grade_3' => '3rd',
 });
 verify_text(qr/First.*11.*Second.*99/s);
 submit_form('Update');
 my($school) = get_uri() =~ m{http://[^/]+/(\w+)};
 my($code) = $school;
-follow_link('Upload');
+follow_link('upload');
 $code++;
+my($freiker1) = $code++;
+my($freiker2) = $code++;
 use Bivio::Type::Date;
+my($_D) = 'Bivio::Type::Date';
+my($rides) = [map(
+    $_D->add_days($_D->now, $_),
+    0, -1, -2, -3,
+)];
+my($rides_s) = [map($_D->to_string($_), @$rides)];
 submit_form(Upload => {
-    'Barcode File:' => file_field(
-	Bivio::Type::Date->local_now_as_file_name, <<"EOF"),
-@{[$code++]}
-@{[$code++]}
+    'Barcode File:' => file_field($_D->to_file_name($rides->[0]), <<"EOF"),
+$freiker1 $rides_s->[1]
+$freiker1,@{[sprintf('%04d/%02d/%02d', ($_D->to_parts($rides->[2]))[5,4,3])]}
+$freiker1 $rides_s->[3]
+$freiker1
+$freiker2 $rides_s->[1]
 @{[$code++]}
 @{[$code++]}
 @{[$code++]}
@@ -46,22 +63,47 @@ EOF
 my($v) = {};
 $code = $school;
 my($first_name_label);
+follow_link('freikers');
 do_table_rows(Barcode => sub {
     my($row, $index) = @_;
     $first_name_label = (grep(/First/i, keys(%$row)))[0];
     $code++;
     die("$row->{Barcode} eq $code")
 	unless $row->{Barcode}->get('text') eq $code;
-    $v->{"Class_$index"} = $index == 0 ? 'Select Class'
-	: $index % 2 ? "1st Mr. Teacher First"
-	: "2nd Ms. Teacher Second";
-    $v->{"${first_name_label}_$index"} = $index == 2 ? '' : "first-$code";
+    $v->{"Class_$index"} = $index == 2 ? 'Select Class'
+	: $index % 2 ? '1st Mr. Teacher First'
+	: '2nd Ms. Teacher Second';
+    $v->{"${first_name_label}_$index"} = $index == 1
+	# ' ' is coupled with FreikerInfoForm->EMPTY_NAME
+	? ' ' : "first-$code";
     return 1;
 });
 submit_form(Assign => $v);
-follow_link('Freikers');
+follow_link('freikers');
 verify_form($v);
-
+follow_link('LOGOUT');
+follow_link('YOUR RIDES');
+submit_form(Login => {
+    'Your Barcode:' => $freiker1,
+    'Most Recent Ride:' => $rides_s->[0],
+    # Order shouldn't matter
+    'Ride Before Last:' => $rides_s->[2],
+    'Three Rides Ago:' => $rides_s->[1],
+});
+verify_text(qr{Updated:.*$rides_s->[0].*Year:.*>4<.*Ride:.*$rides_s->[0]}is);
+visit_uri('/pub/logout');
+follow_link('YOUR RIDES');
+submit_form(Login => {
+    'Your Barcode:' => $freiker2,
+    'Most Recent Ride:' => $rides_s->[1],
+});
+submit_form(Update => $v = {
+    'Your First Name:' => 'Freiker 2',
+    'Your Teacher:' => '3rd Ms. Teacher Third',
+});
+verify_text(qr{Updated:.*$rides_s->[0].*Year:.*>1<.*Ride:.*$rides_s->[1]}is);
+follow_link('account');
+verify_form($v);
 #$get_to_reg->();
 #test_deviance('You must supply a value for Your Name.');
 #submit_form('Register School' => {

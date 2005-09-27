@@ -52,10 +52,12 @@ Redirects to appropriate task.
 
 sub execute {
     my($proto, $req) = @_;
-    $req->set_realm($req->get('auth_user') || return 'next');
+    $req->set_realm($req->get('auth_user'));
     my($m) = Bivio::Biz::Model->new($req, 'UserRealmList')->load_all;
     return 'next'
 	unless $m->find_row_by_type(Bivio::Auth::RealmType->SCHOOL);
+    return 'freiker_task'
+	if $m->get('RealmUser.role')->equals_by_name('FREIKER');
     $req->set_realm($m->get('RealmUser.realm_id'));
     return 'wheel_task';
 }

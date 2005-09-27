@@ -6,7 +6,7 @@ view_put(
     base_content => Form(
 	'BarcodeListForm',
 	Grid([[
-	    Tag(p => Prose(<<'EOF'), 'form_prologue'),
+	    Tag(p => Prose(<<'EOF'), 'br'),
 Please assign classes to barcodes. You can change
 the assignments later.  You need all the information, or none.
 EOF

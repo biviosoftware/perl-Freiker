@@ -1,0 +1,11 @@
+# Copyright (c) 2005 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+ListModel();
+Delete all rows; insert in new rows with any user id
+[
+    load_all => [
+	[] => [[
+	    {'Ride.ride_date' => '999'},
+	]],
+    ],
+]

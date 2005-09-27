@@ -1,4 +1,4 @@
-# Copyright (c) 2005 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2005 IEEE Industry Standards and Technology Organization.  All Rights Reserved.
 # $Id$
 package Freiker::Util::SQL;
 use strict;
@@ -166,7 +166,7 @@ sub internal_upgrade_db {
 
 =head1 COPYRIGHT
 
-Copyright (c) 2005 bivio Software, Inc.  All Rights Reserved.
+Copyright (c) 2005 IEEE Industry Standards and Technology Organization  All Rights Reserved.
 
 =head1 VERSION
 

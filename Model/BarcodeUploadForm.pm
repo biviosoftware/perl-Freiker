@@ -147,9 +147,15 @@ sub _get_user {
     my($self, $code) = @_;
     my($ro) = $self->new_other('RealmOwner');
     unless ($ro->unauth_load({name => $code})) {
-	# Don't set first or last
-	($ro) = ($self->new_other('User')->create_realm(
-	    {last_name => ' '}, {name => $code},
+	my($en) = $self->get_instance('FreikerInfoForm')->EMPTY_NAME;
+	$ro = ($self->new_other('User')->create_realm(
+	    {last_name => $en},
+	    {
+#TODO: Implicit coupling; need to bind "name" to Type.Barcode
+		name => $code,
+		password => int(rand(100_000_000)),
+		display_name => $en,
+	    },
 	))[1];
 	$self->new_other('RealmUser')->create({
 	    realm_id => $self->get_request->get('auth_id'),
@@ -170,6 +176,9 @@ sub _parse_line {
     my($c, $d, $e);
     unless ($c = ($_B->from_literal($line =~ $_B->REGEX))[0]) {
 	$e = 'does not contain a barcode';
+    }
+    elsif (!($d = ($_D->from_literal($line =~ m{([-/\d]{8,})}))[0] || $date)) {
+	$e = "File name must be a date or must be a date on every line";
     }
     elsif (!($d = ($_D->from_literal($line =~ m{([-/\d]{8,})}))[0] || $date)) {
 	$e = "File name must be a date or must be a date on every line";

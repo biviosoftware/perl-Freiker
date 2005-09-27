@@ -7,7 +7,7 @@ view_put(
 	'UserLoginForm',
 	[
 	    Link(vs_text('link', 'SCHOOL_REGISTER'), 'SCHOOL_REGISTER', {
-		cell_class => 'form_prologue',
+		cell_class => 'pr',
 	    }),
 	    qw{
 	       UserLoginForm.login

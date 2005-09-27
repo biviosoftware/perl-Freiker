@@ -5,11 +5,26 @@ view_put(
     base_title => 'Wheels Roll Around',
     base_content => Join([
 	Tag('div', '', 'index_wheel'),
-	Tag('div', Prose(<<'EOF'), 'index_content'),
+	Tag('div', Prose(<<'EOF'), 'pr'),
 <p>
-We'll explain what a wheel has to do on this page.  Generally, it's not too much.
+vs_link(
+'Wheels: click here to login or register your school.', 'SCHOOL_REGISTER');
+</p>
+<p>
+Wheels are our main contact with schools in our program.  We provide you
+with barcodes and scanners.  We have found kids want to help.  They'll do
+the scanning and sticking barcodes on the bikes.
+</p>
+<p>
+What you need to do is
+upload the barcodes daily (although some kids may be able to do this, too).
+The software takes care of the rest.  You also have to hand out the
+prizes, but that's a lot of fun.  Nothing like being in a sea
+of smiling faces.
+</p>
+<p>
 Feel free to contact us at
-Tag(span => Join(['gears', Image('at'), ['Bivio::UI::Facade', 'mail_host']]), 'email');.
+vs_gears_email();, if you'd like to learn more.
 </p>
 EOF
     ]),

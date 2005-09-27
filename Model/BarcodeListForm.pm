@@ -89,27 +89,12 @@ Enter records
 sub execute_ok_row {
     my($self) = @_;
     my($lm) = $self->get_list_model;
-    unless ($self->get('Class.class_id')
-        eq ($lm->get('RealmUser_2.realm_id') || $lm->EMPTY_KEY_VALUE)
-    ) {
-	my($ru) = $self->new_other('RealmUser');
-	$ru->unauth_delete({
-	    realm_id => $lm->get('RealmUser_2.realm_id'),
-	    user_id => $lm->get('RealmUser.user_id'),
-	    role => Bivio::Auth::Role->STUDENT,
-	}) if $lm->get('RealmUser_2.realm_id');
-	$ru->create({
-	    realm_id => $self->get('Class.class_id'),
-	    user_id => $lm->get('RealmUser.user_id'),
-	    role => Bivio::Auth::Role->STUDENT,
-	}) if $self->get('Class.class_id') ne $lm->EMPTY_KEY_VALUE;
-    }
-    $self->new_other('RealmOwner')->unauth_load_or_die({
-	realm_id => $lm->get('RealmUser.user_id'),
-    })->update({
-	display_name => $self->get('RealmOwner.display_name')
-	    || $lm->get('RealmOwner.name'),
-    });
+    $self->new_other('FreikerInfoForm')->update(
+	$lm->get('RealmUser.user_id'),
+	$self->get('RealmOwner.display_name'),
+	$self->get('Class.class_id'),
+	$lm->get('RealmUser_2.realm_id'),
+    );
     return;
 }
 
@@ -130,7 +115,7 @@ sub internal_initialize {
 	    {
 		name => 'Class.class_id',
 		in_list => 1,
-		constraint => 'NONE',
+		constraint => 'NOT_NULL',
 	    },
 	    {
 		name => 'RealmOwner.display_name',
@@ -140,6 +125,24 @@ sub internal_initialize {
 	],
 	primary_key => ['RealmOwner.name'],
     });
+}
+
+=for html <a name="validate_row"></a>
+
+=head2 validate_row()
+
+=cut
+
+sub validate_row {
+    my($self) = @_;
+    return if $self->in_error;
+    # Sanity check to be sure someone isn't hacking the form; any
+    # error will do, since the only way to get this is with a hacked form
+    $self->internal_put_error('Class.class_id' => 'NULL')
+	unless $self->get_request->get('Model.ClassSelectList')->find_row_by_id(
+	    $self->get('Class.class_id'),
+	);
+    return;
 }
 
 #=PRIVATE SUBROUTINES

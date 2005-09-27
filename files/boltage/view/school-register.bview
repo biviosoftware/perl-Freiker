@@ -6,7 +6,9 @@ view_put(
     base_content => vs_simple_form(
 	'SchoolRegisterForm',
 	[
-	    Link(vs_text('link', 'LOGIN'), 'LOGIN'),
+	    Link(vs_text('link', 'LOGIN'),
+		 {task_id => 'LOGIN', no_context => 1},
+		 {cell_class => 'pr'}),
 	    qw{
 		SchoolRegisterForm.RealmOwner.display_name
 		SchoolRegisterForm.Email.email

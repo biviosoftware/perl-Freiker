@@ -5,11 +5,26 @@ view_put(
     base_title => 'Kids Have Fun!',
     base_content => Join([
 	Tag('div', '', 'index_freiker'),
-	Tag('div', Prose(<<'EOF'), 'index_content'),
+	Tag('div', Prose(<<'EOF'), 'pr'),
 <p>
-We'll write more about freikers here.
-Feel free to contact us at
-Tag(span => Join(['gears', Image('at'), ['Bivio::UI::Facade', 'mail_host']]), 'email');.
+vs_link('Freikers: click here to see your rides', 'FREIKER_RIDE_LIST');
+</p>
+<p>
+If you would like to become a Freiker, all you have to do is ride
+your bike to school.  You'll get a barcode on your bike, and you
+can then vs_link('login to see your rides', 'FREIKER_RIDE_LIST');.
+</p>
+<p>
+You will need to see if
+vs_link('your school is registered with Freiker', 'SCHOOL_RANK_LIST');.
+If it isn't, you need to find an adult who will act as
+vs_link(q{your school's Wheel}, '/hm/wheels');.  If you can't find
+an adult, ask your teacher or your principal.  There will be somebody
+who wants to help kids get to school.
+</p>
+<p>
+You can also contact us at vs_gears_email();, and we'll help
+you find a way bring the Freiker program to your school.
 </p>
 EOF
     ]),

@@ -1,0 +1,29 @@
+# Copyright (c) 2005 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+view_parent('freiker');
+view_put(
+    base_title => 'Your Rides',
+    base_content => Grid([
+	map([
+	    String($_->[0], 0, {cell_class => 'lb'}),
+	    $_->[1]->put(cell_class => 'vl'),
+	], [
+	    'Last Updated:',
+	    DateTime(['Model.FreikerRideList', 'last_update']),
+	], [
+	    'Total Rides This Year:',
+	    String(['Model.FreikerRideList', 'total']),
+	], [
+	    'Most Recent Ride:',
+	    DateTime(['Model.FreikerRideList', 'last_date']),
+	]),
+    ], {
+	class => 'ride_list',
+    }),
+);
+
+view_pre_execute(
+    sub {
+	shift->get_request->get('Model.FreikerRideList')->set_cursor_or_die(0);
+    },
+);

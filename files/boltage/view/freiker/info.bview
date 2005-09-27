@@ -1,0 +1,22 @@
+# Copyright (c) 2005 bivio Software, Inc..  All rights reserved.
+# $Id$
+view_parent('freiker');
+view_put(
+    base_title => 'Your Account Information',
+    base_content => vs_simple_form(
+	'FreikerInfoForm',
+	[
+	    Tag('p', Prose(<<'EOF'), 'pr'),
+In order to help your wheel manage the system, please let us know
+your first name and which class you are in.
+EOF
+	    vs_blank_cell(),
+	    'FreikerInfoForm.RealmOwner.display_name',
+	    ['FreikerInfoForm.Class.class_id', {
+		wf_want_select => 1,
+		choices => ['Model.ClassSelectList'],
+		list_display_field => ['class_name'],
+	    }],
+	],
+    ),
+);

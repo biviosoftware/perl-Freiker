@@ -42,6 +42,18 @@ C<Freiker::Model::ClassList>
 
 =cut
 
+=for html <a name="find_row_by_id"></a>
+
+=head2 find_row_by_id(string class_id) : self
+
+Returns self if find_row_by_id is true, otherwise returns undef.
+
+=cut
+
+sub find_row_by_id {
+    return shift->find_row_by('Class.class_id', shift);
+}
+
 =for html <a name="internal_initialize"></a>
 
 =head2 internal_initialize() : hash_ref

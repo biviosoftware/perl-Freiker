@@ -4,13 +4,23 @@ view_parent('base');
 view_put(
     base_title => 'Ride and Win!',
     base_content => Join([
-	Tag('div', Prose(<<'EOF'), 'index_content'),
+	Tag('div', Prose(<<'EOF'), 'pr'),
 <p>
-We'll explain how prizes work on this page.
-Feel free to contact us at
-Tag(span => Join(['gears', Image('at'), ['Bivio::UI::Facade', 'mail_host']]), 'email');.
+Prizes are delivered on Friday. We have a variety of
+Tag(span => '10 ride', 'pz_rides'); prizes.
+Your wheels will have a bag or box of them.
+Link('Click here to donate prizes or money.', '/hm/gears');
 </p>
-Image('index_winners', 'none');
+</p>
+Tag(div => '', 'pz_velo_2');
+<p>
+The Cateye Velo 2 cyclocomputer features odometer set option,
+pacer (average speed compared to current), velocity indicator,
+auto start/stop, auto-power saving. Functions include current speed,
+elapsed time, total distance, trip distance, average speed and
+a clock (12/24hr).  It's yours after Tag(span => '50 rides', 'pz_rides');.
+</p>
 EOF
+	Tag(div => '', 'index_winners'),
     ]),
 );

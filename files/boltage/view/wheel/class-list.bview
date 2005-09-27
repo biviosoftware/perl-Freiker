@@ -6,7 +6,7 @@ view_put(
     base_content => Form(
 	'ClassListForm',
 	Grid([[
-	    Tag(p => Prose(<<'EOF'), 'form_prologue'),
+	    Tag(p => Prose(<<'EOF'), 'pr'),
 Please enter the classes for this year.   You can change the classes
 later.  This list will be used by Freikers (and their parents) to
 identify their class.  You can delete an entry by clearing all values

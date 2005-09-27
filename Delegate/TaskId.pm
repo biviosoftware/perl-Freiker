@@ -53,8 +53,10 @@ sub get_delegate_info {
 	    GENERAL
 	    ANY_USER
 	    Action.HomeRedirect
-	    next=USER_REALMLESS_REDIRECT
 	    wheel_task=WHEEL_BARCODE_UPLOAD
+	    freiker_task=FREIKER_RIDE_LIST
+	    next=USER_REALMLESS_REDIRECT
+	    FORBIDDEN=FREIKER_LOGIN
 	)],
 	[qw(
 	    LOGIN
@@ -140,7 +142,7 @@ sub get_delegate_info {
 	    Model.Lock
 	    Model.BarcodeUploadForm
 	    View.wheel/barcode-upload
-	    next=WHEEL_BARCODE_LIST
+	    next=WHEEL_FREIKER_RANK_LIST
 	)],
 	[qw(
 	    WHEEL_BARCODE_LIST
@@ -152,14 +154,14 @@ sub get_delegate_info {
 	    Model.BarcodeList->execute_load_all_with_query
 	    Model.BarcodeListForm
 	    View.wheel/barcode-list
-	    next=WHEEL_BARCODE_LIST
+	    next=WHEEL_FREIKER_RANK_LIST
 	)],
 	[qw(
 	    SCHOOL_RANK_LIST
 	    511
 	    GENERAL
 	    ANYBODY
-	    Model.SchoolRankList->execute_load_all
+	    Model.SchoolRankList->execute_load_all_with_query
 	    View.school-rank-list
 	)],
 	[qw(
@@ -186,8 +188,38 @@ sub get_delegate_info {
 	    ANYBODY
 	    Action.RealmlessRedirect
 	    visitor_task=SITE_ROOT
-	    home_task=USER_PASSWORD
+	    home_task=MY_SITE
 	    unauth_task=SITE_ROOT
+	)],
+	[qw(
+            FREIKER_LOGIN
+	    515
+            GENERAL
+	    ANYBODY
+	    Action.UserLogout
+	    Model.FreikerLoginForm
+	    View.freiker/login
+	    next=FREIKER_RIDE_LIST
+	    info_task=FREIKER_INFO
+	)],
+	[qw(
+            FREIKER_RIDE_LIST
+	    516
+            USER
+	    DATA_READ
+	    Model.FreikerRideList->execute_load_all
+	    View.freiker/ride-list
+	    FORBIDDEN=FREIKER_LOGIN
+	)],
+	[qw(
+            FREIKER_INFO
+	    517
+            USER
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.FreikerInfoForm
+	    View.freiker/info
+	    FORBIDDEN=FREIKER_LOGIN
+	    next=FREIKER_RIDE_LIST
 	)],
     ]);
 }

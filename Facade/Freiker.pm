@@ -60,15 +60,17 @@ my($_SELF) = __PACKAGE__->new({
  	)] => -1],
     ],
     Font => [
-	[default => []],
-	map([$_ => [qq{class=$_}]], qw{
-	    checkbox
-	    error
-	    form_field_checkbox
-	    form_field_description
-	    form_field_error
-	    form_field_error_label
-	    form_field_label
+	map([$_->[0] => [qq{class=$_->[1]}]],
+	    [error => 'er'],
+	    [form_field_error => 'er'],
+	    [form_field_error_label => 'el'],
+	    [form_field_label => 'lb'],
+	    [warning => 'wr'],
+#	    [checkbox => 'ch'],
+	),
+	[[qw{
+	    default
+	    ch
 	    form_submit
 	    input_field
 	    mailto
@@ -76,12 +78,10 @@ my($_SELF) = __PACKAGE__->new({
 	    page_heading
 	    page_text
 	    radio
-	    realm_name
 	    search_field
 	    table_cell
 	    table_heading
-	    warning
-	}),
+	}] => []],
     ],
     FormError => [
 	[NULL => 'You must supply a value for vs_fe("label");.'],
@@ -93,6 +93,15 @@ my($_SELF) = __PACKAGE__->new({
 	     qq{File errors:\nString(['Model.BarcodeUploadForm', 'file_errors']);}],
 	['BarcodeUploadForm.barcode_file.EMPTY' =>
 	     q{The file appears to be empty or may contain all duplicate rides.}],
+	['FreikerLoginForm.barcode.NOT_FOUND' =>
+#TODO: Link to form to contact wheel
+	     q{Barcode is not in our database.  Please check and re-enter.  If you are absolutely sure vs_fe('value') is correct, please contact your school's Wheel.}],
+	['FreikerLoginForm.ride_date1.NULL' =>
+	     q{You must specify at least one ride.  If you have ridden fewer than three times the whole year, just leave the last one or two entries alone.}],
+	['FreikerLoginForm.ride_date1.PASSWORD_MISMATCH' =>
+	     q{One or more of the dates did not match our database.  Please check and re-enter.  If you are absolutely sure these dates are correct, please contact your school's Wheel.}],
+	[[map("FreikerLoginForm.ride_date$_.PASSWORD_MISMATCH", 2, 3)] =>
+	     q{See above}],
     ],
     HTML => [
 	[want_secure => 0],
@@ -104,7 +113,7 @@ my($_SELF) = __PACKAGE__->new({
 	[FAVICON_ICO => '/favicon.ico'],
 	[FORBIDDEN => undef],
 	[LOCAL_FILE_PLAIN => ['i/*', 'f/*', 'h/*']],
-	[LOGIN => 'pub/login'],
+	[LOGIN => 'pub/wheel-login'],
 	[LOGOUT => 'pub/logout'],
 	[MY_SITE => 'my-site/*'],
 	[MY_CLUB_SITE => undef],
@@ -123,6 +132,10 @@ my($_SELF) = __PACKAGE__->new({
 	[WHEEL_FREIKER_RANK_LIST => '?/freiker-rankings'],
 	[USER_PASSWORD => '?/change-password'],
 	[USER_REALMLESS_REDIRECT => 'ru/*'],
+	[FREIKER_LOGIN => 'pub/freiker-login'],
+	[FREIKER_INFO => '?/info'],
+	[FREIKER_RIDE_LIST => '?/rides'],
+        [ROBOTS_TXT => '/robots.txt'],
     ],
     Text => [
 	[support_email => 'support'],
@@ -194,9 +207,25 @@ my($_SELF) = __PACKAGE__->new({
 	    confirm_new_password => 'Re-enter New Password',
 	    ok_button => 'Change',
 	]],
+	[FreikerLoginForm => [
+	    barcode => 'Your Barcode',
+	    ride_date1 => 'Most Recent Ride',
+	    ride_date2 => 'Ride Before Last',
+	    ride_date3 => 'Three Rides Ago',
+	    ok_button => 'Login',
+	]],
+	[FreikerInfoForm => [
+	    'RealmOwner.display_name' => [
+		'' => 'Your First Name',
+		field_description => q{If you have a common first name, please include your last name initial, e.g. John Q.},
+	    ],
+	    'Class.class_id' => 'Your Teacher',
+	    ok_button => 'Update',
+	]],
 	[acknowledgement => [
 	    [qw(barcode_list class_list)] => q{Your changes have been saved.},
 	    barcode_upload => q{Your upload was successful.},
+	    freiker_info => q{Your information has been updated.  Thank you.},
 	]],
 	map({
 	    my($t, $v) = @$_;
@@ -205,10 +234,10 @@ my($_SELF) = __PACKAGE__->new({
 	   [field_description => [
 	       ['SchoolRegisterForm.zip' =>
 		    q{Your school's-9 digit US zip code.}],
-	       ['SchoolRegisterForm.RealmOwner.display_name'
-		    => q{You will be the Wheel for your school.}],
-	       ['SchoolRegisterForm.Email.email'
-		    => q{We will send emails only related to running Freiker at your school.}],
+	       ['SchoolRegisterForm.RealmOwner.display_name' =>
+		    q{You will be the Wheel for your school.}],
+	       ['SchoolRegisterForm.Email.email' =>
+		    q{We will send emails only related to running Freiker at your school.}],
 	   ]],
 	),
     ],

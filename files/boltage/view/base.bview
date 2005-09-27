@@ -6,89 +6,74 @@ view_declare(qw(base_content base_title));
 view_put(
     base_logout => 0,
     base_realm => 'Freiker',
-    base_menu => Join([
-	vs_link('freikers', '/hm/freikers'),
-	Image('heart_9')->put(class => 'base_menu_heart'),
-	vs_link('prizes', '/hm/prizes'),
-	Image('heart_9')->put(class => 'base_menu_heart'),
- 	vs_link('schools', 'SCHOOL_RANK_LIST'),
-	Image('heart_9')->put(class => 'base_menu_heart'),
-	vs_link('wheels', '/hm/wheels'),
-#	vs_link('Wheels', 'SCHOOL_REALMLESS_REDIRECT'),
+    base_menu => vs_base_menu([
+	['freikers', '/hm/freikers'],
+	['gears', '/hm/gears'],
+	['prizes', '/hm/prizes'],
+ 	['schools', 'SCHOOL_RANK_LIST'],
+	['wheels', '/hm/wheels'],
     ]),
 );
 view_main(Page(
     Title([vs_site_name(), view_widget_value('base_title')]),
-    Grid([[
-	Grid([[
-	    Link(Image('smiley_80'), '/', {
-		cell_class => 'base_header_logo',
-	    }),
+    Join([
+	Tag('div',
 	    Join([
-		Tag(div => view_widget_value('base_realm'), 'base_realm'),
-		Tag(div => view_widget_value('base_menu'), 'base_menu'),
-		Tag(div => view_widget_value('base_title'), 'base_title'),
-	    ], {
-		cell_class => 'base_header_text',
-	    }),
-	    If(view_widget_value('base_logout'),
-	       vs_link('Logout', 'LOGOUT'),
-	       vs_link('My School', 'MY_SITE'),
-	       {cell_class => 'base_header_button'},
-	    ),
-	]], {
-	    class => 'base_header',
-	}),
-    ], [
-	vs_acknowledgement()->put(cell_align => 'center'),
-    ], [
-	Join([[view_widget_value('base_content')]],  {
-	     cell_class => 'base_content',
-	     cell_align => 'center',
-	}),
-    ], [
-	Grid([[
-	    Link('back to top', '#top', {
-		cell_align => 'nw',
-		cell_class => 'base_footer_top',
-	    }),
-	    Join([
-		Link('home', '/'),
-		Image('heart_9'),
-		vs_link('register your school', 'SCHOOL_REGISTER'),
-		Image('heart_9'),
-		vs_link('old site', '/h/index.html'),
-		Image('heart_9'),
-		vs_link('your account', 'USER_PASSWORD'),
-		Image('heart_9'),
-		If(['auth_user'],
-		   map(
-		       vs_link(
-			   Join([lc($_)]),
-			   {task_id => uc($_), no_context => 1},
+		Tag('div',
+		    Link(Tag(span => ''), '/'),
+		    'c1',
+		),
+		Tag(div => Join([
+		    Tag(p => view_widget_value('base_realm'), 'br'),
+		    Tag(p => view_widget_value('base_menu'), 'bm'),
+		    Tag(p => view_widget_value('base_title'), 'bt'),
+		]), 'c2'),
+		Tag(div =>
+			If(view_widget_value('base_logout'),
+			   vs_link('LOGOUT', 'LOGOUT'),
+			   vs_link('YOUR RIDES', 'MY_SITE'),
 		       ),
-		       'Logout', 'Login',
-		   )),
-	    ], {
-		cell_class => 'base_footer_menu',
-		cell_align => 'n',
-	    }),
+		    'c3'),
+	    ]),
+	    'hd',
+	),
+	vs_acknowledgement(),
+	Tag('div',
+	    [view_widget_value('base_content')],
+	    'cn',
+	),
+	Tag('div',
 	    Join([
-		    'Copyright &copy; ',
-		    Bivio::Type::DateTime->now_as_year,
-		    '<br/>',
-		    Link('bivio Software, Inc.', 'http://www.bivio.biz'),
-		    '<br/>All rights reserved.',
-		], {
-		    cell_class => 'base_footer_copyright',
-		    cell_align => 'ne',
-		}),
-	]], {
-	    class => 'base_footer',
-	}),
-   ]], {
-	class => 'base_grid',
-    }), {
+		Tag('div',
+		    Link('back to top', '#top'),
+		    'c1',
+		),
+		Tag('div',
+		    Join([
+			Link('home', '/'),
+			Image('heart_9'),
+			vs_link('register your school', 'SCHOOL_REGISTER'),
+			Image('heart_9'),
+			vs_link('old site', '/h/index.html'),
+		    ]),
+		    'c2',
+		),
+		Tag('div',
+		    Join([
+			'Copyright &copy; ',
+			Bivio::Type::DateTime->now_as_year,
+			'<br />',
+			Link('bivio Software, Inc.', 'http://www.bivio.biz'),
+			'<br />All rights reserved.<br />',
+		    ]),
+		    'c3',
+		),
+	    ]),
+	    'ft',
+	),
+    ]),
+    {
+	xhtml => 1,
 	style => StyleSheet('/f/base.css'),
     },
 ));
