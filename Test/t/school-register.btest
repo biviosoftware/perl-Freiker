@@ -79,9 +79,16 @@ do_table_rows(Barcode => sub {
     return 1;
 });
 submit_form(Assign => $v);
+follow_link('account');
+submit_form(Change => {
+    'Current Password:' => 'password',
+    'New Password:' => 'password',
+    'Re-enter New Password:' => 'password',
+});
 follow_link('freikers');
 verify_form($v);
 follow_link('LOGOUT');
+
 follow_link('YOUR RIDES');
 submit_form(Login => {
     'Your Barcode:' => $freiker1,
