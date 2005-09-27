@@ -10,5 +10,7 @@ view_put(
 	['class_name', {
 	    column_order_by => [qw(Class.class_grade User.last_name User.first_name)],
 	}],
-    ]),
+    ], {
+	class => 'rank_list',
+    }),
 );
