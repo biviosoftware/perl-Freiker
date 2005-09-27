@@ -1,4 +1,4 @@
-# Copyright (c) 2005 IEEE Industry Standards and Technology Organization.  All Rights Reserved.
+# Copyright (c) 2005 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Util::SQL;
 use strict;
@@ -150,14 +150,18 @@ sub internal_upgrade_db {
     Bivio::Biz::Model->new($self->get_request, 'RealmOwner')->do_iterate(
 	sub {
 	    my($m) = @_;
-	    $m->update({display_name => ' '})
-		if !$m->is_default
-		&& $m->get('name') eq $m->get('display_name');
+	    $m->update({
+		password => Bivio::Type::Password->encrypt(
+		    int(rand(100_000_000))),
+		display_name => ' ',
+	    }) if !$m->is_default
+		&& (Bivio::Type->get_instance('Barcode')->from_literal(
+		    $m->get('name')))[0];
 	    return 1;
 	},
 	unauth_iterate_start => 'realm_id', {
 	    realm_type => Bivio::Auth::RealmType->USER,
-       },
+	},
     );
     return;
 }
@@ -166,7 +170,7 @@ sub internal_upgrade_db {
 
 =head1 COPYRIGHT
 
-Copyright (c) 2005 IEEE Industry Standards and Technology Organization  All Rights Reserved.
+Copyright (c) 2005 bivio Software, Inc.  All Rights Reserved.
 
 =head1 VERSION
 
