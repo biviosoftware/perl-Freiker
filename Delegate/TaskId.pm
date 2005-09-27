@@ -173,12 +173,12 @@ sub get_delegate_info {
 	    View.wheel/freiker-rank-list
 	)],
 	[qw(
-	    USER_PASSWORD
+	    WHEEL_USER_PASSWORD
 	    513
 	    USER
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.UserPasswordForm
-	    View.user-password
+	    View.wheel/user-password
 	    next=MY_SITE
 	)],
 	[qw(
