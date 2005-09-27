@@ -209,8 +209,8 @@ th {
 .pz_velo_2 {
   background: url(/i/cateye_velo_2.jpg) no-repeat top left;
   padding-right: 2em;
-  width: 139;
-  height: 165;
+  width: 139px;
+  height: 165px;
   clear: left;
   float: left;
 }
@@ -227,4 +227,7 @@ th {
   padding-top: .2em;
   width: 50%;
   text-align: left;
+}
+.rank_list td, .rank_list th {
+  padding-left: 1em;
 }
