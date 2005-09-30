@@ -3,6 +3,7 @@
 view_parent('freiker');
 view_put(
     base_title => 'Your Rides',
+    base_logout => 1,
     base_content => Grid([
 	map([
 	    String($_->[0], 0, {cell_class => 'lb'}),

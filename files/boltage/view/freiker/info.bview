@@ -3,6 +3,7 @@
 view_parent('freiker');
 view_put(
     base_title => 'Your Account Information',
+    base_logout => 1,
     base_content => vs_simple_form(
 	'FreikerInfoForm',
 	[
