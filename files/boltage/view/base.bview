@@ -55,6 +55,8 @@ view_main(Page(
 			vs_link('register your school', 'SCHOOL_REGISTER'),
 			Image('heart_9'),
 			vs_link('old site', '/h/index.html'),
+			Image('heart_9'),
+			vs_link('wheel login', 'LOGIN'),
 		    ]),
 		    'c2',
 		),
