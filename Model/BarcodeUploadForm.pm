@@ -174,6 +174,9 @@ sub _parse_line {
     my($self, $line, $date) = @_;
     return if $line =~ /^\s+$/i;
     my($c, $d, $e);
+    # Some scanners print Code128 on the line, which could be interpreted
+    # as a barcode
+    $line =~ s/\bCode128\b//i;
     unless ($c = ($_B->from_literal($line =~ $_B->REGEX))[0]) {
 	$e = 'does not contain a barcode';
     }
