@@ -25,28 +25,27 @@ p {
 th {
   font-weight: bold;
 }
-.ak {
+.acknowledgement {
   padding: .2em;
-  border: 1px solid #33CC00;
   width: 20em;
   margin: auto;
   text-align: center;
 }
-.cn {
-  padding: 1ex 5em 1ex 5em;
+.acknowledgement .text {
+  border: 2px solid #33CC00;
+  padding: .5em;
+}
+.content {
+  padding: 1ex 1em 1ex 1em;
   border-bottom: 1px solid #666666;
 }
-.cn p {
-  text-align: justify;
+.content p {
+/*  text-align: justify; */
 }
-.er {
-  font-weight: bold;
-  color: #990000;
-}
-.fr .ch {
+form .check {
   padding-left: 3em;
 }
-.fr .ds {
+form .desc {
   margin: .1em 0 0 0;
   width: 30em;
   font-size: 90%;
@@ -54,126 +53,157 @@ th {
   clear: left;
   float: left;
 }
-.fr .er {
-  font-size: 90%;
+.field_err, .label_err, .err_title, .err {
+  color: #990000;
+}
+.err {
+  font-weight: bold;
+}
+.err_title {
   color: #990000;
   font-weight: bold;
   width: 30em;
   margin-bottom: 10ex;
 }
-.fr .in {
+.field_err {
+  font-weight: normal;
+  font-size: 80%;
+}
+form .field {
   padding-bottom: 1em;
 }
-.fr .lb, .fr .el {
-  vertical-align: top;
+.label_ok, .label_err, .label {
   text-align: right;
   white-space: nowrap;
   padding-right: .2em;
 }
-.fr .el {
-  color: #990000;
-  font-style: italic;
+.label_ok {
+  vertical-align: top;
+}
+.label_err {
   vertical-align: middle;
+  font-style: italic;
 }
-.fr .pr {
-  width: 40em;
+.form_prose, .list_prose {
+  margin: auto;
+  width: 80%;
   text-align: left;
-  padding-bottom: .5ex;
+  padding: 1ex;
 }
-.hd,
-.ft {
+.head,
+.foot {
   position: relative;
   white-space: nowrap;
 }
-.hd {
-  margin-bottom: 2ex;
+.head {
+  margin-bottom: 3ex;
 }
-.ft {
+.foot {
   font-size: 80%;
   padding-top: .3ex;
   padding-bottom: 7ex;
 }
-.ft .c1, .ft .c2, .ft .c3,
-.hd .c1, .hd .c2, .hd .c3 {
+.foot1, .foot2, .foot3,
+.head1, .head2, .head3 {
   position: absolute;
 }
-.hd .c1,
-.ft .c1 {
+.head1 {
   left: 0%;
-  width: 25%;
+  width: 20%;
 }
-.hd .c2,
-.ft .c2 {
-  left: 25%;
+.head2 {
+  left: 20%;
   text-align: center;
-  width: 50%;
+  width: 60%;
 }
-.hd .c2 img,
-.ft .c2 img {
-  margin: 0 5px 2px 5px;
-}
-.hd .c3, .ft .c3 {
-  left: 75%;
+.head3 {
+  left: 80%;
   text-align: right;
-  width: 25%;
+  width: 20%;
 }
-.hd .c3 {
+.foot1 {
+  left: 0%;
+  width: 30%;
+}
+.foot2 {
+  left: 30%;
+  text-align: center;
+  width: 40%;
+}
+.foot3 {
+  left: 70%;
+  text-align: right;
+  width: 30%;
+}
+.foot2 .sep {
+  margin: 0 .3em 0 .3em;
+}
+.head3 {
   font-weight: bold;
   white-space: nowrap;
   text-transform: uppercase;
   vertical-align: top;
 }
 /*INLINE*/
-.hd {
-  height: 80px;
+.head {
+  height: 58px;
 }
-.hd .c1 a {
-  display: block;
-  width: 80px;
-  height: 80px;
-  background: white url('/i/smiley_80.jpg') no-repeat top left;
+.head2 .title {
+  border-top: 1px solid #666666;
+  margin-top: .1ex;
+  color: #666666;
+  white-space: nowrap;
+  text-transform: uppercase;
+  vertical-align: bottom;
+  bottom: 0;
 }
-.hd .br {
+.head2 .menu img {
+  margin: 0 .3em .1ex .3em;
+}
+.foot2 img {
+  margin: 0 .2em 0 .2em;
+}
+.head2 .realm {
   font-weight: bold;
   color: #666666;
   font-size: 150%;
   padding-bottom: 1ex;
   white-space: nowrap;
 }
-.hd .bt {
+.foot3 {
+  white-space: normal;
+}
+.head2 .title {
   border-top: 1px solid #666666;
   margin-top: .1ex;
   color: #666666;
   white-space: nowrap;
   text-transform: uppercase;
 }
-.hd .bt img {
-  margin: 0 10px 0 10px;
-}
-.bm .sp {
-  margin: 0 10px 0 10px;
-}
-.pr p {
+.prose p {
   text-indent: 2em;
   margin: 2ex 0 2ex 0;
   text-align: left;
 }
-.fr .sp {
+form .sep {
   text-align: left;
   font-weight: normal;
   color: #33CC00;
   padding: .5ex 0 1.5ex 0;
   border-top: 1px solid #33CC00;
 }
-.wr {
+.warn {
   font-weight: italic;
   color: #990001;
 }
-#gr div {
+.submit, .empty_list {
   text-align: center;
 }
-#gr .sm a {
-  padding: 20px;
+#gears div {
+  text-align: center;
+}
+#gears .simple img {
+  padding: 10px;
 }
 /*I*/
 .index_freiker, .index_wheel {
@@ -209,32 +239,32 @@ th {
   white-space: nowrap;
 }
 /*I*/
-.pz_rides {
+.prize_rides {
   font-weight: bold;
 }
 /*I*/
-.pz_left {
+.prize_left {
   padding-right: 2em;
   clear: left;
   float: left;
 }
-.pz_right {
+.prize_right {
   padding-left; 2em;
   clear: right;
   float: right;
 }
-.pz_winners {
+.prize_winners {
   padding-top: 20px;
 }
 /*I*/
-.ride_list .lb {
+.ride_list .label {
   padding-top: .2em;
   padding-right: 1em;
   text-align: right;
   width: 50%;
 }
 /*I*/
-.ride_list .vl {
+.ride_list .value {
   padding-top: .2em;
   width: 50%;
   text-align: left;
@@ -243,10 +273,30 @@ th {
 .rank_list td, .rank_list th {
   padding-left: 1em;
 }
-.b {
+.note {
    font-weight: bold;
   padding: .2em;
    margin-bottom: 1ex;
   border: 1px solid red;
   text-align: center;
+}
+.submit {
+  text-align: center;
+}
+.line {
+   width: 40em;
+   border: 0;
+   border-top: 1px solid #666666;
+   color: #666666;
+   height: 2px;
+   text-align: right;
+}
+.label {
+   padding-top: 2ex;
+   padding-bottom: 2ex;
+}
+h3 {
+   margin-top: -1ex;
+   margin-bottom: -1ex;
+   color: #33CC00;
 }
