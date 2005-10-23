@@ -61,17 +61,15 @@ my($_SELF) = __PACKAGE__->new({
     ],
     Font => [
 	map([$_->[0] => [qq{class=$_->[1]}]],
-	    [error => 'er'],
-	    [form_field_error => 'er'],
-	    [form_field_error_label => 'el'],
-	    [form_field_label => 'lb'],
-	    [warning => 'wr'],
-#	    [checkbox => 'ch'],
+	    [[qw(error form_field_error form_field_error_label)] => 'err'],
+	    [warning => 'warn'],
+	    [checkbox => 'checkbox'],
+	    [form_submit => 'button'],
+	    [form_field_label => 'ok'],
 	),
 	[[qw{
 	    default
 	    ch
-	    form_submit
 	    input_field
 	    mailto
 	    number_cell
@@ -141,9 +139,11 @@ my($_SELF) = __PACKAGE__->new({
 	[support_email => 'support'],
 #TODO:	    [support_phone => '(800) 555-1212'],
 	[site_name => q{Freiker: The Frequent Biker Program}],
+	[site_copyright => q{bivio Software, Inc.}],
 	[home_page_uri => '/hm/index'],
 	[view_execute_uri_prefix => 'site_root/'],
 	[favicon_uri => '/i/favicon.ico'],
+	[form_error_title => 'Please correct the errors below:'],
 	[none => ''],
 	[Image_alt => [
 	    [qw(dot heart_14 heart heart_9)] => '',
@@ -162,6 +162,11 @@ my($_SELF) = __PACKAGE__->new({
 	[class_size => 'Class Size'],
 	['RealmOwner.display_name' => 'Your Name'],
 	[SchoolRegisterForm => [
+	    'zip.desc' => q{Your school's-9 digit US zip code.},
+	    'RealmOwner.display_name.desc'
+		=> q{You will be the Wheel for your school.},
+	    'Email.email.desc' =>
+		q{We will send emails only related to running Freiker at your school.},
 	    ok_button => 'Register School',
 	]],
 	['User.gender' => 'Teacher'],
@@ -169,8 +174,7 @@ my($_SELF) = __PACKAGE__->new({
 	['User.last_name' => 'Last Name'],
 	[class_grade => 'Grade'],
 	[ClassListForm => [
-	    commit_and_add_rows => 'Add More Teachers',
-	    ok_button => 'Update',
+	    ok_button => 'Save',
 	]],
 	[UserLoginForm => [
 	    ok_button => 'Login',
@@ -217,29 +221,17 @@ my($_SELF) = __PACKAGE__->new({
 	[FreikerInfoForm => [
 	    'RealmOwner.display_name' => [
 		'' => 'Your First Name',
-		field_description => q{If you have a common first name, please include your last name initial, e.g. John Q.},
+		desc => q{If you have a common first name, please include your last name initial, e.g. John Q.},
 	    ],
 	    'Class.class_id' => 'Your Teacher',
 	    ok_button => 'Update',
 	]],
 	[acknowledgement => [
-	    [qw(barcode_list class_list)] => q{Your changes have been saved.},
-	    barcode_upload => q{Your upload was successful.},
-	    freiker_info => q{Your information has been updated.  Thank you.},
+	    [qw(WHEEL_BARCODE_LIST WHEEL_CLASS_LIST)]
+		=> q{Your changes have been saved.},
+	    WHEEL_BARCODE_UPLOAD => q{Your upload was successful.},
+	    FREIKER_INFO => q{Your information has been updated.  Thank you.},
 	]],
-	map({
-	    my($t, $v) = @$_;
-	    map(["$_->[0].$t" => $_->[1]], @$v);
-	}
-	   [field_description => [
-	       ['SchoolRegisterForm.zip' =>
-		    q{Your school's-9 digit US zip code.}],
-	       ['SchoolRegisterForm.RealmOwner.display_name' =>
-		    q{You will be the Wheel for your school.}],
-	       ['SchoolRegisterForm.Email.email' =>
-		    q{We will send emails only related to running Freiker at your school.}],
-	   ]],
-	),
     ],
 });
 

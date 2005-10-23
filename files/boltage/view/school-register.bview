@@ -8,7 +8,7 @@ view_put(
 	[
 	    Link(vs_text('link', 'LOGIN'),
 		 {task_id => 'LOGIN', no_context => 1},
-		 {cell_class => 'pr'}),
+		 {cell_class => 'form_prose'}),
 	    qw{
 		SchoolRegisterForm.RealmOwner.display_name
 		SchoolRegisterForm.Email.email
