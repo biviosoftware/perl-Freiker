@@ -291,9 +291,10 @@ form .sep {
    height: 2px;
    text-align: right;
 }
-.label {
+.release .label {
    padding-top: 2ex;
    padding-bottom: 2ex;
+   text-align: left;
 }
 h3 {
    margin-top: -1ex;
