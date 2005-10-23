@@ -2,15 +2,15 @@
 # $Id$
 view_parent('wheel');
 view_put(
-    base_title => 'Upload Barcodes',
-    base_content => vs_simple_form(
-	BarcodeUploadForm =>  [
-	    Tag('p', Prose(<<'EOF'), 'pr'),
+    page3_title => 'Upload Barcodes',
+    page3_content => Join([
+	Tag('p', Prose(<<'EOF'), 'list_prose'),
 Please upload your barcode file.  The file name must contain a date,
 e.g. 3-10-2005.txt or 20051003.txt, or all the barcode lines must
 contain a date.
 EOF
+	vs_simple_form(BarcodeUploadForm =>  [
 	    'BarcodeUploadForm.barcode_file',
-	],
-    ),
+	]),
+    ]),
 );

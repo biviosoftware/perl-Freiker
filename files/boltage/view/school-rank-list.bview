@@ -2,8 +2,8 @@
 # $Id$
 view_parent('base');
 view_put(
-    base_title => 'School Rankings',
-    base_content => Table('SchoolRankList', [
+    page3_title => 'School Rankings',
+    page3_content => Table('SchoolRankList', [
 #	'ride_count',
 	['RealmOwner.display_name', {
 #	    wf_list_link => {
@@ -12,6 +12,6 @@ view_put(
 	}],
 	'Address.zip',
     ], {
-	align => 'n',
+	class => 'list',
     }),
 );

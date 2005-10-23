@@ -2,8 +2,8 @@
 # $Id$
 view_parent('base');
 view_put(
-    base_title => 'Register Your School',
-    base_content => vs_simple_form(
+    page3_title => 'Register Your School',
+    page3_content => vs_simple_form(
 	'SchoolRegisterForm',
 	[
 	    Link(vs_text('link', 'LOGIN'),

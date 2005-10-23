@@ -2,12 +2,12 @@
 # $Id$
 view_parent('freiker');
 view_put(
-    base_title => 'Your Account Information',
+    page3_title => 'Your Account Information',
     base_logout => 1,
-    base_content => vs_simple_form(
+    page3_content => vs_simple_form(
 	'FreikerInfoForm',
 	[
-	    Tag('p', Prose(<<'EOF'), 'pr'),
+	    Tag('p', Prose(<<'EOF'), 'form_prose'),
 In order to help your wheel manage the system, please let us know
 your first name and which class you are in.
 EOF

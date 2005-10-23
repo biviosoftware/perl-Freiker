@@ -2,8 +2,8 @@
 # $Id$
 view_parent('wheel');
 view_put(
-    base_title => 'Freiker Rankings',
-    base_content => Table('FreikerRankList', [
+    page3_title => 'Freiker Rankings',
+    page3_content => Table(FreikerRankList => [
 	'ride_count',
 	'RealmOwner.name',
 	'RealmOwner.display_name',

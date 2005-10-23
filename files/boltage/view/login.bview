@@ -2,12 +2,12 @@
 # $Id$
 view_parent('base');
 view_put(
-    base_title => 'Login',
-    base_content => vs_simple_form(
+    page3_title => 'Login',
+    page3_content => vs_simple_form(
 	'UserLoginForm',
 	[
 	    Link(vs_text('link', 'SCHOOL_REGISTER'), 'SCHOOL_REGISTER', {
-		cell_class => 'pr',
+		cell_class => 'form_prose',
 	    }),
 	    qw{
 	       UserLoginForm.login

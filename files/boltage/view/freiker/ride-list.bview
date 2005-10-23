@@ -2,25 +2,37 @@
 # $Id$
 view_parent('freiker');
 view_put(
-    base_title => 'Your Rides',
+    page3_title => 'Your Rides',
     base_logout => 1,
-    base_content => Grid([
-	map([
-	    String($_->[0], 0, {cell_class => 'lb'}),
-	    $_->[1]->put(cell_class => 'vl'),
-	], [
-	    'Last Updated:',
-	    DateTime(['Model.FreikerRideList', 'last_update']),
-	], [
-	    'Total Rides This Year:',
-	    String(['Model.FreikerRideList', 'total']),
-	], [
-	    'Most Recent Ride:',
-	    DateTime(['Model.FreikerRideList', 'last_date']),
-	]),
-    ], {
-	class => 'ride_list',
-    }),
+    page3_content => Tag(div => Join([
+	If(['->unsafe_get', 'Action.Prize'],
+	   Tag('div',
+	       vs_link(
+		   'You are a winner! Click here to pick a prize.',
+		   'FREIKER_PRIZE_LIST',
+	       ),
+	       'note',
+	   ),
+       ),
+       Grid([
+	    map([
+		String($_->[0], 0, {cell_class => 'lb'}),
+		$_->[1]->put(cell_class => 'vl'),
+	    ], [
+		'Last Updated:',
+		DateTime(['Model.FreikerRideList', 'last_update']),
+	    ], [
+		'Total Rides This Year:',
+		String(['Model.FreikerRideList', 'total']),
+	    ], [
+		'Most Recent Ride:',
+		DateTime(['Model.FreikerRideList', 'last_date']),
+	    ]),
+	], {
+	    class => 'ride_list',
+	}),
+    ]),
+        'pr'),
 );
 
 view_pre_execute(

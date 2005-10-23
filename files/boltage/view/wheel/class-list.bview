@@ -2,37 +2,31 @@
 # $Id$
 view_parent('wheel');
 view_put(
-    base_title => 'Classes This Year',
-    base_content => Form(
-	'ClassListForm',
-	Grid([[
-	    Tag(p => Prose(<<'EOF'), 'pr'),
+    page3_title => 'Classes This Year',
+    page3_content => Join([
+	Tag(p => Prose(<<'EOF'), 'list_prose'),
 Please enter the classes for this year.   You can change the classes
 later.  This list will be used by Freikers (and their parents) to
 identify their class.  You can delete an entry by clearing all values
 and unsetting Title and Grade.
 EOF
-        ], [
-	    Table('ClassListForm', [
-		['Class.class_grade', {
-		    enum_sort => 'as_int',
-		}],
-		['User.gender', {
-		    wf_want_select => 1,
-		    enum_sort => 'get_short_desc',
-		}],
-		qw(
-		   User.first_name
-		   User.last_name
-		   Class.class_size
-	        ),
-	    ]),
-	], [
-	    FormButton('commit_and_add_rows'),
-	], [
-	    vs_blank_cell(),
-	], [
-	    StandardSubmit({cell_align => 'center'}),
-	]]),
-    ),
+	Tag(p => Prose(<<'EOF'), 'form_prose'),
+If you run out of room to add teachers, click "Save", and more rows will
+appear after the teachers you saved.
+EOF
+	vs_list_form(ClassListForm => [
+	    ['Class.class_grade', {
+		enum_sort => 'as_int',
+	    }],
+	    ['User.gender', {
+		wf_want_select => 1,
+		enum_sort => 'get_short_desc',
+	    }],
+	    qw(
+	       User.first_name
+	       User.last_name
+	       Class.class_size
+	   ),
+	]),
+    ]),
 );
