@@ -2,56 +2,12 @@
 # $Id$
 package Freiker::Model::BarcodeUploadForm;
 use strict;
-$Freiker::Model::BarcodeUploadForm::VERSION = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-$_ = $Freiker::Model::BarcodeUploadForm::VERSION;
+use base ('Bivio::Biz::FormModel');
 
-=head1 NAME
-
-Freiker::Model::BarcodeUploadForm - barcodes
-
-=head1 RELEASE SCOPE
-
-Freiker
-
-=head1 SYNOPSIS
-
-    use Freiker::Model::BarcodeUploadForm;
-
-=cut
-
-=head1 EXTENDS
-
-L<Bivio::Biz::FormModel>
-
-=cut
-
-use Bivio::Biz::FormModel;
-@Freiker::Model::BarcodeUploadForm::ISA = ('Bivio::Biz::FormModel');
-
-=head1 DESCRIPTION
-
-C<Freiker::Model::BarcodeUploadForm>
-
-=cut
-
-#=IMPORTS
-
-#=VARIABLES
+our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = Bivio::Type->get_instance('Date');
 my($_B) = Bivio::Type->get_instance('Barcode');
 my($_IDI) = __PACKAGE__->instance_data_index;
-
-=head1 METHODS
-
-=cut
-
-=for html <a name="execute_ok"></a>
-
-=head2 execute_ok()
-
-Parses and inserts the rows.
-
-=cut
 
 sub execute_ok {
     my($self) = @_;
@@ -69,19 +25,8 @@ sub execute_ok {
     $self->internal_put_error(barcode_file => 'EMPTY')
 	unless $ok;
     $self->[$_IDI] = undef;
-    Bivio::Biz::Action->get_instance('Acknowledgement')
-        ->save_label('barcode_upload', $self->get_request)
-	unless $self->in_error;
     return;
 }
-
-=for html <a name="internal_initialize"></a>
-
-=head2 internal_initialize() : hash_ref
-
-Returns model configuration.
-
-=cut
 
 sub internal_initialize {
     my($self) = @_;
@@ -97,14 +42,6 @@ sub internal_initialize {
 	)},
     });
 }
-
-=for html <a name="validate"></a>
-
-=head2 validate()
-
-Checks codes and date.  Sets {rides} field.
-
-=cut
 
 sub validate {
     my($self) = @_;
@@ -137,12 +74,6 @@ sub validate {
     return;
 }
 
-#=PRIVATE SUBROUTINES
-
-# _get_user(self, string code) : string
-#
-# Returns user id for $code
-#
 sub _get_user {
     my($self, $code) = @_;
     my($ro) = $self->new_other('RealmOwner');
@@ -166,17 +97,13 @@ sub _get_user {
     return $ro->get('realm_id');
 }
 
-# _parse_line(self, string line, string date) : array
-#
-# Returns ($code, $date, $error)
-#
 sub _parse_line {
     my($self, $line, $date) = @_;
     return if $line =~ /^\s+$/i;
     my($c, $d, $e);
     # Some scanners print Code128 on the line, which could be interpreted
     # as a barcode
-    $line =~ s/\bCode128\b//i;
+    $line =~ s/\bCode\d+\b//i;
     unless ($c = ($_B->from_literal($line =~ $_B->REGEX))[0]) {
 	$e = 'does not contain a barcode';
     }
@@ -194,10 +121,6 @@ sub _parse_line {
     return ($c, $d, $e);
 }
 
-# _ride(self, hash_ref values) : boolean
-#
-# Creates a ride entry
-#
 sub _ride {
     my($self, $values) = @_;
     my($r) = $self->new_other('Ride');
@@ -206,15 +129,5 @@ sub _ride {
     $r->create($values);
     return 1;
 }
-
-=head1 COPYRIGHT
-
-Copyright (c) 2005 bivio Software, Inc.  All Rights Reserved.
-
-=head1 VERSION
-
-$Id$
-
-=cut
 
 1;

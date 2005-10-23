@@ -2,50 +2,11 @@
 # $Id$
 package Freiker::Model::ClassListForm;
 use strict;
-$Freiker::Model::ClassListForm::VERSION = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-$_ = $Freiker::Model::ClassListForm::VERSION;
+use base('Bivio::Biz::ExpandableListFormModel');
+use Bivio::Util::RealmAdmin;
 
-=head1 NAME
-
-Freiker::Model::ClassListForm - edit classes
-
-=head1 RELEASE SCOPE
-
-Freiker
-
-=head1 SYNOPSIS
-
-    use Freiker::Model::ClassListForm;
-
-=cut
-
-=head1 EXTENDS
-
-L<Bivio::Biz::ExpandableListFormModel>
-
-=cut
-
-use Bivio::Biz::ExpandableListFormModel;
-@Freiker::Model::ClassListForm::ISA = ('Bivio::Biz::ExpandableListFormModel');
-
-=head1 DESCRIPTION
-
-C<Freiker::Model::ClassListForm>
-
-=cut
-
-
-=head1 CONSTANTS
-
-=cut
-
-=for html <a name="MUST_BE_SPECIFIED_FIELDS"></a>
-
-=head2 MUST_BE_SPECIFIED_FIELDS : array_ref
-
-Fields we require.
-
-=cut
+our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+my($_IDI) = __PACKAGE__->instance_data_index;
 
 sub MUST_BE_SPECIFIED_FIELDS {
     return [qw(
@@ -57,51 +18,9 @@ sub MUST_BE_SPECIFIED_FIELDS {
     )];
 }
 
-=for html <a name="ROW_INCREMENT"></a>
-
-=head2 ROW_INCREMENT : int
-
-10 at a time
-
-=cut
-
 sub ROW_INCREMENT {
     return 10;
 }
-
-#=IMPORTS
-use Bivio::Util::RealmAdmin;
-
-#=VARIABLES
-my($_IDI) = __PACKAGE__->instance_data_index;
-
-=head1 METHODS
-
-=cut
-
-=for html <a name="execute_ok_end"></a>
-
-=head2 execute_ok_end(string button) : Bivio::Agent::TaskId
-
-If I<button> is commit_and_add_rows, then redirect back to this page.
-
-=cut
-
-sub execute_ok_end {
-    my($self, $button) = @_;
-    Bivio::Biz::Action->get_instance('Acknowledgement')
-        ->save_label('class_list', $self->get_request)
-	unless $self->in_error;
-    return $button eq 'commit_and_add_rows'
-        ? $self->get_request->get('task_id')
-        : undef;
-}
-
-=for html <a name="execute_ok_row"></a>
-
-=head2 execute_ok_row()
-
-=cut
 
 sub execute_ok_row {
     my($self) = @_;
@@ -139,14 +58,6 @@ sub execute_ok_row {
     return;
 }
 
-=for html <a name="internal_initialize"></a>
-
-=head2 internal_initialize() : hash_ref
-
-Returns model configuration.
-
-=cut
-
 sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
@@ -161,11 +72,6 @@ sub internal_initialize {
 			? 'NOT_ZERO_ENUM' : 'NOT_NULL',
 		};
 	    } @{$self->MUST_BE_SPECIFIED_FIELDS}),
-	    {
-		name => 'commit_and_add_rows',
-		type => 'OKButton',
-		constraint => 'NONE',
-	    },
 	],
 	other => [
 	    {
@@ -177,14 +83,6 @@ sub internal_initialize {
 	primary_key => ['Class.class_id'],
     });
 }
-
-=for html <a name="validate_row"></a>
-
-=head2 validate_row()
-
-Makes sure we have no duplicates.
-
-=cut
 
 sub validate_row {
     my($self) = shift;
@@ -200,29 +98,9 @@ sub validate_row {
     return;
 }
 
-=for html <a name="validate_start"></a>
-
-=head2 validate_start()
-
-Creates classes list for detecting duplicate.
-
-=cut
-
 sub validate_start {
     shift->[$_IDI] = {classes => {}};
     return;
 }
-
-#=PRIVATE SUBROUTINES
-
-=head1 COPYRIGHT
-
-Copyright (c) 2005 bivio Software, Inc.  All Rights Reserved.
-
-=head1 VERSION
-
-$Id$
-
-=cut
 
 1;

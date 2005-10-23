@@ -2,53 +2,9 @@
 # $Id$
 package Freiker::Model::BarcodeListForm;
 use strict;
-$Freiker::Model::BarcodeListForm::VERSION = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-$_ = $Freiker::Model::BarcodeListForm::VERSION;
+use base ('Bivio::Biz::ListFormModel');
 
-=head1 NAME
-
-Freiker::Model::BarcodeListForm - students who need names
-
-=head1 RELEASE SCOPE
-
-Freiker
-
-=head1 SYNOPSIS
-
-    use Freiker::Model::BarcodeListForm;
-
-=cut
-
-=head1 EXTENDS
-
-L<Bivio::Biz::ListFormModel>
-
-=cut
-
-use Bivio::Biz::ListFormModel;
-@Freiker::Model::BarcodeListForm::ISA = ('Bivio::Biz::ListFormModel');
-
-=head1 DESCRIPTION
-
-C<Freiker::Model::BarcodeListForm>
-
-=cut
-
-#=IMPORTS
-
-#=VARIABLES
-
-=head1 METHODS
-
-=cut
-
-=for html <a name="execute_empty_row"></a>
-
-=head2 execute_empty_row()
-
-Loads properties from list model
-
-=cut
+our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub execute_empty_row {
     my($self) = @_;
@@ -62,30 +18,6 @@ sub execute_empty_row {
     return;
 }
 
-=for html <a name="execute_ok_end"></a>
-
-=head2 execute_ok_end()
-
-Ack
-
-=cut
-
-sub execute_ok_end {
-    my($self) = @_;
-    Bivio::Biz::Action->get_instance('Acknowledgement')
-        ->save_label('barcode_list', $self->get_request)
-	unless $self->in_error;
-    return;
-}
-
-=for html <a name="execute_ok_row"></a>
-
-=head2 execute_ok_row()
-
-Enter records
-
-=cut
-
 sub execute_ok_row {
     my($self) = @_;
     my($lm) = $self->get_list_model;
@@ -97,14 +29,6 @@ sub execute_ok_row {
     );
     return;
 }
-
-=for html <a name="internal_initialize"></a>
-
-=head2 internal_initialize() : hash_ref
-
-Returns model configuration.
-
-=cut
 
 sub internal_initialize {
     my($self) = @_;
@@ -127,12 +51,6 @@ sub internal_initialize {
     });
 }
 
-=for html <a name="validate_row"></a>
-
-=head2 validate_row()
-
-=cut
-
 sub validate_row {
     my($self) = @_;
     return if $self->in_error;
@@ -144,17 +62,5 @@ sub validate_row {
 	);
     return;
 }
-
-#=PRIVATE SUBROUTINES
-
-=head1 COPYRIGHT
-
-Copyright (c) 2005 bivio Software, Inc.  All Rights Reserved.
-
-=head1 VERSION
-
-$Id$
-
-=cut
 
 1;
