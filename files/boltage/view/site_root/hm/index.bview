@@ -2,11 +2,11 @@
 # $Id$
 view_parent('base');
 view_put(
-    base_title => 'The Frequent Biker Program',
-    base_content => Join([
+    page3_title => 'The Frequent Biker Program',
+    page3_content => Join([
 	Link(Tag('div', '', 'index_freiker'), '/hm/freikers'),
 	Link(Tag('div', '', 'index_wheel'), '/hm/wheels'),
-	Tag('div', Prose(<<'EOF'), 'pr'),
+	Tag('div', Prose(<<'EOF'), 'prose'),
 <p>
 The girl on the left is a happy Link('Freiker', '/hm/freikers');.
 The Freiker program encourages kids to ride to school by bike.  It's so
@@ -21,7 +21,7 @@ barcode scanner, barcodes, and all the software you need to track
 rides.  vs_learn_more('/hm/wheels');
 </p>
 <p>
-At the end of the year, the top Freikers in your
+At the end of each week and year, the top Freikers in your
 school win Link('extra prizes', '/hm/prizes');,
 like an iPod (wow!).  And, we also keep track
 of which school does the best.  The boys below were the top Freikers

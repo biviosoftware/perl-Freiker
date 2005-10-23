@@ -2,10 +2,10 @@
 # $Id$
 view_parent('base');
 view_put(
-    base_title => 'Wheels Roll Around',
-    base_content => Join([
+    page3_title => 'Wheels Roll Around',
+    page3_content => Join([
 	Tag('div', '', 'index_wheel'),
-	Tag('div', Prose(<<'EOF'), 'pr'),
+	Tag('div', Prose(<<'EOF'), 'prose'),
 <p>
 vs_link(
 'Wheels: click here to login or register your school.', 'SCHOOL_REGISTER');

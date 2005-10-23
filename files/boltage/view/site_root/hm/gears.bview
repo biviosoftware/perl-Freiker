@@ -2,9 +2,9 @@
 # $Id$
 view_parent('base');
 view_put(
-    base_title => 'We Need Your Help!',
-    base_content => Join([
-	Tag('div', Prose(<<'EOF'), 'pr', {id => 'gr'}),
+    page3_title => 'We Need Your Help!',
+    page3_content => Join([
+	Tag('div', Prose(<<'EOF'), 'prose', {id => 'gears'}),
 <div>
 Link(Image('bivio', 'bivio Software, Inc.'), 'http://www.bivio.biz');
 </div>
@@ -29,10 +29,12 @@ a discount.
 Please contact us at
 vs_gears_email(); if you would like donate prizes or money.
 </p>
-<div class="sm">
+<div class="simple">
 Link(Image('catacom', 'Catalyst Communication, Inc.'), 'http://www.catacom.com');
 Link(Image('coyotemotors', 'Coyote Motors'), 'http://www.coyotemotors.biz/');
 Link(Image('4greenacres', 'Green Acres'), 'http://www.4greenacres.com/');
+Link(Image('mirrycle', 'Mirrycle Corp.'), 'http://www.mirrycle.com');
+Link(Image('ubikes', 'University Bicycles'), 'http://www.ubikes.com');
 Link(Image('verlo', 'Verlo Mattress Factory.'), 'http://verlo.com/customerservice/locate.do?zip=80301&radius=1');
 </div>
 EOF

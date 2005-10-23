@@ -2,10 +2,10 @@
 # $Id$
 view_parent('base');
 view_put(
-    base_title => 'Kids Have Fun!',
-    base_content => Join([
+    page3_title => 'Kids Have Fun!',
+    page3_content => Join([
 	Tag('div', '', 'index_freiker'),
-	Tag('div', Prose(<<'EOF'), 'pr'),
+	Tag('div', Prose(<<'EOF'), 'prose'),
 <p>
 vs_link('Freikers: click here to see your rides', 'FREIKER_RIDE_LIST');
 </p>
