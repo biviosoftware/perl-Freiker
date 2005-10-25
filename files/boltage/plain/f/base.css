@@ -47,7 +47,6 @@ form .check {
 }
 form .desc {
   margin: .1em 0 0 0;
-  width: 30em;
   font-size: 90%;
   color: #666666;
   clear: left;
@@ -74,7 +73,6 @@ form .field {
 }
 .label_ok, .label_err, .label {
   text-align: right;
-  white-space: nowrap;
   padding-right: .2em;
 }
 .label_ok {
@@ -92,11 +90,10 @@ form .field {
 }
 .head,
 .foot {
+  margin-bottom: 3ex;
   position: relative;
-  white-space: nowrap;
 }
 .head {
-  margin-bottom: 3ex;
 }
 .foot {
   font-size: 80%;
@@ -135,12 +132,8 @@ form .field {
   text-align: right;
   width: 30%;
 }
-.foot2 .sep {
-  margin: 0 .3em 0 .3em;
-}
 .head3 {
   font-weight: bold;
-  white-space: nowrap;
   text-transform: uppercase;
   vertical-align: top;
 }
@@ -152,7 +145,6 @@ form .field {
   border-top: 1px solid #666666;
   margin-top: .1ex;
   color: #666666;
-  white-space: nowrap;
   text-transform: uppercase;
   vertical-align: bottom;
   bottom: 0;
@@ -168,16 +160,14 @@ form .field {
   color: #666666;
   font-size: 150%;
   padding-bottom: 1ex;
-  white-space: nowrap;
 }
-.foot3 {
+.foot3, .foot2, .head2 {
   white-space: normal;
 }
 .head2 .title {
   border-top: 1px solid #666666;
   margin-top: .1ex;
   color: #666666;
-  white-space: nowrap;
   text-transform: uppercase;
 }
 .prose p {
@@ -204,6 +194,14 @@ form .sep {
 }
 #gears .simple img {
   padding: 10px;
+}
+#parents .list td {
+  padding-top: .05em;
+  padding-bottom: .05em;
+}
+#parents .list {
+  margin-top: -1ex;
+  margin-bottom: 1ex;
 }
 /*I*/
 .index_freiker, .index_wheel {
@@ -257,16 +255,17 @@ form .sep {
   padding-top: 20px;
 }
 /*I*/
-.ride_list .label {
+.list .label {
   padding-top: .2em;
-  padding-right: 1em;
+  padding-right: .5em;
   text-align: right;
   width: 50%;
 }
 /*I*/
-.ride_list .value {
+.list .value {
   padding-top: .2em;
   width: 50%;
+  padding-left: .5em;
   text-align: left;
 }
 /*I*/
