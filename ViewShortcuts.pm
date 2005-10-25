@@ -5,6 +5,13 @@ use strict;
 use base 'Bivio::UI::XHTML::ViewShortcuts';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+our($AUTOLOAD);
+
+sub AUTOLOAD {
+    return Bivio::UI::ViewLanguage->call_method(
+	$AUTOLOAD, 'Bivio::UI::ViewLanguage', @_,
+    );
+}
 
 sub vs_gears_email {
     my($proto) = @_;
@@ -31,5 +38,6 @@ sub vs_base_menu {
 	}
     );
 }
+
 
 1;
