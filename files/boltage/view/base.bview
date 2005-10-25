@@ -27,7 +27,7 @@ view_main(Page3({
 	vs_link('LOGOUT', 'LOGOUT'),
 	vs_link('YOUR RIDES', 'MY_SITE'),
     ),
-    foot2 => Join([
+    foot2 => Tag(span => Join([
 	Link('home', '/'),
 	Image('heart_9'),
 	vs_link('register your school', 'SCHOOL_REGISTER'),
@@ -38,5 +38,5 @@ view_main(Page3({
 	    task_id => 'LOGIN',
 	    no_context => 1,
 	}),
-    ]),
+    ]), 'menu'),
 }));

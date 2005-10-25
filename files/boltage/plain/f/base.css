@@ -149,10 +149,13 @@ form .field {
   vertical-align: bottom;
   bottom: 0;
 }
+.menu a {
+  white-space: nowrap;
+}
 .head2 .menu img {
   margin: 0 .3em .1ex .3em;
 }
-.foot2 img {
+.foot2 .menu img {
   margin: 0 .2em 0 .2em;
 }
 .head2 .realm {
