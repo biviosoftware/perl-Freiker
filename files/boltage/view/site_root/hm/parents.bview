@@ -24,7 +24,7 @@ keeps track of codes, and if you choose, your child's class and first name.
 Everybody can Link('win a prize', '/hm/prizes');.  Freiker is not a
 competition.  After ten rides, every Freiker (program participant) is eligble
 for a prize.  Every Monday one child wins an extra prize called the
-<b>Green Gear</b> along with $10 cash.  To be eligible for the Green Gear, a
+Green Gear along with $10 cash.  To be eligible for the Green Gear, a
 child must ride every school day the prior week.  The Green Gear is
 selected randomly from the children who rode the entire week.
 We also give out prizes at the end of the year for top Freikers in each
@@ -64,8 +64,8 @@ Grid([
 <p>
 We are concerned about your child's safety.  Riding to school is a lot of fun,
 and is is very safe.  The more kids that ride together, the more likely they
-are to be seen.  Freiker encourages kids to ride safely.  <b>We will supply
-helmets to children who need them.</b>  Please have your child wear a
+are to be seen.  Freiker encourages kids to ride safely.  We will supply
+helmets to children who need them.  Please have your child wear a
 helmet.
 </p>
 <h3>Photos</h3>
