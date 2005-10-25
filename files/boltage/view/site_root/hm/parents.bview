@@ -51,7 +51,7 @@ Grid([
             ($u =~ /^http/ ? Link($u, $u) : String($u))->put(cell_class => 'value')];
     }
 	['bivio Software, Inc.',  'http://www.bivio.biz'],
-	['DEAN Titanimum Bicycles, Inc.',  'http://www.deanbikes.com'],
+	['DEAN Titanium Bicycles, Inc.',  'http://www.deanbikes.com'],
 	['Catalyst Communication, Inc.',  'http://www.catacom.com'],
 	['Coyote Motors',  'http://www.coyotemotors.biz/'],
 	['Green Acres',  'http://www.4greenacres.com/'],
