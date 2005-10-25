@@ -4,7 +4,7 @@ view_parent('base');
 view_put(
     page3_title => 'For Parents',
     page3_content => Join([
-	Tag('div', Prose(<<'EOF'), 'prose'),
+	Tag('div', Prose(<<'EOF'), 'prose', {id => 'parents'}),
 <p>
 The Freiker Program encourages kids to ride their bikes to school.  The
 program is Link('run by volunteers', '/hm/wheels');
@@ -28,21 +28,38 @@ for a prize.  Every Monday one child wins an extra prize called the
 child must ride every school day the prior week.  The Green Gear is
 selected randomly from the children who rode the entire week.
 We also give out prizes at the end of the year for top Freikers in each
-class, grade, and for the entire year.
+class, grade, and school.
 </p>
-<h3>Login</h3>
+<h3>Rides</h3>
 <p>
-You can check your child's rides and other statistics by
-vs_link('logging into freiker.org', 'MY_SITE');.  Just get the barcode
-off your child's bike (located on the handlebars or the top tube), and
-click on vs_link('YOUR RIDES', 'MY_SITE'); in the upper right-hand corner
-of freiker.org's home page.  As a security measure, you will also be asked
-for the last three days your child rode to school.  After logging in,
-you'll be asked for your child's first name and class.  You can skip
-this step, if you like, to go to your child's rides page.  Once logged in,
-your browser will remember your login information.   We'll be adding
-features over time, and we'll announce them on the site.
+You might have noticed that we've placed barcodes on every bike (located on
+the handlebars or the top tube). Using the barcode (a letter
+followed by three numbers, e.g. A123), you can check
+your child's rides by simply clicking on vs_link('YOUR RIDES', 'MY_SITE'); in
+the upper right-hand corner of freiker.org's home page.  As a security measure,
+you will also be asked for the last three days your child rode to school.
 </p>
+<h3>Sponsors</h3>
+<p>
+Please visit our sponsors:
+</p>
+Grid([
+    map({
+        my($n, $u) = @$_;
+	[String($n, undef, {cell_class => 'label'}),
+            Image('heart_14'),
+            ($u =~ /^http/ ? Link($u, $u) : String($u))->put(cell_class => 'value')];
+    }
+	['bivio Software, Inc.',  'http://www.bivio.biz'],
+	['DEAN Titanimum Bicycles, Inc.',  'http://www.deanbikes.com'],
+	['Catalyst Communication, Inc.',  'http://www.catacom.com'],
+	['Coyote Motors',  'http://www.coyotemotors.biz/'],
+	['Green Acres',  'http://www.4greenacres.com/'],
+	['Mirrycle Corp.',  'http://www.mirrycle.com'],
+	['University Bicycles',  'http://www.ubikes.com'],
+	['Verlo Mattress Factory',  '28th and Valmont in Boulder'],
+    )
+], {class => 'list'});
 <h3>Safety</h3>
 <p>
 We are concerned about your child's safety.  Riding to school is a lot of fun,
@@ -70,19 +87,19 @@ go to your bike rack in the morning.  If you would like to bring
 Freiker to your school, contact us at vs_gears_email();, and we'll
 get you a scanner, barcodes, and start up prizes.  If you are politically
 inclined, please go to school board and/or city council meetings and
-tell them about Freiker.  Maybe they'll even give you money for Freiker!
+tell them about Freiker.  If you know how to write grants, we could
+use your help, too.
 </p>
 <h3>Donations</h3>
 <p>
-We will gladly accept donations.  100% of your money goes towards prizes
-or other rewards.  Our program is entirely volunteer run, including the
-software and hardware to run our website.  If you would like to donate,
+We will gladly accept donations.
+100% of our sponsor money and gifts goes towards prizes or other rewards.
+Our program is entirely volunteer run, including the software and hardware
+to run our website.  If you would like to donate,
 please make a check to Freiker, Inc. for any amount and give it to
 a volunteer at your school.   Freiker, Inc. is being formed as a
 501(c)3 federally, tax-exempt non-profit.  This should be completed
-in the 2005 tax year.  We will notify all people who donate $25 or more
-when and if this happens so they can get a tax deduction for their
-donation.
+in the 2005 tax year.
 </p>
 <h3>Feedback</h3>
 <p>
