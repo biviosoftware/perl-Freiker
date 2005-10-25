@@ -29,10 +29,10 @@ view_put(
 		DateTime(['Model.FreikerRideList', 'last_date']),
 	    ]),
 	], {
-	    class => 'ride_list',
+	    class => 'list',
 	}),
     ]),
-        'pr'),
+        'prose'),
 );
 
 view_pre_execute(
