@@ -5,15 +5,15 @@ view_put(
     page3_title => 'Your Rides',
     base_logout => 1,
     page3_content => Tag(div => Join([
-	If(['->unsafe_get', 'Action.Prize'],
-	   Tag('div',
-	       vs_link(
-		   'You are a winner! Click here to pick a prize.',
-		   'FREIKER_PRIZE_LIST',
-	       ),
-	       'note',
-	   ),
-       ),
+#	If(['->unsafe_get', 'Action.Prize'],
+#	   Tag('div',
+#	       vs_link(
+#		   'You are a winner! Click here to pick a prize.',
+#		   'FREIKER_PRIZE_LIST',
+#	       ),
+#	       'note',
+#	   ),
+#       ),
        Grid([
 	    map([
 		String($_->[0], 0, {cell_class => 'lb'}),
