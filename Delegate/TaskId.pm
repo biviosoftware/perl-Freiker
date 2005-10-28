@@ -122,7 +122,7 @@ sub get_delegate_info {
 	    ANYBODY
 	    Action.UserLogout
             Action.ClientRedirect->execute_next
-            next=SITE_ROOT
+            next=MY_SITE
 	)],
 	[qw(
 	    SCHOOL_REALMLESS_REDIRECT
@@ -221,6 +221,23 @@ sub get_delegate_info {
 	    FORBIDDEN=FREIKER_LOGIN
 	    next=FREIKER_RIDE_LIST
 	)],
+# 	[qw(
+#             FREIKER_PRIZE_LIST
+# 	    518
+#             USER
+# 	    ADMIN_READ&ADMIN_WRITE
+# 	    next=FREIKER_PRIZE_SELECTION
+# 	)],
+# #	    Model.FreikerPrizeListForm
+# #	    View.freiker/prize-list
+# 	[qw(
+#             FREIKER_PRIZE_SELECTION
+# 	    519
+#             USER
+# 	    ADMIN_READ
+# 	)],
+# #	    Model.FreikerPrizeSelectionList->execute_load_this_or_first
+# #	    View.freiker/prize-selection
     ]);
 }
 
