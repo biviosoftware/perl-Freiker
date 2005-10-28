@@ -10,5 +10,4 @@ view_put(
 	['upload', 'WHEEL_BARCODE_UPLOAD'],
     ]),
     base_realm => String(['auth_realm', 'owner', 'display_name']),
-    base_logout => 1,
 );

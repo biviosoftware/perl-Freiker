@@ -21,13 +21,12 @@ view_main(Page3({
 	Tag(p => view_widget_value('base_menu'), 'menu'),
 	Tag(p => view_widget_value('page3_title'), 'title'),
     ]),
-    head3 => If(
-	['auth_user'],
-	If([sub {$_[1] =~ /^WHEEL_/}, [qw(task_id ->get_name)]],
-	   vs_link('LOGOUT', 'LOGOUT'),
-	   vs_link('SWITCH FREIKER', 'LOGOUT'),
+    head3 => If([sub {$_[1] =~ /^WHEEL_/}, [qw(task_id ->get_name)]],
+	vs_link('LOGOUT', 'LOGOUT'),
+	If([sub {$_[1] =~ /^FREIKER_/}, [qw(task_id ->get_name)]],
+	    vs_link('SWITCH FREIKER', 'LOGOUT'),
+	    vs_link('YOUR RIDES', 'MY_SITE'),
         ),
-	vs_link('YOUR RIDES', 'MY_SITE'),
     ),
     foot2 => Tag(span => Join([
 	Link('home', '/'),
