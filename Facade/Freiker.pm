@@ -93,7 +93,7 @@ my($_SELF) = __PACKAGE__->new({
 	     q{The file appears to be empty or may contain all duplicate rides.}],
 	['FreikerLoginForm.barcode.NOT_FOUND' =>
 #TODO: Link to form to contact wheel
-	     q{Barcode is not in our database.  Please check and re-enter.  If you are absolutely sure vs_fe('value') is correct, please contact your school's Wheel.}],
+	     q{Barcode is not in our database.  Please check and re-enter.  If you are absolutely sure vs_fe('value'); is correct, please contact your school's Wheel.}],
 	['FreikerLoginForm.ride_date1.NULL' =>
 	     q{You must specify at least one ride.  If you have ridden fewer than three times the whole year, just leave the last one or two entries alone.}],
 	['FreikerLoginForm.ride_date1.PASSWORD_MISMATCH' =>
