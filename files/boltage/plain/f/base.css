@@ -11,7 +11,7 @@ body {
   background-color: white;
   color: black;
   margin: 1em;
-  font-size: medium;
+  font-size: small;
 }
 img, table {
   border-style: none;
@@ -62,11 +62,12 @@ form .desc {
   color: #990000;
   font-weight: bold;
   width: 30em;
-  margin-bottom: 10ex;
+  margin-bottom: 1ex;
 }
 .field_err {
   font-weight: normal;
   font-size: 80%;
+  width: 30em;
 }
 form .field {
   padding-bottom: 1em;
@@ -272,6 +273,9 @@ form .sep {
   text-align: left;
 }
 /*I*/
+form .list th, form .list td {
+  padding: 0 .5em 0 .5em;
+}
 .rank_list td, .rank_list th {
   padding-left: 1em;
 }
