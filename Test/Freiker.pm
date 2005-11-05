@@ -2,68 +2,30 @@
 # $Id$
 package Freiker::Test::Freiker;
 use strict;
-$Freiker::Test::Freiker::VERSION = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-$_ = $Freiker::Test::Freiker::VERSION;
+our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+use base ('Bivio::Test::Language::HTTP');
+use Freiker::Test;
 
-=head1 NAME
-
-Freiker::Test::Freiker - Test functions
-
-=head1 RELEASE SCOPE
-
-Freiker
-
-=head1 SYNOPSIS
-
-    use Freiker::Test::Freiker;
-
-=cut
-
-=head1 EXTENDS
-
-L<Bivio::Test::Language::HTTP>
-
-=cut
-
-use Bivio::Test::Language::HTTP;
-@Freiker::Test::Freiker::ISA = ('Bivio::Test::Language::HTTP');
-
-=head1 DESCRIPTION
-
-C<Freiker::Test::Freiker>
-
-=cut
-
-#=IMPORTS
-
-#=VARIABLES
-
-=head1 METHODS
-
-=cut
-
-=for html <a name="school_delete"></a>
-
-=head2 school_delete(string zip) : string
-
-Deletes the school by zip.
-
-=cut
-
-sub school_delete {
-    return shift->visit_uri('/_test/delete-school?zip=' . shift);
+sub do_logout {
+    return shift->visit_uri('/pub/logout');
 }
 
-#=PRIVATE SUBROUTINES
+sub login_as_wheel {
+    my($self, $email) = @_;
+    $self->home_page;
+    $self->follow_link('wheel login');
+    $self->submit_form(Login => {
+	'Your Email:' => $email || Freiker::Test->WHEEL,
+	'Password:' => Freiker::Test->PASSWORD,
+    });
+    return;
+}
 
-=head1 COPYRIGHT
-
-Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
-
-=head1 VERSION
-
-$Id$
-
-=cut
+sub school_delete {
+    my($self, $zip) = @_;
+    return $self->do_test_backdoor(SchoolDeleteForm => {
+	'Address.zip' => $zip,
+    });
+}
 
 1;
