@@ -59,6 +59,7 @@ sub internal_initialize {
             user_id => ['User.user_id', 'PRIMARY_KEY'],
             ride_date => ['Date', 'PRIMARY_KEY'],
         },
+	auth_id => 'user_id',
     });
 }
 

@@ -131,6 +131,7 @@ sub validate {
 		    sub {($self->get(shift) || '') eq $d ? 1 : ()});
 	    return --$i;
 	},
+	'unauth_iterate_start',
 	'ride_date desc',
 	{user_id => $r->get('realm_id')},
     );

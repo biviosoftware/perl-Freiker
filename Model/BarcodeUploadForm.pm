@@ -125,7 +125,7 @@ sub _ride {
     my($self, $values) = @_;
     my($r) = $self->new_other('Ride');
     return 0
-	if $r->unsafe_load($values);
+	if $r->unauth_load($values);
     $r->create($values);
     return 1;
 }
