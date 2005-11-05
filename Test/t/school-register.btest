@@ -3,9 +3,9 @@
 test_setup('Freiker');
 home_page();
 school_delete(my($zip) = '123456789');
+go_back();
 follow_link('register your school');
 my($email) = generate_local_email('big-wheel');
-#print(STDERR $email, "\n");
 submit_form('Register School' => {
     'Your Name:' => 'Big Wheel',
     'Your Email:' => $email,
@@ -15,7 +15,7 @@ submit_form('Register School' => {
     'US ZIP+4:' => $zip,
     'Website:' => 'http://big-wheel-school.org',
 });
-submit_form('Update' => {
+submit_form(Save => {
     'Teacher_0' => 'Mr.',
     'First Name_0' => 'Teacher',
     'Last Name_0' => 'First',
@@ -33,13 +33,14 @@ submit_form('Update' => {
     'Grade_3' => '3rd',
 });
 verify_text(qr/First.*11.*Second.*99/s);
-submit_form('Update');
+submit_form('Save');
 my($school) = get_uri() =~ m{http://[^/]+/(\w+)};
 my($code) = $school;
 follow_link('upload');
 $code++;
 my($freiker1) = $code++;
 my($freiker2) = $code++;
+my($freiker3) = $code++;
 use Bivio::Type::Date;
 my($_D) = 'Bivio::Type::Date';
 my($rides) = [map(
@@ -54,7 +55,7 @@ $freiker1,@{[sprintf('%04d/%02d/%02d', ($_D->to_parts($rides->[2]))[5,4,3])]}
 $freiker1 $rides_s->[3]
 $freiker1
 $freiker2 $rides_s->[1]
-@{[$code++]}
+$freiker3
 @{[$code++]}
 @{[$code++]}
 @{[$code++]}
@@ -68,7 +69,7 @@ do_table_rows(Barcode => sub {
     my($row, $index) = @_;
     $first_name_label = (grep(/First/i, keys(%$row)))[0];
     $code++;
-    die("$row->{Barcode} eq $code")
+    die($row->{Barcode}->get('text'), " ne $code")
 	unless $row->{Barcode}->get('text') eq $code;
     $v->{"Class_$index"} = $index == 2 ? 'Select Class'
 	: $index % 2 ? '1st Mr. Teacher First'
@@ -87,9 +88,9 @@ submit_form(Change => {
 });
 follow_link('freikers');
 verify_form($v);
-follow_link('LOGOUT');
+do_logout();
 
-follow_link('YOUR RIDES');
+follow_link('SWITCH FREIKER');
 submit_form(Login => {
     'Your Barcode:' => $freiker1,
     'Most Recent Ride:' => $rides_s->[0],
@@ -98,8 +99,7 @@ submit_form(Login => {
     'Three Rides Ago:' => $rides_s->[1],
 });
 verify_text(qr{Updated:.*$rides_s->[0].*Year:.*>4<.*Ride:.*$rides_s->[0]}is);
-visit_uri('/pub/logout');
-follow_link('YOUR RIDES');
+follow_link('SWITCH FREIKER');
 submit_form(Login => {
     'Your Barcode:' => $freiker2,
     'Most Recent Ride:' => $rides_s->[1],
@@ -111,15 +111,17 @@ submit_form(Update => $v = {
 verify_text(qr{Updated:.*$rides_s->[0].*Year:.*>1<.*Ride:.*$rides_s->[1]}is);
 follow_link('account');
 verify_form($v);
-#$get_to_reg->();
-#test_deviance('You must supply a value for Your Name.');
-#submit_form('Register School' => {
-#    'Your Name:' => '',
-#    'Your Email:' => 'first@test.com',
-#    'Password:' => '123456',
-#    'Re-enter Password:' => '123456',
-#    'School Name:' => 'My School',
-#    'School ZIP+4:' => '12345-6789',
-#    'School Website:' => 'http://www.myschool.com',
-#});
-#test_conformance();
+
+# Merge
+login_as_wheel($email);
+follow_link('freikers');
+submit_form(Assign => {
+    map((
+	"Class_$_" => '1st Mr. Teacher First',
+	"${first_name_label}_$_" => 'same name',
+    ), 1, 2),
+});
+submit_form('Merge' => {
+});
+verify_no_text($freiker3);
+
