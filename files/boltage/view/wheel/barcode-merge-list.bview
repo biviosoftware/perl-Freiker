@@ -1,0 +1,23 @@
+# Copyright (c) 2005 bivio Software, Inc..  All rights reserved.
+# $Id$
+view_parent('wheel');
+view_put(
+    page3_title => 'Merge Barcodes',
+    page3_content => Join([
+	Tag(p => Prose(<<'EOF'), 'list_prose'),
+The system detected different barcodes with identical Freiker names
+and classes.  Verify the merges and then click vs_text('BarcodeMergeListForm', 'ok_button');.  If
+the barcodes do indeed represent different Freikers, you probably want
+to give them unique names.
+EOF
+	vs_list_form(BarcodeMergeListForm => [
+	    qw(
+	        RealmOwner.name
+	        RealmOwner.display_name
+	        class_name
+	        RealmOwner_2.name
+	        want_merge
+	    )
+	]),
+    ]),
+);
