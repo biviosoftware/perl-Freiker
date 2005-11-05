@@ -119,7 +119,7 @@ my($_SELF) = __PACKAGE__->new({
 	[SITE_ROOT => '/*'],
 	[USER_HOME => '?'],
 	[SCHOOL_REGISTER => 'pub/register-school'],
-	[TEST_SCHOOL_DELETE => '_test/delete-school'],
+	[TEST_BACKDOOR => '_test_backdoor'],
 	[WHEEL_CLASS_LIST => '?/classes'],
 	[SCHOOL_HOME => undef],
 	[CLASS_HOME => undef],
@@ -133,6 +133,7 @@ my($_SELF) = __PACKAGE__->new({
 	[FREIKER_LOGIN => 'pub/freiker-login'],
 	[FREIKER_INFO => '?/info'],
 	[FREIKER_RIDE_LIST => '?/rides'],
+	[WHEEL_BARCODE_MERGE_LIST => '?/merge-barcodes'],
         [ROBOTS_TXT => '/robots.txt'],
     ],
     Text => [
@@ -218,6 +219,14 @@ my($_SELF) = __PACKAGE__->new({
 	    ride_date3 => 'Three Rides Ago',
 	    ok_button => 'Login',
 	]],
+	[[qw(BarcodeMergeList BarcodeMergeListForm)] => [
+	    'RealmOwner.name' => 'Original',
+	    'RealmOwner.display_name' => 'Freiker',
+	    class_name => 'Class',
+	    'RealmOwner_2.name' => 'Duplicate',
+	    want_merge => 'Merge Barcodes?',
+	    ok_button => 'Merge',
+	]],
 	[FreikerInfoForm => [
 	    'RealmOwner.display_name' => [
 		'' => 'Your First Name',
@@ -231,6 +240,7 @@ my($_SELF) = __PACKAGE__->new({
 		=> q{Your changes have been saved.},
 	    WHEEL_BARCODE_UPLOAD => q{Your upload was successful.},
 	    FREIKER_INFO => q{Your information has been updated.  Thank you.},
+	    WHEEL_BARCODE_MERGE_LIST => q{The barcodes have been merged.},
 	]],
     ],
 });

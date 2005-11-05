@@ -87,15 +87,7 @@ sub get_delegate_info {
             Action.ClientRedirect->execute_next
             next=WHEEL_CLASS_LIST
 	)],
-	[qw(
-	    TEST_SCHOOL_DELETE
-	    504
-	    GENERAL
-	    TEST_TRANSIENT
-	    Action.SchoolDelete
-            Action.ClientRedirect->execute_next
-            next=SCHOOL_REGISTER
-	)],
+#504
 	[qw(
 	    WHEEL_CLASS_LIST
 	    505
@@ -154,7 +146,7 @@ sub get_delegate_info {
 	    Model.BarcodeList->execute_load_all_with_query
 	    Model.BarcodeListForm
 	    View.wheel/barcode-list
-	    next=WHEEL_FREIKER_RANK_LIST
+	    next=WHEEL_BARCODE_MERGE_LIST
 	)],
 	[qw(
 	    SCHOOL_RANK_LIST
@@ -221,6 +213,19 @@ sub get_delegate_info {
 	    FORBIDDEN=FREIKER_LOGIN
 	    next=FREIKER_RIDE_LIST
 	)],
+	[qw(
+	    WHEEL_BARCODE_MERGE_LIST
+	    518
+	    SCHOOL
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.Lock
+	    Model.BarcodeList->execute_load_all
+	    Model.BarcodeMergeList->execute_load_all
+	    Model.BarcodeMergeListForm
+	    View.wheel/barcode-merge-list
+	    next=WHEEL_FREIKER_RANK_LIST
+	    want_query=0
+        )],
 # 	[qw(
 #             FREIKER_PRIZE_LIST
 # 	    518
