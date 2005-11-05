@@ -77,7 +77,7 @@ sub internal_initialize {
 	other => [
 	    {
 		name => 'class_name',
-		type => 'Name',
+		type => 'Line',
 		constraint => 'NOT_NULL',
 	    },
 	    [qw(User.user_id RealmUser.user_id)],
