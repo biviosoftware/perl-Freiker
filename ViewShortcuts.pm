@@ -13,6 +13,23 @@ sub AUTOLOAD {
     );
 }
 
+sub vs_barcode_ride_link {
+    my($self, $field) = @_;
+    return [$field, {
+	column_widget => Link(
+	    String([['->get_list_model'], $field]),
+	    [sub {
+		 return {
+		     task_id => 'WHEEL_BARCODE_RIDE_LIST',
+		     query => {
+			 'ListQuery.parent_id' => $_[1],
+		     },
+		 };
+	     }, [['->get_list_model'], $field]],
+	),
+    }];
+}
+
 sub vs_gears_email {
     my($proto) = @_;
     return $proto->vs_call(
