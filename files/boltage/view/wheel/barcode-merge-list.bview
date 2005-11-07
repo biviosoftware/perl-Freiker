@@ -11,13 +11,11 @@ the barcodes do indeed represent different Freikers, you probably want
 to give them unique names.
 EOF
 	vs_list_form(BarcodeMergeListForm => [
-	    qw(
-	        RealmOwner.name
-	        RealmOwner.display_name
-	        class_name
-	        RealmOwner_2.name
-	        want_merge
-	    )
+	    vs_barcode_ride_link('RealmOwner.name'),
+	    'RealmOwner.display_name',
+	    'class_name',
+	    vs_barcode_ride_link('RealmOwner_2.name'),
+	    'want_merge',
 	]),
     ]),
 );

@@ -5,7 +5,7 @@ view_put(
     page3_title => 'Freiker Rankings',
     page3_content => Table(FreikerRankList => [
 	'ride_count',
-	'RealmOwner.name',
+	vs_barcode_ride_link('RealmOwner.name'),
 	'RealmOwner.display_name',
 	['class_name', {
 	    column_order_by => [qw(Class.class_grade User.last_name User.first_name)],

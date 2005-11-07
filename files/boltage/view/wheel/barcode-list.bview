@@ -9,7 +9,7 @@ Please assign classes to barcodes. You can change
 the assignments later.  You need all the information, or none.
 EOF
 	vs_list_form(BarcodeListForm => [
-	    ['RealmOwner.name', {wf_want_display => 1}],
+	    vs_barcode_ride_link('RealmOwner.name'),
 	    ['RealmOwner.display_name', {
 		column_heading => 'BarcodeListForm.RealmOwner.display_name',
 	    }],
