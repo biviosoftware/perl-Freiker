@@ -100,6 +100,8 @@ my($_SELF) = __PACKAGE__->new({
 	     q{One or more of the dates did not match our database.  Please check and re-enter.  If you are absolutely sure these dates are correct, please contact your school's Wheel.}],
 	[[map("FreikerLoginForm.ride_date$_.PASSWORD_MISMATCH", 2, 3)] =>
 	     q{See above}],
+	['BarcodeMergeListForm.want_merge.MERGE_OVERLAP' =>
+	     q{At least one overlapping ride date (DateTime(['Ride.ride_date']);).  Might be wrong barcodes, or perhaps accidental duplicates.  Click on the barcodes on this line to see the rides, and delete duplicates.}],
     ],
     HTML => [
 	[want_secure => 0],
@@ -134,6 +136,7 @@ my($_SELF) = __PACKAGE__->new({
 	[FREIKER_INFO => '?/info'],
 	[FREIKER_RIDE_LIST => '?/rides'],
 	[WHEEL_BARCODE_MERGE_LIST => '?/merge-barcodes'],
+	[WHEEL_BARCODE_RIDE_LIST => '?/freiker-rides'],
         [ROBOTS_TXT => '/robots.txt'],
     ],
     Text => [
@@ -227,6 +230,11 @@ my($_SELF) = __PACKAGE__->new({
 	    want_merge => 'Merge Barcodes?',
 	    ok_button => 'Merge',
 	]],
+	[[qw(BarcodeRideList BarcodeRideListForm)] => [
+	    'Ride.ride_date' => 'Ride Date',
+	    want_delete => 'Delete?',
+	    ok_button => 'Delete',
+	]],
 	[FreikerInfoForm => [
 	    'RealmOwner.display_name' => [
 		'' => 'Your First Name',
@@ -241,6 +249,7 @@ my($_SELF) = __PACKAGE__->new({
 	    WHEEL_BARCODE_UPLOAD => q{Your upload was successful.},
 	    FREIKER_INFO => q{Your information has been updated.  Thank you.},
 	    WHEEL_BARCODE_MERGE_LIST => q{The barcodes have been merged.},
+	    WHEEL_BARCODE_RIDE_LIST => q{The rides have been deleted.},
 	]],
     ],
 });

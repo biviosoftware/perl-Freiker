@@ -226,6 +226,17 @@ sub get_delegate_info {
 	    next=WHEEL_FREIKER_RANK_LIST
 	    want_query=0
         )],
+	[qw(
+	    WHEEL_BARCODE_RIDE_LIST
+	    519
+	    SCHOOL
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.Lock
+	    Model.BarcodeRideList->execute_load_all_with_query
+	    Model.BarcodeRideListForm
+	    View.wheel/barcode-ride-list
+	    next=WHEEL_FREIKER_RANK_LIST
+        )],
 # 	[qw(
 #             FREIKER_PRIZE_LIST
 # 	    518
