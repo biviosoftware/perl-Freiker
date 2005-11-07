@@ -1,0 +1,17 @@
+# Copyright (c) 2005 bivio Software, Inc..  All rights reserved.
+# $Id$
+view_parent('wheel');
+view_put(
+    page3_title => Join([
+	'Rides for barcode ',
+	[['Model.BarcodeRideList', '->set_cursor_or_die', 0], 'RealmOwner.name'],
+    ]),
+    page3_content => vs_list_form(
+	BarcodeRideListForm => [
+	    qw(
+	        Ride.ride_date
+	        want_delete
+	    )
+	],
+    ),
+);
