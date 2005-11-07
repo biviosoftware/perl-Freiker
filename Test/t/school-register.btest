@@ -41,6 +41,7 @@ $code++;
 my($freiker1) = $code++;
 my($freiker2) = $code++;
 my($freiker3) = $code++;
+my($freiker4) = $code++;
 use Bivio::Type::Date;
 my($_D) = 'Bivio::Type::Date';
 my($rides) = [map(
@@ -52,11 +53,11 @@ submit_form(Upload => {
     'Barcode File:' => file_field($_D->to_file_name($rides->[0]), <<"EOF"),
 $freiker1 $rides_s->[1]
 $freiker1,@{[sprintf('%04d/%02d/%02d', ($_D->to_parts($rides->[2]))[5,4,3])]}
-$freiker1 $rides_s->[3]
 $freiker1
 $freiker2 $rides_s->[1]
 $freiker3
-@{[$code++]}
+$freiker4
+$freiker4 $rides_s->[3]
 @{[$code++]}
 @{[$code++]}
 EOF
@@ -98,7 +99,7 @@ submit_form(Login => {
     'Ride Before Last:' => $rides_s->[2],
     'Three Rides Ago:' => $rides_s->[1],
 });
-verify_text(qr{Updated:.*$rides_s->[0].*Year:.*>4<.*Ride:.*$rides_s->[0]}is);
+verify_text(qr{Updated:.*$rides_s->[0].*Year:.*>3<.*Ride:.*$rides_s->[0]}is);
 follow_link('SWITCH FREIKER');
 submit_form(Login => {
     'Your Barcode:' => $freiker2,
@@ -118,10 +119,29 @@ follow_link('freikers');
 submit_form(Assign => {
     map((
 	"Class_$_" => '1st Mr. Teacher First',
-	"${first_name_label}_$_" => 'same name',
-    ), 1, 2),
+	"${first_name_label}_$_" => 'same name' . ($_ =~ /1|2/ ? 1 : 2),
+    ), 0, 1, 2, 3),
 });
-submit_form('Merge' => {
+test_deviance('overlap');
+submit_form('Merge');
+test_conformance();
+follow_link($freiker4);
+submit_form(Delete => {
+    'Delete?_0' => 1,
 });
+submit_form('Merge');
 verify_no_text($freiker3);
-
+verify_no_text($freiker4);
+follow_link('rankings');
+do_table_rows(Rides => sub {
+    my($row, $index) = @_;
+    Bivio::Die->die($row)
+        unless ({
+	    $freiker1 => 4,
+	    $freiker2 => 2,
+	    # Should not be found
+	    $freiker3 => 99,
+	    $freiker4 => 99,
+	}->{$row->{Barcode}->get('text')} || 1) == $row->{Rides}->get('text');
+    return 1;
+});
