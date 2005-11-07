@@ -57,6 +57,9 @@ sub get_delegate_info {
 	    undef,
 	    'Implementation restriction: You cannot delete a class at this time.',
 	],
+	MERGE_OVERLAP => [
+	    503,
+	],
     ];
 }
 
