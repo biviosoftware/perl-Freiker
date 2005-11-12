@@ -130,18 +130,18 @@ submit_form(Delete => {
     'Delete?_0' => 1,
 });
 submit_form('Merge');
-verify_no_text($freiker3);
-verify_no_text($freiker4);
+verify_no_text($freiker1);
+verify_no_text($freiker2);
 follow_link('rankings');
 do_table_rows(Rides => sub {
     my($row, $index) = @_;
     Bivio::Die->die($row)
         unless ({
-	    $freiker1 => 4,
-	    $freiker2 => 2,
+	    $freiker3 => 2,
+	    $freiker4 => 4,
 	    # Should not be found
-	    $freiker3 => 99,
-	    $freiker4 => 99,
+	    $freiker1 => 99,
+	    $freiker2 => 99,
 	}->{$row->{Barcode}->get('text')} || 1) == $row->{Rides}->get('text');
     return 1;
 });
