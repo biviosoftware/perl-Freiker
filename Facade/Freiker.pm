@@ -100,7 +100,7 @@ my($_SELF) = __PACKAGE__->new({
 	     q{One or more of the dates did not match our database.  Please check and re-enter.  If you are absolutely sure these dates are correct, please contact your school's Wheel.}],
 	[[map("FreikerLoginForm.ride_date$_.PASSWORD_MISMATCH", 2, 3)] =>
 	     q{See above}],
-	['BarcodeMergeListForm.want_merge.MERGE_OVERLAP' =>
+	['BarcodeMergeListForm.reverse_merge.MERGE_OVERLAP' =>
 	     q{At least one overlapping ride date (DateTime(['Ride.ride_date']);).  Might be wrong barcodes, or perhaps accidental duplicates.  Click on the barcodes on this line to see the rides, and delete duplicates.}],
     ],
     HTML => [
@@ -227,7 +227,7 @@ my($_SELF) = __PACKAGE__->new({
 	    'RealmOwner.display_name' => 'Freiker',
 	    class_name => 'Class',
 	    'RealmOwner_2.name' => 'Duplicate',
-	    want_merge => 'Merge Barcodes?',
+	    reverse_merge => "Use Higher Number\nas Original",
 	    ok_button => 'Merge',
 	]],
 	[[qw(BarcodeRideList BarcodeRideListForm)] => [

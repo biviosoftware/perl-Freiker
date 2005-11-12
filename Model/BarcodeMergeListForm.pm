@@ -6,20 +6,17 @@ use base 'Bivio::Biz::ListFormModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
-sub execute_empty_row {
-    shift->internal_put_field(want_merge => 1);
-    return;
-}
-
 sub execute_ok_row {
     my($self) = @_;
-    return unless $self->get('want_merge');
     my($lm) = $self->get_list_model;
     my($to, $from) = map(
 	$self->new_other('RealmOwner')->unauth_load_or_die({
 	    name => $_,
 	}),
-	$lm->get(qw(RealmOwner.name RealmOwner_2.name)));
+	$lm->get(
+	    $self->get('reverse_merge') ? qw(RealmOwner_2.name RealmOwner.name)
+	    : qw(RealmOwner.name RealmOwner_2.name)
+	));
     my($req) = $self->get_request;
     my($prev) = $req->get('auth_realm');
     $self->new_other('Ride')->do_iterate(
@@ -31,7 +28,7 @@ sub execute_ok_row {
 	    };
 	    $r->unauth_delete;
 	    if ($r->unauth_load($v)) {
-		$self->internal_put_error(want_merge => 'MERGE_OVERLAP');
+		$self->internal_put_error(reverse_merge => 'MERGE_OVERLAP');
 		$self->internal_put_field('Ride.ride_date' => $v->{ride_date});
 		return 0;
 	    }
@@ -66,7 +63,7 @@ sub internal_initialize {
         list_class => 'BarcodeMergeList',
 	visible => [
 	    {
-		name => 'want_merge',
+		name => 'reverse_merge',
 		type => 'Boolean',
 		constraint => 'NOT_NULL',
 		in_list => 1,
