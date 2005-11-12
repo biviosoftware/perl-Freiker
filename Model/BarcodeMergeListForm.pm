@@ -14,8 +14,8 @@ sub execute_ok_row {
 	    name => $_,
 	}),
 	$lm->get(
-	    $self->get('reverse_merge') ? qw(RealmOwner_2.name RealmOwner.name)
-	    : qw(RealmOwner.name RealmOwner_2.name)
+	    $self->get('reverse_merge') ? qw(RealmOwner.name RealmOwner_2.name)
+	    : qw(RealmOwner_2.name RealmOwner.name),
 	));
     my($req) = $self->get_request;
     my($prev) = $req->get('auth_realm');

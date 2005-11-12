@@ -223,11 +223,11 @@ my($_SELF) = __PACKAGE__->new({
 	    ok_button => 'Login',
 	]],
 	[[qw(BarcodeMergeList BarcodeMergeListForm)] => [
-	    'RealmOwner.name' => 'Original',
+	    'RealmOwner_2.name' => 'To Keep',
 	    'RealmOwner.display_name' => 'Freiker',
 	    class_name => 'Class',
-	    'RealmOwner_2.name' => 'Duplicate',
-	    reverse_merge => "Use Higher Number\nas Original",
+	    'RealmOwner.name' => 'To Merge',
+	    reverse_merge => "Keep Lower Number",
 	    ok_button => 'Merge',
 	]],
 	[[qw(BarcodeRideList BarcodeRideListForm)] => [
