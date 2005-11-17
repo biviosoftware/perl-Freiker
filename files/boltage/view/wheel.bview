@@ -3,7 +3,7 @@
 view_parent('base');
 view_put(
     base_menu => vs_base_menu([
-	['account', 'WHEEL_USER_PASSWORD'],
+	['account', 'USER_PASSWORD'],
 	['classes', 'WHEEL_CLASS_LIST'],
 	['freikers', 'WHEEL_BARCODE_LIST'],
 	['rankings', 'WHEEL_FREIKER_RANK_LIST'],

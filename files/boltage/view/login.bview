@@ -13,6 +13,7 @@ view_put(
 	       UserLoginForm.login
 	       UserLoginForm.RealmOwner.password
 	    },
+	    Link('Forgot your password?  Click here.', 'GENERAL_USER_PASSWORD_QUERY'),
         ],
     ),
 );
