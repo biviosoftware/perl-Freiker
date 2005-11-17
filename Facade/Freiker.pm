@@ -83,6 +83,7 @@ my($_SELF) = __PACKAGE__->new({
     ],
     FormError => [
 	[NULL => 'You must supply a value for vs_fe("label");.'],
+	[NOT_FOUND => 'vs_fe("label"); was not found in our database.'],
 	['SchoolRegisterForm.School.website.EXISTS' =>
 	     q{This school's website is already registered.  Please try to find the "wheel" at your school.}],
 	['SchoolRegisterForm.RealmOwner_2.display_name.EXISTS' =>
@@ -120,6 +121,11 @@ my($_SELF) = __PACKAGE__->new({
 	[SHELL_UTIL => undef],
 	[SITE_ROOT => '/*'],
 	[USER_HOME => '?'],
+	[GENERAL_USER_PASSWORD_QUERY => '/pub/forgot-password'],
+	[GENERAL_USER_PASSWORD_QUERY_MAIL => undef],
+	[GENERAL_USER_PASSWORD_QUERY_ACK => '/pub/forgot-password-ack'],
+	[USER_PASSWORD_RESET => '?/new-password'],
+	[USER_PASSWORD => '?/change-password'],
 	[SCHOOL_REGISTER => 'pub/register-school'],
 	[TEST_BACKDOOR => '_test_backdoor'],
 	[WHEEL_CLASS_LIST => '?/classes'],
@@ -130,7 +136,6 @@ my($_SELF) = __PACKAGE__->new({
 	[WHEEL_BARCODE_LIST => '?/assign-barcodes'],
 	[SCHOOL_RANK_LIST => '/pub/schools'],
 	[WHEEL_FREIKER_RANK_LIST => '?/freiker-rankings'],
-	[WHEEL_USER_PASSWORD => '?/change-password'],
 	[USER_REALMLESS_REDIRECT => 'ru/*'],
 	[FREIKER_LOGIN => 'pub/freiker-login'],
 	[FREIKER_INFO => '?/info'],
@@ -140,9 +145,9 @@ my($_SELF) = __PACKAGE__->new({
         [ROBOTS_TXT => '/robots.txt'],
     ],
     Text => [
-	[support_email => 'support'],
+	[support_email => 'gears'],
 #TODO:	    [support_phone => '(800) 555-1212'],
-	[site_name => q{Freiker: The Frequent Biker Program}],
+	[site_name => q{Freiker}],
 	[site_copyright => q{bivio Software, Inc.}],
 	[home_page_uri => '/hm/index'],
 	[view_execute_uri_prefix => 'site_root/'],
@@ -222,6 +227,7 @@ my($_SELF) = __PACKAGE__->new({
 	    ride_date3 => 'Three Rides Ago',
 	    ok_button => 'Login',
 	]],
+	['UserPasswordQueryForm.ok_button' => 'Send'],
 	[[qw(BarcodeMergeList BarcodeMergeListForm)] => [
 	    'RealmOwner_2.name' => 'To Keep',
 	    'RealmOwner.display_name' => 'Freiker',
@@ -250,6 +256,9 @@ my($_SELF) = __PACKAGE__->new({
 	    FREIKER_INFO => q{Your information has been updated.  Thank you.},
 	    WHEEL_BARCODE_MERGE_LIST => q{The barcodes have been merged.},
 	    WHEEL_BARCODE_RIDE_LIST => q{The rides have been deleted.},
+	    USER_PASSWORD => q{Your password has been changed.},
+	    GENERAL_USER_PASSWORD_QUERY => q{An email has been sent to String([qw(Model.UserPasswordQueryForm Email.email)]);.  The email contains a link back to this site so you can reset your password.},
+	    password_nak => q{We're sorry, but the link you clicked on is no longer valid.  Please enter your email address and send again.},
 	]],
     ],
 });
