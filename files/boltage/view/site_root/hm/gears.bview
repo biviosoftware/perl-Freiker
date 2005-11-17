@@ -34,6 +34,7 @@ Link(Image('catacom', 'Catalyst Communication, Inc.'), 'http://www.catacom.com')
 Link(Image('coyotemotors', 'Coyote Motors'), 'http://www.coyotemotors.biz/');
 Link(Image('4greenacres', 'Green Acres'), 'http://www.4greenacres.com/');
 Link(Image('mirrycle', 'Mirrycle Corp.'), 'http://www.mirrycle.com');
+Link(Image('resourcerevival', 'Resource Revival, Inc.'), 'http://www.resourcerevival.com');
 Link(Image('ubikes', 'University Bicycles'), 'http://www.ubikes.com');
 Link(Image('verlo', 'Verlo Mattress Factory.'), 'http://verlo.com/customerservice/locate.do?zip=80301&radius=1');
 </div>
