@@ -45,7 +45,7 @@ sub initialize_test_data {
 	    'RealmOwner.password' => Freiker::Test->PASSWORD,
 	    'confirm_password' => Freiker::Test->PASSWORD,
 	    'School.website' => Freiker::Test->WEBSITE,
-	    'Email.email' => $self->format_email(Freiker::Test->WHEEL),
+	    'Email.email' => $self->format_test_email(Freiker::Test->WHEEL),
 	},
     );
     Bivio::Biz::Model->new($req, 'Class')->create_realm({
@@ -62,7 +62,7 @@ sub initialize_test_data {
 	    'RealmOwner.name' => Freiker::Test->ADM,
 	    'RealmOwner.password' => Freiker::Test->PASSWORD,
 	    'confirm_password' => Freiker::Test->PASSWORD,
-	    'Email.email' => $self->format_email(Freiker::Test->ADM),
+	    'Email.email' => $self->format_test_email(Freiker::Test->ADM),
 	},
     );
     $self->new_other('Bivio::Biz::Util::RealmRole')->make_super_user;
