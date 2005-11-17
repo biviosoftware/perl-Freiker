@@ -229,18 +229,6 @@ sub get_delegate_info {
 	    View.wheel/barcode-ride-list
 	    next=WHEEL_FREIKER_RANK_LIST
         )],
-#TODO: Remove
-	[qw(
-	    GENERAL_USER_PASSWORD_QUERY
-	    18
-	    GENERAL
-	    ANYBODY
-	    Model.UserPasswordQueryForm
-	    View.user-password-query
-	    reset_task=USER_PASSWORD_RESET
-	    next=GENERAL_USER_PASSWORD_QUERY_MAIL
-	    cancel=SITE_ROOT
-	)],
 # 	[qw(
 #             FREIKER_PRIZE_LIST
 # 	    518
