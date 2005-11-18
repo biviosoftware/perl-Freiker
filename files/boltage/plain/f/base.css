@@ -4,7 +4,7 @@ a:link, a:visited, a:hover, a:active {
 }
 a:hover {
   color: #99FF33;
-  text-decoration: underline;,
+  text-decoration: underline;
 }
 body {
   font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif;
@@ -187,7 +187,7 @@ form .sep {
   border-top: 1px solid #33CC00;
 }
 .warn {
-  font-weight: italic;
+  font-style: italic;
   color: #990001;
 }
 .submit, .empty_list {
@@ -251,7 +251,7 @@ form .sep {
   float: left;
 }
 .prize_right {
-  padding-left; 2em;
+  padding-left: 2em;
   clear: right;
   float: right;
 }
