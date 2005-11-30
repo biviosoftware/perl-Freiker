@@ -11,8 +11,8 @@ Tag(span => '10 ride', 'prize_rides'); prizes.
 Your wheels will have a bag or box of them.
 Link('Click here to donate prizes or money.', '/hm/gears');
 </p>
-Image('green_gear_120', undef, {class => 'prize_right'});
 <p>
+Link(Image('green_gear', undef, {class => 'prize_right'}), 'http://www.resourcerevival.com');
 Every Monday (or the first school day in the week), we award the Green Gear
 to the top Freiker of the Week.  If several Freikers are tied, we choose one
 at random.  The Freiker of the Week also wins $10.  Yes, TEN DOLLARS, just for
@@ -21,23 +21,38 @@ You get to use those same rides for any of the ride prizes below.  Special
 thanks to Link('Resource Revival, Inc.', 'http://www.resourcerevival.com');
 for supplying the gears.
 </p>
-Image('mirrycle_bells', undef, {class => 'prize_left'});
 <p>
+Link(Image('ubikes_water_bottle', undef, {class => 'prize_left'}), 'http://ubikes.com');
+Slurp! Cool water bottles donated by
+Link('University Bicycles', 'http://ubikes.com'); are just the thing
+for hard-riding Freikers.  Stay hydrated when you ride.  Quench
+your thirst with Tag(span => '10 rides', 'prize_rides');.
+</p>
+<p>
+Link(Image('mirrycle_bells', undef, {class => 'prize_right'}), 'http://www.mirrycle.com');
 Ring! We've got Jellibells, Candibells, and more types of bells than you
 can imagine.  All of these bells were donated by
 Link('Mirrycle Corporation', 'http://www.mirrycle.com');
 maker of fine bells and mirrors.  You can make a racket after
 just Tag(span => '10 rides', 'prize_rides');.
 </p>
-Image('ubikes_water_bottle', undef, {class => 'prize_right'});
 <p>
-Slurp! Cool water bottles donated by
-Link('University Bicycles', 'http://ubikes.com'); are just the thing
-for hard-riding Freikers.  Stay hydrated when you ride.  Quench
-your thirst with Tag(span => '10 rides', 'prize_rides');.
+Link(Image('lance_poster', undef, {class => 'prize_left'}), 'http://www.grahamwatson.com');
+Ooo La La! Link('Graham Watson', 'http://www.grahamwatson.com'); posters
+of Lance Armstrong winning the 2005 Tour de France.  The color and
+scenes are magnificent.  A great way to spice up any Freiker's bedroom
+after only Tag(span => '20 rides', 'prize_rides');.
 </p>
-Image('cateye_velo_5', undef, {class => 'prize_left'});
 <p>
+Link(Image('lance_calendar', undef, {class => 'prize_right'}), 'http://www.grahamwatson.com');
+2006! Lance Armstrong calendars from
+Link('Graham Watson', 'http://www.grahamwatson.com'); so you can
+keep track of your Freiker rides, or your homework.  OK, scratch the homework
+bit, you only need Tag(span => '40 rides', 'prize_rides'); for these
+great looking calendars.
+</p>
+<p>
+Link(Image('cateye_velo_5', undef, {class => 'prize_left'}), 'http://www.deanbikes.com');
 Zoom! You can see how fast you are going with the Cateye Velo 5
 Cyclocomputer, which was graciously donated by
 Link('Dean Titanium Bicycles', 'http://www.deanbikes.com');
@@ -47,6 +62,12 @@ auto start/stop, auto-power saving. Functions include current speed,
 elapsed time, total distance, trip distance, average speed and
 a clock (12/24hr).  It's yours after Tag(span => '50 rides', 'prize_rides');.
 </p>
+<p>
+Link(Image('ice_cream_cone', undef, {class => 'prize_right'}), 'http://www.hattoncreamery.com');
+Yum! The Freikers in the top class for each grade will win a free
+Link('Hatton Organic Creamery', 'http://www.hattoncreamery.com'); kid's ice
+cream.  What could be better than a cold ice cream to cool you off after
+a hot Spring day at school.
 EOF
 	Tag(div => '', 'index_winners'),
     ]),
