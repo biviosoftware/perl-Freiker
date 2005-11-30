@@ -32,7 +32,9 @@ vs_gears_email(); if you would like donate prizes or money.
 <div class="simple">
 Link(Image('catacom', 'Catalyst Communication, Inc.'), 'http://www.catacom.com');
 Link(Image('coyotemotors', 'Coyote Motors'), 'http://www.coyotemotors.biz/');
+Link(Image('grahamwatson', 'Graham Watson'), 'http://www.grahamwatson.com/');
 Link(Image('4greenacres', 'Green Acres'), 'http://www.4greenacres.com/');
+Link(Image('hattoncreamery', 'Hatton Organic Creamery'), 'http://www.hattoncreamery.com/');
 Link(Image('mirrycle', 'Mirrycle Corp.'), 'http://www.mirrycle.com');
 Link(Image('resourcerevival', 'Resource Revival, Inc.'), 'http://www.resourcerevival.com');
 Link(Image('ubikes', 'University Bicycles'), 'http://www.ubikes.com');
