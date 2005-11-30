@@ -6,6 +6,12 @@ a:hover {
   color: #99FF33;
   text-decoration: underline;
 }
+a img {
+  border: 1px solid #FFFFFF;
+}
+a:hover img {
+  border: 1px solid #99FF33;
+}
 body {
   font-family: Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif;
   background-color: white;
