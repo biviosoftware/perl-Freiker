@@ -18,6 +18,6 @@ EOF
 		choices => ['Model.ClassSelectList'],
 		list_display_field => ['class_name'],
 	    }],
-	]),
+	], 'No barcodes found.  Please upload barcode data.'),
     ]),
 );
