@@ -37,6 +37,7 @@ C<Freiker::Model::Class>
 #=IMPORTS
 
 #=VARIABLES
+my($_D) = 'Bivio::Type::Date';
 
 =head1 METHODS
 
@@ -55,8 +56,8 @@ B<Does not set the realm.>
 
 sub create_realm {
     my($self, $class, $teacher) = @_;
-    Bivio::Die->die('need to set dates properly in 2006')
-	if Bivio::Type::DateTime->now_as_year >= 2006;
+    Bivio::Die->die('need to set dates properly after June 1, 2006')
+	    if $_D->compare($_D->now, $_D->from_literal('6/1/2006')) > 0;
     $self->new_other('RealmOwner')->create({
 	realm_type => Bivio::Auth::RealmType->CLASS,
 	realm_id => $self->create({
