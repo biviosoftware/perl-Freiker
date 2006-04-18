@@ -4,8 +4,8 @@ view_parent('base');
 view_put(
     page3_title => 'Wheels Roll Around',
     page3_content => Join([
-	Tag('div', '', 'index_wheel'),
-	Tag('div', Prose(<<'EOF'), 'prose'),
+	vs_main_img('wheel'),
+	vs_prose(<<'EOF'),
 <p>
 vs_link(
 'Wheels: click here to login or register your school.', 'SCHOOL_REGISTER');

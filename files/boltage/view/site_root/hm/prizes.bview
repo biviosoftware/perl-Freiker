@@ -4,7 +4,7 @@ view_parent('base');
 view_put(
     page3_title => 'Ride and Win!',
     page3_content => Join([
-	Tag('div', Prose(<<'EOF'), 'prose'),
+	vs_prose(<<'EOF'),
 <p>
 Prizes are delivered on Friday. We have a variety of
 Tag(span => '10 ride', 'prize_rides'); prizes.
@@ -69,6 +69,6 @@ Link('Hatton Organic Creamery', 'http://www.hattoncreamery.com'); kid's ice
 cream.  What could be better than a cold ice cream to cool you off after
 a hot Spring day at school.
 EOF
-	Tag(div => '', 'index_winners'),
+	vs_main_img('winners'),
     ]),
 );

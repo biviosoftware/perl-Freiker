@@ -4,9 +4,9 @@ view_parent('base');
 view_put(
     page3_title => 'The Frequent Biker Program',
     page3_content => Join([
-	Link(Tag('div', '', 'index_freiker'), '/hm/freikers'),
-	Link(Tag('div', '', 'index_wheel'), '/hm/wheels'),
-	Tag('div', Prose(<<'EOF'), 'prose'),
+	Link(vs_main_img('freiker'), '/hm/freikers'),
+	Link(vs_main_img('wheel'), '/hm/wheels'),
+	vs_prose(<<'EOF'),
 <p>
 The girl on the left is a happy Link('Freiker', '/hm/freikers');.
 The Freiker program encourages kids to ride to school by bike.  It's so
@@ -37,6 +37,6 @@ the Wheels around.  We have many levels of sponsorship available.
 vs_learn_more('/hm/gears');
 </p>
 EOF
-	Link(Tag(div => '', 'index_winners'), '/hm/prizes'),
+	Link(vs_main_img('winners'), '/hm/prizes'),
     ]),
 );
