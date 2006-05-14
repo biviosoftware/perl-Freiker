@@ -204,6 +204,7 @@ form .sep {
 }
 #gears .simple img {
   padding: 10px;
+  vertical-align: middle;
 }
 #parents .list td {
   padding-top: .05em;
