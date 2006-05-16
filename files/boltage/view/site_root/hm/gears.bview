@@ -35,6 +35,7 @@ Link(Image('4greenacres', 'Green Acres'), 'http://www.4greenacres.com');
 Link(Image('hattoncreamery', 'Hatton Organic Creamery'), 'http://www.hattoncreamery.com');
 Link(Image('mirrycle', 'Mirrycle Corp.'), 'http://www.mirrycle.com');
 Link(Image('resourcerevival', 'Resource Revival, Inc.'), 'http://www.resourcerevival.com');
+Link(Image('skyetek', 'Skyetek, Inc.'), 'http://www.skyetek.com');
 Link(Image('ubikes', 'University Bicycles'), 'http://www.ubikes.com');
 Link(Image('vectrabank', 'VectraBank'), 'http://www.vectrabank.com');
 Link(Image('verlo', 'Verlo Mattress Factory.'), 'http://verlo.com/customerservice/locate.do?zip=80301&radius=1');
