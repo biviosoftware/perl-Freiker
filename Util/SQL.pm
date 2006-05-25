@@ -8,6 +8,8 @@ use Freiker::Test;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
+# su - postgres -c 'createuser --no-createdb --no-adduser --pwprompt fruser; createdb --owner fruser fr'
+
 sub ddl_files {
     return shift->SUPER::ddl_files(['bOP', 'fr']);
 }
