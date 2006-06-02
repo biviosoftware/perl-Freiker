@@ -89,11 +89,26 @@ form .field {
   vertical-align: middle;
   font-style: italic;
 }
-.form_prose, .list_prose {
+.form_prose, .list_prose, div.press {
   margin: auto;
   width: 80%;
   text-align: left;
   padding: 1ex;
+}
+.press h3 {
+  margin-top: 2ex;
+  margin-bottom: 2ex;
+}
+.press h4 {
+  margin-top: 1ex;
+  margin-bottom: 0;
+}
+.press div {
+  margin-top: 1.5ex;
+}
+.press p {
+  margin: 1.5ex 0 1.5ex 0;
+  text-align: left;
 }
 .head,
 .foot {
