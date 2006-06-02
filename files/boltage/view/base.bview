@@ -9,6 +9,7 @@ view_put(
 	['freikers', '/hm/freikers'],
 	['gears', '/hm/gears'],
 	['parents', '/hm/parents'],
+	['press', '/hm/press'],
 	['prizes', '/hm/prizes'],
  	['schools', 'SCHOOL_RANK_LIST'],
 	['wheels', '/hm/wheels'],
@@ -32,8 +33,6 @@ view_main(Page3({
 	Link('home', '/'),
 	Image('heart_9'),
 	vs_link('register your school', 'SCHOOL_REGISTER'),
-	Image('heart_9'),
-	vs_link('old site', '/h/index.html'),
 	Image('heart_9'),
 	vs_link('wheel login', {
 	    task_id => 'LOGIN',
