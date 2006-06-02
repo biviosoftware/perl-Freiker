@@ -26,28 +26,30 @@ sub vs_barcode_ride_link {
 
 sub vs_base_menu {
     my($proto, $values) = @_;
-    return $proto->vs_call(
-	Join => [map($proto->vs_link(@$_), @$values)],
-	{
-	    join_separator => $proto->vs_call(
-		Image => heart_9 => '', {class => 'sep'},
-	    ),
-	}
+    return Join(
+	[map($proto->vs_link(@$_), @$values)],
+	{join_separator => Image('heart_9', {class => 'sep'})},
+    );
+}
+
+sub vs_email {
+    my(undef, $name, $host) = @_;
+    return SPAN_email(
+	Join([
+	    $name || die('name must be supplied'),
+	    Image('at'),
+	    $host || ['Bivio::UI::Facade', 'mail_host'],
+	]),
     );
 }
 
 sub vs_gears_email {
-    my($proto) = @_;
-    return $proto->vs_call(
-	'Tag', span => $proto->vs_call('Join', [
-	    'gears',
-	    $proto->vs_call('Image', 'at'),
-	    ['Bivio::UI::Facade', 'mail_host']]),
-	'email');
+    return shift->vs_email('gears');
 }
 
 sub vs_learn_more {
-    return shift->vs_call('Link', '[learn more]', shift, 'learn_more');
+    shift;
+    return Link('[learn more]', shift, 'learn_more');
 }
 
 sub vs_main_img {
@@ -57,7 +59,7 @@ sub vs_main_img {
 
 sub vs_prose {
     my(undef, $prose) = @_;
-    return Tag(div => Prose($prose), 'prose');
+    return DIV_prose(Prose($prose));
 }
 
 1;
