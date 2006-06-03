@@ -117,6 +117,9 @@ form .field {
   margin-top: 1ex;
   text-align: center;
 }
+.graph h4 {
+  text-align: center;
+}
 div.index {
  padding-top: 1ex;
  clear: both;
