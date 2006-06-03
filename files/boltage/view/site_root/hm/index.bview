@@ -4,9 +4,45 @@ view_parent('base');
 view_put(
     page3_title => 'The Frequent Biker Program',
     page3_content => Join([
-	Link(vs_main_img('freiker'), '/hm/freikers'),
-	Link(vs_main_img('wheel'), '/hm/wheels'),
-	vs_prose(<<'EOF'),
+	DIV_graph(Join([
+	    Image(
+		'freiker-weather-20060601',
+		'Year on year comparison of Freikers vs. Weather',
+	    ),
+	    vs_prose(<<'EOF'),
+<h3>The Results Are In:<br /> Freiker is a SUCCESS!</h3>
+<p>
+Freiker improves bike riding in all kinds of weather.
+In both extreme hot and cold weather, riderhsip is up 25% to
+100% in just one year.
+</p>
+<p>
+The graph on the left gives us a year-on-year comparison of
+average daily riders to and from Crest View Elementary within
+different average daily temperature categories.  The data show a
+significant improvement in most temperature categories
+for the school year 2005-2006 in comparison to 2004-2005.
+In only one category (40 degrees) is are the number of riders
+the same.
+</p>
+<p>
+Riders were counted every day of the 2005-2006 school year and for
+the second half of the 2004-2005 school year.  The data is
+biased in that kids were receiving prizes and general encouragement
+during both periods.  What the graph shows is that as the awareness
+of the Freiker program increases within the Crest View Elementary
+student population so does the ridership.
+</p>
+<p>
+<b>Freiker encourages kids to ride their bicycles to school!</b>
+</p>
+EOF
+	])),
+	DIV_index(Join([
+	    Link(vs_main_img('freiker'), '/hm/freikers'),
+	    Link(vs_main_img('wheel'), '/hm/wheels'),
+	    vs_prose(<<'EOF'),
+<h3>What is Freiker?</h3>
 <p>
 The girl on the left is a happy Link('Freiker', '/hm/freikers');.
 The Freiker program encourages kids to ride to school by bike.  It's so
@@ -38,5 +74,6 @@ vs_learn_more('/hm/gears');
 </p>
 EOF
 	Link(vs_main_img('winners'), '/hm/prizes'),
+    ])),
     ]),
 );

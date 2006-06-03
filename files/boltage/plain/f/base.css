@@ -110,6 +110,17 @@ form .field {
   margin: 1.5ex 0 1.5ex 0;
   text-align: left;
 }
+.graph img {
+  float: left;
+}
+.graph h3, .index h3 {
+  margin-top: 1ex;
+  text-align: center;
+}
+div.index {
+ padding-top: 1ex;
+ clear: both;
+}
 .head,
 .foot {
   margin-bottom: 3ex;
