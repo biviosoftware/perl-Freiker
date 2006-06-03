@@ -34,46 +34,9 @@ of the Freiker program increases within the Crest View Elementary
 student population so does the ridership.
 </p>
 <p>
-<b>Freiker encourages kids to ride their bicycles to school!</b>
+<h4>Freiker encourages kids to ride their bicycles to school!</h4>
 </p>
 EOF
 	])),
-	DIV_index(Join([
-	    Link(vs_main_img('freiker'), '/hm/freikers'),
-	    Link(vs_main_img('wheel'), '/hm/wheels'),
-	    vs_prose(<<'EOF'),
-<h3>What is Freiker?</h3>
-<p>
-The girl on the left is a happy Link('Freiker', '/hm/freikers');.
-The Freiker program encourages kids to ride to school by bike.  It's so
-much fun, because Freikers win prizes just for riding their
-bikes. vs_learn_more('/hm/freikers');
-</p>
-<p>
-The friendly face on the right is a Link('Wheel', '/hm/wheels');.  He and other
-Wheels help with the Freiker program at your school.  It's very easy
-to be a Wheel, because the Freiker program provides you with a
-barcode scanner, barcodes, and all the software you need to track
-rides.  vs_learn_more('/hm/wheels');
-</p>
-<p>
-At the end of each week and year, the top Freikers in your
-school win Link('extra prizes', '/hm/prizes');,
-like an iPod (wow!).  And, we also keep track
-of which school does the best.  The boys below were the top Freikers
-at their school last year.  They rode every day -- even in the snow -- and had
-tons of fun!  No wonder they look so happy.
-vs_learn_more('/hm/prizes');
-</p>
-<p>
-Would you like to help, but don't have the time to be a wheel?  Does
-your business benefit from additional bike riders?  You can
-become a Freiker Link('Gear', '/hm/gears'); (aka. sponsor) and help
-the Wheels around.  We have many levels of sponsorship available.
-vs_learn_more('/hm/gears');
-</p>
-EOF
-	Link(vs_main_img('winners'), '/hm/prizes'),
-    ])),
     ]),
 );
