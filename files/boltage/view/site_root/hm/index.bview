@@ -4,12 +4,13 @@ view_parent('base');
 view_put(
     page3_title => 'The Frequent Biker Program',
     page3_content => Join([
-	DIV_graph(Join([
-	    Image(
-		'freiker-weather-20060601',
-		'Year on year comparison of Freikers vs. Weather',
-	    ),
-	    vs_prose(<<'EOF'),
+	DIV_index(Join([
+	    DIV_graph(Join([
+		Image(
+		    'freiker-weather-20060601',
+		    'Year on year comparison of Freikers vs. Weather',
+		),
+		vs_prose(<<'EOF'),
 <h3>The Results Are In:<br /> Freiker is a SUCCESS!</h3>
 <p>
 Freiker improves bike riding in all kinds of weather.
@@ -37,6 +38,12 @@ student population so does the ridership.
 <h4>Freiker encourages kids to ride their bicycles to school!</h4>
 </p>
 EOF
+	    ])),
+	    DIV_crest_view(Image(
+		'crest-view-20060607',
+		'Overlowing bike racks at Crest View Elementary',
+		{class => 'crest_view'},
+	    )),
 	])),
     ]),
 );
