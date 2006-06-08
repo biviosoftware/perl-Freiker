@@ -7,7 +7,7 @@ view_put(
 	vs_prose(<<'EOF'),
 <p>
 Prizes are delivered on Friday. We have a variety of
-Tag(span => '10 ride', 'prize_rides'); prizes.
+Tag(span => '10-ride', 'prize_rides'); prizes.
 Your wheels will have a bag or box of them.
 Link('Click here to donate prizes or money.', '/hm/gears');
 </p>
