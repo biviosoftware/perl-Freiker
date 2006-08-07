@@ -11,6 +11,9 @@ view_put(
 		    'Year on year comparison of Freikers vs. Weather',
 		),
 		vs_prose(<<'EOF'),
+Link(Image('freikometer-20060806', 'Brrring!!! Freikometer movie here'),
+     '/m/freikometer-20060806.avi',
+);
 <h3>The Results Are In:<br /> Freiker is a SUCCESS!</h3>
 <p>
 Freiker improves bike riding in all kinds of weather.
