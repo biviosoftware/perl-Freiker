@@ -120,6 +120,30 @@ form .field {
 div.index {
   text-align: center;
 }
+.index_freiker, .index_wheel {
+  height: 200px;
+}
+.index_freiker {
+  float: left;
+  clear: left;
+  padding-right: 20px;
+  background: url(/i/index_freiker.jpg) no-repeat;
+  width: 95px;
+}
+.index_wheel {
+  clear: right;
+  margin-left: 20px;
+  float: right;
+  background: url(/i/index_wheel.jpg) no-repeat;
+  width: 180px;
+}
+.index_winners {
+  display: block;
+  margin: auto;
+  background: url(/i/index_winners.jpg) no-repeat;
+  width: 250px;
+  height: 212px;
+}
 div.crest_view {
   margin: 1ex 0 1ex 0;
 }
