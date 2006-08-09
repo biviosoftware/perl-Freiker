@@ -92,6 +92,12 @@ form .field {
   text-align: left;
   padding: 1ex;
 }
+.press dt {
+  margin-top: 1.5ex;
+}
+.press dd {
+  margin: .3ex 0 0 0;
+}
 .press h3 {
   margin-top: 2ex;
   margin-bottom: 2ex;
