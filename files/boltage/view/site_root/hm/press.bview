@@ -19,6 +19,13 @@ view_put(
 	    'http://www.bcbr.com',
 	    'Article',
 	], [
+	    '06/08/2006',
+	    'Kids at Crest View have been Biking to School in Record Numbers',
+	    'http://www.kgnu.org/cgi-bin/programinfo.py?time=1149775200',
+	    'KGNU Morning Magazine',
+	    'http://www.kgnu.org',
+	    'Radio (22 minutes into show)',
+	], [
 	    '05/06/2006',
 	    'Freiker Bike Encouragement Program at Crest View Elementary School Celebrates Success - Freiker Receives Grant and Community Support',
 	    '/hm/press/20060506',
