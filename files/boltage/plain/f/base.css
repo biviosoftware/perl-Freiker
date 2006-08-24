@@ -37,6 +37,13 @@ th {
   margin: auto;
   text-align: center;
 }
+.notice {
+  padding: .2em;
+  width: 14em;
+  text-align: right;
+  text-transform: none;
+  color: #33CC00;
+}
 .acknowledgement .text {
   border: 2px solid #33CC00;
   padding: .5em;
