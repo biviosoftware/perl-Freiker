@@ -7,7 +7,7 @@ view_put(
 	DIV_index(Join([
 	    DIV_graph(Join([
 		Image(
-		    'freiker-weather-20060601',
+		    'freiker-weather-20060917',
 		    'Year on year comparison of Freikers vs. Weather',
 		),
 		vs_prose(<<'EOF'),
