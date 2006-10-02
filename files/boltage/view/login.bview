@@ -2,18 +2,11 @@
 # $Id$
 view_parent('base');
 view_put(
-    page3_title => 'Login',
-    page3_content => vs_simple_form(
-	'UserLoginForm',
-	[
-	    Link(vs_text('link', 'SCHOOL_REGISTER'), 'SCHOOL_REGISTER', {
-		cell_class => 'form_prose',
-	    }),
-	    qw{
-	       UserLoginForm.login
-	       UserLoginForm.RealmOwner.password
-	    },
-	    Link('Forgot your password?  Click here.', 'GENERAL_USER_PASSWORD_QUERY'),
-        ],
-    ),
+    body => vs_simple_form(UserLoginForm => [qw{
+	'FAMILY_REGISTER
+	'CLUB_REGISTER
+        UserLoginForm.login
+	UserLoginForm.RealmOwner.password
+	'GENERAL_USER_PASSWORD_QUERY
+    }]),
 );

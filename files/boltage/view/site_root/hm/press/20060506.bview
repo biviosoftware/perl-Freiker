@@ -3,7 +3,7 @@
 view_parent('base');
 view_put(
     page3_title => '05/06/2006 - Freiker Receives Grant and Community Support',
-    page3_content => DIV_press(Prose(<<'EOF')),
+    body => DIV_press(Prose(<<'EOF')),
 <h3>News Release</h3>
 <h4>Boulder Valley School District</h4>
 <div>

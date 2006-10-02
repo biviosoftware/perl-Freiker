@@ -61,6 +61,7 @@ form .desc {
   color: #666666;
   clear: left;
   float: left;
+  width: 30em;
 }
 .field_err, .label_err, .err_title, .err {
   color: #990000;
@@ -176,6 +177,10 @@ div.crest_view {
 .head1, .head2, .head3 {
   position: absolute;
 }
+.head2 img,
+.foot2 img {
+  margin: 0 5px 2px 5px;
+}
 .head1 {
   left: 0%;
   width: 20%;
@@ -213,22 +218,8 @@ div.crest_view {
 .head {
   height: 58px;
 }
-.head2 .title {
-  border-top: 1px solid #666666;
-  margin-top: .1ex;
-  color: #666666;
-  text-transform: uppercase;
-  vertical-align: bottom;
-  bottom: 0;
-}
 .menu a {
   white-space: nowrap;
-}
-.head2 .menu img {
-  margin: 0 .3em .1ex .3em;
-}
-.foot2 .menu img {
-  margin: 0 .2em 0 .2em;
 }
 .head2 .realm {
   font-weight: bold;
@@ -236,14 +227,18 @@ div.crest_view {
   font-size: 150%;
   padding-bottom: 1ex;
 }
+.topic {
+  text-align: center;
+  margin: auto;
+  color: #666666;
+  font-size: 150%;
+  margin-bottom: 1ex;
+}
+.foot2 .menu img {
+  margin: 0 .2em 0 .2em;
+}
 .foot3, .foot2, .head2 {
   white-space: normal;
-}
-.head2 .title {
-  border-top: 1px solid #666666;
-  margin-top: .1ex;
-  color: #666666;
-  text-transform: uppercase;
 }
 .prose p {
   text-indent: 2em;
@@ -261,8 +256,63 @@ form .sep {
   font-style: italic;
   color: #990001;
 }
+.head1 a.su,
+tr.su {
+  background-color: #666666;
+}
+.head1 .su .body {
+  font-size: 120%;
+  color: white;
+  text-align: center;
+  white-space: normal;
+  vertical-align: middle;
+  clear: both;
+}
+.task_menu a {
+  white-space: nowrap;
+}
+.foot2 .task_menu {
+  text-transform: lowercase;
+}
+.foot {
+  font-size: 80%;
+  padding-top: .3ex;
+  padding-bottom: 7ex;
+}
+.foot2 .task_menu a.want_sep,
+.top .task_menu a.want_sep,
+.bottom .task_menu a.want_sep,
+.pager .next, .pager .list,
+.alphabetical_chooser a.all,
+.tools span.want_sep {
+  background: url(/i/heart_9.gif) left no-repeat;
+  padding-left: 12px;
+  margin-left: 4px;
+}
+.head2 .task_menu {
+  text-transform: lowercase;
+  border-bottom: 1px solid #666666;
+  font-size: 120%;
+}
+.head2 .task_menu a.want_sep {
+  background: url(/i/heart_14.gif) left no-repeat;
+  padding-left: 20px;
+  margin-left: 5px;
+}
+.head2 .task_menu .selected, .foot2 .task_menu .selected {
+  font-weight: bold;
+}
+.head, .head1, .head1 a.logo {
+  height: 80px;
+}
 .submit, .empty_list {
   text-align: center;
+}
+.tools div.sep {
+  background: url(/i/heart_9.gif) left center no-repeat;
+  padding-left: 12px;
+  margin-left: 4px;
+  display: inline;
 }
 #gears div {
   text-align: center;
@@ -320,9 +370,6 @@ form .sep {
 form .list th, form .list td {
   padding: 0 .5em 0 .5em;
 }
-.rank_list td, .rank_list th {
-  padding-left: 1em;
-}
 .note {
    font-weight: bold;
   padding: .2em;
@@ -350,4 +397,37 @@ h3 {
    margin-top: -1ex;
    margin-bottom: -1ex;
    color: #33CC00;
+}
+.top .task_menu, .top .pager {
+  text-align: right;
+  white-space: nowrap;
+  display: inline;
+}
+.bottom .pager, .bottom .task_menu {
+  text-align: left;
+  white-space: nowrap;
+  display: inline;
+}
+.off {
+  color: #999999;
+}
+.empty_list {
+  text-align: center;
+  padding-bottom: 1ex;
+}
+pre .text {
+  font-family: "Courier New", Courier, monospace, fixed;
+}
+.head1 a.logo {
+  background: url(/i/smiley_80.gif) top left no-repeat;
+  display: block;
+}
+.standard_submit {
+  text-align: center;
+}
+form .submit {
+  margin: .5em;
+}
+table.radio_grid {
+  margin-left: 0;
 }

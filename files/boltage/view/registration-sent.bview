@@ -1,0 +1,11 @@
+# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+view_parent('base');
+view_put(
+    body => Tag(div => Prose(<<'EOF'), 'prose'),
+We have sent a confirmation email to
+String([['->get_by_regexp', 'Model.\w+RegisterForm'], 'Email.email']);.
+Please follow the instructions in this email message to complete
+your registration with vs_site_name();.
+EOF
+);

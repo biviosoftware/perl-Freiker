@@ -2,8 +2,7 @@
 # $Id$
 view_parent('base');
 view_put(
-    page3_title => 'We Need Your Help!',
-    page3_content => Join([
+    body => Join([
 	Tag('div', Prose(<<'EOF'), 'prose', {id => 'gears'}),
 <p>
 Thanks for helping us out with Freiker.  Our goal is to help children

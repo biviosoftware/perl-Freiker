@@ -1,42 +1,11 @@
-# Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
+# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Facade::Freiker;
 use strict;
-$Freiker::Facade::Freiker::VERSION = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-$_ = $Freiker::Facade::Freiker::VERSION;
+use base 'Bivio::UI::Facade';
 
-=head1 NAME
+our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
-Freiker::Facade::Freiker - main production and default facade
-
-=head1 RELEASE SCOPE
-
-bOP
-
-=head1 SYNOPSIS
-
-    use Freiker::Facade::Freiker;
-
-=cut
-
-=head1 EXTENDS
-
-L<Bivio::UI::Facade>
-
-=cut
-
-use Bivio::UI::Facade;
-@Freiker::Facade::Freiker::ISA = ('Bivio::UI::Facade');
-
-=head1 DESCRIPTION
-
-C<Freiker::Facade::Freiker> is the main production and default Facade.
-
-=cut
-
-#=IMPORTS
-
-#=VARIABLES
 my($_SELF) = __PACKAGE__->new({
     clone => undef,
     is_production => 1,
@@ -83,26 +52,15 @@ my($_SELF) = __PACKAGE__->new({
     ],
     FormError => [
 	[NULL => 'You must supply a value for vs_fe("label");.'],
+	[EXISTS => 'vs_fe("label"); already exists in our database.'],
 	[NOT_FOUND => 'vs_fe("label"); was not found in our database.'],
-	['SchoolRegisterForm.School.website.EXISTS' =>
-	     q{This school's website is already registered.  Please try to find the "wheel" at your school.}],
-	['SchoolRegisterForm.RealmOwner_2.display_name.EXISTS' =>
-	     q{Your school is already registered.  Please try to find the "wheel" at your school.}],
-	['BarcodeUploadForm.barcode_file.NUMBER_RANGE' =>
-	     qq{File errors:\nString(['Model.BarcodeUploadForm', 'file_errors']);}],
-	['BarcodeUploadForm.barcode_file.EMPTY' =>
-	     q{The file appears to be empty or may contain all duplicate rides.}],
-	['FreikerLoginForm.barcode.NOT_FOUND' =>
-#TODO: Link to form to contact wheel
-	     q{Barcode is not in our database.  Please check and re-enter.  If you are absolutely sure vs_fe('value'); is correct, please contact your school's Wheel.}],
-	['FreikerLoginForm.ride_date1.NULL' =>
-	     q{You must specify at least one ride.  If you have ridden fewer than three times the whole year, just leave the last one or two entries alone.}],
-	['FreikerLoginForm.ride_date1.PASSWORD_MISMATCH' =>
-	     q{One or more of the dates did not match our database.  Please check and re-enter.  If you are absolutely sure these dates are correct, please contact your school's Wheel.}],
-	[[map("FreikerLoginForm.ride_date$_.PASSWORD_MISMATCH", 2, 3)] =>
-	     q{See above}],
-	['BarcodeMergeListForm.reverse_merge.MERGE_OVERLAP' =>
-	     q{At least one overlapping ride date (DateTime(['Ride.ride_date']);).  Might be wrong barcodes, or perhaps accidental duplicates.  Click on the barcodes on this line to see the rides, and delete duplicates.}],
+	['FreikerForm.FreikerCode.freiker_code' => [
+	    NOT_FOUND => 'This is not a valid vs_fe(q{label}); for your school.  Please check the number and resubmit.',
+	    EXISTS => 'The vs_fe(q{label}); supplied is in use by another Freiker.  Please check the number and resubmit.',
+	]],
+	['ClubRegisterForm.ClubAux.website.EXISTS' => q{This school's website is already registered.  Please try to find the "wheel" at your school.}],
+	['ClubRegisterForm.club_name.EXISTS' => q{Your school is already registered.  Please try to find the "wheel" at your school.}],
+	['email.EXISTS' => q{This email is already registered with vs_site_name();.  Link('Click here to login.', 'LOGIN', {no_context => 1});}],
     ],
     HTML => [
 	[want_secure => 0],
@@ -110,45 +68,43 @@ my($_SELF) = __PACKAGE__->new({
     ],
     Task => [
 	[CLUB_HOME => '?'],
+	[CLUB_REGISTER => 'pub/register-organization'],
+	[CLUB_REGISTER_DONE => undef],
+	[CLUB_FREIKER_LIST => '?/freikers'],
 	[DEFAULT_ERROR_REDIRECT_FORBIDDEN => undef],
+	[FAMILY_REGISTER => 'pub/register-family'],
+	[FAMILY_REGISTER_DONE => undef],
+	[FAMILY_FREIKER_ADD => '?/register-freiker'],
+	[FAMILY_FREIKER_LIST => '?/freikers'],
 	[FAVICON_ICO => '/favicon.ico'],
 	[FORBIDDEN => undef],
+	[GENERAL_USER_PASSWORD_QUERY => '/pub/forgot-password'],
+	[GENERAL_USER_PASSWORD_QUERY_ACK => undef],
+	[GENERAL_USER_PASSWORD_QUERY_MAIL => undef],
 	[LOCAL_FILE_PLAIN => ['i/*', 'f/*', 'h/*', 'm/*']],
 	[LOGIN => 'pub/login'],
 	[LOGOUT => 'pub/logout'],
-	[MY_SITE => 'my-site/*'],
 	[MY_CLUB_SITE => undef],
+	[MY_SITE => 'my-site/*'],
 	[SHELL_UTIL => undef],
 	[SITE_ROOT => '/*'],
-	[USER_HOME => '?'],
-	[GENERAL_USER_PASSWORD_QUERY => '/pub/forgot-password'],
-	[GENERAL_USER_PASSWORD_QUERY_MAIL => undef],
-	[GENERAL_USER_PASSWORD_QUERY_ACK => '/pub/forgot-password-ack'],
-	[USER_PASSWORD_RESET => '?/new-password'],
-	[USER_PASSWORD => '?/change-password'],
-	[SCHOOL_REGISTER => 'pub/register-school'],
+	[SITE_GEARS => '/hm/gears'],
+	[SITE_PARENTS => '/hm/parents'],
+	[SITE_PRESS => '/hm/press'],
+	[SITE_PRIZES => '/hm/prizes'],
+	[SITE_WHEELS => '/hm/wheels'],
 	[TEST_BACKDOOR => '_test_backdoor'],
-	[WHEEL_CLASS_LIST => '?/classes'],
-	[SCHOOL_HOME => undef],
-	[CLASS_HOME => undef],
-	[SCHOOL_REALMLESS_REDIRECT => 'rs/*'],
-	[WHEEL_BARCODE_UPLOAD => '?/upload-barcodes'],
-	[WHEEL_BARCODE_LIST => '?/assign-barcodes'],
-	[SCHOOL_RANK_LIST => '/pub/schools'],
-	[WHEEL_FREIKER_RANK_LIST => '?/freiker-rankings'],
+	[USER_HOME => '?'],
+	[USER_PASSWORD => '?/change-password'],
+	[USER_PASSWORD_RESET => '?/new-password'],
 	[USER_REALMLESS_REDIRECT => 'ru/*'],
-	[FREIKER_LOGIN => 'pub/freiker-login'],
-	[FREIKER_INFO => '?/info'],
-	[FREIKER_RIDE_LIST => '?/rides'],
-	[WHEEL_BARCODE_MERGE_LIST => '?/merge-barcodes'],
-	[WHEEL_BARCODE_RIDE_LIST => '?/freiker-rides'],
         [ROBOTS_TXT => '/robots.txt'],
     ],
     Text => [
 	[support_email => 'gears'],
 #TODO:	    [support_phone => '(800) 555-1212'],
 	[site_name => q{Freiker}],
-	[site_copyright => q{bivio Software, Inc.}],
+	[site_copyright => q{Freiker, Inc.}],
 	[home_page_uri => '/hm/index'],
 	[view_execute_uri_prefix => 'site_root/'],
 	[favicon_uri => '/i/favicon.ico'],
@@ -165,118 +121,98 @@ my($_SELF) = __PACKAGE__->new({
 	[password => 'Password'],
 	[confirm_password => 'Re-enter Password'],
 	[['email', 'login'] => 'Your Email'],
-	[zip => 'US ZIP+4'],
-	[school_name => 'Official Name'],
-	['School.website' => 'Website'],
-	[class_size => 'Class Size'],
-	['RealmOwner.display_name' => 'Your Name'],
-	[SchoolRegisterForm => [
-	    'zip.desc' => q{Your school's-9 digit US zip code.},
-	    'RealmOwner.display_name.desc'
-		=> q{You will be the Wheel for your school.},
+	[club_name => 'Official Name'],
+	['Address.zip.desc' =>
+	     q{A 9-digit US zip code is required.  Link('Look up at the US Postal service website', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});, if you don't know it},],
+	[ClubRegisterForm => [
+	    'ClubAux.club_size' => 'Number of Students',
+	    'ClubAux.club_size.desc' => 'Total number of students including freikers and non-freikers.',
+	    'ClubAux.website' => 'School Website',
+	    'ClubAux.website.desc' => 'Example: http://schools.bvsd.org/crestview/index.html',
+	    'Address.zip' => 'US ZIP+4',
+	    'RealmOwner.display_name' => 'Your Name',
 	    'Email.email.desc' =>
-		q{We will send emails only related to running Freiker at your school.},
+		q{We will send emails only related to running Freiker.},
 	    ok_button => 'Register School',
 	]],
-	['User.gender' => 'Teacher'],
-	['User.first_name' => 'First Name'],
-	['User.last_name' => 'Last Name'],
-	[class_grade => 'Grade'],
-	[ClassListForm => [
-	    ok_button => 'Save',
+	[UserRegisterForm => [
+	    'RealmOwner.display_name' => 'Your Family (Last) Name',
+	    'RealmOwner.display_name.desc' => 'You need not supply a real name here, since we will not be contacting you except by email.',
+	    'Address.zip' => 'Your ZIP+4 Code',
+	    ok_button => 'Register Family',
+	]],
+	[FreikerForm => [
+	    'User.first_name' => q{First Name},
+	    'User.first_name.desc' => q{This is for your information only so it may be a nickname, an abbreviation, or any other identifier.},
+	    'Club.club_id' => q{School},
+	    'FreikerCode.freiker_code' => q{Freiker ID},
+	    'FreikerCode.freiker_code.desc' => q{The number on your child's helmet.},
+	    'birth_year' => q{Year of Birth},
+	    'User.gender' => q{Gender},
+	    ok_button => 'Register Child',
 	]],
 	[UserLoginForm => [
 	    ok_button => 'Login',
 	]],
-	[link => [
-	    LOGIN => 'Already registered?  Click here to login.',
-	    SCHOOL_REGISTER => 'Not registered?  Wheels click here to register your school.',
-	]],
-	[barcode_file => 'Barcode File'],
-	[BarcodeUploadForm => [
-	    ok_button => 'Upload',
-	]],
-	[[qw(class_id class_name)] => 'Class'],
-	['BarcodeList.RealmOwner.name' => 'Barcode'],
-	[BarcodeListForm => [
-	    'RealmOwner.display_name' => 'First Name (Last if needed)',
-	    ok_button => 'Assign',
-	]],
 	[separator => [
-	    school => 'School Information',
+	    optional => 'Optional information used for statistical purposes',
+	    club => 'School Information',
 	]],
-	[SchoolRankList => [
-	    'RealmOwner.display_name' => 'School',
-	    'Address.zip' => 'Zip',
-	]],
-	[FreikerRankList => [
-	    'RealmOwner.name' => 'Barcode',
+	[[qw(FreikerList ClubFreikerList)] => [
 	    'RealmOwner.display_name' => 'Freiker',
-	    'ride_count' => 'Rides',
+	    ride_count => 'Rides',
+	    empty_list_prose => 'No Freikers as yet.',
 	]],
 	[UserPasswordForm => [
 	    old_password => 'Current Password',
 	    new_password => 'New Password',
 	    confirm_new_password => 'Re-enter New Password',
-	    ok_button => 'Change',
-	]],
-	[FreikerLoginForm => [
-	    barcode => 'Your Barcode',
-	    ride_date1 => 'Most Recent Ride',
-	    ride_date2 => 'Ride Before Last',
-	    ride_date3 => 'Three Rides Ago',
-	    ok_button => 'Login',
-	]],
-	['UserPasswordQueryForm.ok_button' => 'Send'],
-	[[qw(BarcodeMergeList BarcodeMergeListForm)] => [
-	    'RealmOwner_2.name' => 'To Keep',
-	    'RealmOwner.display_name' => 'Freiker',
-	    class_name => 'Class',
-	    'RealmOwner.name' => 'To Merge',
-	    reverse_merge => "Keep Lower Number",
-	    ok_button => 'Merge',
-	]],
-	[[qw(BarcodeRideList BarcodeRideListForm)] => [
-	    'Ride.ride_date' => 'Ride Date',
-	    want_delete => 'Delete?',
-	    ok_button => 'Delete',
-	]],
-	[FreikerInfoForm => [
-	    'RealmOwner.display_name' => [
-		'' => 'Your First Name',
-		desc => q{If you have a common first name, please include your last name initial, e.g. John Q.},
-	    ],
-	    'Class.class_id' => 'Your Teacher',
 	    ok_button => 'Update',
 	]],
+	['UserPasswordQueryForm.ok_button' => 'Send'],
+	[prose => [
+	    LOGIN => q{Already registered?  Link('Click here to login.', {task_id => 'LOGIN', no_context => 1});},
+	    FAMILY_REGISTER => q{Child not registered?  vs_link('Click here to register your family.', 'FAMILY_REGISTER');},
+	    CLUB_REGISTER => q{Would you like to become a wheel? vs_link('Click here to register your school.', 'CLUB_REGISTER');},
+	    GENERAL_USER_PASSWORD_QUERY => q{Forgot your password? Link('Click here to get a new one.', 'GENERAL_USER_PASSWORD_QUERY');},
+	]],
 	[acknowledgement => [
-	    [qw(WHEEL_BARCODE_LIST WHEEL_CLASS_LIST)]
-		=> q{Your changes have been saved.},
-	    WHEEL_BARCODE_UPLOAD => q{Your upload was successful.},
-	    FREIKER_INFO => q{Your information has been updated.  Thank you.},
-	    WHEEL_BARCODE_MERGE_LIST => q{The barcodes have been merged.},
-	    WHEEL_BARCODE_RIDE_LIST => q{The rides have been deleted.},
-	    USER_PASSWORD => q{Your password has been changed.},
+	    FAMILY_FREIKER_ADD => q{Your child has been added.},
 	    GENERAL_USER_PASSWORD_QUERY => q{An email has been sent to String([qw(Model.UserPasswordQueryForm Email.email)]);.  The email contains a link back to this site so you can reset your password.},
+	    USER_PASSWORD => q{Your password has been changed.},
 	    password_nak => q{We're sorry, but the link you clicked on is no longer valid.  Please enter your email address and send again.},
+	]],
+	['page3.title' => [
+	    CLUB_FREIKER_LIST => "Your School's Freikers",
+	    CLUB_REGISTER => 'Register Your School',
+	    FAMILY_FREIKER_ADD => 'Register Your Child',
+	    FAMILY_FREIKER_LIST => "Your Family's Freikers",
+	    FAMILY_REGISTER => 'Register Your Family',
+	    LOGIN => 'Please Login',
+	    USER_PASSWORD => 'Change Your Password',
+	    [qw(CLUB_REGISTER_DONE FAMILY_REGISTER_DONE GENERAL_USER_PASSWORD_QUERY)] => 'Check Your Mail',
+	    SITE_ROOT => 'The Frequent Biker Program',
+	    SITE_GEARS => 'We need your help!',
+	    SITE_PARENTS => 'For parents',
+	    SITE_PRESS => 'In the news',
+	    SITE_PRIZES => 'Ride and win!',
+	    SITE_WHEELS => 'Wheels roll around',
+	]],
+	['task_menu.title' => [
+	    LOGIN => 'Login',
+	    FAMILY_REGISTER => 'Register',
+	    USER_PASSWORD => 'Account',
+	    FAMILY_FREIKER_LIST => 'Family',
+	    FAMILY_FREIKER_ADD => 'register child',
+	    CLUB_FREIKER_LIST => 'School',
+	    SITE_ROOT => 'Home',
+	    SITE_GEARS => 'Gears',
+	    SITE_PARENTS => 'Parents',
+	    SITE_PRESS => 'Press',
+	    SITE_PRIZES => 'Prizes',
+	    SITE_WHEELS => 'Wheels',
 	]],
     ],
 });
-
-=head1 METHODS
-
-=cut
-
-#=PRIVATE METHODS
-
-=head1 COPYRIGHT
-
-Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
-
-=head1 VERSION
-
-$Id$
-
-=cut
 
 1;

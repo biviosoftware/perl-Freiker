@@ -2,44 +2,72 @@
 # $Id$
 view_class_map('XHTMLWidget');
 view_shortcuts('Freiker::ViewShortcuts');
-view_declare(qw(page3_content page3_title));
+view_declare('page3_title');
 view_put(
+    map(($_ => ''), qw(top body bottom)),
     base_realm => 'Freiker',
-    base_menu => vs_base_menu([
-	['freikers', '/hm/freikers'],
-	['gears', '/hm/gears'],
-	['parents', '/hm/parents'],
-	['press', '/hm/press'],
-	['prizes', '/hm/prizes'],
- 	['schools', 'SCHOOL_RANK_LIST'],
-	['wheels', '/hm/wheels'],
-    ]),
+    base_tools => '',
+    pager => '',
+    base_menu => TaskMenu([qw(
+	USER_PASSWORD
+	FAMILY_FREIKER_LIST
+	SITE_GEARS
+	SITE_PARENTS
+        SITE_PRESS
+        SITE_PRIZES
+        SITE_WHEELS
+    )]),
 );
 view_main(Page3({
-    head1 => Link(Image('smiley_80'), '/'),
-    head2 => Join([
-	Tag(p => view_widget_value('base_realm'), 'realm'),
-	Tag(p => view_widget_value('base_menu'), 'menu'),
-	Tag(p => view_widget_value('page3_title'), 'title'),
-    ]),
-    head3 => DIV_notice(
-	'New login still is not ready.  Try back in October!',
+    head1 => If(['->is_substitute_user'],
+	Link(
+	    RoundedBox(Join([
+		'Acting as User: <br />',
+		String(['auth_user', 'display_name']),
+		'<br />Click here to exit',
+	    ])),
+	    'LOGOUT',
+	    'su',
+	),
+	Link('', '/', 'logo'),
     ),
-#  	If([sub {$_[1] =~ /^WHEEL_/}, [qw(task_id ->get_name)]],
-#  	vs_link('LOGOUT', 'LOGOUT'),
-#  	If([sub {$_[1] =~ /^FREIKER_/}, [qw(task_id ->get_name)]],
-#  	    vs_link('SWITCH FREIKER', 'LOGOUT'),
-#  	    vs_link('YOUR RIDES', 'MY_SITE'),
-#          ),
-#      ),
-    foot2 => Tag(span => Join([
-	Link('home', '/'),
-	Image('heart_9'),
-	vs_link('register your school', 'SCHOOL_REGISTER'),
-	Image('heart_9'),
-	vs_link('wheel login', {
-	    task_id => 'LOGIN',
-	    no_context => 1,
-	}),
-    ]), 'menu'),
+    head2 => Join([
+	P_realm(view_widget_value('base_realm')),
+	P_menu(view_widget_value('base_menu')),
+	P_topic(String(
+	    vs_text([sub {"page3.title.$_[1]"}, ['task_id', '->get_name']]),
+	)),
+    ]),
+    head3 => Director(
+	['user_state', '->get_name'],
+	{
+	    JUST_VISITOR => vs_link('Register', 'FAMILY_REGISTER'),
+	    LOGGED_OUT => Link('Login', {task_id => 'LOGIN', no_context => 1}),
+	    LOGGED_IN => vs_link('Logout', 'LOGOUT'),
+	},
+    ),
+    content => DIV_base_content(Join([
+	DIV_top(Join([
+	    DIV_tools(Join([
+		view_widget_value('base_tools'),
+		view_widget_value('pager'),
+	    ], {
+		join_separator => EmptyTag(DIV => 'sep'),
+	    })),
+	])),
+	DIV_body(view_widget_value('body')),
+	DIV_bottom(
+	    DIV_tools(Join([
+		view_widget_value('base_tools'),
+		view_widget_value('pager'),
+	    ], {
+		join_separator => EmptyTag(DIV => 'sep'),
+	    })),
+	),
+    ])),
+    foot2 => TaskMenu([
+	'SITE_ROOT',
+	{task_id => 'LOGIN', no_context => 1},
+        'FAMILY_REGISTER',
+    ]),
 }));

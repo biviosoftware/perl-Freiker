@@ -1,48 +1,10 @@
-# Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
+# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Delegate::TypeError;
 use strict;
-$Freiker::Delegate::TypeError::VERSION = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-$_ = $Freiker::Delegate::TypeError::VERSION;
+use base 'Bivio::Delegate::SimpleTypeError';
 
-=head1 NAME
-
-Freiker::Delegate::TypeError - additional type errors
-
-=head1 RELEASE SCOPE
-
-Freiker
-
-=head1 SYNOPSIS
-
-    use Freiker::Delegate::TypeError;
-
-=cut
-
-use Bivio::Delegate::SimpleTypeError;
-@Freiker::Delegate::TypeError::ISA = ('Bivio::Delegate::SimpleTypeError');
-
-=head1 DESCRIPTION
-
-C<Freiker::Delegate::TypeError>
-
-=cut
-
-#=IMPORTS
-
-#=VARIABLES
-
-=head1 METHODS
-
-=cut
-
-=for html <a name="get_delegate_info"></a>
-
-=head2 static get_delegate_info() : array_ref
-
-Returns the type error declarations.
-
-=cut
+our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub get_delegate_info {
     return [
@@ -60,19 +22,11 @@ sub get_delegate_info {
 	MERGE_OVERLAP => [
 	    503,
 	],
+	EPC => [
+	    504,
+	    'Invalid EPC',
+	],
     ];
 }
-
-#=PRIVATE METHODS
-
-=head1 COPYRIGHT
-
-Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
-
-=head1 VERSION
-
-$Id$
-
-=cut
 
 1;

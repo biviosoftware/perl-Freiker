@@ -2,8 +2,7 @@
 # $Id$
 view_parent('base');
 view_put(
-    page3_title => 'The Frequent Biker Program',
-    page3_content => Join([
+    body => Join([
 	DIV_index(Join([
 	    DIV_graph(Join([
 		Image(

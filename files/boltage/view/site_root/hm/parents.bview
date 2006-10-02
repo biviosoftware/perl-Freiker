@@ -2,9 +2,11 @@
 # $Id$
 view_parent('base');
 view_put(
-    page3_title => 'For Parents',
-    page3_content => Join([
+    body => Join([
 	Tag('div', Prose(<<'EOF'), 'prose', {id => 'parents'}),
+<p>
+Link('Register your family here.', 'FAMILY_REGISTER');
+</p>
 <p>
 The Freiker Program encourages kids to ride their bikes to school.  The
 program is Link('run by volunteers', '/hm/wheels');
@@ -105,6 +107,9 @@ in the 2005 tax year.
 <p>
 We encourage feedback.  Please email us at vs_gears_email(); with your
 questions, comments, and/or suggestions.
+</p>
+<p>
+Link('Register your family here.', 'FAMILY_REGISTER');
 </p>
 EOF
     ]),

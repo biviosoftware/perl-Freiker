@@ -20,51 +20,61 @@
 ----------------------------------------------------------------
 
 --
--- class_t
+-- club_aux_t
 --
-ALTER TABLE class_t
-  add constraint class_t2
-  foreign key (school_id)
-  references school_t(school_id)
+ALTER TABLE club_aux_t
+  ADD CONSTRAINT club_aux_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
 /
-CREATE INDEX class_t3 on class_t (
-  school_id
+CREATE UNIQUE INDEX club_aux_t3 ON club_aux_t (
+  website
 )
 /
-CREATE INDEX class_t4 ON class_t (
-  class_grade
+CREATE INDEX club_aux_t4 ON club_aux_t (
+  club_size
 )
 /
-CREATE INDEX class_t5 ON class_t (
-  class_size
+
+--
+-- freiker_code_t
+--
+CREATE INDEX freiker_code_t2 ON freiker_code_t (
+  club_id
 )
 /
-CREATE INDEX class_t6 ON class_t (
-  school_year
-)
+ALTER TABLE freiker_code_t
+  ADD CONSTRAINT freiker_code_t3
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
 /
 
 --
 -- ride
 --
-ALTER TABLE ride_t
-  add constraint ride_t2
-  foreign key (user_id)
-  references user_t(user_id)
-/
-CREATE INDEX ride_t3 ON ride_t (
-  user_id
+CREATE INDEX ride_t2 ON ride_t (
+  freiker_code
 )
+/
+ALTER TABLE ride_t
+  ADD CONSTRAINT ride_t3
+  FOREIGN KEY (freiker_code)
+  REFERENCES freiker_code_t(freiker_code)
 /
 CREATE INDEX ride_t4 ON ride_t (
   ride_date
 )
 /
-
---
--- school_t
---
-CREATE UNIQUE INDEX school_t2 ON school_t (
-  website
+ALTER TABLE ride_t
+  ADD CONSTRAINT ride_t5
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX ride_t6 ON ride_t (
+  realm_id
+)
+/
+CREATE INDEX ride_t7 ON ride_t (
+  creation_date_time
 )
 /

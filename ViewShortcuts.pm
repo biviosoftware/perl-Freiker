@@ -62,4 +62,75 @@ sub vs_prose {
     return DIV_prose(Prose($prose));
 }
 
+#TODO: Remove after 10/15
+sub vs_simple_form {
+    my($proto, $form, $rows) = @_;
+    my($have_submit) = 0;
+    my($m) = Bivio::Biz::Model->get_instance($form);
+    return Form(
+	$form,
+	Join([
+	    $proto->vs_form_error_title($form),
+	    Grid([
+		map({
+		    my($x);
+		    if (UNIVERSAL::isa($_, 'Bivio::UI::Widget')
+			&& $_->simple_package_name eq 'FormField'
+		    ) {
+			$_->put_unless_exists(cell_class => 'field'),
+			$x = [
+			    $proto->vs_call('Join', [''], {cell_class => 'label'}),
+			    $_,
+			];
+		    }
+		    elsif (UNIVERSAL::isa($_, 'Bivio::UI::Widget')) {
+			$x = [$_->put_unless_exists(cell_colspan => 2)];
+		    }
+		    elsif ($_ =~ s/^-//) {
+			$x = [String(
+			    vs_text($form, 'separator', $_),
+			    0,
+			    {
+				cell_colspan => 2,
+				cell_class => 'sep',
+			    },
+			)];
+		    }
+		    elsif ($_ =~ s/^'//) {
+			$x = [Prose(vs_text($form, 'prose', $_), {
+			    cell_colspan => 2,
+			    cell_class => 'form_prose',
+			})];
+		    }
+		    elsif ($_ =~ s/^\*//) {
+			$have_submit = 1;
+			$x = [StandardSubmit(
+			    {
+				cell_colspan => 2,
+				cell_class => 'submit',
+				$_ ? (buttons => [split(/\s+/, $_)]) : (),
+			    },
+			)];
+		    }
+		    elsif (ref($_) eq 'ARRAY' && ref($_->[0])) {
+			$x = $_;
+		    }
+		    else {
+			$x = $proto->vs_descriptive_field($_);
+		    }
+		    $x;
+		} @$rows),
+		$have_submit ? () : [
+		    StandardSubmit({
+			cell_colspan => 2,
+			cell_class => 'submit',
+		    }),
+		],
+	    ], {
+		class => 'simple',
+	    }),
+	]),
+    );
+}
+
 1;

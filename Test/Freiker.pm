@@ -7,25 +7,19 @@ use base ('Bivio::Test::Language::HTTP');
 use Freiker::Test;
 
 sub do_logout {
-    return shift->visit_uri('/pub/logout');
-}
-
-sub login_as_wheel {
-    my($self, $email) = @_;
-    $self->home_page;
-    $self->follow_link('wheel login');
-    $self->submit_form(Login => {
-	'Your Email:' => $email || Freiker::Test->WHEEL,
-	'Password:' => Freiker::Test->PASSWORD,
-    });
+    $self->follow_link(qr{logout}i);
     return;
 }
 
-sub school_delete {
-    my($self, $zip) = @_;
-    return $self->do_test_backdoor(SchoolDeleteForm => {
-	'Address.zip' => $zip,
+sub login_as {
+    my($self, $email) = @_;
+    $self->home_page;
+    $self->follow_link(qr{login}i);
+    $self->submit_form(Login => {
+	qr{Email}i => $email,
+	qr{password}i => $self->default_password,
     });
+    return;
 }
 
 1;

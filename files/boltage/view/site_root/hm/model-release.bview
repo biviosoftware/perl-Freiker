@@ -3,7 +3,7 @@
 view_parent('base');
 view_put(
     page3_title => 'Model Release Form',
-    page3_content => Join([
+    body => Join([
 	Tag('div', Prose(<<'EOF'), 'prose'),
 <p>
 I hereby consent to the use of this photograph of my child/dependent, and/or

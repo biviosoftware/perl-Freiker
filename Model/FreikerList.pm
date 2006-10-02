@@ -1,78 +1,62 @@
-# Copyright (c) 2005 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::FreikerList;
 use strict;
-$Freiker::Model::FreikerList::VERSION = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-$_ = $Freiker::Model::FreikerList::VERSION;
+use base 'Bivio::Biz::ListModel';
+use Freiker::Biz;
 
-=head1 NAME
-
-Freiker::Model::FreikerList - students
-
-=head1 RELEASE SCOPE
-
-Freiker
-
-=head1 SYNOPSIS
-
-    use Freiker::Model::FreikerList;
-
-=cut
-
-=head1 EXTENDS
-
-L<Bivio::Biz::ListModel>
-
-=cut
-
-use Bivio::Biz::ListModel;
-@Freiker::Model::FreikerList::ISA = ('Bivio::Biz::ListModel');
-
-=head1 DESCRIPTION
-
-C<Freiker::Model::FreikerList>
-
-=cut
-
-#=IMPORTS
-
-#=VARIABLES
-
-=head1 METHODS
-
-=cut
-
-=for html <a name="internal_initialize"></a>
-
-=head2 internal_initialize() : hash_ref
-
-Returns model configuration.
-
-=cut
+our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
-	can_iterate => 1,
-	primary_key => [[qw(User.user_id RealmUser.user_id)]],
-	auth_id => [qw(School.school_id RealmUser.realm_id)],
-	where => [
-	    'realm_user_t.role = ', Bivio::Auth::Role->FREIKER->as_sql_param,
+	primary_key => [
+	    ['RealmUser.user_id', 'Ride.realm_id', 'RealmOwner.realm_id'],
 	],
+        order_by => [
+	    'RealmOwner.display_name',
+	],
+	other => [
+	    {
+		name => 'ride_count',
+		type => 'Integer',
+		constraint => 'NOT_NULL',
+		in_select => 1,
+		select_value => 'COUNT(*) as ride_count',
+		sort_order => 0,
+	    },
+	    ['RealmUser.role', [Bivio::Auth::Role->MEMBER]],
+	    {
+		name => 'Ride.freiker_code',
+		in_select => 0,
+	    },
+	    {
+		name => 'Ride.ride_date',
+		in_select => 0,
+	    },
+	    {
+		name => 'RealmUser.role',
+		in_select => 0,
+	    },
+	],
+	auth_id => 'RealmUser.realm_id',
+	group_by => [qw(
+            RealmUser.user_id
+            RealmOwner.display_name
+	)],
     });
 }
 
-#=PRIVATE SUBROUTINES
-
-=head1 COPYRIGHT
-
-Copyright (c) 2005 bivio Software, Inc.  All Rights Reserved.
-
-=head1 VERSION
-
-$Id$
-
-=cut
+sub internal_prepare_statement {
+    my($self, $stmt) = @_;
+    $stmt->where(
+	$stmt->GTE(
+	    'Ride.ride_date', [Freiker::Biz->current_school_year_start_date]),
+	$stmt->LTE(
+	    'Ride.ride_date', [Freiker::Biz->current_school_year_end_date]),
+    );
+    return shift->SUPER::internal_prepare_statement(@_);
+}
 
 1;

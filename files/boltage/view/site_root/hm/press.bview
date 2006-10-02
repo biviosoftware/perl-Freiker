@@ -2,8 +2,7 @@
 # $Id$
 view_parent('base');
 view_put(
-    page3_title => 'In The News',
-    page3_content => DIV_press(DL(Join([
+    body => DIV_press(DL(Join([
 	map((
 	    DT(Join([
 		"$_->[0] - ",

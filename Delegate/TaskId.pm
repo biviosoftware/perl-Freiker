@@ -1,48 +1,10 @@
-# Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
+# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Delegate::TaskId;
 use strict;
-$Freiker::Delegate::TaskId::VERSION = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-$_ = $Freiker::Delegate::TaskId::VERSION;
+use base 'Bivio::Delegate::SimpleTaskId';
 
-=head1 NAME
-
-Freiker::Delegate::TaskId - additional tasks
-
-=head1 RELEASE SCOPE
-
-Freiker
-
-=head1 SYNOPSIS
-
-    use Freiker::Delegate::TaskId;
-
-=cut
-
-use Bivio::Delegate::SimpleTaskId;
-@Freiker::Delegate::TaskId::ISA = ('Bivio::Delegate::SimpleTaskId');
-
-=head1 DESCRIPTION
-
-C<Freiker::Delegate::TaskId>
-
-=cut
-
-#=IMPORTS
-
-#=VARIABLES
-
-=head1 METHODS
-
-=cut
-
-=for html <a name="get_delegate_info"></a>
-
-=head2 static get_delegate_info() : array_ref
-
-Returns the task declarations.
-
-=cut
+our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub get_delegate_info {
     my($proto) = @_;
@@ -53,10 +15,10 @@ sub get_delegate_info {
 	    GENERAL
 	    ANY_USER
 	    Action.HomeRedirect
-	    wheel_task=WHEEL_BARCODE_UPLOAD
-	    freiker_task=FREIKER_RIDE_LIST
+	    wheel_task=CLUB_FREIKER_LIST
+	    family_task=FAMILY_FREIKER_LIST
 	    next=USER_REALMLESS_REDIRECT
-	    FORBIDDEN=FREIKER_LOGIN
+	    FORBIDDEN=LOGIN
 	)],
 	[qw(
 	    LOGIN
@@ -69,47 +31,8 @@ sub get_delegate_info {
 	    next=MY_SITE
 	)],
 	[qw(
-	    SCHOOL_REGISTER
-	    502
-	    GENERAL
-	    ANYBODY
-	    Action.UserLogout
-	    Model.Lock
-	    Model.SchoolRegisterForm
-	    View.school-register
-	    next=WHEEL_CLASS_LIST
-	)],
-	[qw(
-	    SCHOOL_HOME
-	    503
-	    SCHOOL
-	    ANYBODY
-            Action.ClientRedirect->execute_next
-            next=WHEEL_CLASS_LIST
-	)],
-#504
-	[qw(
-	    WHEEL_CLASS_LIST
-	    505
-	    SCHOOL
-	    ADMIN_READ&ADMIN_WRITE
-	    Model.Lock
-	    Model.ClassList->execute_load_all_with_query
-	    Model.ClassListForm
-	    View.wheel/class-list
-	    next=WHEEL_CLASS_LIST
-	)],
-	[qw(
-	    CLASS_HOME
-	    506
-	    CLASS
-	    ANYBODY
-	    Action.ClientRedirect->execute_next
-	    next=SITE_ROOT
-	)],
-	[qw(
 	    LOGOUT
-	    507
+	    502
 	    GENERAL
 	    ANYBODY
 	    Action.UserLogout
@@ -117,57 +40,8 @@ sub get_delegate_info {
             next=MY_SITE
 	)],
 	[qw(
-	    SCHOOL_REALMLESS_REDIRECT
-	    508
-	    GENERAL
-	    ANYBODY
-	    Action.RealmlessRedirect
-	    visitor_task=SCHOOL_REGISTER
-	    home_task=WHEEL_CLASS_LIST
-	    unauth_task=SITE_ROOT
-	)],
-	[qw(
-	    WHEEL_BARCODE_UPLOAD
-	    509
-	    SCHOOL
-	    ADMIN_READ&ADMIN_WRITE
-	    Model.Lock
-	    Model.BarcodeUploadForm
-	    View.wheel/barcode-upload
-	    next=WHEEL_FREIKER_RANK_LIST
-	)],
-	[qw(
-	    WHEEL_BARCODE_LIST
-	    510
-	    SCHOOL
-	    ADMIN_READ&ADMIN_WRITE
-	    Model.Lock
-	    Model.ClassSelectList->execute_load_all
-	    Model.BarcodeList->execute_load_all_with_query
-	    Model.BarcodeListForm
-	    View.wheel/barcode-list
-	    next=WHEEL_BARCODE_MERGE_LIST
-	)],
-	[qw(
-	    SCHOOL_RANK_LIST
-	    511
-	    GENERAL
-	    ANYBODY
-	    Model.SchoolRankList->execute_load_all_with_query
-	    View.school-rank-list
-	)],
-	[qw(
-	    WHEEL_FREIKER_RANK_LIST
-	    512
-	    SCHOOL
-	    ADMIN_READ
-	    Model.FreikerRankList->execute_load_all_with_query
-	    View.wheel/freiker-rank-list
-	)],
-#513
-	[qw(
 	    USER_REALMLESS_REDIRECT
-	    514
+	    503
 	    GENERAL
 	    ANYBODY
 	    Action.RealmlessRedirect
@@ -176,89 +50,127 @@ sub get_delegate_info {
 	    unauth_task=SITE_ROOT
 	)],
 	[qw(
-            FREIKER_LOGIN
-	    515
-            GENERAL
+	    CLUB_REGISTER
+	    504
+	    GENERAL
 	    ANYBODY
 	    Action.UserLogout
-	    Model.FreikerLoginForm
-	    View.freiker/login
-	    next=FREIKER_RIDE_LIST
-	    info_task=FREIKER_INFO
+	    Model.ClubRegisterForm
+	    View.club/register
+	    next=FAMILY_REGISTER_DONE
+	    reset_task=USER_PASSWORD_RESET
+	    reset_next_task=GENERAL_USER_PASSWORD_QUERY_MAIL
+	    cancel=SITE_ROOT
 	)],
 	[qw(
-            FREIKER_RIDE_LIST
+	    CLUB_REGISTER_DONE
+	    505
+	    GENERAL
+	    ANYBODY
+	    View.mail/registration
+	    View.registration-sent
+	)],
+	[qw(
+	    CLUB_REALMLESS_REDIRECT
+	    506
+	    GENERAL
+	    ANYBODY
+	    Action.RealmlessRedirect
+	    visitor_task=CLUB_REGISTER
+	    home_task=CLUB_FREIKER_LIST
+	    unauth_task=SITE_ROOT
+	)],
+	[qw(
+	    FAMILY_REGISTER
+	    507
+	    GENERAL
+	    ANYBODY
+	    Action.UserLogout
+	    Model.UserRegisterForm
+	    View.family/register
+	    next=FAMILY_REGISTER_DONE
+	    reset_task=USER_PASSWORD_RESET
+	    reset_next_task=GENERAL_USER_PASSWORD_QUERY_MAIL
+	    cancel=SITE_ROOT
+	)],
+	[qw(
+            FAMILY_REGISTER_DONE
+            508
+            GENERAL
+	    ANYBODY
+	    View.mail/registration
+	    View.registration-sent
+        )],
+	[qw(
+	    FAMILY_FREIKER_LIST
+	    509
+	    USER
+	    ADMIN_READ
+	    Model.FreikerList->execute_load_all_with_query
+	    View.family/freiker-list
+	    MODEL_NOT_FOUND=FAMILY_FREIKER_ADD
+	)],
+	[qw(
+	    FAMILY_FREIKER_ADD
+	    510
+	    USER
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.FreikerForm
+	    View.family/freiker-add
+	    next=FAMILY_FREIKER_LIST
+	)],
+	[qw(
+	    FREIKOMETER_UPLOAD
+	    511
+	    CLUB
+	    ANYBODY
+	    Action.BasicAuthorization
+	    Action.FreikometerUpload
+	)],
+	[qw(
+	    CLUB_FREIKER_LIST
+	    512
+	    CLUB
+	    ADMIN_READ
+	    Model.ClubFreikerList->execute_load_all_with_query
+	    View.club/freiker-list
+	)],
+	[qw(
+	    SITE_GEARS
+	    513
+	    GENERAL
+	    ANYBODY
+	    Bivio::UI::View->execute_uri
+        )],
+	[qw(
+	    SITE_PARENTS
+	    514
+	    GENERAL
+	    ANYBODY
+	    Bivio::UI::View->execute_uri
+        )],
+	[qw(
+	    SITE_PRESS
+	    515
+	    GENERAL
+	    ANYBODY
+	    Bivio::UI::View->execute_uri
+        )],
+	[qw(
+	    SITE_PRIZES
 	    516
-            USER
-	    DATA_READ
-	    Model.FreikerRideList->execute_load_all
-	    View.freiker/ride-list
-	    FORBIDDEN=FREIKER_LOGIN
-	)],
+	    GENERAL
+	    ANYBODY
+	    Bivio::UI::View->execute_uri
+        )],
 	[qw(
-            FREIKER_INFO
+	    SITE_WHEELS
 	    517
-            USER
-	    ADMIN_READ&ADMIN_WRITE
-	    Model.FreikerInfoForm
-	    View.freiker/info
-	    FORBIDDEN=FREIKER_LOGIN
-	    next=FREIKER_RIDE_LIST
-	)],
-	[qw(
-	    WHEEL_BARCODE_MERGE_LIST
-	    518
-	    SCHOOL
-	    ADMIN_READ&ADMIN_WRITE
-	    Model.Lock
-	    Model.BarcodeList->execute_load_all
-	    Model.BarcodeMergeList->execute_load_all
-	    Model.BarcodeMergeListForm
-	    View.wheel/barcode-merge-list
-	    next=WHEEL_FREIKER_RANK_LIST
-	    want_query=0
+	    GENERAL
+	    ANYBODY
+	    Bivio::UI::View->execute_uri
         )],
-	[qw(
-	    WHEEL_BARCODE_RIDE_LIST
-	    519
-	    SCHOOL
-	    ADMIN_READ&ADMIN_WRITE
-	    Model.Lock
-	    Model.BarcodeRideList->execute_load_all_with_query
-	    Model.BarcodeRideListForm
-	    View.wheel/barcode-ride-list
-	    next=WHEEL_FREIKER_RANK_LIST
-        )],
-# 	[qw(
-#             FREIKER_PRIZE_LIST
-# 	    518
-#             USER
-# 	    ADMIN_READ&ADMIN_WRITE
-# 	    next=FREIKER_PRIZE_SELECTION
-# 	)],
-# #	    Model.FreikerPrizeListForm
-# #	    View.freiker/prize-list
-# 	[qw(
-#             FREIKER_PRIZE_SELECTION
-# 	    519
-#             USER
-# 	    ADMIN_READ
-# 	)],
-# #	    Model.FreikerPrizeSelectionList->execute_load_this_or_first
-# #	    View.freiker/prize-selection
     ]);
 }
-
-#=PRIVATE METHODS
-
-=head1 COPYRIGHT
-
-Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
-
-=head1 VERSION
-
-$Id$
-
-=cut
 
 1;

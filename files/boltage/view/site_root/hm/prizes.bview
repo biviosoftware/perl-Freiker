@@ -2,8 +2,7 @@
 # $Id$
 view_parent('base');
 view_put(
-    page3_title => 'Ride and Win!',
-    page3_content => Join([
+    body => Join([
 	vs_prose(<<'EOF'),
 <p>
 Prizes are delivered on Friday. We have a variety of

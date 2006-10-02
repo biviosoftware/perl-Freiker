@@ -2,13 +2,11 @@
 # $Id$
 view_parent('base');
 view_put(
-    page3_title => 'Wheels Roll Around',
-    page3_content => Join([
+    body => Join([
 	vs_main_img('wheel'),
 	vs_prose(<<'EOF'),
 <p>
-vs_link(
-'Wheels: click here to login or register your school.', 'SCHOOL_REGISTER');
+Link('Register your school here.', 'FAMILY_REGISTER');
 </p>
 <p>
 Wheels are our main contact with schools in our program.  We provide you
@@ -25,6 +23,9 @@ of smiling faces.
 <p>
 Feel free to contact us at
 vs_gears_email();, if you'd like to learn more.
+</p>
+<p>
+Link('Register your school here.', 'FAMILY_REGISTER');
 </p>
 EOF
     ]),

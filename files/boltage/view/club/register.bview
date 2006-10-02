@@ -1,0 +1,16 @@
+# Copyright (c) 2005 bivio Software, Inc..  All rights reserved.
+# $Id$
+view_parent('base');
+view_put(
+    body => vs_simple_form(ClubRegisterForm => [qw{
+	'FAMILY_REGISTER
+	ClubRegisterForm.RealmOwner.display_name
+	ClubRegisterForm.Email.email
+	-club
+	ClubRegisterForm.club_name
+	ClubRegisterForm.ClubAux.club_size
+	ClubRegisterForm.ClubAux.website
+	ClubRegisterForm.Address.zip
+	'LOGIN
+    }]),
+);
