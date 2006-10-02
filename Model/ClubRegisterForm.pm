@@ -29,6 +29,7 @@ sub internal_initialize {
 	    {
 		name => 'club_name',
 		type => 'RealmOwner.display_name',
+		constraint => 'NOT_NULL',
 	    },
 	    {
 		name => 'Address.zip',
