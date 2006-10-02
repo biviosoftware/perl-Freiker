@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Model::ClubRegisterForm;
 use strict;
-use base 'Bivio::Biz::Model::UserCreateForm';
+use base 'Bivio::Biz::Model::UserRegisterForm';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
