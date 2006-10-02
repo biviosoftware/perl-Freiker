@@ -31,7 +31,7 @@ sub import_csv {
 	    unless $epc->get('zip') eq $zip;
 	my($fc) = $epc->get('freiker_code');
 	Bivio::Die->die(
-	    $fc, ': Freiker code not found in ', $req->get('auth_realm')
+	    $epc, ': Freiker code not found in ', $req->get('auth_realm')
 	) unless $fcl->find_row_by_code($fc);
 	my($v) = {
 	    ride_date => $_D->from_literal_or_die($row->[1]),
