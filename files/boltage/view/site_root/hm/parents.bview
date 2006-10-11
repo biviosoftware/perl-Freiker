@@ -10,36 +10,63 @@ Link('Register your family here.', 'FAMILY_REGISTER');
 <p>
 The Freiker Program encourages kids to ride their bikes to school.  The
 program is Link('run by volunteers', '/hm/wheels');
-and supported with Link('donations from sponsors', '/hm/gears');  You
-can read more about the details of the program at Freiker.org.
+and supported with Link('donations from sponsors', '/hm/gears'); as
+well as parents.
 </p>
-<h3>Barcodes</h3>
+<h3>RFID tags</h3>
 <p>
-To participate in the program, your child's bike is marked with a barcode
-by a Freiker volunteer.  Every day we scan the barcodes so your child can
-win prizes.    The barcode does not identify the program or your child.  This
-is to help ensure your child's privacy.  The code is unique, and our software
-keeps track of codes, and if you choose, your child's class and first name.
+To participate in the program, your child's helmet is marked with an
+Radio Frequency Identifier (RFID) tag by a Freiker volunteer.
+Every day your child must ride by the Freikometer
+to be counted.  The Freikometer runs before and after school so if you are
+late to school or are an afternoon kindergartner, don't worry, you'll be
+counted.  The RFID tag does not identify your child.  This
+is to help ensure you and your child's privacy.  The code is unique, which is
+how our software knows your child has ridden that day.  We <b>do not require</b>
+any information that would identify your child.
 </p>
 <h3>Prizes</h3>
 <p>
 Everybody can Link('win a prize', '/hm/prizes');.  Freiker is not a
-competition.  After ten rides, every Freiker (program participant) is eligble
-for a prize.  Every Monday one child wins an extra prize called the
+competition between children, classes, or schools.  After ten rides, every
+Freiker (program participant) is eligible
+for a prize.
+</p>
+<p>
+Every Monday one child wins an extra prize called the
 Green Gear along with $10 cash.  To be eligible for the Green Gear, a
 child must ride every school day the prior week.  The Green Gear is
 selected randomly from the children who rode the entire week.
-We also give out prizes at the end of the year for top Freikers in each
-class, grade, and school.
+For prizes exchanged for rides,
+</p>
+<p>
+Link('Parents must register', 'FAMILY_REGISTER'); with this website.
+There's no charge, and we only require an email address, which helps
+us avoid phone registrations and allows us to contact you when your child
+wins a prize.
 </p>
 <h3>Rides</h3>
 <p>
-You might have noticed that we've placed barcodes on every bike (located on
-the handlebars or the top tube). Using the barcode (a letter
-followed by three numbers, e.g. A123), you can check
-your child's rides by simply clicking on vs_link('YOUR RIDES', 'MY_SITE'); in
-the upper right-hand corner of freiker.org's home page.  As a security measure,
-you will also be asked for the last three days your child rode to school.
+Your child must ride by the Freikometer in the morning or afternoon.  We
+do our best to instruct your child, but it's up to parents to make sure
+that they follow through.  Some small children need to be reminded, but
+older kids get it right away.
+</p>
+<p>
+Sometimes the Freikometer is broken, or it doesn't read an RFID tag properly.
+In this case, contact your on of your school's Link('Wheels', '/hm/wheel');,
+and they will be able to credit you child.  Eventually, we'll have a way
+of crediting rides directly on the website.
+</p>
+<h3>Cheating</h3>
+<p>
+Each school's Link('Wheels', '/hm/wheel'); decide what is cheating.  Some
+schools include scooters.  Others don't allow them.  With an iPod at
+stake, cheating is inevitable.  If you child is caught checking in with
+the Freikometer and she hasn't ridden to school that day, she will lose
+all her rides up to that point.  Wheels audit from time to time, and it's
+up to you to not let your child checkin without riding.  This is a guideline,
+and you need to talk to your school's Wheels about what is and isn't allowed.
 </p>
 <h3>Sponsors</h3>
 <p>
@@ -53,13 +80,12 @@ Grid([
             ($u =~ /^http/ ? Link($u, $u) : String($u))->put(cell_class => 'value')];
     }
 	['bivio Software, Inc.',  'http://www.bivio.biz'],
-	['DEAN Titanium Bicycles, Inc.',  'http://www.deanbikes.com'],
 	['Catalyst Communication, Inc.',  'http://www.catacom.com'],
-	['Coyote Motors',  'http://www.coyotemotors.biz/'],
-	['Green Acres',  'http://www.4greenacres.com/'],
+	['Colorlink, Inc.',  'http://www.colorlink.com'],
+	['DEAN Titanium Bicycles, Inc.',  'http://www.deanbikes.com'],
 	['Mirrycle Corp.',  'http://www.mirrycle.com'],
+	['SkyeTek, Inc.',  'http://www.skyetek.com'],
 	['University Bicycles',  'http://www.ubikes.com'],
-	['Verlo Mattress Factory',  '28th and Valmont in Boulder'],
     )
 ], {class => 'list'});
 <h3>Safety</h3>
@@ -67,8 +93,8 @@ Grid([
 We are concerned about your child's safety.  Riding to school is a lot of fun,
 and is is very safe.  The more kids that ride together, the more likely they
 are to be seen.  Freiker encourages kids to ride safely.  We will supply
-helmets to children who need them.  Please have your child wear a
-helmet.
+helmets to children who need and cannot afford them.  Your child must wear
+a helmet to participate in the program.
 </p>
 <h3>Photos</h3>
 <p>
@@ -99,9 +125,9 @@ We will gladly accept donations.
 Our program is entirely volunteer run, including the software and hardware
 to run our website.  If you would like to donate,
 please make a check to Freiker, Inc. for any amount and give it to
-a volunteer at your school.   Freiker, Inc. is being formed as a
-501(c)3 federally, tax-exempt non-profit.  This should be completed
-in the 2005 tax year.
+a volunteer at your school.   Freiker, Inc. has applied for
+501(c)3 federally, tax-exempt status.  It should be completed
+in the 2006 tax year.
 </p>
 <h3>Feedback</h3>
 <p>

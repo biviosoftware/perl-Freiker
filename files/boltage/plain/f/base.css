@@ -50,7 +50,6 @@ th {
 }
 .content {
   padding: 1ex 1em 1ex 1em;
-  border-bottom: 1px solid #666666;
 }
 form .check {
   padding-left: 3em;
@@ -121,9 +120,6 @@ form .field {
   margin: 1.5ex 0 1.5ex 0;
   text-align: left;
 }
-.index .graph img {
-  float: right;
-}
 .index h3 {
   margin-top: 1ex;
   text-align: center;
@@ -172,6 +168,8 @@ div.crest_view {
   font-size: 80%;
   padding-top: .3ex;
   padding-bottom: 7ex;
+  border-top: 1px solid #666666;
+  clear: both;
 }
 .foot1, .foot2, .foot3,
 .head1, .head2, .head3 {
@@ -240,7 +238,7 @@ div.crest_view {
 .foot3, .foot2, .head2 {
   white-space: normal;
 }
-.prose p {
+.prose p, .index p {
   text-indent: 2em;
   margin: 2ex 0 2ex 0;
   text-align: left;
@@ -430,4 +428,14 @@ form .submit {
 }
 table.radio_grid {
   margin-left: 0;
+}
+div.left {
+  width: 50%;
+}
+div.right {
+  width: 50%;
+  float: right;
+}
+.index p {
+  text-align: left;
 }

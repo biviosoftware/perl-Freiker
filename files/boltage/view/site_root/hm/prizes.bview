@@ -21,6 +21,41 @@ thanks to Link('Resource Revival, Inc.', 'http://www.resourcerevival.com');
 for supplying the gears.
 </p>
 <p>
+Link(Image('ipod_nano', undef, {class => 'prize_left'}), 'http://www.apple.com/ipodnano');
+An iPod!  This is the piece de resistance for kids nowadays.  If you ride
+90% of the year to school, you'll win one.  It's that simple -- well, not
+really, but there are plenty of other prizes below.  This is just the
+one everybody seems to want.  At Crest View, you have to ride
+SPAN_prize_rides('150 times');, but schools which start Freiker part of the way
+through the year will use a lower number of rides.
+</p>
+<p>
+Link(Image('lance_poster', undef, {class => 'prize_right'}), 'http://www.grahamwatson.com');
+Ooo La La! Link('Graham Watson', 'http://www.grahamwatson.com'); posters
+of Lance Armstrong winning the 2005 Tour de France.  The color and
+scenes are magnificent.  A great way to spice up any Freiker's bedroom
+after only Tag(span => '20 rides', 'prize_rides');.
+</p>
+<p>
+Link(Image('lance_calendar', undef, {class => 'prize_left'}), 'http://www.grahamwatson.com');
+2007! Lance Armstrong calendars from
+Link('Graham Watson', 'http://www.grahamwatson.com'); so you can
+keep track of your Freiker rides, or your homework.  OK, scratch the homework
+bit, you only need Tag(span => '40 rides', 'prize_rides'); for these
+great looking calendars.
+</p>
+<p>
+Link(Image('cateye_velo_5', undef, {class => 'prize_right'}), 'http://www.deanbikes.com');
+Zoom! You can see how fast you are going with the Cateye Velo 5
+Cyclocomputer, which was graciously donated by
+Link('Dean Titanium Bicycles', 'http://www.deanbikes.com');
+The cyclocomputer features an odometer set option,
+pacer (average speed compared to current), velocity indicator,
+auto start/stop, auto-power saving. Functions include current speed,
+elapsed time, total distance, trip distance, average speed and
+a clock (12/24hr).  It's yours after Tag(span => '50 rides', 'prize_rides');.
+</p>
+<p>
 Link(Image('ubikes_water_bottle', undef, {class => 'prize_left'}), 'http://ubikes.com');
 Slurp! Cool water bottles donated by
 Link('University Bicycles', 'http://ubikes.com'); are just the thing
@@ -35,38 +70,6 @@ Link('Mirrycle Corporation', 'http://www.mirrycle.com');
 maker of fine bells and mirrors.  You can make a racket after
 just Tag(span => '10 rides', 'prize_rides');.
 </p>
-<p>
-Link(Image('lance_poster', undef, {class => 'prize_left'}), 'http://www.grahamwatson.com');
-Ooo La La! Link('Graham Watson', 'http://www.grahamwatson.com'); posters
-of Lance Armstrong winning the 2005 Tour de France.  The color and
-scenes are magnificent.  A great way to spice up any Freiker's bedroom
-after only Tag(span => '20 rides', 'prize_rides');.
-</p>
-<p>
-Link(Image('lance_calendar', undef, {class => 'prize_right'}), 'http://www.grahamwatson.com');
-2006! Lance Armstrong calendars from
-Link('Graham Watson', 'http://www.grahamwatson.com'); so you can
-keep track of your Freiker rides, or your homework.  OK, scratch the homework
-bit, you only need Tag(span => '40 rides', 'prize_rides'); for these
-great looking calendars.
-</p>
-<p>
-Link(Image('cateye_velo_5', undef, {class => 'prize_left'}), 'http://www.deanbikes.com');
-Zoom! You can see how fast you are going with the Cateye Velo 5
-Cyclocomputer, which was graciously donated by
-Link('Dean Titanium Bicycles', 'http://www.deanbikes.com');
-The cyclocomputer features an odometer set option,
-pacer (average speed compared to current), velocity indicator,
-auto start/stop, auto-power saving. Functions include current speed,
-elapsed time, total distance, trip distance, average speed and
-a clock (12/24hr).  It's yours after Tag(span => '50 rides', 'prize_rides');.
-</p>
-<p>
-Link(Image('ice_cream_cone', undef, {class => 'prize_right'}), 'http://www.hattoncreamery.com');
-Yum! The Freikers in the top class for each grade will win a free
-Link('Hatton Organic Creamery', 'http://www.hattoncreamery.com'); kid's ice
-cream.  What could be better than a cold ice cream to cool you off after
-a hot Spring day at school.
 EOF
 	vs_main_img('winners'),
     ]),
