@@ -13,7 +13,10 @@ sub execute {
 	unless $m eq 'PUT';
     return _reply($req, FORBIDDEN => "user not a freikometer")
 	unless grep($_->eq_freikometer, @{$req->get('auth_roles')});
-    Bivio::Biz::Model->new($req, 'Ride')->import_csv($req->get_content);
+    _reply($req, HTTP_OK =>
+	'Rides imported: '
+	. Bivio::Biz::Model->new($req, 'Ride')->import_csv($req->get_content)
+    );
     return 1;
 }
 
@@ -21,7 +24,7 @@ sub _reply {
     my($req, $status, $msg) = @_;
     my($n) = Bivio::Ext::ApacheConstants->$status();
     Bivio::IO::Alert->warn($status, ': ', $msg, ' ', $req)
-	unless $status eq 'OK';
+        if $msg;
     $req->get('reply')->set_http_status($n)
 	->set_output_type('text/plain')
 	->set_output(\("$n $status\n"));
