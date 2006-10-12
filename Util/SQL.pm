@@ -52,6 +52,9 @@ sub initialize_test_data {
 	password_ok => 1,
     });
     $req->set_realm(my $club_id = $req->get_nested('Model.Club', 'club_id'));
+    $self->create_test_user(Freiker::Test->FREIKOMETER);
+    $self->new_other('RealmAdmin')->join_user('FREIKOMETER');
+    $req->set_realm($club_id);
     my($epc) = Bivio::Type->get_instance('EPC');
     $epc = $epc->new(Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE)
 	->as_string;
