@@ -22,6 +22,10 @@ sub FREIKER_CODE {
     return '1234';
 }
 
+sub FREIKOMETER {
+    return 'freikometer';
+}
+
 sub PARENT {
     return 'parent';
 }
