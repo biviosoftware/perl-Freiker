@@ -99,6 +99,7 @@ my($_SELF) = __PACKAGE__->new({
 	[USER_PASSWORD_RESET => '?/new-password'],
 	[USER_REALMLESS_REDIRECT => 'ru/*'],
         [ROBOTS_TXT => '/robots.txt'],
+        [FREIKOMETER_UPLOAD => '?/_freikometer-upload'],
     ],
     Text => [
 	[support_email => 'gears'],
