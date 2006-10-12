@@ -7,6 +7,7 @@ use base ('Bivio::Test::Language::HTTP');
 use Freiker::Test;
 
 sub do_logout {
+    my($self) = @_;
     $self->follow_link(qr{logout}i);
     return;
 }
