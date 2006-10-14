@@ -8,10 +8,14 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub execute {
     my(undef, $req) = @_;
-    # See PayPal form
-    my($u, $q) = ($req->get('path_info') || '?') =~ /^(.*?)\?(.*)$/s;
+    # PayPal has odd behavior.  Sometimes it has "return to merchant", iwc
+    # it returns via a GET on a <FORM>.  Other times, it returns directly
+    # to the page.  It seems to be whether it thinks the return URL is legit.
+    my($pi, $q) = $req->get(qw(path_info query));
+    ($pi, $q) = ($pi || '?') =~ /^(.*?)\?(.*)$/s
+	unless $q;
     return {
-	uri => $u,
+	uri => $pi,
 	query => $q,
     };
 }
@@ -20,7 +24,7 @@ sub return_uri {
     my($proto, $form, $ack) = @_;
     my($req) = $form->get_request;
     my($c) = $form->unsafe_get_context;
-#TODO: Special cancel task
+#TODO: Allow different cancel task
     return $req->format_http({
 	task_id => 'PAYPAL_RETURN',
 	# PayPal encodes the "return to merchant" link as a GET form,
