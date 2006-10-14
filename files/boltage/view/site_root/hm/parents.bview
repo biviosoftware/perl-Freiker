@@ -10,8 +10,8 @@ Link('Register your family here.', 'FAMILY_REGISTER');
 <p>
 The Freiker Program encourages kids to ride their bikes to school.  The
 program is Link('run by volunteers', '/hm/wheels');
-and supported with Link('donations from sponsors', '/hm/gears'); as
-well as parents.
+and supported with Link('donations from sponsors', 'SITE_SPONSORS'); as
+well as parents.  Link('Please donate to Freiker!', 'SITE_DONATE');
 </p>
 <h3>RFID tags</h3>
 <p>

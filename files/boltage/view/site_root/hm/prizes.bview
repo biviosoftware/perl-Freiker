@@ -8,7 +8,7 @@ view_put(
 Prizes are delivered on Friday. We have a variety of
 Tag(span => '10-ride', 'prize_rides'); prizes.
 Your wheels will have a bag or box of them.
-Link('Click here to donate prizes or money.', '/hm/gears');
+Link('Click here to donate prizes or money.', 'SITE_DONATE');
 </p>
 <p>
 Link(Image('green_gear', undef, {class => 'prize_right'}), 'http://www.resourcerevival.com');

@@ -136,7 +136,7 @@ sub get_delegate_info {
 	    View.club/freiker-list
 	)],
 	[qw(
-	    SITE_GEARS
+	    SITE_SPONSORS
 	    513
 	    GENERAL
 	    ANYBODY
@@ -169,6 +169,22 @@ sub get_delegate_info {
 	    GENERAL
 	    ANYBODY
 	    Bivio::UI::View->execute_uri
+        )],
+	[qw(
+	    SITE_DONATE
+	    518
+	    GENERAL
+	    ANYBODY
+	    Model.PayPalForm
+	    Bivio::UI::View->execute_uri
+	    next=SITE_ROOT
+        )],
+	[qw(
+	    PAYPAL_RETURN
+	    519
+	    GENERAL
+	    ANYBODY
+	    Action.PayPalReturn
         )],
     ]);
 }

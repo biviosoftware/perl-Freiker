@@ -11,10 +11,10 @@ view_put(
     base_menu => TaskMenu([qw(
 	USER_PASSWORD
 	FAMILY_FREIKER_LIST
-	SITE_GEARS
 	SITE_PARENTS
         SITE_PRESS
         SITE_PRIZES
+	SITE_SPONSORS
         SITE_WHEELS
     )]),
 );
@@ -38,15 +38,19 @@ view_main(Page3({
 	    vs_text([sub {"page3.title.$_[1]"}, ['task_id', '->get_name']]),
 	)),
     ]),
-    head3 => Director(
+    head3 => Join([
+	Director(
 	['user_state', '->get_name'],
 	{
 	    JUST_VISITOR => vs_link('Register', 'FAMILY_REGISTER'),
 	    LOGGED_OUT => Link('Login', {task_id => 'LOGIN', no_context => 1}),
 	    LOGGED_IN => vs_link('Logout', 'LOGOUT'),
 	},
-    ),
+    )]),
     content => DIV_base_content(Join([
+	If(['task_id', '->eq_site_donate'],
+	   '',
+	   DIV_donate(Link(Image('donate', 'Please donate'), 'SITE_DONATE'))),
 	DIV_top(Join([
 	    DIV_tools(Join([
 		view_widget_value('base_tools'),
@@ -66,6 +70,7 @@ view_main(Page3({
 	),
     ])),
     foot2 => TaskMenu([
+	'SITE_DONATE',
 	'SITE_ROOT',
 	{task_id => 'LOGIN', no_context => 1},
         'FAMILY_REGISTER',
