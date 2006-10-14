@@ -31,7 +31,7 @@ sub execute_ok {
 	query => {
 	    cmd => '_xclick',
 	    business => 'paypal-donations@freiker.org',
-	    item_name => 'Frequent Biker Program Donation',
+	    item_name => 'Donation to Freiker: The Frequent Biker Program',
 	    amount => $self->get('amount'),
 	    no_shipping => 1,
 	    no_note => 1,
