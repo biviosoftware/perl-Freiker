@@ -1,0 +1,47 @@
+# Copyright (c) 2005-2006 bivio Software, Inc.  All rights reserved.
+# $Id$
+view_parent('base');
+view_put(
+    body => Join([
+	Tag('div', Prose(<<'EOF'), 'prose', {id => 'gears'}),
+<p>
+Thanks for helping us out with Freiker.  Our goal is to help children
+develop healthy transportion choices and habits through an incentive
+program.  Kids earn credits towards prizes every time they ride their
+bike to school.  Top freikers in a variety of categories (class,
+grade, school, district, state, national) receive extra prizes.  The
+better the prizes, the more riders we have.
+</p>
+<p>
+You can sponsor us by giving us prizes or by donating money.  The prizes
+need to be something elementary school kids would like.  Money goes a
+long way, because we buy prizes in bulk, and merchants often give us
+a discount.
+</p>
+<p>
+Please contact us at
+vs_gears_email(); if you would like donate prizes or money.
+</p>
+<div class="simple">
+Link(Image('bivio', 'bivio Software, Inc.'), 'http://www.bivio.biz');
+Link(Image('catacom', 'Catalyst Communication, Inc.'), 'http://www.catacom.com');
+Link(Image('colorlink', 'ColorLink, Inc.'), 'http://www.colorlink.com');
+Link(Image('compassbank', 'Compass Bank'), 'http://www.compassbank.com');
+Link(Image('coyotemotors', 'Coyote Motors'), 'http://www.coyotemotors.biz');
+Link(Image('deanbikes', 'DEAN Titanium Bicycles, Inc.'), 'http://www.deanbikes.com');
+Link(Image('descente', 'Descente'), 'http://www.descente.com');
+Link(Image('grahamwatson', 'Graham Watson'), 'http://www.grahamwatson.com');
+Link(Image('4greenacres', 'Green Acres'), 'http://www.4greenacres.com');
+Link(Image('hattoncreamery', 'Hatton Organic Creamery'), 'http://www.hattoncreamery.com');
+Link(Image('mirrycle', 'Mirrycle Corp.'), 'http://www.mirrycle.com');
+Link(Image('resourcerevival', 'Resource Revival, Inc.'), 'http://www.resourcerevival.com');
+Link(Image('skyetek', 'Skyetek, Inc.'), 'http://www.skyetek.com');
+Link(Image('trail-kids', 'Trail Kids'), 'http://www.trail-kids.com');
+Link(Image('ubikes', 'University Bicycles'), 'http://www.ubikes.com');
+Link(Image('vectrabank', 'VectraBank'), 'http://www.vectrabank.com');
+Link(Image('verlo', 'Verlo Mattress Factory.'), 'http://verlo.com/customerservice/locate.do?zip=80301&radius=1');
+Link(Image('wildoats', 'Wild Oats Markets, Inc.'), 'http://www.wildoats.com');
+</div>
+EOF
+    ]),
+);
