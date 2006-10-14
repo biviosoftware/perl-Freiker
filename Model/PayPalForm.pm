@@ -35,7 +35,6 @@ sub execute_ok {
 	    amount => $self->get('amount'),
 	    no_shipping => 1,
 	    no_note => 1,
-	    tax => 0,
 	    currency_code => 'USD',
 	    return => $_PPR->return_uri($self, 'paypal_ok'),
 	    cancel_return => $_PPR->return_uri($self, 'paypal_cancel'),
