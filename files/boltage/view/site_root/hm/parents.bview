@@ -68,6 +68,28 @@ all her rides up to that point.  Wheels audit from time to time, and it's
 up to you to not let your child checkin without riding.  This is a guideline,
 and you need to talk to your school's Wheels about what is and isn't allowed.
 </p>
+<h3>Safety</h3>
+<p>
+We are concerned about your child's safety.  Riding to school is a lot of fun,
+and is is very safe.  The more kids that ride together, the more likely they
+are to be seen.  Freiker encourages kids to ride safely.  We will supply
+helmets to children who need and cannot afford them.  Your child must wear
+a helmet to participate in the program.
+</p>
+<p>
+Tag('B', q{Parents are responsible for their child's safety.});
+Please teach your children about road safety.
+We recommend you ride with your child until you are satisfied
+your child can ride alone. There are many excellent resources that help
+you understand bike safety, for example,
+Link(Simple('KidsHealth&reg;'),
+    'http://kidshealth.org/kid/watch/out/bike_safety.html');,
+Link(Simple('BicycleSafe.com'), 'http://bicyclesafe.com/');,
+Link('National Fire Prevention Association',
+     'http://www.nfpa.org/riskwatch/parent_bike.html');,
+and Link('Pedestrian and Bicycle Information Center',
+    'http://www.bicyclinginfo.org/ee/ed_child_main.cfm');.
+</p>
 <h3>Sponsors</h3>
 <p>
 Please visit our sponsors:
@@ -88,15 +110,7 @@ Grid([
 	['University Bicycles',  'http://www.ubikes.com'],
     )
 ], {class => 'list'});
-<h3>Safety</h3>
-<p>
-We are concerned about your child's safety.  Riding to school is a lot of fun,
-and is is very safe.  The more kids that ride together, the more likely they
-are to be seen.  Freiker encourages kids to ride safely.  We will supply
-helmets to children who need and cannot afford them.  Your child must wear
-a helmet to participate in the program.
-</p>
-<h3>Photos</h3>
+H3('Photos');
 <p>
 From time to time, we may take photographs of your child.  We will not
 publish photographs of your child without your permission.  If we take
