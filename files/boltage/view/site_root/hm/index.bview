@@ -4,7 +4,9 @@ view_parent('base');
 view_put(
     body => DIV_index(Join([
 	DIV_right(Prose(<<'EOF')),
-Image('freiker-weather', 'Year on year comparison of Freikers vs. Weather');
+Link(
+    Image('freikometer', 'See the Freikometer movie'),
+    '/m/freikometer.avi');
 H4('Fried-o-whatsit?');
 <p>
 That's "Freikometer", and it puts the fun back into bike encouragement
@@ -48,9 +50,7 @@ to ride 150 times to have a chance to win a big prize, just one week.
 That's an achievable goal for any kid, and it's the first step
 towards a healthier, more self-reliant, more alert student.
 </p>
-Link(
-    Image('freikometer', 'See the Freikometer movie'),
-    '/m/freikometer.avi');
+Image('freiker-weather', 'Year on year comparison of Freikers vs. Weather');
 EOF
     ])),
 );
