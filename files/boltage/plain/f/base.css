@@ -432,11 +432,11 @@ table.radio_grid {
   margin-left: 0;
 }
 div.left {
-  width: 50%;
+  width: 49%;
   float: left;
 }
 div.right {
-  width: 50%;
+  width: 49%;
   float: right;
 }
 .index p {
