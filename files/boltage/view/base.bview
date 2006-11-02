@@ -48,8 +48,7 @@ view_main(Page3({
 	},
     )]),
     content => DIV_base_content(Join([
-	If(['task_id', '->eq_site_donate'],
-	   '',
+	If(['!', 'task_id', '->eq_site_donate'],
 	   DIV_donate(Link(Image('donate', 'Please donate'), 'SITE_DONATE'))),
 	DIV_top(Join([
 	    DIV_tools(Join([
