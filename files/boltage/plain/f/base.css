@@ -230,7 +230,6 @@ div.crest_view {
 }
 .topic {
   text-align: center;
-  margin: auto;
   color: #666666;
   font-size: 150%;
   margin-bottom: 1ex;
@@ -434,6 +433,7 @@ table.radio_grid {
 }
 div.left {
   width: 50%;
+  float: left;
 }
 div.right {
   width: 50%;
