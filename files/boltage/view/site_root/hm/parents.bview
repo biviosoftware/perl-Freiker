@@ -90,26 +90,6 @@ Link('National Fire Prevention Association',
 and Link('Pedestrian and Bicycle Information Center',
     'http://www.bicyclinginfo.org/ee/ed_child_main.cfm');.
 </p>
-<h3>Sponsors</h3>
-<p>
-Please visit our sponsors:
-</p>
-Grid([
-    map({
-        my($n, $u) = @$_;
-	[String($n, undef, {cell_class => 'label'}),
-            Image('heart_14'),
-            ($u =~ /^http/ ? Link($u, $u) : String($u))->put(cell_class => 'value')];
-    }
-	['bivio Software, Inc.',  'http://www.bivio.biz'],
-	['Catalyst Communication, Inc.',  'http://www.catacom.com'],
-	['Colorlink, Inc.',  'http://www.colorlink.com'],
-	['DEAN Titanium Bicycles, Inc.',  'http://www.deanbikes.com'],
-	['Mirrycle Corp.',  'http://www.mirrycle.com'],
-	['SkyeTek, Inc.',  'http://www.skyetek.com'],
-	['University Bicycles',  'http://www.ubikes.com'],
-    )
-], {class => 'list'});
 H3('Photos');
 <p>
 From time to time, we may take photographs of your child.  We will not
