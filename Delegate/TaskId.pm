@@ -140,35 +140,35 @@ sub get_delegate_info {
 	    513
 	    GENERAL
 	    ANYBODY
-	    Bivio::UI::View->execute_uri
+	    Action.LocalFilePlain->execute_uri_as_view
         )],
 	[qw(
 	    SITE_PARENTS
 	    514
 	    GENERAL
 	    ANYBODY
-	    Bivio::UI::View->execute_uri
+	    Action.LocalFilePlain->execute_uri_as_view
         )],
 	[qw(
 	    SITE_PRESS
 	    515
 	    GENERAL
 	    ANYBODY
-	    Bivio::UI::View->execute_uri
+	    Action.LocalFilePlain->execute_uri_as_view
         )],
 	[qw(
 	    SITE_PRIZES
 	    516
 	    GENERAL
 	    ANYBODY
-	    Bivio::UI::View->execute_uri
+	    Action.LocalFilePlain->execute_uri_as_view
         )],
 	[qw(
 	    SITE_WHEELS
 	    517
 	    GENERAL
 	    ANYBODY
-	    Bivio::UI::View->execute_uri
+	    Action.LocalFilePlain->execute_uri_as_view
         )],
 	[qw(
 	    SITE_DONATE
@@ -176,7 +176,7 @@ sub get_delegate_info {
 	    GENERAL
 	    ANYBODY
 	    Model.PayPalForm
-	    Bivio::UI::View->execute_uri
+	    Action.LocalFilePlain->execute_uri_as_view
 	    next=SITE_ROOT
         )],
 	[qw(
