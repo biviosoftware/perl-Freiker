@@ -11,6 +11,13 @@ view_put(
 	    ])),
 	    DD(Link(B($_->[1]), $_->[2])),
 	), [
+	    '11/02/2006',
+	    'Biking To School Becomes Popular Among Kids',
+	    'http://www.thedenverchannel.com/video/10229138/detail.html',
+	    'ABC News, Channel 7 Denver',
+	    'http://www.thedenverchannel.com',
+	    'TV (video stream)',
+	], [
 	    '08/04/2006',
 	    'Freikometer Logs Student Bike Rides to School',
 	    'http://bcbr.datajoe.com/app/ecom/pub_article_details.php?id=82403',
