@@ -11,13 +11,17 @@ sub execute {
     my($m) = uc($req->get('r')->method);
     return _reply($req, HTTP_NOT_IMPLEMENTED => "$m: method unsupported")
 	unless $m eq 'PUT';
-    return _reply($req, FORBIDDEN => "user not a freikometer")
-	unless grep($_->eq_freikometer, @{$req->get('auth_roles')});
-    _reply($req, HTTP_OK =>
-	'Rides imported: '
-	. Bivio::Biz::Model->new($req, 'Ride')->import_csv($req->get_content)
-    );
-    return 1;
+    foreach my $r (values(%{$req->get_user_realms})) {
+	next unless $r->{'RealmOwner.realm_type'}->eq_club
+	    && $r->{'RealmUser.role'}->eq_freikometer;
+	$req->set_realm($r->{'RealmOwner.name'});
+	return _reply(
+	    $req,
+	    HTTP_OK => 'Rides imported: ',
+	    Bivio::Biz::Model->new($req, 'Ride')->import_csv($req->get_content),
+	);
+    }
+    return _reply($req, FORBIDDEN => 'user not a freikometer');
 }
 
 sub _reply {
