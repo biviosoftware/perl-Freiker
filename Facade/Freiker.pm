@@ -103,7 +103,7 @@ my($_SELF) = __PACKAGE__->new({
 	[USER_REALMLESS_REDIRECT => 'ru/*'],
         [PAYPAL_RETURN => 'pp/*'],
         [ROBOTS_TXT => 'robots.txt'],
-        [FREIKOMETER_UPLOAD => '?/_freikometer-upload'],
+        [FREIKOMETER_UPLOAD => '_fm_upload'],
     ],
     Text => [
 	[support_email => 'gears'],
