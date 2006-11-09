@@ -122,7 +122,7 @@ sub get_delegate_info {
 	[qw(
 	    FREIKOMETER_UPLOAD
 	    511
-	    CLUB
+	    GENERAL
 	    ANYBODY
 	    Action.BasicAuthorization
 	    Action.FreikometerUpload
