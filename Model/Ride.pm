@@ -34,7 +34,7 @@ sub import_csv {
 	    $epc, ': Freiker code not found in ', $req->get('auth_realm')
 	) unless $fcl->find_row_by_code($fc);
 	my($v) = {
-	    ride_date => $_D->from_literal_or_die($row->[1]),
+	    ride_date => $_D->from_literal_or_die($row->[1] =~ /^(\d{8})/),
 	    freiker_code => $fc,
 	};
 	next if $self->unauth_load($v);
