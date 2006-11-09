@@ -11,7 +11,7 @@ my($_EPC) = Bivio::Type->get_instance('EPC');
 my($_DT) = Bivio::Type->get_instance('DateTime');
 
 sub CSV_HEADER {
-    return "EPC,Date";
+    return "EPC,DateTime";
 }
 
 sub import_csv {

@@ -8,8 +8,7 @@ my($epc) = Bivio::Type->get_instance('EPC')
 foreach my $c (qw(Date DateTime)) {
     my($date) = Bivio::Type->get_instance($c)->local_now_as_file_name;
     send_request(PUT => '/_fm_upload', undef, <<"EOF");
-EPC,Date
+EPC,DateTime
 $epc,$date
 EOF
 }
-
