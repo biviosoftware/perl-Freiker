@@ -7,7 +7,7 @@ use Bivio::Test::Language::HTTP;
 use Freiker::Test;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_D) = Bivio::Type->get_instance('Date');
+my($_DT) = Bivio::Type->get_instance('DateTime');
 
 # su - postgres -c 'createuser --no-createdb --no-adduser --pwprompt fruser; createdb --owner fruser fr'
 
@@ -60,7 +60,8 @@ sub initialize_test_data {
 	->as_string;
     Bivio::Biz::Model->new($req, 'FreikerCode')->import_csv("$epc\n");
     my($r) = Bivio::Biz::Model->new($req, 'Ride');
-    $r->import_csv($r->CSV_HEADER . "\n$epc," . $_D->local_today . "\n");
+    $r->import_csv(
+	$r->CSV_HEADER . "\n$epc," . $_DT->local_now_as_file_name . "\n");
     Bivio::Biz::Model->new($req, 'UserRegisterForm')->process({
 	'RealmOwner.display_name' => Freiker::Test->PARENT,
 	'Address.zip' => Freiker::Test->ZIP,
