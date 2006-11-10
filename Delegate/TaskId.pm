@@ -132,7 +132,7 @@ sub get_delegate_info {
 	    512
 	    CLUB
 	    ADMIN_READ
-	    Model.ClubFreikerList->execute_load_all_with_query
+	    Model.ClubFreikerList->execute_load_page
 	    View.club/freiker-list
 	)],
 	[qw(
@@ -186,6 +186,14 @@ sub get_delegate_info {
 	    ANYBODY
 	    Action.PayPalReturn
         )],
+	[qw(
+	    FAMILY_FREIKER_RIDE_LIST
+	    520
+	    USER
+	    ADMIN_READ
+	    Model.FreikerRideList->execute_load_page
+	    View.family/freiker-ride-list
+	)],
     ]);
 }
 
