@@ -50,6 +50,19 @@ th {
   border: 2px solid #33CC00;
   padding: .5em;
 }
+div.base_content {
+  float: left;
+  position: relative;
+  width: 100%;
+  padding-bottom: 2ex;
+}
+div.base_content .body {
+  margin-top: 1ex;
+  margin-bottom: 1ex;
+}
+.content {
+  overflow: hidden;
+}
 .content {
   padding: 0 1em 1ex 1em;
 }
@@ -398,15 +411,20 @@ h3 {
    margin-bottom: -1ex;
    color: #33CC00;
 }
+.top,
 .top .task_menu, .top .pager {
   text-align: right;
   white-space: nowrap;
   display: inline;
 }
+.bottom,
 .bottom .pager, .bottom .task_menu {
   text-align: left;
   white-space: nowrap;
   display: inline;
+}
+.bottom .tools {
+  padding-bottom: 1ex;
 }
 .off {
   color: #999999;
