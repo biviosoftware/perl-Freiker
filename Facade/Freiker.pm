@@ -128,6 +128,11 @@ my($_SELF) = __PACKAGE__->new({
 	[confirm_password => 'Re-enter Password'],
 	[['email', 'login'] => 'Your Email'],
 	[club_name => 'Official Name'],
+	[[qw(paged_detail paged_list)] => [
+	    prev => 'Back',
+	    next => 'Next',
+	    list => 'Back to list',
+	]],
 	[Ride => [
 	    ride_date => 'Date',
 	]],
