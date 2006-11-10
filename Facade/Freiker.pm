@@ -78,6 +78,7 @@ my($_SELF) = __PACKAGE__->new({
 	[FAMILY_REGISTER_DONE => undef],
 	[FAMILY_FREIKER_ADD => '?/register-freiker'],
 	[FAMILY_FREIKER_LIST => '?/freikers'],
+	[FAMILY_FREIKER_RIDE_LIST => '?/rides'],
 	[FAVICON_ICO => '/favicon.ico'],
 	[FORBIDDEN => undef],
 	[GENERAL_USER_PASSWORD_QUERY => '/pub/forgot-password'],
@@ -127,6 +128,9 @@ my($_SELF) = __PACKAGE__->new({
 	[confirm_password => 'Re-enter Password'],
 	[['email', 'login'] => 'Your Email'],
 	[club_name => 'Official Name'],
+	[Ride => [
+	    ride_date => 'Date',
+	]],
 	['Address.zip.desc' =>
 	     q{A 9-digit US zip code is required.  Link('Look up at the US Postal service website', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});, if you don't know it},],
 	[ClubRegisterForm => [
@@ -208,6 +212,7 @@ my($_SELF) = __PACKAGE__->new({
 	    SITE_PRESS => 'In the news',
 	    SITE_PRIZES => 'Ride and win!',
 	    SITE_WHEELS => 'Wheels roll around',
+	    FAMILY_FREIKER_RIDE_LIST => 'String([qw(Model.FreikerRideList ->get_display_name)]); Rides',
 	]],
 	['task_menu.title' => [
 	    LOGIN => 'Login',
