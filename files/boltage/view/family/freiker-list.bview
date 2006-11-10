@@ -5,6 +5,11 @@ view_put(
     base_tools => TaskMenu(['FAMILY_FREIKER_ADD']),
     body => vs_list(FreikerList => [
 	'RealmOwner.display_name',
-	'ride_count',
+	[ride_count => {
+	    wf_list_link => {
+		task => 'FAMILY_FREIKER_RIDE_LIST',
+		query => 'THIS_CHILD_LIST',
+	    },
+	}],
     ]),
 );
