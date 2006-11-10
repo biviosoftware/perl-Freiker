@@ -61,7 +61,7 @@ div.base_content .body {
   margin-bottom: 1ex;
 }
 .content {
-  overflow: hidden;
+/*  overflow: hidden; */
 }
 .content {
   padding: 0 1em 1ex 1em;
