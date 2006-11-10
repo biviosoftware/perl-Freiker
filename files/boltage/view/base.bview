@@ -7,6 +7,8 @@ view_put(
     map(($_ => ''), qw(top body bottom)),
     base_realm => 'Freiker',
     base_tools => '',
+    base_topic => '',
+    base_byline => '',
     pager => '',
     base_menu => TaskMenu([qw(
 	USER_PASSWORD
@@ -34,7 +36,7 @@ view_main(Page3({
     head2 => Join([
 	P_realm(view_widget_value('base_realm')),
 	P_menu(view_widget_value('base_menu')),
-	P_topic(String(
+	P_topic(Prose(
 	    vs_text([sub {"page3.title.$_[1]"}, ['task_id', '->get_name']]),
 	)),
     ]),
@@ -57,6 +59,10 @@ view_main(Page3({
 	    ], {
 		join_separator => EmptyTag(DIV => 'sep'),
 	    })),
+	    map(
+		DIV(view_widget_value("base_$_"), $_),
+		qw(topic byline),
+	    ),
 	])),
 	DIV_body(view_widget_value('body')),
 	DIV_bottom(
