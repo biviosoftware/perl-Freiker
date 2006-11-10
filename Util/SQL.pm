@@ -56,9 +56,13 @@ sub initialize_test_data {
     $self->new_other('RealmAdmin')->join_user('FREIKOMETER');
     $req->set_realm($club_id);
     my($epc) = Bivio::Type->get_instance('EPC');
+    my($other_epc) = $epc->new(
+	Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE + 1)
+	->as_string;
     $epc = $epc->new(Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE)
 	->as_string;
-    Bivio::Biz::Model->new($req, 'FreikerCode')->import_csv("$epc\n");
+    Bivio::Biz::Model->new($req, 'FreikerCode')
+	    ->import_csv("$epc\n$other_epc\n");
     my($r) = Bivio::Biz::Model->new($req, 'Ride');
     $r->import_csv(
 	$r->CSV_HEADER . "\n$epc," . $_DT->local_now_as_file_name . "\n");
