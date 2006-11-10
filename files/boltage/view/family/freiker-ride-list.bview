@@ -3,7 +3,7 @@
 view_parent('family');
 view_put(
     base_tools => TaskMenu(['FAMILY_FREIKER_LIST']),
-    body => vs_list(FreikerRideList => [
+    body => vs_paged_list(FreikerRideList => [
 	'Ride.ride_date',
     ]),
 );
