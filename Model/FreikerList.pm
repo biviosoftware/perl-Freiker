@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Model::FreikerList;
 use strict;
-use base 'Bivio::Biz::ListModel';
+use base 'Freiker::Model::YearBaseList';
 use Freiker::Biz;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
@@ -46,17 +46,6 @@ sub internal_initialize {
             RealmOwner.display_name
 	)],
     });
-}
-
-sub internal_prepare_statement {
-    my($self, $stmt) = @_;
-    $stmt->where(
-	$stmt->GTE(
-	    'Ride.ride_date', [Freiker::Biz->current_school_year_start_date]),
-	$stmt->LTE(
-	    'Ride.ride_date', [Freiker::Biz->current_school_year_end_date]),
-    );
-    return shift->SUPER::internal_prepare_statement(@_);
 }
 
 1;
