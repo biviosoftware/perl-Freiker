@@ -17,7 +17,7 @@ sub execute {
 	$req->set_realm($r->{'RealmOwner.name'});
 	return _reply(
 	    $req,
-	    HTTP_OK => 'Rides imported: ',
+	    HTTP_OK => 'Rides imported: ' .
 	    Bivio::Biz::Model->new($req, 'Ride')->import_csv($req->get_content),
 	);
     }
