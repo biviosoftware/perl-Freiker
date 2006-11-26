@@ -6,6 +6,10 @@ use base 'Bivio::Biz::ListModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
+sub find_row_by_date {
+    return shift->find_row_by('Ride.ride_date', shift);
+}
+
 sub internal_prepare_statement {
     my($self, $stmt) = @_;
     $stmt->where(

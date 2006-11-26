@@ -78,3 +78,7 @@ CREATE INDEX ride_t7 ON ride_t (
   creation_date_time
 )
 /
+ALTER TABLE ride_t
+  ADD CONSTRAINT ride_t8
+  CHECK (is_manual_entry BETWEEN 0 AND 1)
+/

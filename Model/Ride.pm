@@ -7,11 +7,22 @@ use Bivio::Util::CSV;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = Bivio::Type->get_instance('Date');
+my($_T) = Bivio::Type->get_instance('Time');
 my($_EPC) = Bivio::Type->get_instance('EPC');
 my($_DT) = Bivio::Type->get_instance('DateTime');
+my($_NO_TIME) = $_DT->time_from_parts(0, 0, 0);
 
 sub CSV_HEADER {
     return "EPC,DateTime";
+}
+
+sub create {
+    my($self, $values) = @_;
+    $values->{ride_time} ||= $_NO_TIME;
+    $values->{creation_date_time} ||= $_DT->now;
+    $values->{is_manual_entry} = 1
+	unless defined($values->{is_manual_entry});
+    return shift->SUPER::create(@_);
 }
 
 sub import_csv {
@@ -33,8 +44,10 @@ sub import_csv {
 	Bivio::Die->die(
 	    $epc, ': Freiker code not found in ', $req->get('auth_realm')
 	) unless $fcl->find_row_by_code($fc);
+	Bivio::Die->die($row->[1], ': bad date time')
+	    unless my($d, $t) = $row->[1] =~ /^(\d{8})(\d{6})$/;
 	my($v) = {
-	    ride_date => $_D->from_literal_or_die($row->[1] =~ /^(\d{8})/),
+	    ride_date => $_D->from_literal_or_die($d),
 	    freiker_code => $fc,
 	};
 	next if $self->unauth_load($v);
@@ -42,7 +55,8 @@ sub import_csv {
 	    %$v,
 	    realm_id => $fcl->unsafe_get('Ride.realm_id')
 		|| $req->get('auth_id'),
-	    creation_date_time => $_DT->now,
+	    ride_time => $_T->from_literal_or_die($t),
+	    is_manual_entry => 0,
 	});
 	$res++;
     }
@@ -60,6 +74,8 @@ sub internal_initialize {
 	    # Club or User
             realm_id => ['RealmOwner.realm_id', 'NOT_NULL'],
             creation_date_time => ['DateTime', 'NOT_NULL'],
+	    ride_time => ['Time', 'NOT_NULL'],
+	    is_manual_entry => ['Boolean', 'NOT_NULL'],
         },
     });
 }

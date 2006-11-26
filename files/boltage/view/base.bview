@@ -10,15 +10,21 @@ view_put(
     base_topic => '',
     base_byline => '',
     pager => '',
-    base_menu => TaskMenu([qw(
-	USER_PASSWORD
-	FAMILY_FREIKER_LIST
-	SITE_PARENTS
-        SITE_PRESS
-        SITE_PRIZES
-	SITE_SPONSORS
-        SITE_WHEELS
-    )]),
+    base_menu => TaskMenu([
+	'USER_PASSWORD',
+	'FAMILY_FREIKER_LIST',
+#         {
+# 	    task_id => 'CLUB_FREIKER_LIST',
+# 	    realm => 'my-school',
+# 	    control => ['->map_user_realms', undef,
+# 	        {realm_type => Bivio::Auth::RealmType->CLUB}],
+# 	},
+	'SITE_PARENTS',
+        'SITE_PRESS',
+        'SITE_PRIZES',
+	'SITE_SPONSORS',
+        'SITE_WHEELS',
+    ]),
 );
 view_main(Page3({
     head1 => If(['->is_substitute_user'],

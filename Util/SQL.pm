@@ -11,11 +11,6 @@ my($_DT) = Bivio::Type->get_instance('DateTime');
 
 # su - postgres -c 'createuser --no-createdb --no-adduser --pwprompt fruser; createdb --owner fruser fr'
 
-#TODO: Remove after 10/15/06
-sub TEST_PASSWORD {
-    return 'password';
-}
-
 sub ddl_files {
     return shift->SUPER::ddl_files(['bOP', 'fr']);
 }
@@ -57,7 +52,7 @@ sub initialize_test_data {
     $req->set_realm($club_id);
     my($epc) = Bivio::Type->get_instance('EPC');
     my($other_epc) = $epc->new(
-	Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE + 1)
+	Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE(1))
 	->as_string;
     $epc = $epc->new(Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE)
 	->as_string;
@@ -66,7 +61,7 @@ sub initialize_test_data {
     my($r) = Bivio::Biz::Model->new($req, 'Ride');
     $r->import_csv(
 	$r->CSV_HEADER . "\n$epc," . $_DT->local_now_as_file_name . "\n");
-    Bivio::Biz::Model->new($req, 'UserRegisterForm')->process({
+    $self->model(UserRegisterForm => {
 	'RealmOwner.display_name' => Freiker::Test->PARENT,
 	'Address.zip' => Freiker::Test->ZIP,
 	'RealmOwner.name' => Freiker::Test->PARENT,
@@ -75,14 +70,51 @@ sub initialize_test_data {
 	'Email.email' => $self->format_test_email(Freiker::Test->PARENT),
 	password_ok => 1,
     });
-    $req->set_realm($req->get_nested('Model.User', 'user_id'));
-    Bivio::Biz::Model->new($req, 'FreikerForm')->process({
-	'User.first_name' => 'child',
-	'Club.club_id' => $club_id,
-	'FreikerCode.freiker_code' => Freiker::Test->FREIKER_CODE,
-	'User.gender' => Bivio::Type->get_instance('Gender')->FEMALE,
-	'birth_year' => 99,
-    });
+    my($parent) = $req->get_nested('Model.User', 'user_id');
+    foreach my $n (0, 1) {
+	$req->set_realm($parent);
+	$self->model(FreikerForm => {
+	    'User.first_name' => my $name = Freiker::Test->CHILD($n),
+	    'Club.club_id' => $club_id,
+	    'FreikerCode.freiker_code' => Freiker::Test->FREIKER_CODE($n),
+	    'User.gender' => $self->use('Type.Gender')->FEMALE,
+	    'birth_year' => 1999,
+	});
+	$req->set_realm($req->get_nested(qw(Model.User user_id)));
+	$req->get_nested(qw(auth_realm owner))->update({name => $name});
+    }
+    return;
+}
+
+sub internal_upgrade_db {
+    my($self) = @_;
+    $self->internal_upgrade_db_ride;
+    return;
+}
+
+sub internal_upgrade_db_ride {
+    my($self) = @_;
+    $self->run(<<'EOF');
+ALTER TABLE ride_t
+    ADD COLUMN is_manual_entry NUMERIC(1)
+/
+ALTER TABLE ride_t
+    ADD COLUMN ride_time DATE
+/
+UPDATE ride_t
+    SET is_manual_entry = 0, ride_time = TO_DATE('2378497 79199', 'J SSSS')
+/
+ALTER TABLE ride_t
+    ALTER COLUMN is_manual_entry SET NOT NULL
+/
+ALTER TABLE ride_t
+    ALTER COLUMN ride_time SET NOT NULL
+/
+ALTER TABLE ride_t
+  ADD CONSTRAINT ride_t8
+  CHECK (is_manual_entry BETWEEN 0 AND 1)
+/
+EOF
     return;
 }
 

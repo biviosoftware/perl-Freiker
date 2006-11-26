@@ -5,10 +5,9 @@ home_page();
 basic_authorization('freikometer');
 my($epc) = Bivio::Type->get_instance('EPC')
     ->new(Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE)->as_string;
-foreach my $c (qw(Date DateTime)) {
-    my($date) = Bivio::Type->get_instance($c)->local_now_as_file_name;
-    send_request(PUT => '/_fm_upload', undef, <<"EOF");
+my($date) = Bivio::Type->get_instance('DateTime')->local_now_as_file_name;
+send_request(PUT => '/_fm_upload', undef, <<"EOF");
 EPC,DateTime
 $epc,$date
 EOF
-}
+

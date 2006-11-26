@@ -20,6 +20,14 @@ sub get_delegate_info {
 	    next=USER_REALMLESS_REDIRECT
 	    FORBIDDEN=LOGIN
 	)],
+# 	[qw(
+# 	    MY_CLUB_SITE
+# 	    6
+# 	    GENERAL
+# 	    ANY_USER
+# 	    Bivio::Auth::RealmType->execute_club
+# 	    Action.ClientRedirect->execute_path_info
+# 	)],
 	[qw(
 	    LOGIN
 	    501
@@ -193,6 +201,14 @@ sub get_delegate_info {
 	    ADMIN_READ
 	    Model.FreikerRideList->execute_load_page
 	    View.family/freiker-ride-list
+	)],
+	[qw(
+	    FAMILY_MANUAL_RIDE_FORM
+	    521
+	    USER
+	    ADMIN_READ&ADMIN_WRITE&SUBSTITUTE_USER_TRANSIENT
+	    Model.FreikerList->execute_load_this
+	    View.family/manual-ride-form
 	)],
     ]);
 }

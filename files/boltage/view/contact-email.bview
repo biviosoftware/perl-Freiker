@@ -1,0 +1,9 @@
+# Copyright (c) 2006 IEEE Industry Standards and Technology Organization.  All Rights Reserved.
+# $Id$
+view_parent('mail');
+view_put(
+    mail_from => ['Model.ContactForm', 'from'],
+    mail_to => Mailbox(['->format_email', vs_text('contact_email')]),
+    subject => ['Model.ContactForm', 'subject'],
+    mail_body => ['Model.ContactForm', 'text'],
+);

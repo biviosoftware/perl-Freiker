@@ -6,7 +6,7 @@ req()->set_realm('parent');
     load_all => [
 	[] => [{
 	    ride_count => 1,
-	    'RealmOwner.display_name' => 'child',
+	    'RealmOwner.display_name' => 'child0',
 	}],
     ],
 ];

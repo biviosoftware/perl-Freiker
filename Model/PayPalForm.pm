@@ -13,7 +13,7 @@ $_QUERY_KEY = $_QUERY_KEY->can('QUERY_KEY') ? $_QUERY_KEY->QUERY_KEY
 
 sub execute_empty {
     my($self) = @_;
-    $self->internal_put_field(amount => 100);
+    $self->internal_put_field(amount => 15);
     return;
 }
 

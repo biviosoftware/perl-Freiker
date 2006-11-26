@@ -2,10 +2,6 @@
 # $Id$
 view_parent('base');
 view_put(
-    base_menu => TaskMenu([qw(
-	USER_PASSWORD
-	FAMILY_FREIKER_LIST
-    )]),
     base_realm => Join([
 	String(['auth_realm', 'owner', 'display_name']),
 	' Family',

@@ -48,6 +48,7 @@ my($_SELF) = __PACKAGE__->new({
 	    search_field
 	    table_cell
 	    table_heading
+	    list_action
 	}] => []],
     ],
     FormError => [
@@ -63,10 +64,17 @@ my($_SELF) = __PACKAGE__->new({
 	['ClubRegisterForm.ClubAux.website.EXISTS' => q{This school's website is already registered.  Please try to find the "wheel" at your school.}],
 	['ClubRegisterForm.club_name.EXISTS' => q{Your school is already registered.  Please try to find the "wheel" at your school.}],
 	['email.EXISTS' => q{This email is already registered with vs_site_name();.  Link('Click here to login.', 'LOGIN', {no_context => 1});}],
+	['Ride.ride_date.NOT_FOUND' => q{This date was not a school day.}],
+	['Ride.ride_date.EXISTS' => q{The Freiker was already credited for his date.  Please enter a different date.}],
     ],
     HTML => [
 	[want_secure => 0],
 	[table_default_align => 'left'],
+    ],
+    Constant => [
+	[xlink_paypal => {
+	    uri => 'http://www.paypal.com/us',
+	}],
     ],
     Task => [
 	[CLUB_HOME => '?'],
@@ -79,6 +87,7 @@ my($_SELF) = __PACKAGE__->new({
 	[FAMILY_FREIKER_ADD => '?/register-freiker'],
 	[FAMILY_FREIKER_LIST => '?/freikers'],
 	[FAMILY_FREIKER_RIDE_LIST => '?/rides'],
+        [FAMILY_MANUAL_RIDE_FORM => '?/add-ride'],
 	[FAVICON_ICO => '/favicon.ico'],
 	[FORBIDDEN => undef],
 	[GENERAL_USER_PASSWORD_QUERY => '/pub/forgot-password'],
@@ -87,6 +96,7 @@ my($_SELF) = __PACKAGE__->new({
 	[LOCAL_FILE_PLAIN => ['i/*', 'f/*', 'h/*', 'm/*']],
 	[LOGIN => 'pub/login'],
 	[LOGOUT => 'pub/logout'],
+#	[MY_CLUB_SITE => 'my-school/*'],
 	[MY_CLUB_SITE => undef],
 	[MY_SITE => 'my-site/*'],
 	[SHELL_UTIL => undef],
@@ -108,6 +118,7 @@ my($_SELF) = __PACKAGE__->new({
     ],
     Text => [
 	[support_email => 'gears'],
+	[contact_email => 'gears'],
 #TODO:	    [support_phone => '(800) 555-1212'],
 	[site_name => q{Freiker}],
 	[site_copyright => q{Freiker, Inc.}],
@@ -165,6 +176,18 @@ my($_SELF) = __PACKAGE__->new({
 	    'User.gender' => q{Gender},
 	    ok_button => 'Register Child',
 	]],
+	[ManualRideForm => [
+	    'Ride.ride_date' => q{Date Missing},
+	    ok_button => 'Add Ride',
+	    prose => [
+		prologue => <<'EOF',
+We allow a certain number of missed rides as a courtesy to parents.
+When there are too many missed rides, this list will no longer show.
+Please enter the date of the missing ride for
+String([qw(Model.FreikerList RealmOwner.display_name)]);.
+EOF
+	    ],
+	]],
 	[UserLoginForm => [
 	    ok_button => 'Login',
 	]],
@@ -176,6 +199,11 @@ my($_SELF) = __PACKAGE__->new({
 	    'RealmOwner.display_name' => 'Freiker',
 	    ride_count => 'Rides',
 	    empty_list_prose => 'No Freikers as yet.',
+	    list_actions => 'Actions',
+	    list_action => [
+		FAMILY_FREIKER_RIDE_LIST => 'Show Rides',
+		FAMILY_MANUAL_RIDE_FORM => 'Add Missing Ride',
+	    ],
 	]],
 	[UserPasswordForm => [
 	    old_password => 'Current Password',
@@ -187,6 +215,11 @@ my($_SELF) = __PACKAGE__->new({
 	    amount => '$',
 	    ok_button => 'Donate Securely via PayPal',
 	]],
+	[ContactForm => [
+	    from => 'Your Email',
+	    text => 'Message',
+	    ok_button => 'Send',
+	]],
 	['UserPasswordQueryForm.ok_button' => 'Send'],
 	[prose => [
 	    LOGIN => q{Already registered?  Link('Click here to login.', {task_id => 'LOGIN', no_context => 1});},
@@ -195,12 +228,27 @@ my($_SELF) = __PACKAGE__->new({
 	    GENERAL_USER_PASSWORD_QUERY => q{Forgot your password? Link('Click here to get a new one.', 'GENERAL_USER_PASSWORD_QUERY');},
 	]],
 	[acknowledgement => [
+            GENERAL_CONTACT => 'Your inquiry has been sent.  Thank you!',
 	    FAMILY_FREIKER_ADD => q{Your child has been added.},
-	    GENERAL_USER_PASSWORD_QUERY => q{An email has been sent to String([qw(Model.UserPasswordQueryForm Email.email)]);.  The email contains a link back to this site so you can reset your password.},
+	    FAMILY_MANUAL_RIDE_FORM => q{The missing date has been added.},
+	    GENERAL_USER_PASSWORD_QUERY => <<'EOF',
+An email has been sent to
+String([qw(Model.UserPasswordQueryForm Email.email)]);.
+The email contains a link back to this site so
+you can reset your password.
+EOF
 	    USER_PASSWORD => q{Your password has been changed.},
 	    password_nak => q{We're sorry, but the link you clicked on is no longer valid.  Please enter your email address and send again.},
-	    paypal_ok => q{SPAN_money('Thank you very much for your donation!');  Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at Link('PayPal', 'http://www.paypal.com/us'); to view details of this transaction.},
+	    paypal_ok => <<'EOF',
+SPAN_money('Thank you very much for your donation!');
+Your transaction has been completed, and a receipt for your
+purchase has been emailed to you. You may log into your account
+at XLink('paypal'); to view details of this transaction.
+EOF
 	    paypal_cancel => q{Your donation has been cancelled.  Please consider donating in the future.}
+	]],
+	[xlink => [
+	    paypal => 'PayPal',
 	]],
 	['page3.title' => [
 	    CLUB_FREIKER_LIST => "Your School's Freikers",
@@ -217,14 +265,17 @@ my($_SELF) = __PACKAGE__->new({
 	    SITE_PRESS => 'In the news',
 	    SITE_PRIZES => 'Ride and win!',
 	    SITE_WHEELS => 'Wheels roll around',
-	    FAMILY_FREIKER_RIDE_LIST => 'String([qw(Model.FreikerRideList ->get_display_name)]); Rides',
+	    FAMILY_FREIKER_RIDE_LIST =>
+		'String([qw(Model.FreikerRideList ->get_display_name)]); Rides',
+	    FAMILY_MANUAL_RIDE_FORM =>
+		'Add Missing Ride for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	]],
 	['task_menu.title' => [
 	    LOGIN => 'Login',
 	    FAMILY_REGISTER => 'Register',
 	    USER_PASSWORD => 'Account',
 	    FAMILY_FREIKER_LIST => 'Family',
-	    FAMILY_FREIKER_ADD => 'register child',
+	    FAMILY_FREIKER_ADD => 'Register Child',
 	    CLUB_FREIKER_LIST => 'School',
 	    SITE_ROOT => 'Home',
 	    SITE_SPONSORS => 'Sponsors',
@@ -233,6 +284,7 @@ my($_SELF) = __PACKAGE__->new({
 	    SITE_PRESS => 'Press',
 	    SITE_PRIZES => 'Prizes',
 	    SITE_WHEELS => 'Wheels',
+	    FAMILY_MANUAL_RIDE_FORM => 'Add Missing Ride',
 	]],
     ],
 });

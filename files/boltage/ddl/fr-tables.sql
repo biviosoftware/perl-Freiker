@@ -31,6 +31,8 @@ CREATE TABLE ride_t (
   ride_date DATE NOT NULL,
   realm_id NUMERIC(18) NOT NULL,
   creation_date_time DATE NOT NULL,
+  ride_time DATE NOT NULL,
+  is_manual_entry NUMERIC(1) NOT NULL,
   CONSTRAINT ride_t1 PRIMARY KEY(freiker_code, ride_date)
 )
 /
