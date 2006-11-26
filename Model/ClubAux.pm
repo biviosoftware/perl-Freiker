@@ -9,8 +9,7 @@ my($_MAX) = Bivio::Biz::Model->get_instance('RealmOwner')->get_field_type('name'
 
 sub create_realm {
     my($self, $club_aux, $admin_id, $display_name, $address) = @_;
-    (my $n = $display_name)
-	=~ s/\b(elementary|school|charter|high|middle|junior|k-8)\b//ig;
+    my($n) = $display_name =~ /^(\S+)/;
     $n =~ s/\W+//g;
     my($c, $ro) = $self->new_other('Club')->create_realm({},
 	{
