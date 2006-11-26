@@ -25,6 +25,7 @@ vs_gears_email(); if you would like donate prizes or money.
 <div class="simple">
 Link(Image('bivio', 'bivio Software, Inc.'), 'http://www.bivio.biz');
 Link(Image('catacom', 'Catalyst Communication, Inc.'), 'http://www.catacom.com');
+Link(Image('coloradoplastics', 'Colorado Plastic Products'), 'http://www.coloradoplastics.com');
 Link(Image('colorlink', 'ColorLink, Inc.'), 'http://www.colorlink.com');
 Link(Image('compassbank', 'Compass Bank'), 'http://www.compassbank.com');
 Link(Image('coyotemotors', 'Coyote Motors'), 'http://www.coyotemotors.biz');
