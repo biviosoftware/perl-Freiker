@@ -226,10 +226,6 @@ div.crest_view {
   text-transform: uppercase;
   vertical-align: top;
 }
-/*INLINE*/
-.head {
-  height: 58px;
-}
 .menu a {
   white-space: nowrap;
 }
