@@ -62,8 +62,6 @@ div.base_content .body {
 }
 .content {
   overflow: hidden;
-}
-.content {
   padding: 0 1em 1ex 1em;
 }
 form .check {
