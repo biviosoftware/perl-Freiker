@@ -59,7 +59,7 @@ my($_SELF) = __PACKAGE__->new({
 	[NOT_FOUND => 'vs_fe("label"); was not found in our database.'],
 	['FreikerForm.FreikerCode.freiker_code' => [
 	    NOT_FOUND => 'This is not a valid vs_fe(q{label}); for your school.  Please check the number and resubmit.',
-	    EXISTS => 'The vs_fe(q{label}); supplied is in use by another Freiker.  Please check the number and resubmit.',
+	    EXISTS => 'The vs_fe(q{label}); has not been scanned by the Freikometer yet.',
 	]],
 	['ClubRegisterForm.ClubAux.website.EXISTS' => q{This school's website is already registered.  Please try to find the "wheel" at your school.}],
 	['ClubRegisterForm.club_name.EXISTS' => q{Your school is already registered.  Please try to find the "wheel" at your school.}],
