@@ -13,7 +13,7 @@ $_QUERY_KEY = $_QUERY_KEY->can('QUERY_KEY') ? $_QUERY_KEY->QUERY_KEY
 
 sub execute_empty {
     my($self) = @_;
-    $self->internal_put_field(amount => 15);
+    $self->internal_put_field(amount => 50);
     return;
 }
 
@@ -31,7 +31,7 @@ sub execute_ok {
 	query => {
 	    cmd => '_xclick',
 	    business => 'paypal-donations@freiker.org',
-	    item_name => 'Donation to Freiker: The Frequent Biker Program',
+	    item_name => 'Tax-deductible Donation to Freiker: The Frequent Biker Program',
 	    amount => $self->get('amount'),
 	    no_shipping => 1,
 	    no_note => 1,
