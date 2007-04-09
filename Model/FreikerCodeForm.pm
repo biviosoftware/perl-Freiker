@@ -57,7 +57,7 @@ sub validate {
 	},
     );
     return if $self->in_error;
-    return unless my $frl = $req->get('Model.FreikerRideList');
+    return unless my $frl = $req->unsafe_get('Model.FreikerRideList');
     $frl->do_rows(sub {
         $self->internal_put_error(
 	    'FreikerCode.freiker_code' => 'MUTUALLY_EXCLUSIVE'
