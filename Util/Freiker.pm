@@ -5,7 +5,6 @@ use strict;
 use Bivio::Base 'Bivio::ShellUtil';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-
 my($_D) = Bivio::Type->get_instance('Date');
 
 sub USAGE {
