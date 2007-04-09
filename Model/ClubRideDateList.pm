@@ -13,19 +13,19 @@ sub internal_initialize {
 	primary_key => ['Ride.ride_date'],
         order_by => ['Ride.ride_date'],
         group_by => ['Ride.ride_date'],
-	parent_id => [qw(RealmUser.realm_id)],
+	parent_id => [qw(FreikerCode.club_id)],
 	other => [
 	    map(+{
 		name => $_,
 		in_select => 0,
-	    }, qw(RealmUser.role RealmUser.user_id Ride.freiker_code)),
+	    }, qw(FreikerCode.freiker_code Ride.freiker_code)),
 	],
     });
 }
 
 sub internal_prepare_statement {
     my($self, $stmt) = @_;
-    $stmt->where([qw(Ride.realm_id RealmUser.user_id)]);
+    $stmt->where([qw(FreikerCode.freiker_code Ride.freiker_code)]);
     return;
 }
 
