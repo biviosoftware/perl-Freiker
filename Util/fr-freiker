@@ -1,0 +1,42 @@
+#!perl -w
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+use strict;
+
+=head1 NAME
+
+fr-freiker - calls Freiker::Util::Freiker
+
+=head1 SYNOPSIS
+
+fr-freiker [options] command [args...]
+
+=head1 DESCRIPTION
+
+See L<Freiker::Util::Freiker|Freiker::Util::Freiker>
+
+=cut
+
+#=IMPORTS
+use Freiker::Util::Freiker;
+
+#=VARIABLES
+Freiker::Util::Freiker->main(@ARGV);
+
+=head1 SEE ALSO
+
+Freiker::Util::Freiker
+
+=head1 COPYRIGHT
+
+Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+
+=head1 VERSION
+
+$Id$
+
+=cut
+
+#Local Variables:
+#mode:cperl
+#End:
