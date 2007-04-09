@@ -66,7 +66,7 @@ my($_SELF) = __PACKAGE__->new({
 	['ClubRegisterForm.club_name.EXISTS' => q{Your school is already registered.  Please try to find the "wheel" at your school.}],
 	['email.EXISTS' => q{This email is already registered with vs_site_name();.  Link('Click here to login.', 'LOGIN', {no_context => 1});}],
 	['Ride.ride_date.NOT_FOUND' => q{This date was not a school day.}],
-	['Ride.ride_date.EXISTS' => q{The Freiker was already credited for his date.  Please enter a different date.}],
+	['Ride.ride_date.EXISTS' => q{The Freiker was already credited for this date.  Please enter a different date.}],
     ],
     HTML => [
 	[want_secure => 0],
