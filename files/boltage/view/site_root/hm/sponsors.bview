@@ -35,6 +35,7 @@ Link(Image('mirrycle', 'Mirrycle Corp.'), 'http://www.mirrycle.com');
 Link(Image('resourcerevival', 'Resource Revival, Inc.'), 'http://www.resourcerevival.com');
 Link(Image('saferoutesinfo', 'National Center for Safe Routes to School'), 'http://www.saferoutesinfo.org');
 Link(Image('skyetek', 'Skyetek, Inc.'), 'http://www.skyetek.com');
+Link(Image('sun', 'Sun Microsystems, Inc.'), 'http://www.sun.com');
 Link(Image('trail-kids', 'Trail Kids'), 'http://www.trail-kids.com');
 Link(Image('ubikes', 'University Bicycles'), 'http://www.ubikes.com');
 Link(Image('vectrabank', 'VectraBank'), 'http://www.vectrabank.com');
@@ -43,4 +44,3 @@ Link(Image('wildoats', 'Wild Oats Markets, Inc.'), 'http://www.wildoats.com');
 EOF
     ]),
 );
-#Link(Image('sun', 'Sun Microsystems, Inc.'), 'http://www.sun.com');
