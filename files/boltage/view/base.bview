@@ -16,20 +16,25 @@ view_put(
 	'SITE_PARENTS',
         'SITE_PRESS',
         'SITE_PRIZES',
-	'SITE_SPONSORS',
          {
  	    task_id => 'MY_SITE',
 	    label => 'back_to_school',
  	    control => [sub {
 		return @{shift->get_request->map_user_realms(
-		    undef,
-		    {
-			'RealmOwner.realm_type' => Bivio::Auth::RealmType->CLUB,
-			'RealmUser.role' => Bivio::Auth::Role->ADMINISTRATOR,
+#TODO: Replace sub with undef once fixed
+		    sub {
+			my($x) = @_;
+			$x->{'RealmOwner.realm_type'} eq Bivio::Auth::RealmType->CLUB
+			    && $x->{'RealmUser.role'} eq Bivio::Auth::Role->ADMINISTRATOR ? $x : ();
 		    },
+# 		    {
+# 			'RealmOwner.realm_type' => Bivio::Auth::RealmType->CLUB,
+# 			'RealmUser.role' => Bivio::Auth::Role->ADMINISTRATOR,
+# 		    },
 		)} ? 1 : 0;
 	    }],
  	},
+	'SITE_SPONSORS',
         'SITE_WHEELS',
     ]),
 );
