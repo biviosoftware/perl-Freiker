@@ -9,7 +9,7 @@ view_put(
     base_tools => '',
     base_topic => '',
     base_byline => '',
-    pager => '',
+    vs_pager => '',
     base_menu => TaskMenu([
 	'USER_PASSWORD',
 	'FAMILY_FREIKER_LIST',
@@ -21,7 +21,7 @@ view_put(
 	    label => 'back_to_school',
  	    control => [sub {
 		return @{shift->get_request->map_user_realms(
-#TODO: Replace sub with undef once fixed
+#TODO: Replace with undef after 5/1/07
 		    sub {
 			my($x) = @_;
 			$x->{'RealmOwner.realm_type'} eq Bivio::Auth::RealmType->CLUB
@@ -78,7 +78,7 @@ view_main(Page3({
 	DIV_top(Join([
 	    DIV_tools(Join([
 		view_widget_value('base_tools'),
-		view_widget_value('pager'),
+		view_widget_value('vs_pager'),
 	    ], {
 		join_separator => EmptyTag(DIV => 'sep'),
 	    })),
@@ -91,7 +91,7 @@ view_main(Page3({
 	DIV_bottom(
 	    DIV_tools(Join([
 		view_widget_value('base_tools'),
-		view_widget_value('pager'),
+		view_widget_value('vs_pager'),
 	    ], {
 		join_separator => EmptyTag(DIV => 'sep'),
 	    })),
