@@ -14,7 +14,8 @@ sub execute {
     my($r) = $req->map_user_realms(
 	sub {shift->{'RealmOwner.name'}},
 	{
-	    'RealmOwner.realm_type' =>  Bivio::Auth::RealmType->CLUB,
+#TODO: Uncomment after 5/1/07
+#	    'RealmOwner.realm_type' =>  Bivio::Auth::RealmType->CLUB,
 	    'RealmUser.role' => Bivio::Auth::Role->FREIKOMETER,
 	},
     );
