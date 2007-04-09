@@ -106,9 +106,9 @@ form .field {
   vertical-align: middle;
   font-style: italic;
 }
-.form_prose, .list_prose, div.press {
+.prose, .form_prose, .list_prose, div.press {
   margin: auto;
-  width: 80%;
+  width: 40em;
   text-align: left;
   padding: 1ex;
 }
@@ -265,9 +265,9 @@ form .sep {
 }
 .head1 a.su,
 tr.su {
-  background-color: #666666;
+  background-color: green;
 }
-.head1 .su .body {
+.head1 .su .roundedbox_body {
   font-size: 120%;
   color: white;
   text-align: center;
@@ -457,6 +457,13 @@ div.right {
 div.donate {
   margin: 2ex 0 2ex 0;
   text-align: center;
+}
+div.donate div.msg {
+  font-size: 120%;
+  font-weight: bold;
+  font-style: italic;
+  color: #33CC00;
+  text-decoration: underline;
 }
 .money {
   font-size: 120%;

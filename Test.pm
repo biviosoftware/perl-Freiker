@@ -38,6 +38,11 @@ sub SCHOOL {
     return 'bunit Elementary';
 }
 
+sub SCHOOL_NAME {
+    #loosely coupled with UserRegisterForm
+    return 'bunit' . shift->ZIP;
+}
+
 sub WEBSITE {
     return 'http://www.bivio.biz';
 }

@@ -3,6 +3,7 @@
 package Freiker::Model::YearBaseList;
 use strict;
 use base 'Bivio::Biz::ListModel';
+use Freiker::Biz;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 

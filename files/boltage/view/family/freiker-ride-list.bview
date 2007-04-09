@@ -2,7 +2,18 @@
 # $Id$
 view_parent('family');
 view_put(
-    base_tools => TaskMenu(['FAMILY_FREIKER_LIST']),
+    base_tools => TaskMenu([
+	map(+{
+	    task_id => $_,
+	    query => {
+		'ListQuery.parent_id' => [[qw(Model.FreikerRideList ->get_query)], 'parent_id'],
+	    },
+	}, qw(FAMILY_MANUAL_RIDE_FORM FAMILY_FREIKER_CODE_ADD)),
+	{
+	    task_id => 'FAMILY_FREIKER_LIST',
+	    label => 'back_to_family',
+	},
+    ]),
     body => vs_paged_list(FreikerRideList => [
 	'Ride.ride_date',
     ]),

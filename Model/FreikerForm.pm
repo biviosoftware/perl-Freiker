@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Model::FreikerForm;
 use strict;
-use base 'Bivio::Biz::FormModel';
+use Bivio::Base 'Model.FreikerCodeForm';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = Bivio::Type->get_instance('Date');
@@ -34,11 +34,8 @@ sub execute_ok {
 	user_id => $uid,
 	role => Bivio::Auth::Role->MEMBER,
     });
-    _iterate_rides($self, sub {
-	shift->update({realm_id => $uid});
-	return 1;
-    });
-    return;
+    $self->internal_put_field('Ride.realm_id' => $uid);
+    return shift->SUPER::execute_ok(@_);
 }
 
 sub internal_initialize {
@@ -77,31 +74,9 @@ sub validate {
 	if $l->EMPTY_KEY_VALUE eq $self->get('Club.club_id');
     return $self->internal_put_error('Club.club_id' => 'NOT_FOUND')
 	unless $l->find_row_by_id($self->get('Club.club_id'));
-    return $self->internal_put_error('FreikerCode.freiker_code' => 'NOT_FOUND')
-	unless $self->new_other('FreikerCodeList')->unauth_load_all({
-	    auth_id => $self->get('Club.club_id'),
-	})->find_row_by_code($self->get('FreikerCode.freiker_code'));
-    $self->internal_put_error('FreikerCode.freiker_code' => 'EXISTS');
-    _iterate_rides(
-	$self, sub {
-	    $self->internal_clear_error('FreikerCode.freiker_code');
-	    return 0;
-	},
-    );
-    return;
-}
-
-sub _iterate_rides {
-    my($self, $op) = @_;
-    $self->new_other('Ride')->do_iterate(
-	$op,
-	'ride_date',
-	{
-	    freiker_code => $self->get('FreikerCode.freiker_code'),
-	    realm_id => $self->get('Club.club_id'),
-	},
-    );
-    return;
+    $self->internal_put_field(
+	'FreikerCode.club_id' => $self->get('Club.club_id'));
+    return shift->SUPER::validate(@_);
 }
 
 1;

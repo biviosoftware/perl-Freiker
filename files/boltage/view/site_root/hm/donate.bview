@@ -4,14 +4,9 @@ view_parent('base');
 view_put(
     body => DIV_prose(Prose(<<'EOF')),
 <p>
-Freiker, Inc. is a Colorado non-profit whose main source of funding is
+Freiker, Inc. is a 501(c)(3) non-profit whose main source of funding is
 from a small company: Link('bivio Software, Inc.', 'http://www.bivio.biz');
-Your donation will help us expand this successful program.
-</p>
-<p>
-Our federal non-profit status is pending.  We should be hearing back from the
-IRS any day now.  As soon as we do, we'll change this notice so that you'll
-know your donations are tax deductible.
+Your tax-deductible donation will help us expand this successful program.
 </p>
 DIV_donate(Form(PayPalForm => Join([
     SPAN_money('$'),

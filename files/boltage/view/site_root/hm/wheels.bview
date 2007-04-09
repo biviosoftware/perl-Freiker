@@ -21,8 +21,7 @@ prizes, but that's a lot of fun.  Nothing like being in a sea
 of smiling faces.
 </p>
 <p>
-Feel free to contact us at
-vs_gears_email();, if you'd like to learn more.
+If you would like to learn more, vs_gears_contact();
 </p>
 <p>
 Link('Register your school here.', 'FAMILY_REGISTER');

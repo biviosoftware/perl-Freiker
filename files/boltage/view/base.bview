@@ -13,16 +13,23 @@ view_put(
     base_menu => TaskMenu([
 	'USER_PASSWORD',
 	'FAMILY_FREIKER_LIST',
-#         {
-# 	    task_id => 'CLUB_FREIKER_LIST',
-# 	    realm => 'my-school',
-# 	    control => ['->map_user_realms', undef,
-# 	        {realm_type => Bivio::Auth::RealmType->CLUB}],
-# 	},
 	'SITE_PARENTS',
         'SITE_PRESS',
         'SITE_PRIZES',
 	'SITE_SPONSORS',
+         {
+ 	    task_id => 'MY_SITE',
+	    label => 'back_to_school',
+ 	    control => [sub {
+		return @{shift->get_request->map_user_realms(
+		    undef,
+		    {
+			'RealmOwner.realm_type' => Bivio::Auth::RealmType->CLUB,
+			'RealmUser.role' => Bivio::Auth::Role->ADMINISTRATOR,
+		    },
+		)} ? 1 : 0;
+	    }],
+ 	},
         'SITE_WHEELS',
     ]),
 );
@@ -57,7 +64,12 @@ view_main(Page3({
     )]),
     content => DIV_base_content(Join([
 	If(['!', 'task_id', '->eq_site_donate'],
-	   DIV_donate(Link(Image('donate', 'Please donate'), 'SITE_DONATE'))),
+	   DIV_donate(Link(Join([
+		   Image('donate', 'Please donate'),
+		   DIV_msg(q{It's tax-deductible!}),
+	       ]),
+	       'SITE_DONATE',
+	   ))),
 	DIV_top(Join([
 	    DIV_tools(Join([
 		view_widget_value('base_tools'),

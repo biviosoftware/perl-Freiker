@@ -47,6 +47,10 @@ sub vs_gears_email {
     return shift->vs_email('gears');
 }
 
+sub vs_gears_contact {
+    return Join([q{please contact us at }, shift->vs_gears_email()]);
+}
+
 sub vs_learn_more {
     shift;
     return Link('[learn more]', shift, 'learn_more');
@@ -60,6 +64,10 @@ sub vs_main_img {
 sub vs_prose {
     my(undef, $prose) = @_;
     return DIV_prose(Prose($prose));
+}
+
+sub vs_wheel_contact {
+    return Join([q{please contact us at }, shift->vs_gears_email()]);
 }
 
 1;

@@ -206,9 +206,21 @@ sub get_delegate_info {
 	    FAMILY_MANUAL_RIDE_FORM
 	    521
 	    USER
-	    ADMIN_READ&ADMIN_WRITE&SUBSTITUTE_USER_TRANSIENT
-	    Model.FreikerList->execute_load_this
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.FreikerRideList->execute_load_all_with_query
+	    Model.ManualRideForm
 	    View.family/manual-ride-form
+	    next=FAMILY_FREIKER_RIDE_LIST
+	)],
+	[qw(
+	    FAMILY_FREIKER_CODE_ADD
+	    522
+	    USER
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.FreikerRideList->execute_load_all_with_query
+	    Model.FreikerCodeForm
+	    View.family/freiker-code-add
+	    next=FAMILY_FREIKER_RIDE_LIST
 	)],
     ]);
 }

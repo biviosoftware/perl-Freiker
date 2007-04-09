@@ -19,11 +19,11 @@ view_put(
 		    $_,
 		    URI({
 			task_id => $_,
-			query => ['->format_query', 'THIS_CHILD_LIST'],
+			query => [qw(->format_query THIS_CHILD_LIST)],
 			no_context => 1,
 		    }),
 	        ];
-	    } qw(FAMILY_FREIKER_RIDE_LIST FAMILY_MANUAL_RIDE_FORM))]),
+	    } qw(FAMILY_FREIKER_RIDE_LIST FAMILY_MANUAL_RIDE_FORM FAMILY_FREIKER_CODE_ADD))]),
 	    column_data_class => 'list_actions',
 	},
     ]),

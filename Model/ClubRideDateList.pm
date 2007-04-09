@@ -32,10 +32,10 @@ sub internal_prepare_statement {
 sub is_date_ok {
     my($self, $date) = @_;
     $self->load_all({
-	parent_id => Bivio::IO::Alert->debug($self->get_request->map_user_realms(
+	parent_id => $self->get_request->map_user_realms(
 	    sub {shift->{'RealmUser.realm_id'}},
 	    {'RealmOwner.realm_type' => Bivio::Auth::RealmType->CLUB},
-	))->[0],
+	)->[0],
     }) unless $self->is_loaded;
     return $self->find_row_by_date($date) ? 1 : 0;
 }

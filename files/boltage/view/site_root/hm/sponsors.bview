@@ -19,30 +19,28 @@ long way, because we buy prizes in bulk, and merchants often give us
 a discount.
 </p>
 <p>
-Please contact us at
-vs_gears_email(); if you would like donate prizes or money.
+If you would like donate prizes or money, vs_gears_contact();.
 </p>
 <div class="simple">
 Link(Image('bivio', 'bivio Software, Inc.'), 'http://www.bivio.biz');
+Link(Image('boulderbumpshop', 'Boulder Bump Shop.'), 'http://www.boulderbumpshop.com');
 Link(Image('catacom', 'Catalyst Communication, Inc.'), 'http://www.catacom.com');
 Link(Image('coloradoplastics', 'Colorado Plastic Products'), 'http://www.coloradoplastics.com');
 Link(Image('colorlink', 'ColorLink, Inc.'), 'http://www.colorlink.com');
 Link(Image('compassbank', 'Compass Bank'), 'http://www.compassbank.com');
-Link(Image('coyotemotors', 'Coyote Motors'), 'http://www.coyotemotors.biz');
 Link(Image('deanbikes', 'DEAN Titanium Bicycles, Inc.'), 'http://www.deanbikes.com');
-Link(Image('descente', 'Descente'), 'http://www.descente.com');
 Link(Image('grahamwatson', 'Graham Watson'), 'http://www.grahamwatson.com');
-Link(Image('4greenacres', 'Green Acres'), 'http://www.4greenacres.com');
 Link(Image('hattoncreamery', 'Hatton Organic Creamery'), 'http://www.hattoncreamery.com');
 Link(Image('mirrycle', 'Mirrycle Corp.'), 'http://www.mirrycle.com');
 Link(Image('resourcerevival', 'Resource Revival, Inc.'), 'http://www.resourcerevival.com');
+Link(Image('saferoutesinfo', 'National Center for Safe Routes to School'), 'http://www.saferoutesinfo.org');
 Link(Image('skyetek', 'Skyetek, Inc.'), 'http://www.skyetek.com');
 Link(Image('trail-kids', 'Trail Kids'), 'http://www.trail-kids.com');
 Link(Image('ubikes', 'University Bicycles'), 'http://www.ubikes.com');
 Link(Image('vectrabank', 'VectraBank'), 'http://www.vectrabank.com');
-Link(Image('verlo', 'Verlo Mattress Factory.'), 'http://verlo.com/customerservice/locate.do?zip=80301&radius=1');
 Link(Image('wildoats', 'Wild Oats Markets, Inc.'), 'http://www.wildoats.com');
 </div>
 EOF
     ]),
 );
+#Link(Image('sun', 'Sun Microsystems, Inc.'), 'http://www.sun.com');

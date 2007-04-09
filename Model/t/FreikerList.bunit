@@ -2,11 +2,15 @@
 # $Id$
 ListModel();
 req()->set_realm('parent');
+do('./SetupRides.PL');
 [
     load_all => [
 	[] => [{
-	    ride_count => 1,
+	    ride_count => 2,
 	    'RealmOwner.display_name' => 'child0',
+	}, {
+	    ride_count => 1,
+	    'RealmOwner.display_name' => 'child1',
 	}],
     ],
 ];

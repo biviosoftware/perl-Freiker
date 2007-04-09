@@ -50,17 +50,17 @@ sub initialize_test_data {
     $self->create_test_user(Freiker::Test->FREIKOMETER);
     $self->new_other('RealmAdmin')->join_user('FREIKOMETER');
     $req->set_realm($club_id);
-    my($epc) = Bivio::Type->get_instance('EPC');
-    my($other_epc) = $epc->new(
-	Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE(1))
-	->as_string;
-    $epc = $epc->new(Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE)
-	->as_string;
-    Bivio::Biz::Model->new($req, 'FreikerCode')
-	    ->import_csv("$epc\n$other_epc\n");
+    my($epc) = $self->use('Type.EPC');
+    my($csv) = '';
+    foreach my $x (reverse(0..10)) {
+	$epc = $epc->new(Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE($x));
+	$csv .= $epc->as_string . "\n";
+    }
+    Bivio::Biz::Model->new($req, 'FreikerCode')->import_csv($csv);
     my($r) = Bivio::Biz::Model->new($req, 'Ride');
-    $r->import_csv(
-	$r->CSV_HEADER . "\n$epc," . $_DT->local_now_as_file_name . "\n");
+    my($i) = 0;
+    $csv =~ s/(?<=\w$)/,@{[$_DT->to_file_name($_DT->add_days($_DT->now, $i--))]}/mg;
+    $r->import_csv($r->CSV_HEADER . "\n" . $csv);
     $self->model(UserRegisterForm => {
 	'RealmOwner.display_name' => Freiker::Test->PARENT,
 	'Address.zip' => Freiker::Test->ZIP,
@@ -76,6 +76,7 @@ sub initialize_test_data {
 	$self->model(FreikerForm => {
 	    'User.first_name' => my $name = Freiker::Test->CHILD($n),
 	    'Club.club_id' => $club_id,
+	    'FreikerCode.club_id' => $club_id,
 	    'FreikerCode.freiker_code' => Freiker::Test->FREIKER_CODE($n),
 	    'User.gender' => $self->use('Type.Gender')->FEMALE,
 	    'birth_year' => 1999,

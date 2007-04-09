@@ -57,9 +57,10 @@ my($_SELF) = __PACKAGE__->new({
 	['PayPalForm.amount.NULL' => 'Any amount will do!'],
 	[EXISTS => 'vs_fe("label"); already exists in our database.'],
 	[NOT_FOUND => 'vs_fe("label"); was not found in our database.'],
-	['FreikerForm.FreikerCode.freiker_code' => [
+	['FreikerCode.freiker_code' => [
 	    NOT_FOUND => 'This is not a valid vs_fe(q{label}); for your school.  Please check the number and resubmit.',
-	    EXISTS => 'The vs_fe(q{label}); has not been scanned by the Freikometer yet.',
+	    EXISTS => 'The vs_fe(q{label}); has not been scanned by the Freikometer yet, or the vs_fe(q{label}); is already assigned to a Freiker.  Please verify the number and retry.',
+	    MUTUALLY_EXCLUSIVE => q{The vs_fe(q{label}); was scanned on a date your child rode with his old vs_fe(q{label});.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.},
 	]],
 	['ClubRegisterForm.ClubAux.website.EXISTS' => q{This school's website is already registered.  Please try to find the "wheel" at your school.}],
 	['ClubRegisterForm.club_name.EXISTS' => q{Your school is already registered.  Please try to find the "wheel" at your school.}],
@@ -88,6 +89,7 @@ my($_SELF) = __PACKAGE__->new({
 	[FAMILY_FREIKER_LIST => '?/freikers'],
 	[FAMILY_FREIKER_RIDE_LIST => '?/rides'],
         [FAMILY_MANUAL_RIDE_FORM => '?/add-ride'],
+        [FAMILY_FREIKER_CODE_ADD => '?/add-tag'],
 	[FAVICON_ICO => '/favicon.ico'],
 	[FORBIDDEN => undef],
 	[GENERAL_USER_PASSWORD_QUERY => '/pub/forgot-password'],
@@ -115,6 +117,7 @@ my($_SELF) = __PACKAGE__->new({
         [PAYPAL_RETURN => 'pp/*'],
         [ROBOTS_TXT => 'robots.txt'],
         [FREIKOMETER_UPLOAD => '_fm_upload'],
+	[ADM_SUBSTITUTE_USER => 'adm/su'],
     ],
     Text => [
 	[support_email => 'gears'],
@@ -144,6 +147,9 @@ my($_SELF) = __PACKAGE__->new({
 	    next => 'Next',
 	    list => 'Back to list',
 	]],
+	[prologue => ''],
+	[epilogue => ''],
+	['FreikerCode.freiker_code' => q{Freiker ID}],
 	[Ride => [
 	    ride_date => 'Date',
 	]],
@@ -170,11 +176,16 @@ my($_SELF) = __PACKAGE__->new({
 	    'User.first_name' => q{First Name},
 	    'User.first_name.desc' => q{This is for your information only so it may be a nickname, an abbreviation, or any other identifier.},
 	    'Club.club_id' => q{School},
-	    'FreikerCode.freiker_code' => q{Freiker ID},
 	    'FreikerCode.freiker_code.desc' => q{The number on your child's helmet.},
 	    'birth_year' => q{Year of Birth},
 	    'User.gender' => q{Gender},
 	    ok_button => 'Register Child',
+	]],
+	[FreikerCodeForm => [
+	    prose => [
+		prologue => q{Enter the new Freiker ID from the tag on your child's helmet.  If the tag is missing from your child's helmet or you need another tag for a new helmet, vs_wheel_contact();.},
+	    ],
+	    ok_button => 'Add Tag',
 	]],
 	[ManualRideForm => [
 	    'Ride.ride_date' => q{Date Missing},
@@ -184,7 +195,7 @@ my($_SELF) = __PACKAGE__->new({
 We allow a certain number of missed rides as a courtesy to parents.
 When there are too many missed rides, this list will no longer show.
 Please enter the date of the missing ride for
-String([qw(Model.FreikerList RealmOwner.display_name)]);.
+String([qw(Model.FreikerRideList ->get_display_name)]);.
 EOF
 	    ],
 	]],
@@ -200,10 +211,6 @@ EOF
 	    ride_count => 'Rides',
 	    empty_list_prose => 'No Freikers as yet.',
 	    list_actions => 'Actions',
-	    list_action => [
-		FAMILY_FREIKER_RIDE_LIST => 'Show Rides',
-		FAMILY_MANUAL_RIDE_FORM => 'Add Missing Ride',
-	    ],
 	]],
 	[UserPasswordForm => [
 	    old_password => 'Current Password',
@@ -231,6 +238,7 @@ EOF
             GENERAL_CONTACT => 'Your inquiry has been sent.  Thank you!',
 	    FAMILY_FREIKER_ADD => q{Your child has been added.},
 	    FAMILY_MANUAL_RIDE_FORM => q{The missing date has been added.},
+	    FAMILY_FREIKER_CODE_ADD => q{The new Freiker ID was added.},
 	    GENERAL_USER_PASSWORD_QUERY => <<'EOF',
 An email has been sent to
 String([qw(Model.UserPasswordQueryForm Email.email)]);.
@@ -250,6 +258,9 @@ EOF
 	[xlink => [
 	    paypal => 'PayPal',
 	]],
+	[FAMILY_FREIKER_RIDE_LIST => 'Show Rides'],
+	[FAMILY_MANUAL_RIDE_FORM => 'Add Missing Ride'],
+	[FAMILY_FREIKER_CODE_ADD => 'New Helmet Tag'],
 	['page3.title' => [
 	    CLUB_FREIKER_LIST => "Your School's Freikers",
 	    CLUB_REGISTER => 'Register Your School',
@@ -257,6 +268,7 @@ EOF
 	    FAMILY_FREIKER_LIST => "Your Family's Freikers",
 	    FAMILY_REGISTER => 'Register Your Family',
 	    LOGIN => 'Please Login',
+	    ADM_SUBSTITUTE_USER => 'Act as User',
 	    USER_PASSWORD => 'Change Your Password',
 	    [qw(CLUB_REGISTER_DONE FAMILY_REGISTER_DONE GENERAL_USER_PASSWORD_QUERY)] => 'Check Your Mail',
 	    SITE_ROOT => 'The Frequent Biker Program',
@@ -269,6 +281,8 @@ EOF
 		'String([qw(Model.FreikerRideList ->get_display_name)]); Rides',
 	    FAMILY_MANUAL_RIDE_FORM =>
 		'Add Missing Ride for String([qw(Model.FreikerRideList ->get_display_name)]);',
+	    FAMILY_FREIKER_CODE_ADD =>
+		'Enter New Freiker ID for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	]],
 	['task_menu.title' => [
 	    LOGIN => 'Login',
@@ -284,7 +298,8 @@ EOF
 	    SITE_PRESS => 'Press',
 	    SITE_PRIZES => 'Prizes',
 	    SITE_WHEELS => 'Wheels',
-	    FAMILY_MANUAL_RIDE_FORM => 'Add Missing Ride',
+	    back_to_family => 'Back to Family List',
+	    back_to_school => 'School',
 	]],
     ],
 });

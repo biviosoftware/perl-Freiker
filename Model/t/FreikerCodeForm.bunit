@@ -1,0 +1,34 @@
+# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+my($today, $child_id, $school_id) = do('./RideList.PL');
+[
+    [{
+	'FreikerCode.freiker_code' => class('Freiker::Test')->FREIKER_CODE(2),
+    }] => sub {
+	model(Ride => {
+	    realm_id => $child_id,
+	    freiker_code => class('Freiker::Test')->FREIKER_CODE(2),
+	});
+	return 1;
+    },
+    error_case({
+	'FreikerCode.freiker_code' => class('Freiker::Test')->FREIKER_CODE(0),
+    } => {
+	'FreikerCode.freiker_code' => 'EXISTS',
+    }),
+    inline_case(sub {
+	model('Ride')->create({
+	    freiker_code => class('Freiker::Test')->FREIKER_CODE(3),
+	    ride_date => model('FreikerRideList', {
+		parent_id => $child_id,
+		auth_id => req('auth_id'),
+	    })->set_cursor_or_die(0)->get('Ride.ride_date'),
+	    realm_id => $school_id,
+	});
+    }),
+    error_case({
+	'FreikerCode.freiker_code' => class('Freiker::Test')->FREIKER_CODE(3),
+    } => {
+	'FreikerCode.freiker_code' => 'MUTUALLY_EXCLUSIVE',
+    }),
+];

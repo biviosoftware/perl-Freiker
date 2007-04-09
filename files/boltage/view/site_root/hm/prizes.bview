@@ -5,11 +5,15 @@ view_put(
     body => Join([
 	vs_prose(<<'EOF'),
 <p>
-Prizes are delivered on Friday. We have a variety of
-Tag(span => '10-ride', 'prize_rides'); prizes.
-Your wheels will have a bag or box of them.
-Link('Click here to donate prizes or money.', 'SITE_DONATE');
+We have a great variety of prizes.  All prizes except the
+SPAN_prize_rides('Green Gear'); are deducted from your ride
+total.  We are working on prize management system, which will
+show how many rides you may apply to prizes.  Prizes
+will be ordered via your Family's account on this website, and picked up at
+Link('Trail Kids', 'http://trail-kids.com/standard.php?id=79&pageID=2');
+located at 2750 Glenwood Drive at 28th in North Boulder.
 </p>
+P(Link('Click here to donate prizes or money.', 'SITE_DONATE'));
 <p>
 Link(Image('green_gear', undef, {class => 'prize_right'}), 'http://www.resourcerevival.com');
 Every Monday (or the first school day in the week), we award the Green Gear
@@ -18,7 +22,9 @@ at random.  The Freiker of the Week also wins $10.  Yes, TEN DOLLARS, just for
 riding your bike to school every day the prior week.  This is an extra prize.
 You get to use those same rides for any of the ride prizes below.  Special
 thanks to Link('Resource Revival, Inc.', 'http://www.resourcerevival.com');
-for supplying the gears.
+for supplying the gears and to
+the Link('Boulder Bump Shop', 'http://www.boulderbumpshop.com'); for painting
+them.
 </p>
 <p>
 Link(Image('ipod_nano', undef, {class => 'prize_left'}), 'http://www.apple.com/ipodnano');
@@ -27,7 +33,8 @@ An iPod!  This is the piece de resistance for kids nowadays.  If you ride
 really, but there are plenty of other prizes below.  This is just the
 one everybody seems to want.  At Crest View, you have to ride
 SPAN_prize_rides('150 times');, but schools which start Freiker part of the way
-through the year will use a lower number of rides.
+through the year will use a lower number of rides (90% of possible rides
+during the partial year).
 </p>
 <p>
 Link(Image('lance_poster', undef, {class => 'prize_right'}), 'http://www.grahamwatson.com');

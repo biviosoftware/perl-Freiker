@@ -1,0 +1,10 @@
+# Copyright (c) 2005 TruAd LLC.  All rights reserved.
+# $Id$
+view_parent('base');
+view_put(
+    body => vs_simple_form(
+	AdmSubstituteUserForm => [qw{
+	    AdmSubstituteUserForm.login
+	}],
+    ),
+);

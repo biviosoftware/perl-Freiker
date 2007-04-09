@@ -29,21 +29,21 @@ any information that would identify your child.
 <p>
 Everybody can Link('win a prize', '/hm/prizes');.  Freiker is not a
 competition between children, classes, or schools.  After ten rides, every
-Freiker (program participant) is eligible
-for a prize.
+Freiker (program participant) is eligible for a prize.  At the end of the
+year, there's a party for all Freikers, even if you have only ridden to
+school one time!  You just need your Freiker helmet tag to get in.
 </p>
 <p>
 Every Monday one child wins an extra prize called the
 Green Gear along with $10 cash.  To be eligible for the Green Gear, a
 child must ride every school day the prior week.  The Green Gear is
 selected randomly from the children who rode the entire week.
-For prizes exchanged for rides,
 </p>
 <p>
 Link('Parents must register', 'FAMILY_REGISTER'); with this website.
 There's no charge, and we only require an email address, which helps
-us avoid phone registrations and allows us to contact you when your child
-wins a prize.
+us avoid registrations by spambots and allows us to contact you when your
+child wins a prize.
 </p>
 <h3>Rides</h3>
 <p>
@@ -92,21 +92,19 @@ and Link('Pedestrian and Bicycle Information Center',
 </p>
 H3('Photos');
 <p>
-From time to time, we may take photographs of your child.  We will not
-publish photographs of your child without your permission.  If we take
-a picture that is worthy of publication on our website, we will give your
-child a Link('model release form', '/hm/model-release'); for you to sign.
-If you would like to see your child's picture on our website or other
-publications, please return the model release to us.  This is completely
-optional.  We understand and completely respect your desire to maintain
-your family's privacy.
+From time to time, we may take photographs of your child.  We may
+put your child's picture on our website, in a brochure, or other
+printed materials to show how much fun Freiker is.  If you do not
+want your child's picture published, vs_wheel_contact();.
+We understand and completely respect your desire
+to maintain your family's privacy.
 </p>
 <h3>Volunteers</h3>
 <p>
 Your help would be greatly appreciated.  If you already have
 a Link('wheel (lead volunteer)', '/hm/wheels'); at your school, just
 go to your bike rack in the morning.  If you would like to bring
-Freiker to your school, contact us at vs_gears_email();, and we'll
+Freiker to your school, vs_gears_contact();, and we'll
 get you a scanner, barcodes, and start up prizes.  If you are politically
 inclined, please go to school board and/or city council meetings and
 tell them about Freiker.  If you know how to write grants, we could
@@ -117,15 +115,13 @@ use your help, too.
 We will gladly accept donations.
 100% of our sponsor money and gifts goes towards prizes or other rewards.
 Our program is entirely volunteer run, including the software and hardware
-to run our website.  If you would like to donate,
-please make a check to Freiker, Inc. for any amount and give it to
-a volunteer at your school.   Freiker, Inc. has applied for
-501(c)3 federally, tax-exempt status.  It should be completed
-in the 2006 tax year.
+to run our website.  We need your help.
+Link(B('Click here to learn how to donate to Freiker!'), 'SITE_DONATE');
+It's tax-deductible!
 </p>
 <h3>Feedback</h3>
 <p>
-We encourage feedback.  Please email us at vs_gears_email(); with your
+We encourage feedback so vs_gears_contact(); with your
 questions, comments, and/or suggestions.
 </p>
 <p>

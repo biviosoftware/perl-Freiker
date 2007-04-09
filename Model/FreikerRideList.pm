@@ -6,12 +6,23 @@ use base 'Freiker::Model::YearBaseList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
+sub get_club_id {
+    my($self) = @_;
+    return $self->new_other('RealmUser')->find_club_id(
+	$self->set_cursor_or_not_found(0)->get('Ride.realm_id'),
+    );
+}
+
 sub get_display_name {
     my($self) = @_;
     return $self->new_other('RealmOwner')->unauth_load_or_die({
 	realm_id => $self->set_cursor_or_not_found(0)->get('Ride.realm_id'),
     })->get('display_name')
     . ' (' . $self->get('Ride.freiker_code') . ')';
+}
+
+sub get_user_id {
+    return shift->set_cursor_or_not_found(0)->get('Ride.realm_id');
 }
 
 sub internal_initialize {
