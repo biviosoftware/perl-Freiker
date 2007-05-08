@@ -13,50 +13,29 @@ my($_SELF) = __PACKAGE__->new({
     http_host => 'www.freiker.org',
     mail_host => 'freiker.org',
     Color => [
-	[[qw(
-	    table_separator
-	    table_odd_row_bg
-	    table_even_row_bg
-	    page_alink
-	    page_link
-	    page_link_hover
-	    page_bg
-	    page_text
-	    page_vlink
-	    summary_line
-	    error
-	    warning
- 	)] => -1],
+	[footer_border_top => 0x0],
+	[[qw(a_link left_login_background notice)] => 0x33CC00],
+	[[qw(acknowledgement_border a_hover a_hover_img_border)] => 0x99FF33],
+	[[qw(title topic header_realm header_menu_border_bottom line_border_top)] => 0x666666],
+	[[qw(err warn empty_list_border)] => 0xcc0000],
+	[a_img_border => 0xFFFFFF],
+	[main_left_text => 0xFFFFFF],
     ],
     Font => [
-	map([$_->[0] => [qq{class=$_->[1]}]],
-	    [[qw(error form_field_error form_field_error_label)] => 'err'],
-	    [warning => 'warn'],
-	    [checkbox => 'checkbox'],
-	    [form_submit => 'button'],
-	    [form_field_label => 'ok'],
-	),
-	[[qw{
-	    default
-	    ch
-	    input_field
-	    mailto
-	    number_cell
-	    page_heading
-	    page_text
-	    radio
-	    search_field
-	    table_cell
-	    table_heading
-	    list_action
-	}] => []],
+	[a_link => 'none'],
+	[a_hover => 'underline'],
+	[user_state => ['larger', 'uppercase', 'bold']],
+	[body => ['family=Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif', 'small']],
+	[highlight => 'bold'],
+	[pending_upload => ['italic', 'uppercase']],
+	[user_state => ['150%', 'uppercase', 'bold']],
+	[footer => []],
+	[topic => [qw(150% bold)]],
+	[header_menu => '150%'],
     ],
     FormError => [
-	[NULL => 'You must supply a value for vs_fe("label");.'],
 	[NUMBER => 'Please enter a number'],
 	['PayPalForm.amount.NULL' => 'Any amount will do!'],
-	[EXISTS => 'vs_fe("label"); already exists in our database.'],
-	[NOT_FOUND => 'vs_fe("label"); was not found in our database.'],
 	['FreikerCode.freiker_code' => [
 	    NOT_FOUND => 'This is not a valid vs_fe(q{label}); for your school.  Please check the number and resubmit.',
 	    EXISTS => 'The vs_fe(q{label}); has not been scanned by the Freikometer yet, or the vs_fe(q{label}); is already assigned to a Freiker.  Please verify the number and retry.',
@@ -68,21 +47,16 @@ my($_SELF) = __PACKAGE__->new({
 	['Ride.ride_date.NOT_FOUND' => q{This date was not a school day.}],
 	['Ride.ride_date.EXISTS' => q{The Freiker was already credited for this date.  Please enter a different date.}],
     ],
-    HTML => [
-	[want_secure => 0],
-	[table_default_align => 'left'],
-    ],
     Constant => [
 	[xlink_paypal => {
 	    uri => 'http://www.paypal.com/us',
 	}],
     ],
     Task => [
-	[CLUB_HOME => '?'],
+	[FORUM_CSS => undef],
 	[CLUB_REGISTER => 'pub/register-organization'],
 	[CLUB_REGISTER_DONE => undef],
 	[CLUB_FREIKER_LIST => '?/freikers'],
-	[DEFAULT_ERROR_REDIRECT_FORBIDDEN => undef],
 	[FAMILY_REGISTER => 'pub/register-family'],
 	[FAMILY_REGISTER_DONE => undef],
 	[FAMILY_FREIKER_ADD => '?/register-freiker'],
@@ -91,33 +65,12 @@ my($_SELF) = __PACKAGE__->new({
         [FAMILY_MANUAL_RIDE_FORM => '?/add-ride'],
         [FAMILY_FREIKER_CODE_ADD => '?/add-tag'],
 	[FAVICON_ICO => '/favicon.ico'],
-	[FORBIDDEN => undef],
-	[GENERAL_USER_PASSWORD_QUERY => '/pub/forgot-password'],
-	[GENERAL_USER_PASSWORD_QUERY_ACK => undef],
-	[GENERAL_USER_PASSWORD_QUERY_MAIL => undef],
 	[LOCAL_FILE_PLAIN => ['i/*', 'f/*', 'h/*', 'm/*']],
-	[LOGIN => 'pub/login'],
-	[LOGOUT => 'pub/logout'],
-#	[MY_CLUB_SITE => 'my-school/*'],
-	[MY_CLUB_SITE => undef],
-	[MY_SITE => 'my-site/*'],
-	[SHELL_UTIL => undef],
 	[SITE_DONATE => 'hm/donate'],
-	[SITE_PARENTS => 'hm/parents'],
-	[SITE_PRESS => 'hm/press'],
-	[SITE_PRIZES => 'hm/prizes'],
 	[SITE_ROOT => '/*'],
-	[SITE_SPONSORS => 'hm/sponsors', 'hm/gears'],
-	[SITE_WHEELS => '/hm/wheels'],
-	[TEST_BACKDOOR => '_test_backdoor'],
-	[USER_HOME => '?'],
-	[USER_PASSWORD => '?/change-password'],
-	[USER_PASSWORD_RESET => '?/new-password'],
 	[USER_REALMLESS_REDIRECT => 'ru/*'],
         [PAYPAL_RETURN => 'pp/*'],
-        [ROBOTS_TXT => 'robots.txt'],
         [FREIKOMETER_UPLOAD => '_fm_upload'],
-	[ADM_SUBSTITUTE_USER => 'adm/su'],
     ],
     Text => [
 	[support_email => 'gears'],
@@ -126,29 +79,13 @@ my($_SELF) = __PACKAGE__->new({
 	[site_name => q{Freiker}],
 	[site_copyright => q{Freiker, Inc.}],
 	[home_page_uri => '/hm/index'],
-	[view_execute_uri_prefix => 'site_root/'],
-	[favicon_uri => '/i/favicon.ico'],
-	[form_error_title => 'Please correct the errors below:'],
-	[none => ''],
 	[Image_alt => [
-	    [qw(dot heart_14 heart heart_9)] => '',
 	    at => 'at sign image to help avoid spam',
 	    bivio_power => 'Operated by bivio Software, Inc.',
 	    [qw(smiley smiley_80)] => 'Freiker: The Frequent Biker Program',
 	]],
-	[ok_button => '   OK   '],
-	[cancel_button => ' Cancel '],
-	[password => 'Password'],
-	[confirm_password => 'Re-enter Password'],
 	[['email', 'login'] => 'Your Email'],
 	[club_name => 'Official Name'],
-	[[qw(paged_detail paged_list)] => [
-	    prev => 'Back',
-	    next => 'Next',
-	    list => 'Back to list',
-	]],
-	[prologue => ''],
-	[epilogue => ''],
 	['FreikerCode.freiker_code' => q{Freiker ID}],
 	[Ride => [
 	    ride_date => 'Date',
@@ -199,9 +136,6 @@ String([qw(Model.FreikerRideList ->get_display_name)]);.
 EOF
 	    ],
 	]],
-	[UserLoginForm => [
-	    ok_button => 'Login',
-	]],
 	[separator => [
 	    optional => 'Optional information used for statistical purposes',
 	    club => 'School Information',
@@ -212,11 +146,11 @@ EOF
 	    empty_list_prose => 'No Freikers as yet.',
 	    list_actions => 'Actions',
 	]],
-	[UserPasswordForm => [
-	    old_password => 'Current Password',
-	    new_password => 'New Password',
-	    confirm_new_password => 'Re-enter New Password',
-	    ok_button => 'Update',
+	[UserLoginForm => [
+	    prose => [
+		prologue => q{vs_text_as_prose('FAMILY_REGISTER');<br />vs_text_as_prose('CLUB_REGISTER');},
+		epilogue => q{vs_text_as_prose('GENERAL_USER_PASSWORD_QUERY');},
+	    ],
 	]],
 	[PayPalForm => [
 	    amount => '$',
@@ -227,7 +161,10 @@ EOF
 	    text => 'Message',
 	    ok_button => 'Send',
 	]],
-	['UserPasswordQueryForm.ok_button' => 'Send'],
+	[UserPasswordQueryForm => [
+	    'prose.prologue' => q{P_prose('Please enter the email address you used to register and click Send.  You will receive an email with a link to reset your password.');},
+	    ok_button => 'Send',
+	]],
 	[prose => [
 	    LOGIN => q{Already registered?  Link('Click here to login.', {task_id => 'LOGIN', no_context => 1});},
 	    FAMILY_REGISTER => q{Child not registered?  vs_link('Click here to register your family.', 'FAMILY_REGISTER');},
@@ -235,7 +172,6 @@ EOF
 	    GENERAL_USER_PASSWORD_QUERY => q{Forgot your password? Link('Click here to get a new one.', 'GENERAL_USER_PASSWORD_QUERY');},
 	]],
 	[acknowledgement => [
-            GENERAL_CONTACT => 'Your inquiry has been sent.  Thank you!',
 	    FAMILY_FREIKER_ADD => q{Your child has been added.},
 	    FAMILY_MANUAL_RIDE_FORM => q{The missing date has been added.},
 	    FAMILY_FREIKER_CODE_ADD => q{The new Freiker ID was added.},
@@ -245,8 +181,6 @@ String([qw(Model.UserPasswordQueryForm Email.email)]);.
 The email contains a link back to this site so
 you can reset your password.
 EOF
-	    USER_PASSWORD => q{Your password has been changed.},
-	    password_nak => q{We're sorry, but the link you clicked on is no longer valid.  Please enter your email address and send again.},
 	    paypal_ok => <<'EOF',
 SPAN_money('Thank you very much for your donation!');
 Your transaction has been completed, and a receipt for your
@@ -261,7 +195,14 @@ EOF
 	[FAMILY_FREIKER_RIDE_LIST => 'Show Rides'],
 	[FAMILY_MANUAL_RIDE_FORM => 'Add Missing Ride'],
 	[FAMILY_FREIKER_CODE_ADD => 'New Helmet Tag'],
-	['page3.title' => [
+	[SiteRoot => [
+	    hm_wheels => 'Wheels',
+	    hm_sponsors => 'Sponsors',
+	    hm_parents => 'Parents',
+	    hm_press => 'Press',
+	    hm_prizes => 'Prizes',
+	]],
+	['xhtml.title' => [
 	    CLUB_FREIKER_LIST => "Your School's Freikers",
 	    CLUB_REGISTER => 'Register Your School',
 	    FAMILY_FREIKER_ADD => 'Register Your Child',
@@ -272,11 +213,7 @@ EOF
 	    USER_PASSWORD => 'Change Your Password',
 	    [qw(CLUB_REGISTER_DONE FAMILY_REGISTER_DONE GENERAL_USER_PASSWORD_QUERY)] => 'Check Your Mail',
 	    SITE_ROOT => 'The Frequent Biker Program',
-	    [qw(SITE_SPONSORS SITE_DONATE)] => 'We need your help!',
-	    SITE_PARENTS => 'For parents',
-	    SITE_PRESS => 'In the news',
-	    SITE_PRIZES => 'Ride and win!',
-	    SITE_WHEELS => 'Wheels roll around',
+	    SITE_DONATE => 'We need your help!',
 	    FAMILY_FREIKER_RIDE_LIST =>
 		'String([qw(Model.FreikerRideList ->get_display_name)]); Rides',
 	    FAMILY_MANUAL_RIDE_FORM =>
@@ -288,16 +225,11 @@ EOF
 	    LOGIN => 'Login',
 	    FAMILY_REGISTER => 'Register',
 	    USER_PASSWORD => 'Account',
-	    FAMILY_FREIKER_LIST => 'Family',
+	    FAMILY_FREIKER_LIST => q{Your Family},
 	    FAMILY_FREIKER_ADD => 'Register Child',
 	    CLUB_FREIKER_LIST => 'School',
 	    SITE_ROOT => 'Home',
-	    SITE_SPONSORS => 'Sponsors',
 	    SITE_DONATE => 'Donate',
-	    SITE_PARENTS => 'Parents',
-	    SITE_PRESS => 'Press',
-	    SITE_PRIZES => 'Prizes',
-	    SITE_WHEELS => 'Wheels',
 	    back_to_family => 'Back to Family List',
 	    back_to_school => 'School',
 	]],

@@ -84,6 +84,7 @@ sub merge_overrides {
 	      	Action => ['Freiker::Action'],
 		Facade => ['Freiker::Facade'],
 #TODO:	      	HTMLWidget => ['Freiker::HTMLWidget'],
+	      	View => ['Freiker::View'],
 	      	Model => ['Freiker::Model'],
 		TestLanguage => ['Freiker::Test'],
 	      	Type => ['Freiker::Type'],

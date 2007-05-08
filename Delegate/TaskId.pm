@@ -1,14 +1,14 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Delegate::TaskId;
 use strict;
-use base 'Bivio::Delegate::SimpleTaskId';
+use base 'Bivio::Delegate::TaskId';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub get_delegate_info {
     my($proto) = @_;
-    return $proto->merge_task_info(shift->SUPER::get_delegate_info(@_), [
+    return $proto->merge_task_info(@{$proto->ALL_INFO}, [
 	[qw(
 	    MY_SITE
 	    4
@@ -28,25 +28,7 @@ sub get_delegate_info {
 # 	    Bivio::Auth::RealmType->execute_club
 # 	    Action.ClientRedirect->execute_path_info
 # 	)],
-	[qw(
-	    LOGIN
-	    501
-	    GENERAL
-	    ANYBODY
-	    Action.UserLogout
-	    Model.UserLoginForm
-            View.login
-	    next=MY_SITE
-	)],
-	[qw(
-	    LOGOUT
-	    502
-	    GENERAL
-	    ANYBODY
-	    Action.UserLogout
-            Action.ClientRedirect->execute_next
-            next=MY_SITE
-	)],
+#501-502
 	[qw(
 	    USER_REALMLESS_REDIRECT
 	    503
@@ -64,7 +46,7 @@ sub get_delegate_info {
 	    ANYBODY
 	    Action.UserLogout
 	    Model.ClubRegisterForm
-	    View.club/register
+	    View.School->register
 	    next=FAMILY_REGISTER_DONE
 	    reset_task=USER_PASSWORD_RESET
 	    reset_next_task=GENERAL_USER_PASSWORD_QUERY_MAIL
@@ -75,8 +57,8 @@ sub get_delegate_info {
 	    505
 	    GENERAL
 	    ANYBODY
-	    View.mail/registration
-	    View.registration-sent
+	    View.UserAuth->create_mail
+	    View.UserAuth->registration_sent
 	)],
 	[qw(
 	    CLUB_REALMLESS_REDIRECT
@@ -95,7 +77,7 @@ sub get_delegate_info {
 	    ANYBODY
 	    Action.UserLogout
 	    Model.UserRegisterForm
-	    View.family/register
+	    View.Family->register
 	    next=FAMILY_REGISTER_DONE
 	    reset_task=USER_PASSWORD_RESET
 	    reset_next_task=GENERAL_USER_PASSWORD_QUERY_MAIL
@@ -106,8 +88,8 @@ sub get_delegate_info {
             508
             GENERAL
 	    ANYBODY
-	    View.mail/registration
-	    View.registration-sent
+	    View.UserAuth->create_mail
+	    View.UserAuth->registration_sent
         )],
 	[qw(
 	    FAMILY_FREIKER_LIST
@@ -115,7 +97,7 @@ sub get_delegate_info {
 	    USER
 	    ADMIN_READ
 	    Model.FreikerList->execute_load_all_with_query
-	    View.family/freiker-list
+	    View.Family->freiker_list
 	    MODEL_NOT_FOUND=FAMILY_FREIKER_ADD
 	)],
 	[qw(
@@ -124,7 +106,7 @@ sub get_delegate_info {
 	    USER
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.FreikerForm
-	    View.family/freiker-add
+	    View.Family->freiker_add
 	    next=FAMILY_FREIKER_LIST
 	)],
 	[qw(
@@ -141,43 +123,9 @@ sub get_delegate_info {
 	    CLUB
 	    ADMIN_READ
 	    Model.ClubFreikerList->execute_load_page
-	    View.club/freiker-list
+	    View.School->freiker_list
 	)],
-	[qw(
-	    SITE_SPONSORS
-	    513
-	    GENERAL
-	    ANYBODY
-	    Action.LocalFilePlain->execute_uri_as_view
-        )],
-	[qw(
-	    SITE_PARENTS
-	    514
-	    GENERAL
-	    ANYBODY
-	    Action.LocalFilePlain->execute_uri_as_view
-        )],
-	[qw(
-	    SITE_PRESS
-	    515
-	    GENERAL
-	    ANYBODY
-	    Action.LocalFilePlain->execute_uri_as_view
-        )],
-	[qw(
-	    SITE_PRIZES
-	    516
-	    GENERAL
-	    ANYBODY
-	    Action.LocalFilePlain->execute_uri_as_view
-        )],
-	[qw(
-	    SITE_WHEELS
-	    517
-	    GENERAL
-	    ANYBODY
-	    Action.LocalFilePlain->execute_uri_as_view
-        )],
+#513-517 free
 	[qw(
 	    SITE_DONATE
 	    518
@@ -200,7 +148,7 @@ sub get_delegate_info {
 	    USER
 	    ADMIN_READ
 	    Model.FreikerRideList->execute_load_page
-	    View.family/freiker-ride-list
+	    View.Family->freiker_ride_list
 	)],
 	[qw(
 	    FAMILY_MANUAL_RIDE_FORM
@@ -209,7 +157,7 @@ sub get_delegate_info {
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.FreikerRideList->execute_load_all_with_query
 	    Model.ManualRideForm
-	    View.family/manual-ride-form
+	    View.Family->manual_ride_form
 	    next=FAMILY_FREIKER_RIDE_LIST
 	)],
 	[qw(
@@ -219,7 +167,7 @@ sub get_delegate_info {
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.FreikerRideList->execute_load_all_with_query
 	    Model.FreikerCodeForm
-	    View.family/freiker-code-add
+	    View.Family->freiker_code_add
 	    next=FAMILY_FREIKER_RIDE_LIST
 	)],
     ]);

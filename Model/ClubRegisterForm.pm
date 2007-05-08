@@ -6,9 +6,14 @@ use base 'Bivio::Biz::Model::UserRegisterForm';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
+do not show fields if logged in.  Addre 
+
 sub internal_create_models {
     my($self) = @_;
-    my($realm, @rest) = shift->SUPER::internal_create_models(@_);
+    my($req) = $self->get_request;
+    my($realm, @rest) = $self->get('user_exists')
+	? ($req->get('auth_user'), $self->new_other('User')->load_for_auth_user)
+	: shift->SUPER::internal_create_models(@_);
     return $realm && !$self->internal_catch_field_constraint_error(
 	club_name => sub {
 	    $self->new_other('ClubAux')->create_realm(
@@ -39,7 +44,21 @@ sub internal_initialize {
 	    'ClubAux.website',
 	    'ClubAux.club_size',
 	],
+	other => [
+	    {
+		name => 'user_exists',
+		type => 'Boolean',
+		constraint => 'NOT_NULL',
+	    },
+	],
     });
+}
+
+sub internal_pre_execute {
+    my($self) = @_;
+    $self->internal_put_field(
+	user_exists => $self->get_request->get('auth_user') ? 1 : 0);
+    return shift->SUPER::internal_pre_execute(@_);
 }
 
 1;
