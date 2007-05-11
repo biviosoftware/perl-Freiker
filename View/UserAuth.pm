@@ -7,6 +7,17 @@ use Bivio::UI::ViewLanguageAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
+sub create {
+    return shift->internal_body(vs_simple_form(UserRegisterForm => [
+	qw{
+	   UserRegisterForm.RealmOwner.display_name
+	   UserRegisterForm.Email.email
+	   -optional
+	   UserRegisterForm.Address.zip
+        },
+    ]));
+}
+
 sub create_mail {
     view_put(
 	mail_to => Mailbox([['->get_by_regexp', 'Model.\w+RegisterForm'], 'Email.email']),
@@ -25,9 +36,10 @@ String([['->get_by_regexp', 'Model.\w+RegisterForm'], 'Email.email']); is the em
 You will use this address to login along with the password you
 will set when you click on the above link.
 
-Freiker, Inc. is finally a 501(c)(3) so donations are tax-deductible.
-We have been very successful at increasing ridership in Boulder.  With
-success comes increased costs.  Please take a minute to donate:
+Freiker, Inc. (EIN 56-2539016) is finally a 501(c)(3) so donations are
+tax-deductible.  We have been very successful at increasing ridership
+in Boulder.  With success comes increased costs.  Please take a minute
+to donate:
 
 Link('/hm/donate');
 
@@ -36,7 +48,7 @@ register with PayPal, just skip down to "Don't have a PayPal Account?"
 It's a very convenient way to donate and to help keep the kids
 excited to ride.
 
-100% of our donations by individuals goes towards prizes for the kids.
+100% of our donations by individuals go towards prizes for the kids.
 
 Thanks for riding,
 Rob Nagler
@@ -45,15 +57,6 @@ Freiker, Inc.
 EOF
     );
     return;
-}
-
-sub registration_sent {
-    return shift->internal_body(DIV_prose(Prose(<<'EOF')));
-We have sent a confirmation email to
-String([['->get_by_regexp', 'Model.\w+RegisterForm'], 'Email.email']);.
-Please follow the instructions in this email message to complete
-your registration with vs_site_name();.
-EOF
 }
 
 1;

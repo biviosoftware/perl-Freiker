@@ -21,6 +21,7 @@ td.main_left div.login {
   Color('left_login-background');
   padding-bottom: 2px;
   margin: auto;
+  margin-bottom: 1ex;
 }
 td.main_left div.login .label,
 td.main_left div.login .standard_submit {
@@ -34,9 +35,6 @@ td.main_left div.login a.label {
 td.main_left div.login input {
   margin: auto;
   display: block;
-}
-td.main_left div.task_menu {
-  padding: .5em;
 }
 td.main_left div.task_menu a {
   background-image: none;
@@ -55,16 +53,6 @@ div.main_body {
 }
 td.footer_middle div.task_menu {
   text-align: center;
-}
-table.list {
-  margin: auto;
-}
-.empty_list {
-  border: 2px solid;
-  Color('empty_list-border');
-  padding: .5em;
-  width: 30em;
-  margin: auto;
 }
 a img, a:hover img {
   border: 1px solid;
@@ -232,9 +220,6 @@ form .list th, form .list td {
   padding-top: 2ex;
   padding-bottom: 2ex;
   text-align: left;
-}
-h3 {
-  Color('notice');
 }
 table.radio_grid {
   margin-left: 0;

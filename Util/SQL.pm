@@ -89,33 +89,7 @@ sub initialize_test_data {
 
 sub internal_upgrade_db {
     my($self) = @_;
-    $self->internal_upgrade_db_ride;
-    return;
-}
-
-sub internal_upgrade_db_ride {
-    my($self) = @_;
-    $self->run(<<'EOF');
-ALTER TABLE ride_t
-    ADD COLUMN is_manual_entry NUMERIC(1)
-/
-ALTER TABLE ride_t
-    ADD COLUMN ride_time DATE
-/
-UPDATE ride_t
-    SET is_manual_entry = 0, ride_time = TO_DATE('2378497 79199', 'J SSSS')
-/
-ALTER TABLE ride_t
-    ALTER COLUMN is_manual_entry SET NOT NULL
-/
-ALTER TABLE ride_t
-    ALTER COLUMN ride_time SET NOT NULL
-/
-ALTER TABLE ride_t
-  ADD CONSTRAINT ride_t8
-  CHECK (is_manual_entry BETWEEN 0 AND 1)
-/
-EOF
+    $self->internal_upgrade_db_bundle;
     return;
 }
 

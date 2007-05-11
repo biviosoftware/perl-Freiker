@@ -14,7 +14,7 @@ my($_SELF) = __PACKAGE__->new({
     mail_host => 'freiker.org',
     Color => [
 	[footer_border_top => 0x0],
-	[[qw(a_link left_login_background notice)] => 0x33CC00],
+	[[qw(a_link left_login_background notice h3)] => 0x33CC00],
 	[[qw(acknowledgement_border a_hover a_hover_img_border)] => 0x99FF33],
 	[[qw(title topic header_realm header_menu_border_bottom line_border_top)] => 0x666666],
 	[[qw(err warn empty_list_border)] => 0xcc0000],
@@ -22,7 +22,7 @@ my($_SELF) = __PACKAGE__->new({
 	[main_left_text => 0xFFFFFF],
     ],
     Font => [
-	[a_link => 'none'],
+	[a_link => 'normal'],
 	[a_hover => 'underline'],
 	[user_state => ['larger', 'uppercase', 'bold']],
 	[body => ['family=Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif', 'small']],
@@ -54,11 +54,8 @@ my($_SELF) = __PACKAGE__->new({
     ],
     Task => [
 	[FORUM_CSS => undef],
-	[CLUB_REGISTER => 'pub/register-organization'],
-	[CLUB_REGISTER_DONE => undef],
+	[CLUB_REGISTER => '?/register-organization'],
 	[CLUB_FREIKER_LIST => '?/freikers'],
-	[FAMILY_REGISTER => 'pub/register-family'],
-	[FAMILY_REGISTER_DONE => undef],
 	[FAMILY_FREIKER_ADD => '?/register-freiker'],
 	[FAMILY_FREIKER_LIST => '?/freikers'],
 	[FAMILY_FREIKER_RIDE_LIST => '?/rides'],
@@ -91,23 +88,32 @@ my($_SELF) = __PACKAGE__->new({
 	    ride_date => 'Date',
 	]],
 	['Address.zip.desc' =>
-	     q{A 9-digit US zip code is required.  Link('Look up at the US Postal service website', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});, if you don't know it},],
+	     q{A 9-digit US zip code is required.  Link('Look it up at the USPS.', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});},
+        ],
 	[ClubRegisterForm => [
 	    'ClubAux.club_size' => 'Number of Students',
 	    'ClubAux.club_size.desc' => 'Total number of students including freikers and non-freikers.',
 	    'ClubAux.website' => 'School Website',
 	    'ClubAux.website.desc' => 'Example: http://schools.bvsd.org/crestview/index.html',
 	    'Address.zip' => 'US ZIP+4',
-	    'RealmOwner.display_name' => 'Your Name',
 	    'Email.email.desc' =>
-		q{We will send emails only related to running Freiker.},
+		q{We only send emails related to Freiker.},
 	    ok_button => 'Register School',
 	]],
+	[UserLoginForm => [
+	    prose => [
+		prologue => q{vs_text_as_prose('USER_CREATE');},
+		epilogue => q{vs_text_as_prose('GENERAL_USER_PASSWORD_QUERY');},
+	    ],
+	]],
 	[UserRegisterForm => [
-	    'RealmOwner.display_name' => 'Your Family (Last) Name',
-	    'RealmOwner.display_name.desc' => 'You need not supply a real name here, since we will not be contacting you except by email.',
+	    prose => [
+		prologue => q{In order to better serve you, we validate all email addresses.  When you click Register, we'll email a link which will you to set your password.},
+		epilogue => q{vs_text_as_prose('LOGIN');},
+	    ],
+	    'RealmOwner.display_name' => 'Your Name',
 	    'Address.zip' => 'Your ZIP+4 Code',
-	    ok_button => 'Register Family',
+	    ok_button => 'Register',
 	]],
 	[FreikerForm => [
 	    'User.first_name' => q{First Name},
@@ -138,19 +144,12 @@ EOF
 	]],
 	[separator => [
 	    optional => 'Optional information used for statistical purposes',
-	    club => 'School Information',
 	]],
 	[[qw(FreikerList ClubFreikerList)] => [
 	    'RealmOwner.display_name' => 'Freiker',
 	    ride_count => 'Rides',
 	    empty_list_prose => 'No Freikers as yet.',
 	    list_actions => 'Actions',
-	]],
-	[UserLoginForm => [
-	    prose => [
-		prologue => q{vs_text_as_prose('FAMILY_REGISTER');<br />vs_text_as_prose('CLUB_REGISTER');},
-		epilogue => q{vs_text_as_prose('GENERAL_USER_PASSWORD_QUERY');},
-	    ],
 	]],
 	[PayPalForm => [
 	    amount => '$',
@@ -167,11 +166,12 @@ EOF
 	]],
 	[prose => [
 	    LOGIN => q{Already registered?  Link('Click here to login.', {task_id => 'LOGIN', no_context => 1});},
-	    FAMILY_REGISTER => q{Child not registered?  vs_link('Click here to register your family.', 'FAMILY_REGISTER');},
+	    USER_CREATE => q{Child not registered?  vs_link('Click here to register.', 'USER_CREATE');},
 	    CLUB_REGISTER => q{Would you like to become a wheel? vs_link('Click here to register your school.', 'CLUB_REGISTER');},
 	    GENERAL_USER_PASSWORD_QUERY => q{Forgot your password? Link('Click here to get a new one.', 'GENERAL_USER_PASSWORD_QUERY');},
 	]],
 	[acknowledgement => [
+	    CLUB_REGISTER => q{Your school has been registered.},
 	    FAMILY_FREIKER_ADD => q{Your child has been added.},
 	    FAMILY_MANUAL_RIDE_FORM => q{The missing date has been added.},
 	    FAMILY_FREIKER_CODE_ADD => q{The new Freiker ID was added.},
@@ -191,6 +191,8 @@ EOF
 	]],
 	[xlink => [
 	    paypal => 'PayPal',
+	    login_no_context => 'Login',
+	    user_create_no_context => 'Register',
 	]],
 	[FAMILY_FREIKER_RIDE_LIST => 'Show Rides'],
 	[FAMILY_MANUAL_RIDE_FORM => 'Add Missing Ride'],
@@ -206,12 +208,12 @@ EOF
 	    CLUB_FREIKER_LIST => "Your School's Freikers",
 	    CLUB_REGISTER => 'Register Your School',
 	    FAMILY_FREIKER_ADD => 'Register Your Child',
-	    FAMILY_FREIKER_LIST => "Your Family's Freikers",
-	    FAMILY_REGISTER => 'Register Your Family',
+	    FAMILY_FREIKER_LIST => "Your Freikers",
+	    USER_CREATE => 'Please Register',
 	    LOGIN => 'Please Login',
 	    ADM_SUBSTITUTE_USER => 'Act as User',
 	    USER_PASSWORD => 'Change Your Password',
-	    [qw(CLUB_REGISTER_DONE FAMILY_REGISTER_DONE GENERAL_USER_PASSWORD_QUERY)] => 'Check Your Mail',
+	    [qw(USER_CREATE_DONE GENERAL_USER_PASSWORD_QUERY)] => 'Check Your Mail',
 	    SITE_ROOT => 'The Frequent Biker Program',
 	    SITE_DONATE => 'We need your help!',
 	    FAMILY_FREIKER_RIDE_LIST =>
@@ -222,15 +224,15 @@ EOF
 		'Enter New Freiker ID for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	]],
 	['task_menu.title' => [
+	    CLUB_REGISTER => 'Register School',
 	    LOGIN => 'Login',
-	    FAMILY_REGISTER => 'Register',
+	    USER_CREATE => 'Register',
 	    USER_PASSWORD => 'Account',
 	    FAMILY_FREIKER_LIST => q{Your Family},
 	    FAMILY_FREIKER_ADD => 'Register Child',
-	    CLUB_FREIKER_LIST => 'School',
 	    SITE_ROOT => 'Home',
 	    SITE_DONATE => 'Donate',
-	    back_to_family => 'Back to Family List',
+	    back_to_family => 'Your Family',
 	    back_to_school => 'School',
 	]],
     ],

@@ -42,24 +42,13 @@ sub get_delegate_info {
 	[qw(
 	    CLUB_REGISTER
 	    504
-	    GENERAL
-	    ANYBODY
-	    Action.UserLogout
+	    USER
+	    ADMIN_READ&ADMIN_WRITE
 	    Model.ClubRegisterForm
 	    View.School->register
-	    next=FAMILY_REGISTER_DONE
-	    reset_task=USER_PASSWORD_RESET
-	    reset_next_task=GENERAL_USER_PASSWORD_QUERY_MAIL
-	    cancel=SITE_ROOT
+	    next=CLUB_FREIKER_LIST
 	)],
-	[qw(
-	    CLUB_REGISTER_DONE
-	    505
-	    GENERAL
-	    ANYBODY
-	    View.UserAuth->create_mail
-	    View.UserAuth->registration_sent
-	)],
+#505
 	[qw(
 	    CLUB_REALMLESS_REDIRECT
 	    506
@@ -70,27 +59,7 @@ sub get_delegate_info {
 	    home_task=CLUB_FREIKER_LIST
 	    unauth_task=SITE_ROOT
 	)],
-	[qw(
-	    FAMILY_REGISTER
-	    507
-	    GENERAL
-	    ANYBODY
-	    Action.UserLogout
-	    Model.UserRegisterForm
-	    View.Family->register
-	    next=FAMILY_REGISTER_DONE
-	    reset_task=USER_PASSWORD_RESET
-	    reset_next_task=GENERAL_USER_PASSWORD_QUERY_MAIL
-	    cancel=SITE_ROOT
-	)],
-	[qw(
-            FAMILY_REGISTER_DONE
-            508
-            GENERAL
-	    ANYBODY
-	    View.UserAuth->create_mail
-	    View.UserAuth->registration_sent
-        )],
+#507-508
 	[qw(
 	    FAMILY_FREIKER_LIST
 	    509

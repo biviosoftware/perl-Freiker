@@ -39,7 +39,6 @@ sub internal_xhtml_adorned {
 # List of Family, Schools, and Stores
 	       [sub {
 		    TaskMenu([
-			'USER_PASSWORD',
 			'FAMILY_FREIKER_LIST',
 			map(+{
 			    task_id => 'CLUB_FREIKER_LIST',
@@ -56,28 +55,34 @@ sub internal_xhtml_adorned {
 				'RealmUser.role' => Bivio::Auth::Role->ADMINISTRATOR,
 			    },
 			)}),
+			'CLUB_REGISTER',
 		    ]),
 		}],
 		If([sub {
 			my($req) = shift->get_request;
 			return 0
-			    if $req->get('task_id')->get_name =~ /LOGIN|REGISTER/;
-			Bivio::Biz::Model->new($req, 'UserLoginForm')->process;
+			    if $req->get('task_id')->get_name =~ /LOGIN|USER_CREATE/;
+			Bivio::Biz::Model->new($req, 'ContextlessUserLoginForm')->process;
 			return 1;
-		    }],
+		   }],
 		   RoundedBox(
-		       Form(UserLoginForm =>
+		       Form(ContextlessUserLoginForm =>
 			   Join([
 			       map((
-				   DIV_label(String(vs_text("UserLoginForm.$_"))),
-				   FormField("UserLoginForm.$_", {size => 15}),
+				   DIV_label(String(vs_text("ContextlessUserLoginForm.$_"))),
+				   FormField("ContextlessUserLoginForm.$_", {size => 15}),
 			       ), qw(login RealmOwner.password)),
 			       StandardSubmit(['ok_button']),
-			       Link('Not Registered?', 'FAMILY_REGISTER', {
+			       Link('Not Registered?', 'USER_CREATE', {
 				   class => 'label',
 			       }),
 			   ]),
-			   {action => Bivio::Agent::TaskId->LOGIN},
+			   {
+			       action => URI({
+				   task_id => 'LOGIN',
+				   no_context => 1,
+			       }),
+			   },
 			), {
 			    class => 'login',
 			},
@@ -99,26 +104,16 @@ sub internal_xhtml_adorned {
 	),
 	xhtml_header_right => DIV_user_state(
 	    Director([qw(user_state ->get_name)], {
-		JUST_VISITOR => vs_link('Register', 'FAMILY_REGISTER'),
-		LOGGED_OUT => Link('Login', {task_id => 'LOGIN', no_context => 1}),
-		LOGGED_IN => vs_link('Logout', 'LOGOUT'),
+		JUST_VISITOR => XLink('user_create_no_context'),
+		LOGGED_OUT => XLink('login_no_context'),
+		LOGGED_IN => XLink('LOGOUT'),
 	    }),
 	),
-# 	xhtml_main_middle => Join([
-# 	    If(['!', 'task_id', '->eq_site_donate'],
-# 	       DIV_donate(Link(Join([
-# 		       Image('donate', 'Please donate'),
-# 		       DIV_msg(q{It's tax-deductible!}),
-# 		   ]),
-# 		   'SITE_DONATE',
-# 	       ))),
-# 	    view_get('xhtml_main_middle'),
-# 	]),
 	xhtml_footer_middle => TaskMenu([
 	    'SITE_DONATE',
 	    'SITE_ROOT',
-	    {task_id => 'LOGIN', no_context => 1},
-	    'FAMILY_REGISTER',
+	    XLink('login_no_context'),
+	    'USER_CREATE',
 	]),
     );
     return @res;

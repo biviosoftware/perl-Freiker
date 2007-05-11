@@ -1,4 +1,4 @@
--- Copyright (c) 2001 bivio Inc.  All rights reserved.
+-- Copyright (c) 2001 bivio Software, Inc.  All rights reserved.
 -- $Id$
 --
 -- Sequences for common bOP Models
@@ -14,7 +14,7 @@
 --
 -- 1-20 are reserved for bOP common Models.
 --
-CREATE sequence user_s
+CREATE SEQUENCE user_s
   MINVALUE 100001
   CACHE 1 INCREMENT BY 100000
 /
@@ -24,12 +24,47 @@ CREATE SEQUENCE club_s
   CACHE 1 INCREMENT BY 100000
 /
 
+CREATE SEQUENCE realm_file_s
+  MINVALUE 100003
+  CACHE 1 INCREMENT BY 100000
+/
+
+CREATE SEQUENCE forum_s
+  MINVALUE 100004
+  CACHE 1 INCREMENT BY 100000
+/
+
+CREATE SEQUENCE calendar_event_s
+  MINVALUE 100005
+  CACHE 1 INCREMENT BY 100000
+/
+
+CREATE SEQUENCE tuple_def_s
+  MINVALUE 100006
+  CACHE 1 INCREMENT BY 100000
+/
+
+CREATE SEQUENCE tuple_slot_type_s
+  MINVALUE 100007
+  CACHE 1 INCREMENT BY 100000
+/
+
+CREATE SEQUENCE motion_s
+  MINVALUE 100008
+  CACHE 1 INCREMENT BY 100000
+/
+
+--
+-- 100009-14 available
+--
+
 CREATE SEQUENCE ec_payment_s
   MINVALUE 100015
   CACHE 1 INCREMENT BY 100000
 /
 
-CREATE sequence bulletin_s
+CREATE SEQUENCE bulletin_s
   MINVALUE 100016
   CACHE 1 INCREMENT BY 100000
 /
+

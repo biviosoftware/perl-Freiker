@@ -1,4 +1,4 @@
--- Copyright (c) 2001 bivio Inc.  All rights reserved.
+-- Copyright (c) 2001 bivio Software, Inc.  All rights reserved.
 -- $Id$
 --
 -- Constraints & Indexes for common bOP Models
@@ -23,9 +23,9 @@
 -- address_t
 --
 ALTER TABLE address_t
-  add constraint address_t2
-  foreign key (realm_id)
-  references realm_owner_t(realm_id)
+  ADD CONSTRAINT address_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
 /
 CREATE INDEX address_t3 on address_t (
   realm_id
@@ -33,9 +33,33 @@ CREATE INDEX address_t3 on address_t (
 /
 
 --
+-- calendar_event_t
+--
+ALTER TABLE calendar_event_t
+  ADD CONSTRAINT calendar_event_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX calendar_event_t3 ON calendar_event_t (
+  realm_id
+)
+/
+CREATE INDEX calendar_event_t4 ON calendar_event_t (
+  modified_date_time
+)
+/
+CREATE INDEX calendar_event_t5 ON calendar_event_t (
+  dtstart
+)
+/
+CREATE INDEX calendar_event_t6 ON calendar_event_t (
+  dtend
+)
+/
+
+--
 -- ec_check_payment_t
 --
-
 ALTER TABLE ec_check_payment_t
   ADD CONSTRAINT ec_check_payment_t2
   FOREIGN KEY (realm_id)
@@ -54,7 +78,6 @@ CREATE INDEX ec_check_payment_t4 ON ec_check_payment_t (
 --
 -- ec_credit_card_payment_t
 --
-
 ALTER TABLE ec_credit_card_payment_t
   ADD CONSTRAINT ec_credit_card_payment_t2
   FOREIGN KEY (realm_id)
@@ -73,7 +96,6 @@ CREATE INDEX ec_credit_card_payment_t4 ON ec_credit_card_payment_t (
 --
 -- ec_payment_t
 --
-
 ALTER TABLE ec_payment_t
   ADD CONSTRAINT ec_payment_t2
   FOREIGN KEY (realm_id)
@@ -117,7 +139,6 @@ CREATE INDEX ec_payment_t12 ON ec_payment_t (
 --
 -- ec_subscription_t
 --
-
 ALTER TABLE ec_subscription_t
   ADD CONSTRAINT ec_subscription_t2
   FOREIGN KEY (realm_id)
@@ -137,6 +158,15 @@ CREATE INDEX ec_subscription_t5 ON ec_subscription_t (
 )
 /
 
+--
+-- email_alias_t
+--
+CREATE INDEX email_alias_t2 ON email_alias_t (
+  outgoing
+)
+/
+
+--
 --
 -- email_t
 --
@@ -159,20 +189,412 @@ ALTER TABLE email_t
 /
 
 --
+-- forum_t
+--
+ALTER TABLE forum_t
+  ADD CONSTRAINT forum_t2
+  FOREIGN KEY (parent_realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX forum_t3 on forum_t (
+  parent_realm_id
+)
+/
+ALTER TABLE forum_t
+  ADD CONSTRAINT forum_t4
+  CHECK (want_reply_to BETWEEN 0 AND 1)
+/
+ALTER TABLE forum_t
+  ADD CONSTRAINT forum_t5
+  CHECK (is_public_email BETWEEN 0 AND 1)
+/
+
+--
+-- job_lock_t
+--
+ALTER TABLE job_lock_t
+  ADD CONSTRAINT job_lock_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX job_lock_t3 on job_lock_t (
+  realm_id
+)
+/
+
+--
 -- lock_t
 --
 -- These constraints intentionally left blank.
 
 --
--- phone_t
+-- motion_t
 --
-ALTER TABLE phone_t
-  add constraint phone_t2
+ALTER TABLE motion_t
+  add constraint motion_t2
   foreign key (realm_id)
   references realm_owner_t(realm_id)
 /
+CREATE INDEX motion_t3 on motion_t (
+  realm_id
+)
+/
+CREATE UNIQUE INDEX motion_t4 ON motion_t (
+  realm_id,
+  name_lc
+)
+/
+
+--
+-- motion_vote_t
+--
+ALTER TABLE motion_vote_t
+  add constraint motion_vote_t2
+  foreign key (motion_id)
+  references motion_t(motion_id)
+/
+CREATE INDEX motion_vote_t3 on motion_vote_t (
+  motion_id
+)
+/
+ALTER TABLE motion_vote_t
+  add constraint motion_vote_t4
+  foreign key (user_id)
+  references user_t(user_id)
+/
+CREATE INDEX motion_vote_t5 on motion_vote_t (
+  user_id
+)
+/
+ALTER TABLE motion_vote_t
+  add constraint motion_vote_t6
+  foreign key (affiliated_realm_id)
+  references realm_owner_t(realm_id)
+/
+CREATE INDEX motion_vote_t7 on motion_vote_t (
+  affiliated_realm_id
+)
+/
+ALTER TABLE motion_vote_t
+  add constraint motion_vote_t8
+  foreign key (realm_id)
+  references realm_owner_t(realm_id)
+/
+CREATE INDEX motion_vote_t9 on motion_vote_t (
+  realm_id
+)
+/
+
+--
+-- phone_t
+--
+ALTER TABLE phone_t
+  ADD CONSTRAINT phone_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
 CREATE INDEX phone_t3 on phone_t (
   realm_id
+)
+/
+
+--
+-- tuple_t
+--
+ALTER TABLE tuple_t
+  ADD CONSTRAINT tuple_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX tuple_t3 on tuple_t (
+  realm_id
+)
+/
+ALTER TABLE tuple_t
+  ADD CONSTRAINT tuple_t4
+  FOREIGN KEY (tuple_def_id)
+  REFERENCES tuple_def_t(tuple_def_id)
+/
+CREATE INDEX tuple_t5 on tuple_t (
+  tuple_def_id
+)
+/
+CREATE INDEX tuple_t6 on tuple_t (
+  modified_date_time
+)
+/
+ALTER TABLE tuple_t
+  ADD CONSTRAINT tuple_t7
+  FOREIGN KEY (thread_root_id)
+  REFERENCES realm_mail_t(realm_file_id)
+/
+CREATE INDEX tuple_t8 on tuple_t (
+  thread_root_id
+)
+/
+ALTER TABLE tuple_t
+  ADD CONSTRAINT tuple_t9
+  FOREIGN KEY (realm_id, tuple_def_id)
+  REFERENCES tuple_use_t(realm_id, tuple_def_id)
+/
+CREATE INDEX tuple_t10 on tuple_t (
+  realm_id,
+  tuple_def_id
+)
+/
+
+--
+-- tuple_def_t
+--
+ALTER TABLE tuple_def_t
+  ADD CONSTRAINT tuple_def_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX tuple_def_t3 on tuple_def_t (
+  realm_id
+)
+/
+CREATE UNIQUE INDEX tuple_def_t4 on tuple_def_t (
+  realm_id,
+  label
+)
+/
+CREATE UNIQUE INDEX tuple_def_t5 on tuple_def_t (
+  realm_id,
+  moniker
+)
+/
+
+--
+-- tuple_slot_def_t
+--
+ALTER TABLE tuple_slot_def_t
+  ADD CONSTRAINT tuple_slot_def_t2
+  FOREIGN KEY (tuple_def_id)
+  REFERENCES tuple_def_t(tuple_def_id)
+/
+CREATE INDEX tuple_slot_def_t3 on tuple_slot_def_t (
+  tuple_def_id
+)
+/
+ALTER TABLE tuple_slot_def_t
+  ADD CONSTRAINT tuple_slot_def_t4
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX tuple_slot_def_t5 on tuple_slot_def_t (
+  realm_id
+)
+/
+CREATE UNIQUE INDEX tuple_slot_def_t6 on tuple_slot_def_t (
+  tuple_def_id,
+  label
+)
+/
+ALTER TABLE tuple_slot_def_t
+  ADD CONSTRAINT tuple_slot_def_t7
+  FOREIGN KEY (tuple_slot_type_id)
+  REFERENCES tuple_slot_type_t(tuple_slot_type_id)
+/
+CREATE INDEX tuple_slot_def_t8 on tuple_slot_def_t (
+  tuple_slot_type_id
+)
+/
+ALTER TABLE tuple_slot_def_t
+  ADD CONSTRAINT tuple_slot_def_t9
+  CHECK (is_required BETWEEN 0 AND 1)
+/
+
+--
+-- tuple_slot_type_t
+--
+ALTER TABLE tuple_slot_type_t
+  ADD CONSTRAINT tuple_slot_type_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX tuple_slot_type_t3 on tuple_slot_type_t (
+  realm_id
+)
+/
+CREATE UNIQUE INDEX tuple_slot_type_t4 on tuple_slot_type_t (
+  realm_id,
+  label
+)
+/
+
+--
+-- tuple_use_t
+--
+ALTER TABLE tuple_use_t
+  ADD CONSTRAINT tuple_use_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX tuple_use_t3 on tuple_use_t (
+  realm_id
+)
+/
+ALTER TABLE tuple_use_t
+  ADD CONSTRAINT tuple_use_t4
+  FOREIGN KEY (tuple_def_id)
+  REFERENCES tuple_def_t(tuple_def_id)
+/
+CREATE INDEX tuple_use_t5 on tuple_use_t (
+  tuple_def_id
+)
+/
+CREATE UNIQUE INDEX tuple_use_t6 on tuple_use_t (
+  realm_id,
+  label
+)
+/
+CREATE UNIQUE INDEX tuple_use_t7 on tuple_use_t (
+  realm_id,
+  moniker
+)
+/
+
+--
+-- realm_file_t
+--
+ALTER TABLE realm_file_t
+  ADD CONSTRAINT realm_file_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX realm_file_t3 ON realm_file_t (
+  realm_id
+)
+/
+CREATE INDEX realm_file_t4 ON realm_file_t (
+  modified_date_time
+)
+/
+CREATE INDEX realm_file_t5 ON realm_file_t (
+  path_lc
+)
+/
+CREATE UNIQUE INDEX realm_file_t6 ON realm_file_t (
+  realm_id,
+  path_lc
+)
+/
+ALTER TABLE realm_file_t
+  ADD CONSTRAINT realm_file_t7
+  CHECK (is_folder BETWEEN 0 AND 1)
+/
+ALTER TABLE realm_file_t
+  ADD CONSTRAINT realm_file_t8
+  CHECK (is_public BETWEEN 0 AND 1)
+/
+ALTER TABLE realm_file_t
+  ADD CONSTRAINT realm_file_t9
+  CHECK (is_read_only BETWEEN 0 AND 1)
+/
+ALTER TABLE realm_file_t
+  ADD CONSTRAINT realm_file_t10
+  FOREIGN KEY (user_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX realm_file_t11 ON realm_file_t (
+  user_id
+)
+/
+CREATE INDEX realm_file_t12 ON realm_file_t (
+  folder_id
+)
+/
+
+--
+-- realm_mail_t
+--
+ALTER TABLE realm_mail_t
+  ADD CONSTRAINT realm_mail_t2
+  FOREIGN KEY (realm_file_id)
+  REFERENCES realm_file_t(realm_file_id)
+/
+ALTER TABLE realm_mail_t
+  ADD CONSTRAINT realm_mail_t3
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX realm_mail_t4 ON realm_mail_t (
+  realm_id
+)
+/
+CREATE INDEX realm_mail_t5 ON realm_mail_t (
+  message_id
+)
+/
+ALTER TABLE realm_mail_t
+  ADD CONSTRAINT realm_mail_t6
+  FOREIGN KEY (thread_root_id)
+  REFERENCES realm_file_t(realm_file_id)
+/
+CREATE INDEX realm_mail_t7 ON realm_mail_t (
+  thread_root_id
+)
+/
+ALTER TABLE realm_mail_t
+  ADD CONSTRAINT realm_mail_t8
+  FOREIGN KEY (thread_parent_id)
+  REFERENCES realm_file_t(realm_file_id)
+/
+CREATE INDEX realm_mail_t9 ON realm_mail_t (
+  thread_parent_id
+)
+/
+CREATE INDEX realm_mail_t10 ON realm_mail_t (
+  from_email
+)
+/
+CREATE INDEX realm_mail_t11 ON realm_mail_t (
+  subject_lc
+)
+/
+
+--
+-- realm_mail_bounce_t
+--
+ALTER TABLE realm_mail_bounce_t
+  ADD CONSTRAINT realm_mail_bounce_t2
+  FOREIGN KEY (realm_file_id)
+  REFERENCES realm_file_t(realm_file_id)
+/
+CREATE INDEX realm_mail_bounce_t3 ON realm_mail_bounce_t (
+  realm_file_id
+)
+/
+ALTER TABLE realm_mail_bounce_t
+  ADD CONSTRAINT realm_mail_bounce_t4
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX realm_mail_bounce_t5 ON realm_mail_bounce_t (
+  realm_id
+)
+/
+ALTER TABLE realm_mail_bounce_t
+  ADD CONSTRAINT realm_mail_bounce_t6
+  FOREIGN KEY (user_id)
+  REFERENCES user_t(user_id)
+/
+CREATE INDEX realm_mail_bounce_t7 ON realm_mail_bounce_t (
+  user_id
+)
+/
+CREATE INDEX realm_mail_bounce_t8 ON realm_mail_bounce_t (
+  modified_date_time
+)
+/
+CREATE INDEX realm_mail_bounce_t9 ON realm_mail_bounce_t (
+  reason
+)
+/
+CREATE INDEX realm_mail_bounce_t10 ON realm_mail_bounce_t (
+  email
 )
 /
 
@@ -226,6 +648,10 @@ CREATE INDEX realm_user_t5 ON realm_user_t (
   user_id
 )
 /
+ALTER TABLE realm_user_t
+  ADD CONSTRAINT realm_user_t6
+  CHECK (role > 0)
+/
 CREATE INDEX realm_user_t8 ON realm_user_t (
   creation_date_time
 )
@@ -237,4 +663,17 @@ CREATE INDEX realm_user_t8 ON realm_user_t (
 ALTER TABLE user_t
   ADD CONSTRAINT user_t2
   CHECK (gender BETWEEN 0 AND 2)
+/
+
+--
+-- website_t
+--
+ALTER TABLE website_t
+  ADD CONSTRAINT website_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX website_t3 on website_t (
+  realm_id
+)
 /

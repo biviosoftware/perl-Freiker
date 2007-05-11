@@ -42,7 +42,7 @@ Link(
 );
 H3('Fried-o-whatsit?');
 <p>
-That's "Freikometer", and it adds a lot fo fun to bike encouragement
+That's "Freikometer", and it adds a lot of fun to bike encouragement
 programs.  Freiker's success is due to fantatical dedication to data.
 Like many other bike programs, we started with punch cards.  The next
 year we use barcodes and scanners.  2006-2007 is the year of the Freikometer:
@@ -51,8 +51,9 @@ freiker.org.  It's solar powered so you can put it right near the
 bike racks at your school.
 </p>
 <p>
-The Freikometer is currently under test at several Boulder Valley School
-District schools.  The freikometers survived a very harsh winter -- for the
+The Freikometer is currently under test at several
+Link('Boulder Valley School District', 'http://www.bvsd.org');
+schools.  The freikometers survived a very harsh winter -- for the
 most part.  We're glad the winter's over, and they are operating very will in
 our wet but warm spring.  We will be upgrading all Freikometers in the summer
 of 2007 to operate better in extreme cold. We will be expanding outside the
@@ -648,7 +649,8 @@ If you would like donate prizes or money, vs_gears_contact();.
 </p>
 <div class="simple">
 Link(Image('bivio', 'bivio Software, Inc.'), 'http://www.bivio.biz');
-Link(Image('boulderbumpshop', 'Boulder Bump Shop.'), 'http://www.boulderbumpshop.com');
+Link(Image('boulderbumpshop', 'Boulder Bump Shop'), 'http://www.boulderbumpshop.com');
+Link(Image('bnjrt', 'Boulder Nordic Junior Racing Team'), 'http://www.bnjrt.com');
 Link(Image('catacom', 'Catalyst Communication, Inc.'), 'http://www.catacom.com');
 Link(Image('coloradoplastics', 'Colorado Plastic Products'), 'http://www.coloradoplastics.com');
 Link(Image('colorlink', 'ColorLink, Inc.'), 'http://www.colorlink.com');

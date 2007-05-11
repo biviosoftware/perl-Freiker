@@ -15,27 +15,12 @@ sub freiker_list {
 }
 
 sub register {
-    return shift->internal_body(
-	If(['Model.ClubRegisterForm', 'user_exists'],
-	    vs_simple_form(ClubRegisterForm => [qw{
-		'FAMILY_REGISTER
-		ClubRegisterForm.RealmOwner.display_name
-		ClubRegisterForm.Email.email
-		-club
-		ClubRegisterForm.club_name
-		ClubRegisterForm.ClubAux.club_size
-		ClubRegisterForm.ClubAux.website
-		ClubRegisterForm.Address.zip
-		'LOGIN
-	    }]),
-	    vs_simple_form(ClubRegisterForm => [qw{
-		ClubRegisterForm.club_name
-		ClubRegisterForm.ClubAux.club_size
-		ClubRegisterForm.ClubAux.website
-		ClubRegisterForm.Address.zip
-	    }]),
-        ),
-    );
+    return shift->internal_body(vs_simple_form(ClubRegisterForm => [qw{
+	ClubRegisterForm.club_name
+	ClubRegisterForm.ClubAux.club_size
+	ClubRegisterForm.ClubAux.website
+	ClubRegisterForm.Address.zip
+    }]));
 }
 
 1;

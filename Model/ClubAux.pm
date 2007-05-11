@@ -35,6 +35,7 @@ sub internal_initialize {
 	columns => {
             realm_id => ['RealmOwner.realm_id', 'PRIMARY_KEY'],
 	    club_size => ['ClubSize', 'NOT_NULL'],
+#TODO: Use Website PM
 	    website => ['HTTPURI', 'NOT_NULL'],
         },
     };

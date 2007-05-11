@@ -34,7 +34,10 @@ sub freiker_code_add {
 
 sub freiker_list {
     return shift->internal_put_base_attr(
-	tools => TaskMenu(['FAMILY_FREIKER_ADD']),
+	tools => TaskMenu([qw(
+            USER_PASSWORD
+	    FAMILY_FREIKER_ADD
+	)]),
 	body => vs_list(FreikerList => [
 	    'RealmOwner.display_name',
 	    [ride_count => {
@@ -65,6 +68,7 @@ sub freiker_list {
 sub freiker_ride_list {
     return shift->internal_put_base_attr(
 	tools => TaskMenu([
+	    'USER_PASSWORD',
 	    map(+{
 		task_id => $_,
 		query => {
@@ -87,19 +91,6 @@ sub manual_ride_form {
         'prologue
         ManualRideForm.Ride.ride_date
     }]));
-}
-
-sub register {
-    return shift->internal_body(vs_simple_form(UserRegisterForm => [
-	qw{
-	   'CLUB_REGISTER
-	   UserRegisterForm.RealmOwner.display_name
-	   UserRegisterForm.Email.email
-	   -optional
-	   UserRegisterForm.Address.zip
-	   'LOGIN
-        },
-    ]));
 }
 
 1;
