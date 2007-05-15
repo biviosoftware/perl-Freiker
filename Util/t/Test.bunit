@@ -1,0 +1,11 @@
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+ShellUtil();
+[
+    [qw(reset_rides_for_child_0)] => sub {
+	assert_equals(100 => req()->with_realm('child0' => sub {
+	    return int(@{model('Ride')->map_iterate});
+	}));
+	return 1;
+    },
+];
