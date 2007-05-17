@@ -1,0 +1,12 @@
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+my($e, $z) = register_random('wheel');
+follow_link(qr{^register school}i);
+submit_form({
+    name => "School $z",
+    number => 10,
+    website => "http://school$z.org",
+    zip => $z,
+});
+# setup prizes

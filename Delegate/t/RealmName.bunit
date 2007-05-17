@@ -1,0 +1,9 @@
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+Type();
+[
+    from_display_name_and_zip => [
+        ['A Big School', '123456789'] => 'big123456789',
+        ['Crest View Elementary', '123456789'] => 'crest123456789',
+    ],
+];

@@ -26,6 +26,48 @@ CREATE TABLE freiker_code_t (
 )
 /
 
+CREATE TABLE prize_t (
+  prize_id NUMERIC(18) NOT NULL,
+  realm_id NUMERIC(18) NOT NULL,
+  modified_date_time DATE NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  description VARCHAR(4000) NOT NULL,
+  detail_uri VARCHAR(255) NOT NULL,
+  ride_count NUMERIC(9) NOT NULL,
+  CONSTRAINT prize_t1 PRIMARY KEY(prize_id)
+)
+/
+
+CREATE TABLE prize_coupon_t (
+  coupon_code NUMERIC(9) NOT NULL,
+  realm_id NUMERIC(18) NOT NULL,
+  user_id NUMERIC(18) NOT NULL,
+  prize_id NUMERIC(18) NOT NULL,
+  creation_date_time DATE NOT NULL,
+  ride_count NUMERIC(9) NOT NULL,
+  CONSTRAINT prize_coupon_t1 PRIMARY KEY(realm_id, coupon_code)
+)
+/
+
+CREATE TABLE prize_receipt_t (
+  coupon_code NUMERIC(9) NOT NULL,
+  realm_id NUMERIC(18) NOT NULL,
+  user_id NUMERIC(18) NOT NULL,
+  creation_date_time DATE NOT NULL,
+  receipt_code NUMERIC(9) NOT NULL,
+  CONSTRAINT prize_receipt_t1 PRIMARY KEY(realm_id, coupon_code)
+)
+/
+
+CREATE TABLE prize_ride_count_t (
+  prize_id NUMERIC(18) NOT NULL,
+  realm_id NUMERIC(18) NOT NULL,
+  modified_date_time DATE NOT NULL,
+  ride_count NUMERIC(9) NOT NULL,
+  CONSTRAINT prize_price_t1 PRIMARY KEY(prize_id, realm_id)
+)
+/
+
 CREATE TABLE ride_t (
   freiker_code NUMERIC(9) NOT NULL,
   ride_date DATE NOT NULL,

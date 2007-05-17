@@ -29,6 +29,8 @@ sub internal_xhtml_adorned {
 		qw(hm_parents hm_press hm_prizes hm_sponsors hm_wheels)),
 	]),
 	xhtml_title => Prose(
+#TODO: Incorporate RealmOwner.display_name
+#TODO: Give parent access to freiker's realm?
 	    vs_text([sub {"xhtml.title.$_[1]"}, ['task_id', '->get_name']]),
 	),
     );

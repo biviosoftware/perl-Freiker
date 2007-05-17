@@ -2,15 +2,14 @@
 # $Id$
 package Freiker::Model::Ride;
 use strict;
-use base 'Bivio::Biz::PropertyModel';
+use Bivio::Base 'Model.RealmBase';
 use Bivio::Util::CSV;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = Bivio::Type->get_instance('Date');
 my($_T) = Bivio::Type->get_instance('Time');
 my($_EPC) = Bivio::Type->get_instance('EPC');
-my($_DT) = Bivio::Type->get_instance('DateTime');
-my($_NO_TIME) = $_DT->time_from_parts(0, 0, 0);
+my($_NO_TIME) = $_T->time_from_parts(0, 0, 0);
 
 sub CSV_HEADER {
     return "EPC,DateTime";
@@ -19,7 +18,6 @@ sub CSV_HEADER {
 sub create {
     my($self, $values) = @_;
     $values->{ride_time} ||= $_NO_TIME;
-    $values->{creation_date_time} ||= $_DT->now;
     $values->{is_manual_entry} = 1
 	unless defined($values->{is_manual_entry});
     return shift->SUPER::create(@_);
@@ -53,8 +51,8 @@ sub import_csv {
 	next if $self->unauth_load($v);
 	$self->create({
 	    %$v,
-	    realm_id => $fcl->unsafe_get('Ride.realm_id')
-		|| $req->get('auth_id'),
+	    # realm_id defaults to club if there's no Ride.realm_id
+	    realm_id => $fcl->unsafe_get('Ride.realm_id'),
 	    ride_time => $_T->from_literal_or_die($t),
 	    is_manual_entry => 0,
 	});
@@ -71,8 +69,6 @@ sub internal_initialize {
 	columns => {
 	    freiker_code => ['FreikerCode', 'PRIMARY_KEY'],
             ride_date => ['Date', 'PRIMARY_KEY'],
-	    # Club or User
-            realm_id => ['RealmOwner.realm_id', 'NOT_NULL'],
             creation_date_time => ['DateTime', 'NOT_NULL'],
 	    ride_time => ['Time', 'NOT_NULL'],
 	    is_manual_entry => ['Boolean', 'NOT_NULL'],

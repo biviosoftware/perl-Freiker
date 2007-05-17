@@ -38,10 +38,11 @@ td.main_left div.login input {
 }
 td.main_left div.task_menu a {
   background-image: none;
-  display: block;
-  background: Icon('tools_sep'); left center no-repeat;
-  padding-left: vs_add(Icon('tools_sep', 'width'), 4);px;
-  margin-left: 4px;
+  display: list-item;
+  padding: 0;
+  margin: 0;
+  list-style: none outside Icon('left_menu_sep');;
+  margin-left: 20px;
   Font('header_menu');
 }
 td.main_middle {

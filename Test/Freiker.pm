@@ -23,4 +23,23 @@ sub login_as {
     return;
 }
 
+sub register_random {
+    my($self, $base) = @_;
+    $self->home_page;
+    $self->follow_link(qr{^register}i);
+    my($z) = $self->random_integer();
+    my($e) = $self->generate_local_email("$base-$z");
+    $self->submit_form({
+	name => "$base $z",
+	email => $e,
+	zip => $z,
+    });
+    $self->visit_uri($self->verify_local_mail($e) =~ /(http:.+\?.+)/m);
+    $self->submit_form({
+	'^new' => 'password',
+	enter => 'password',
+    });
+    return ($e, $z);
+}
+
 1;

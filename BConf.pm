@@ -75,7 +75,7 @@ sub merge_overrides {
 		'Bivio::Agent::HTTP::Cookie' => 'Bivio::Delegate::Cookie',
 		'Bivio::Agent::TaskId' => 'Freiker::Delegate::TaskId',
 	      	'Bivio::Auth::Support' => 'Bivio::Delegate::SimpleAuthSupport',
-#	      	'Bivio::Auth::RealmType' => 'Freiker::Delegate::RealmType',
+	      	'Bivio::Type::RealmName' => 'Freiker::Delegate::RealmName',
 	      	'Bivio::Auth::Permission' => 'Freiker::Delegate::Permission',
 	      	'Bivio::Auth::Role' => 'Freiker::Delegate::Role',
 		'Bivio::TypeError' => 'Freiker::Delegate::TypeError',

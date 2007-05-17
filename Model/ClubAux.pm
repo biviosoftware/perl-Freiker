@@ -5,16 +5,13 @@ use strict;
 use base 'Bivio::Biz::PropertyModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_MAX) = Bivio::Biz::Model->get_instance('RealmOwner')->get_field_type('name')->get_width;
+my($_RN) = Bivio::Type->get_instance('RealmName');
 
 sub create_realm {
     my($self, $club_aux, $admin_id, $display_name, $address) = @_;
-    my($n) = $display_name =~ /^(\S+)/;
-    $n =~ s/\W+//g;
     my($c, $ro) = $self->new_other('Club')->create_realm({},
 	{
-	    name => substr($n, 0, $_MAX - length($address->{zip}))
-		. $address->{zip},
+	    name => $_RN->from_display_name_and_zip($display_name, $address->{zip}),
 	    display_name => $display_name,
 	},
 	$admin_id,

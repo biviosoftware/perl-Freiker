@@ -93,4 +93,19 @@ sub manual_ride_form {
     }]));
 }
 
+sub prize_coupon {
+    return shift->internal_body('FILL');
+}
+
+sub prize_coupon_list {
+#TODO: allow delete of prize
+    return shift->internal_body(vs_list(FreikerPrizeCouponList => [qw(
+	Prize.name
+    )]));
+}
+
+sub prize_select {
+    return shift->internal_body('FILL');
+}
+
 1;

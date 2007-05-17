@@ -50,7 +50,137 @@ ALTER TABLE freiker_code_t
 /
 
 --
--- ride
+-- prize_t
+--
+ALTER TABLE prize_t
+  ADD CONSTRAINT prize_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX prize_t3 ON prize_t (
+  realm_id
+)
+/
+CREATE INDEX prize_t4 ON prize_t (
+  modified_date_time
+)
+/
+CREATE INDEX prize_t5 ON prize_t (
+  name
+)
+/
+CREATE INDEX prize_t6 ON prize_t (
+  ride_count
+)
+/
+
+--
+-- prize_coupon_t
+--
+ALTER TABLE prize_coupon_t
+  ADD CONSTRAINT prize_coupon_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX prize_coupon_t3 ON prize_coupon_t (
+  realm_id
+)
+/
+ALTER TABLE prize_coupon_t
+  ADD CONSTRAINT prize_coupon_t4
+  FOREIGN KEY (prize_id)
+  REFERENCES prize_t(prize_id)
+/
+CREATE INDEX prize_coupon_t5 ON prize_coupon_t (
+  prize_id
+)
+/
+ALTER TABLE prize_coupon_t
+  ADD CONSTRAINT prize_coupon_t6
+  FOREIGN KEY (user_id)
+  REFERENCES user_t(user_id)
+/
+CREATE INDEX prize_coupon_t7 ON prize_coupon_t (
+  user_id
+)
+/
+CREATE INDEX prize_coupon_t8 ON prize_coupon_t (
+  creation_date_time
+)
+/
+CREATE INDEX prize_coupon_t9 ON prize_coupon_t (
+  ride_count
+)
+/
+
+--
+-- price_ride_count_t
+--
+ALTER TABLE prize_ride_count_t
+  ADD CONSTRAINT prize_ride_count_t2
+  FOREIGN KEY (prize_id)
+  REFERENCES prize_t(prize_id)
+/
+CREATE INDEX prize_ride_count_t3 ON prize_ride_count_t (
+  prize_id
+)
+/
+ALTER TABLE prize_ride_count_t
+  ADD CONSTRAINT prize_ride_count_t4
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX prize_ride_count_t5 ON prize_ride_count_t (
+  realm_id
+)
+/
+CREATE INDEX prize_ride_count_t6 ON prize_ride_count_t (
+  modified_date_time
+)
+/
+CREATE INDEX prize_ride_count_t7 ON prize_ride_count_t (
+  ride_count
+)
+/
+
+--
+-- prize_receipt_t
+--
+ALTER TABLE prize_receipt_t
+  ADD CONSTRAINT prize_receipt_t2
+  FOREIGN KEY (coupon_code, realm_id)
+  REFERENCES prize_coupon_t(coupon_code, realm_id)
+/
+ALTER TABLE prize_receipt_t
+  ADD CONSTRAINT prize_receipt_t3
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX prize_receipt_t4 ON prize_receipt_t (
+  realm_id
+)
+/
+ALTER TABLE prize_receipt_t
+  ADD CONSTRAINT prize_receipt_t5
+  FOREIGN KEY (user_id)
+  REFERENCES user_t(user_id)
+/
+CREATE INDEX prize_receipt_t6 ON prize_receipt_t (
+  user_id
+)
+/
+CREATE INDEX prize_receipt_t7 ON prize_receipt_t (
+  creation_date_time
+)
+/
+CREATE UNIQUE INDEX prize_receipt_t8 ON prize_receipt_t (
+  realm_id,
+  receipt_code
+)
+/
+
+--
+-- ride_t
 --
 CREATE INDEX ride_t2 ON ride_t (
   freiker_code

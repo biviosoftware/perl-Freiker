@@ -16,3 +16,7 @@
 --
 -- Starting at 21.  1-20 is reserved for bOP common Models.
 --
+CREATE SEQUENCE prize_s
+  MINVALUE 100021
+  CACHE 1 INCREMENT BY 100000
+/
