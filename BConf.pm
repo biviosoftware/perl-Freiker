@@ -90,6 +90,9 @@ sub merge_overrides {
 	      	Type => ['Freiker::Type'],
 	    },
         }),
+	'Bivio::SQL::PropertySupport' => {
+	    unused_classes => [],
+	},
         'Bivio::UI::Facade' => {
 	    default => 'Freiker',
 	    http_suffix => 'www.freiker.org',
