@@ -2,7 +2,7 @@
 # $Id$
 test_setup('Freiker');
 my($e, $z) = register_random('merchant');
-follow_link(qr{^register merchant}i);
+follow_link(qr{^register.*merchant}i);
 submit_form({
     name => "Merchant $z",
     website => "http://merchant$z.com",

@@ -26,7 +26,7 @@ sub internal_xhtml_adorned {
 	),
 	base_menu => TaskMenu([
 	    map(+{xlink => SiteRoot($_)},
-		qw(hm_parents hm_press hm_prizes hm_sponsors hm_wheels)),
+		qw(hm_index hm_parents hm_press hm_prizes hm_sponsors hm_wheels)),
 	]),
 	xhtml_title => Prose(
 #TODO: Incorporate RealmOwner.display_name
@@ -35,7 +35,7 @@ sub internal_xhtml_adorned {
 	),
     );
     view_unsafe_put(
-	xhtml_main_right => ' ',
+	xhtml_main_right => '',
 	xhtml_main_left => Join([
 	    If(['auth_user'],
 # List of Family, Schools, and Stores

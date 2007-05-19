@@ -75,6 +75,9 @@ div.topic {
   Font('topic');
   margin-bottom: 1ex;
 }
+.acknowledgement {
+  margin-left: 0;
+}
 .notice {
   padding: .2em;
   width: 14em;

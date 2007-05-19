@@ -2,7 +2,7 @@
 # $Id$
 test_setup('Freiker');
 my($e, $z) = register_random('wheel');
-follow_link(qr{^register school}i);
+follow_link(qr{^register.*school}i);
 submit_form({
     name => "School $z",
     number => 10,

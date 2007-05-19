@@ -95,7 +95,7 @@ sub hm_parents {
 	title => 'For parents',
 	body => Join([
 	Tag('div', Prose(<<'EOF'), 'prose', {id => 'parents'}),
-P(Link('Register your family here.', 'FAMILY_REGISTER'));
+P(Link('Register your family here.', 'USER_CREATE'));
 <p>
 The Freiker Program encourages kids to ride their bikes to school.  The
 program is
@@ -132,7 +132,7 @@ child must ride every school day the prior week.  The Green Gear is
 selected randomly from the children who rode the entire week.
 </p>
 <p>
-Link('Parents must register', 'FAMILY_REGISTER'); with this website.
+Link('Parents must register', 'USER_CREATE'); with this website.
 There's no charge, and we only require an email address, which helps
 us avoid registrations by spambots and allows us to contact you when your
 child wins a prize.
@@ -216,7 +216,7 @@ H3('Feedback');
 We encourage feedback so vs_gears_contact(); with your
 questions, comments, and/or suggestions.
 </p>
-P(Link('Register your family here.', 'FAMILY_REGISTER'));
+P(Link('Register your family here.', 'USER_CREATE'));
 EOF
     ]));
 }
@@ -679,9 +679,6 @@ sub hm_wheels {
 	    vs_main_img('wheel'),
 	    vs_prose(<<'EOF'),
 <p>
-Link('Register your school here.', 'FAMILY_REGISTER');
-</p>
-<p>
 Wheels are our main contact with schools in our program.  We provide you
 with barcodes and scanners.  We have found kids want to help.  They'll do
 the scanning and sticking barcodes on the bikes.
@@ -695,9 +692,6 @@ of smiling faces.
 </p>
 <p>
 If you would like to learn more, vs_gears_contact();
-</p>
-<p>
-Link('Register your school here.', 'FAMILY_REGISTER');
 </p>
 EOF
     ]));

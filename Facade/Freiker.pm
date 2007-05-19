@@ -238,6 +238,7 @@ EOF
 	    hm_parents => 'Parents',
 	    hm_press => 'Press',
 	    hm_prizes => 'Prizes',
+	    hm_index => 'Home',
 	]],
 	['xhtml.title' => [
 	    CLUB_FREIKER_LIST => "Your School's Freikers",
@@ -272,7 +273,7 @@ EOF
 	['task_menu.title' => [
 	    CLUB_PRIZE => 'Update Prize',
 	    CLUB_PRIZE_LIST => 'Available Prizes',
-	    CLUB_REGISTER => 'Register School',
+	    CLUB_REGISTER => 'Register New School',
 	    FAMILY_FREIKER_ADD => 'Register Child',
 	    FAMILY_FREIKER_LIST => q{Your Family},
 	    FAMILY_PRIZE_COUPON_LIST => 'Past Prizes',
@@ -281,7 +282,7 @@ EOF
 	    MERCHANT_PRIZE => 'Add or Update Prize',
 	    MERCHANT_PRIZE_REDEEM => 'Redeem Coupon',
 	    MERCHANT_PRIZE_LIST => 'Donated Prizes',
-	    MERCHANT_REGISTER => 'Register Merchant',
+	    MERCHANT_REGISTER => 'Register New Merchant',
 	    SITE_DONATE => 'Donate',
 	    SITE_ROOT => 'Home',
 	    USER_CREATE => 'Register',
