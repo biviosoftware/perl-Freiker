@@ -64,7 +64,7 @@ CREATE TABLE prize_ride_count_t (
   realm_id NUMERIC(18) NOT NULL,
   modified_date_time DATE NOT NULL,
   ride_count NUMERIC(9) NOT NULL,
-  CONSTRAINT prize_price_t1 PRIMARY KEY(prize_id, realm_id)
+  CONSTRAINT prize_ride_count_t1 PRIMARY KEY(prize_id, realm_id)
 )
 /
 
