@@ -90,10 +90,11 @@ sub merge_overrides {
 	      	Type => ['Freiker::Type'],
 	    },
         }),
+ 	'Bivio::SQL::PropertySupport' => {
+	    unused_classes => [qw(RealmFile RealmMail RealmMailBounce Website Forum CalendarEvent JobLock Tuple TupleDef TupleSlotType TupleSlotDef TupleUse Motion MotionVote Prize PrizeCoupon PrizeRideCount PrizeReceipt)],
 #TODO: Uncomment after db upgrade on Freiker
-# 	'Bivio::SQL::PropertySupport' => {
 # 	    unused_classes => [],
-# 	},
+ 	},
         'Bivio::UI::Facade' => {
 	    default => 'Freiker',
 	    http_suffix => 'www.freiker.org',
