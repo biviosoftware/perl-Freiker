@@ -8,4 +8,8 @@ ShellUtil();
 	}));
 	return 1;
     },
+    [qw(reset_prizes_for_school)] => sub {
+#TODO: Need to test values created
+	return 1;
+    },
 ];
