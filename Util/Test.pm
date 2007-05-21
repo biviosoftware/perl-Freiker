@@ -12,8 +12,39 @@ sub USAGE {
     return <<'EOF';
 usage: fr-test [options] command [args..]
 commands
+  reset_prizes_for_school -- create bunit10, bunit20, bunit50, bunit1000
   reset_rides_for_child_0 -- give 100 rides to child_0
 EOF
+}
+
+sub reset_prizes_for_school {
+    my($self) = @_;
+    $self->get_request->with_realm(Freiker::Test->SCHOOL_NAME, sub {
+	my($p) = $self->model('Prize');
+	$p->do_iterate(
+	    sub {
+		shift->cascade_delete;
+		return 1;
+	    },
+	    'prize_id',
+	);
+	my($value) = {
+	    name => 'bunit',
+	    description => 'prize for bunit ',
+	    detail_uri => 'http://www.apple.com/ipodnano',
+	};
+	foreach my $i (10, 20, 50, 99, 1000) {
+	    my($v) = {%$value};
+	    $v->{name} .= $i;
+	    $v->{description} .= $i;
+	    $v->{ride_count} = $i;
+	    $v->{retail_price} = $i;
+	    $v->{prize_status} = $self->use('Type.PrizeStatus')->from_name(
+		$i == 99 ? 'UNAPPROVED' : 'AVAILABLE');
+	    $p->create($v);
+	}
+    });
+    return;
 }
 
 sub reset_rides_for_child_0 {
