@@ -1,0 +1,16 @@
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+ListModel();
+[
+    load_all => [
+	[] => [{
+	    'Prize.ride_count' => 10,
+	}, {
+	    'Prize.ride_count' => 20,
+	}, {
+	    'Prize.ride_count' => 50,
+	}, {
+	    'Prize.ride_count' => 1000,
+	}],
+    ],
+];
