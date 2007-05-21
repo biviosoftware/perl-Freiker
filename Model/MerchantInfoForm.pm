@@ -22,9 +22,11 @@ sub execute_ok {
 			name => $_RN->from_display_name_and_zip(
 			    $dn, $self->get('Address.zip')),
 		    },
+		    $req->get('auth_user_id'),
 		);
 		$req->with_realm($ro, sub {
-		    $self->create_model_from_properties('Address');
+		    $self->create_or_update_model_properties('Address');
+		    $self->create_or_update_model_properties('Website');
 		    return;
 		});
 	    },
@@ -50,7 +52,10 @@ sub internal_initialize {
 		type => 'USZipCode9',
 		constraint => 'NOT_NULL',
 	    },
-	    'Website.url',
+	    {
+		name => 'Website.url',
+		constraint => 'NOT_NULL',
+	    },
 	],
     });
 }
