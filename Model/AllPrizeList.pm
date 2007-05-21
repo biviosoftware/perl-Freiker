@@ -19,10 +19,10 @@ sub internal_initialize {
 	can_iterate => 1,
         primary_key => ['Prize.prize_id'],
         order_by => [
+	    'Prize.ride_count',
 	    'Prize.name',
 	    'RealmOwner.name',
 	    'RealmOwner.display_name',
-	    'Prize.ride_count',
 	],
 	other => [
 	    'Prize.description',
