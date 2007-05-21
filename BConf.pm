@@ -81,19 +81,17 @@ sub merge_overrides {
 		'Bivio::TypeError' => 'Freiker::Delegate::TypeError',
 	    },
 	    maps => {
-	      	Action => ['Freiker::Action'],
+		Action => ['Freiker::Action'],
 		Facade => ['Freiker::Facade'],
-#TODO:	      	HTMLWidget => ['Freiker::HTMLWidget'],
-	      	View => ['Freiker::View'],
-	      	Model => ['Freiker::Model'],
+		Model => ['Freiker::Model'],
+		ShellUtil => ['Freiker::Util'],
 		TestLanguage => ['Freiker::Test'],
-	      	Type => ['Freiker::Type'],
+		Type => ['Freiker::Type'],
+		View => ['Freiker::View'],
 	    },
         }),
  	'Bivio::SQL::PropertySupport' => {
-	    unused_classes => [qw(RealmFile RealmMail RealmMailBounce Website Forum CalendarEvent JobLock Tuple TupleDef TupleSlotType TupleSlotDef TupleUse Motion MotionVote Prize PrizeCoupon PrizeRideCount PrizeReceipt)],
-#TODO: Uncomment after db upgrade on Freiker
-# 	    unused_classes => [],
+ 	    unused_classes => [],
  	},
         'Bivio::UI::Facade' => {
 	    default => 'Freiker',
