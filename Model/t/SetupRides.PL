@@ -4,9 +4,7 @@ my($today) = class('Type.Date')->now;
 my($yesterday) = class('Type.Date')->add_days($today, -1);
 foreach my $n (0, 1) {
     req()->set_user(class('Freiker::Test')->CHILD($n));
-    model('Ride')->delete_all({
-	realm_id => req('auth_user_id'),
-    });
+    req()->with_realm(req('auth_user_id'), sub {model('Ride')->delete_all()});
     foreach my $d ($yesterday, $n ? () : $today) {
 	model('Ride')->create({
 	    realm_id => req('auth_user_id'),
