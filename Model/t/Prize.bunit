@@ -1,0 +1,16 @@
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+PropertyModel();
+my($n) = random_string();
+[
+    create => [
+	[{
+	    name => $n,
+	    description => 'any',
+	    detail_uri => 'http://www.apple.com/ipodnano',
+	    retail_price => '149',
+	}] => [{
+	    prize_status => class('Type.PrizeStatus')->UNAPPROVED,
+	}],
+    ],
+];
