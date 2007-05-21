@@ -237,6 +237,7 @@ EOF
 	[FAMILY_FREIKER_RIDE_LIST => 'Show Rides'],
 	[FAMILY_MANUAL_RIDE_FORM => 'Add Missing Ride'],
 	[FAMILY_FREIKER_CODE_ADD => 'New Helmet Tag'],
+	[FAMILY_PRIZE_SELECT => 'Select Prize'],
 	[SiteRoot => [
 	    hm_wheels => 'Wheels',
 	    hm_sponsors => 'Sponsors',
