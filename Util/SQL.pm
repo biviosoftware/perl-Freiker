@@ -1,4 +1,4 @@
-# Copyright (c) 2005 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2005-2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Util::SQL;
 use strict;
@@ -34,19 +34,28 @@ sub initialize_test_data {
     my($req) = $self->get_request;
     $self->create_test_user(Freiker::Test->ADM);
     $self->new_other('Bivio::Biz::Util::RealmRole')->make_super_user;
-    Bivio::Biz::Model->new($req, 'ClubRegisterForm')->process({
-	club_name => Freiker::Test->SCHOOL,
-	'Address.zip' => Freiker::Test->ZIP,
-	'RealmOwner.display_name' => Freiker::Test->WHEEL,
-	'RealmOwner.name' => Freiker::Test->WHEEL,
-	'RealmOwner.password' => $self->TEST_PASSWORD,
-	'confirm_password' => $self->TEST_PASSWORD,
-	'ClubAux.website' => Freiker::Test->WEBSITE,
-	'ClubAux.club_size' => 32,
-	'Email.email' => $self->format_test_email(Freiker::Test->WHEEL),
-	password_ok => 1,
+    foreach my $x (qw(WHEEL SPONSOR_EMP DISTRIBUTOR_EMP)) {
+	$self->model(UserRegisterForm => {
+	    'RealmOwner.display_name' => Freiker::Test->$x(),
+	    'Address.zip' => Freiker::Test->ZIP,
+	    'RealmOwner.name' => Freiker::Test->$x(),
+	    'RealmOwner.password' => $self->TEST_PASSWORD,
+	    'confirm_password' => $self->TEST_PASSWORD,
+	    'Email.email' => $self->format_test_email(Freiker::Test->$x()),
+	    password_ok => 1,
+	});
+    }
+    $req->set_realm(undef);
+    $req->with_user(Freiker::Test->WHEEL => sub {
+	$self->model(ClubRegisterForm => {
+	    club_name => Freiker::Test->SCHOOL,
+	    'Address.zip' => Freiker::Test->ZIP,
+	    'ClubAux.website' => Freiker::Test->WEBSITE,
+	    'ClubAux.club_size' => 32,
+	});
     });
-    $req->set_realm(my $club_id = $req->get_nested('Model.Club', 'club_id'));
+    $req->set_realm(Freiker::Test->SCHOOL_NAME);
+    my($club_id) = $req->get('auth_id');
     $self->create_test_user(Freiker::Test->FREIKOMETER);
     $self->new_other('RealmAdmin')->join_user('FREIKOMETER');
     $req->set_realm($club_id);
@@ -56,8 +65,8 @@ sub initialize_test_data {
 	$epc = $epc->new(Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE($x));
 	$csv .= $epc->as_string . "\n";
     }
-    Bivio::Biz::Model->new($req, 'FreikerCode')->import_csv($csv);
-    my($r) = Bivio::Biz::Model->new($req, 'Ride');
+    $self->model('FreikerCode')->import_csv($csv);
+    my($r) = $self->model('Ride');
     my($i) = 0;
     $csv =~ s/(?<=\w$)/,@{[$_DT->to_file_name($_DT->add_days($_DT->now, $i--))]}/mg;
     $r->import_csv($r->CSV_HEADER . "\n" . $csv);
@@ -83,6 +92,19 @@ sub initialize_test_data {
 	});
 	$req->set_realm($req->get_nested(qw(Model.User user_id)));
 	$req->get_nested(qw(auth_realm owner))->update({name => $name});
+    }
+    foreach my $x (qw(SPONSOR DISTRIBUTOR)) {
+	my($e) = $x . '_EMP';
+	$req->with_user(Freiker::Test->$e() => sub {
+	    $self->model(MerchantInfoForm => {
+		'RealmOwner.display_name' => Freiker::Test->$x(),
+		'Address.zip' => Freiker::Test->ZIP,
+		'Website.url' => Freiker::Test->WEBSITE,
+		'Address.street1' => '123 Anywhere',
+		'Address.city' => 'Boulder',
+		'Address.state' => 'CO',
+	    });
+	});
     }
     $self->new_other('Test')->reset_prizes_for_school;
     return;
