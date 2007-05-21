@@ -71,7 +71,8 @@ sub _iterate_rides {
     my($self, $op) = @_;
     $self->new_other('Ride')->do_iterate(
 	$op,
-	'ride_date',
+        'unauth_iterate_start',
+        'ride_date',
 	{
 	    freiker_code => $self->get('FreikerCode.freiker_code'),
 	    realm_id => $self->get('FreikerCode.club_id'),
