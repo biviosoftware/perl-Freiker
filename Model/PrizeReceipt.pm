@@ -27,7 +27,7 @@ sub internal_initialize {
         version => 1,
 	table_name => 'prize_receipt_t',
 	columns => {
-	    coupon_code => ['TxnCode', 'PRIMARY_KEY'],
+	    coupon_code => ['PrizeCoupon.coupon_code', 'PRIMARY_KEY'],
 	    realm_id => ['RealmOwner.realm_id', 'PRIMARY_KEY'],
 	    user_id => ['User.user_id', 'NOT_NULL'],
 	    receipt_code => ['TxnCode', 'NOT_NULL'],
