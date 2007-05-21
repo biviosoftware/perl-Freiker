@@ -19,7 +19,8 @@ EOF
 
 sub reset_prizes_for_school {
     my($self) = @_;
-    $self->get_request->with_realm(Freiker::Test->SCHOOL_NAME, sub {
+    my($req) = $self->get_request;
+    $req->with_realm(Freiker::Test->SPONSOR_NAME, sub {
 	my($p) = $self->model('Prize');
 	$p->do_iterate(
 	    sub {
@@ -42,6 +43,11 @@ sub reset_prizes_for_school {
 	    $v->{prize_status} = $self->use('Type.PrizeStatus')->from_name(
 		$i == 99 ? 'UNAPPROVED' : 'AVAILABLE');
 	    $p->create($v);
+	    $req->with_realm(Freiker::Test->SCHOOL_NAME, sub {
+		$p->new_other('PrizeRideCount')->create({
+		    map(($_ => $p->get($_)), qw(ride_count prize_id)),
+		});
+	    });
 	}
     });
     return;
