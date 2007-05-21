@@ -22,6 +22,10 @@ sub CHILD {
     return 'child' . ($_[1] || 0);
 }
 
+sub DISTRIBUTOR {
+    return 'distributor';
+}
+
 sub FREIKER_CODE {
     return '1234' + ($_[1] || 0);
 }
