@@ -9,6 +9,7 @@ use Bivio::Test::Request;
 use Bivio::Util::RealmAdmin;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+my($_RN) = Bivio::Type->get_instance('RealmName');
 
 sub ADM {
     return 'adm';
@@ -24,6 +25,15 @@ sub CHILD {
 
 sub DISTRIBUTOR {
     return 'distributor';
+}
+
+sub DISTRIBUTOR_EMP {
+    return 'distributor_emp';
+}
+
+sub DISTRIBUTOR_NAME {
+    my($proto) = @_;
+    return $_RN->from_display_name_and_zip($proto->DISTRIBUTOR, $proto->ZIP);
 }
 
 sub FREIKER_CODE {
@@ -45,6 +55,19 @@ sub SCHOOL {
 sub SCHOOL_NAME {
     #loosely coupled with UserRegisterForm
     return 'bunit' . shift->ZIP;
+}
+
+sub SPONSOR {
+    return 'sponsor';
+}
+
+sub SPONSOR_EMP {
+    return 'sponsor_emp';
+}
+
+sub SPONSOR_NAME {
+    my($proto) = @_;
+    return $_RN->from_display_name_and_zip($proto->SPONSOR, $proto->ZIP);
 }
 
 sub WEBSITE {
