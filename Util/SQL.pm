@@ -89,7 +89,7 @@ sub initialize_test_data {
 
 sub internal_upgrade_db {
     my($self) = @_;
-    $self->internal_upgrade_db_bundle;
+    $self->internal_upgrade_db_website;
     return;
 }
 

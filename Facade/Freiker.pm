@@ -47,6 +47,7 @@ my($_SELF) = __PACKAGE__->new({
 	['email.EXISTS' => q{This email is already registered with vs_site_name();.  Link('Click here to login.', 'LOGIN', {no_context => 1});}],
 	['Ride.ride_date.NOT_FOUND' => q{This date was not a school day.}],
 	['Ride.ride_date.EXISTS' => q{The Freiker was already credited for this date.  Please enter a different date.}],
+	[US_ZIP_CODE => q{The vs_fe(q{label}); must be 9-digit US Zip code.}],
     ],
     Constant => [
 	[xlink_paypal => {
@@ -126,15 +127,15 @@ my($_SELF) = __PACKAGE__->new({
 		epilogue => q{vs_text_as_prose('GENERAL_USER_PASSWORD_QUERY');},
 	    ],
 	]],
-	[PrizeCoupon => [
+	[[qw(PrizeCoupon PrizeReceipt)] => [
 	    coupon_code => 'Coupon ID',
 	]],
 	[PrizeReceipt => [
 	    receipt_code => 'Authorization Code',
 	]],
-	[PrizeCouponRedeemForm => [
+	[PrizeRedeemForm => [
 	    prose => [
-		prologue => q{Please enter the Freiker's vs_text_as_prose('PrizeCoupon.coupon_code');.},
+		prologue => q{Please enter the Freiker's vs_text_as_prose('PrizeReceipt.coupon_code');.},
 	    ],
 	    ok_button => 'Redeem',
 	]],

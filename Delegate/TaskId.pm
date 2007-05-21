@@ -15,6 +15,7 @@ sub get_delegate_info {
 	    GENERAL
 	    ANY_USER
 	    Action.HomeRedirect
+	    merchant_task=MERCHANT_PRIZE_LIST
 	    wheel_task=CLUB_FREIKER_LIST
 	    family_task=FAMILY_FREIKER_LIST
 	    next=USER_REALMLESS_REDIRECT
@@ -42,7 +43,7 @@ sub get_delegate_info {
 	    502
 	    FORUM
 	    ADMIN_READ&ADMIN_WRITE
-	    Model.PrizeCouponRedeemForm
+	    Model.PrizeRedeemForm
 	    View.Merchant->prize_redeem
 	    next=MERCHANT_PRIZE_RECEIPT
 	)],
@@ -178,6 +179,7 @@ sub get_delegate_info {
 	    ADMIN_READ
 	    Model.MerchantPrizeList->execute_load_all_with_query
 	    View.Merchant->prize_list
+	    MODEL_NOT_FOUND=MERCHANT_PRIZE_REDEEM
 	)],
 	[qw(
 	    SITE_DONATE

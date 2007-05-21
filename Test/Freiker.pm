@@ -27,7 +27,7 @@ sub register_random {
     my($self, $base) = @_;
     $self->home_page;
     $self->follow_link(qr{^register}i);
-    my($z) = $self->random_integer();
+    my($z) = $self->random_integer(undef, 90000_0000);
     my($e) = $self->generate_local_email("$base-$z");
     $self->submit_form({
 	name => "$base $z",
