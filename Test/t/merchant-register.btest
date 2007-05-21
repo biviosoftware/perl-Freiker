@@ -5,7 +5,11 @@ my($e, $z) = register_random('merchant');
 follow_link(qr{^register.*merchant}i);
 submit_form({
     name => "Merchant $z",
-    website => "http://merchant$z.com",
+    '1:$' => "$z My Street",
+    city => 'Boulder',
+    state => 'CO',
     zip => $z,
+    web => "http://merchant$z.com",
+
 });
 # setup prizes
