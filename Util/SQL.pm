@@ -84,6 +84,7 @@ sub initialize_test_data {
 	$req->set_realm($req->get_nested(qw(Model.User user_id)));
 	$req->get_nested(qw(auth_realm owner))->update({name => $name});
     }
+    $self->new_other('Test')->reset_prizes_for_school;
     return;
 }
 
