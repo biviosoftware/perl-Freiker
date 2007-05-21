@@ -25,6 +25,8 @@ sub internal_initialize {
 	    description => ['LongText', 'NOT_NULL'],
 	    detail_uri => ['HTTPURI', 'NOT_NULL'],
 	    ride_count => ['RideCount', 'NOT_NULL'],
+	    retail_price => ['Dollars', 'NOT_NULL'],
+	    prize_status => ['PrizeStatus', 'NOT_NULL'],
 	},
     });
 }

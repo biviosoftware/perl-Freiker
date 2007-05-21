@@ -1,4 +1,4 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Facade::Freiker;
 use strict;
@@ -112,6 +112,10 @@ my($_SELF) = __PACKAGE__->new({
 	    ok_button => 'Register School',
 	]],
 	[MerchantInfoForm => [
+	    prose => [
+		prologue => q{vs_site_name(); uses local merchants as distribution points for prizes.  You may also donate prizes and manage the prize descriptions through this website.  Once you are registered, we'll contact you about prize logistics and fees.},
+            ],
+	    'RealmOwner.display_name' => 'Business Name',
 	    'Website.url' => 'Your Website',
 	    'Address.zip' => 'US ZIP+4',
 	    ok_button => 'Register Merchant',

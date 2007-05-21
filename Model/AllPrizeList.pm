@@ -30,6 +30,7 @@ sub internal_initialize {
 	    'Website.url',
 	    ['Prize.realm_id', 'RealmOwner.realm_id', 'Website.realm_id'],
 	    ['Website.location', [$self->get_instance('Website')->DEFAULT_LOCATION]],
+	    ['Prize.prize_status', [$self->use('Type.PrizeStatus')->AVAILABLE]],
 	],
     });
 }

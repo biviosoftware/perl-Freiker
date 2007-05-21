@@ -58,6 +58,7 @@ sub internal_xhtml_adorned {
 			    },
 			)}),
 			'CLUB_REGISTER',
+			'MERCHANT_REGISTER',
 		    ]),
 		}],
 		If([sub {

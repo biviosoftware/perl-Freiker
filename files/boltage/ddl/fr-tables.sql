@@ -34,6 +34,8 @@ CREATE TABLE prize_t (
   description VARCHAR(4000) NOT NULL,
   detail_uri VARCHAR(255) NOT NULL,
   ride_count NUMERIC(9) NOT NULL,
+  retail_price NUMERIC(9) NOT NULL,
+  prize_status NUMERIC(2) NOT NULL,
   CONSTRAINT prize_t1 PRIMARY KEY(prize_id)
 )
 /
