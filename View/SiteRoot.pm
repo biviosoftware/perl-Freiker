@@ -45,7 +45,7 @@ H3('Fried-o-whatsit?');
 That's "Freikometer", and it adds a lot of fun to bike encouragement
 programs.  Freiker's success is due to fantatical dedication to data.
 Like many other bike programs, we started with punch cards.  The next
-year we use barcodes and scanners.  2006-2007 is the year of the Freikometer:
+year we used barcodes and scanners.  2006-2007 is the year of the Freikometer:
 an automatic device that counts riders and uploads the data securely to
 freiker.org.  It's solar powered so you can put it right near the
 bike racks at your school.
@@ -54,7 +54,7 @@ bike racks at your school.
 The Freikometer is currently under test at several
 Link('Boulder Valley School District', 'http://www.bvsd.org');
 schools.  The freikometers survived a very harsh winter -- for the
-most part.  We're glad the winter's over, and they are operating very will in
+most part.  We're glad the winter is over, and they are operating very well in
 our wet but warm spring.  We will be upgrading all Freikometers in the summer
 of 2007 to operate better in extreme cold. We will be expanding outside the
 Boulder area; it's a matter of time to prove out the technology, which so far
