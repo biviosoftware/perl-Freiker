@@ -57,7 +57,6 @@ sub reset_rides_for_child_0 {
 		return 1;
 	    },
 	    'freiker_code',
-	    {freiker_code => Freiker::Test->FREIKER_CODE},
 	);
 	my($v) = {
 	    is_manual_entry => 0,
@@ -68,6 +67,13 @@ sub reset_rides_for_child_0 {
 	    $v->{ride_date} = $_D->add_days($v->{ride_date}, -1);
 	    $r->create($v);
 	}
+	$r->new_other('PrizeCoupon')->do_iterate(
+	    sub {
+		shift->cascade_delete;
+		return 1;
+	    },
+	    'coupon_code',
+	);
     });
     return;
 }
