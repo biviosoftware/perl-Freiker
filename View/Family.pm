@@ -58,7 +58,7 @@ sub freiker_list {
 			    no_context => 1,
 			}),
 		    ];
-		} qw(FAMILY_FREIKER_RIDE_LIST FAMILY_MANUAL_RIDE_FORM FAMILY_FREIKER_CODE_ADD))]),
+		} qw(FAMILY_FREIKER_RIDE_LIST FAMILY_MANUAL_RIDE_FORM FAMILY_FREIKER_CODE_ADD FAMILY_PRIZE_SELECT))]),
 		column_data_class => 'list_actions',
 	    },
 	]),
