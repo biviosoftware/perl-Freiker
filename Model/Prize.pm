@@ -6,6 +6,14 @@ use Bivio::Base 'Model.RealmBase';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_IFN) = Bivio::Type->get_instance('ImageFileName');
+my($_PS) = Bivio::Type->get_instance('PrizeStatus');
+
+sub create {
+    my($self, $values) = @_;
+    $values->{ride_count} ||= 0;
+    $values->{prize_status} ||= $_PS->UNAPPROVED;
+    return shift->SUPER::create(@_);
+}
 
 sub image_file_name {
     my(undef, $model, $model_prefix, $values) = shift->internal_get_target(@_);
