@@ -1,0 +1,75 @@
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+FormModel({
+    setup_request => sub {
+	my($case) = @_;
+	req()->put(query => {this => var('id')})
+	    unless $case->get('params')->[0];
+	return;
+    },
+});
+req()->set_realm_and_user(
+    class('Freiker::Test')->SPONSOR_NAME, Freiker::Test->SPONSOR_EMP);
+my($n) = random_string();
+[
+    [{
+	'Prize.name' => $n,
+	'Prize.description' => 'description',
+	'Prize.detail_uri' => 'http://www.yahoo.com',
+	'Prize.retail_price' => 10,
+	image_file => file_field('MerchantPrizeForm/prize.gif'),
+    }] => [{
+	'Model.Prize' => {
+	    name => $n,
+	    prize_status => 'UNAPPROVED',
+	    ride_count => 0,
+	},
+	'Model.RealmFile' => {
+	    path => sub {
+		'/Public/Image/' . var(id => req('Model.Prize', 'prize_id')) . '.jpg';
+	    },
+	},
+    }],
+    empty_case({
+	'Prize.name' => $n,
+	'Prize.description' => 'description',
+	'Prize.detail_uri' => 'http://www.yahoo.com',
+	'Prize.retail_price' => 10,
+    }),
+    [{
+	'Prize.name' => $n,
+	'Prize.description' => 'new',
+	'Prize.detail_uri' => 'http://www.yahoo.com',
+	'Prize.retail_price' => 10,
+	'Prize.ride_count' => 10,
+	'Prize.prize_status' => class('Type.PrizeStatus')->AVAILABLE,
+    }] => [{
+	'Model.Prize' => {
+	    description => 'new',
+	    ride_count => 0,
+	    prize_status => 'UNAPPROVED',
+	},
+	'Model.RealmFile' => undef,
+    }],
+    inline_case(sub {
+        req()->set_user('adm');
+	model(AdmSubstituteUserForm => {
+	    login => Freiker::Test->SPONSOR_EMP,
+	});
+    }),
+    [{
+	'Prize.name' => $n,
+	'Prize.description' => 'other',
+	'Prize.detail_uri' => 'http://www.yahoo.com',
+	'Prize.retail_price' => 10,
+	'Prize.ride_count' => 10,
+	'Prize.prize_status' => class('Type.PrizeStatus')->AVAILABLE,
+    }] => [{
+	'Model.Prize' => {
+	    description => 'other',
+	    ride_count => 10,
+	    prize_status => 'AVAILABLE',
+	},
+	'Model.RealmFile' => undef,
+    }],
+];
