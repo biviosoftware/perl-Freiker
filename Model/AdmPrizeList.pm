@@ -1,6 +1,6 @@
 # Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
-package Freiker::Model::AllPrizeList;
+package Freiker::Model::AdmPrizeList;
 use strict;
 use Bivio::Base 'Bivio::Biz::ListModel';
 
@@ -30,7 +30,6 @@ sub internal_initialize {
 	    'Website.url',
 	    ['Prize.realm_id', 'RealmOwner.realm_id', 'Website.realm_id'],
 	    ['Website.location', [$self->get_instance('Website')->DEFAULT_LOCATION]],
-	    ['Prize.prize_status', [$self->use('Type.PrizeStatus')->AVAILABLE]],
 	],
     });
 }

@@ -1,20 +1,18 @@
 # Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
-package Freiker::Model::MerchantPrizeList;
+package Freiker::Model::AvailablePrizeList;
 use strict;
 use Bivio::Base 'Model.AdmPrizeList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-
-sub NOT_FOUND_IF_EMPTY {
-    return 1;
-}
+my($_P) = Bivio::Biz::Model->get_instance('Prize');
 
 sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
-        version => 1,
-        auth_id => ['Prize.realm_id'],
+	other => [
+	    ['Prize.prize_status', [$self->use('Type.PrizeStatus')->AVAILABLE]],
+	],
     });
 }
 
