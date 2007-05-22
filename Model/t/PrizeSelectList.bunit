@@ -1,16 +1,36 @@
 # Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
+
 ListModel();
+shell_util(Test => ['reset_prizes_for_school']);
+shell_util(Test => ['reset_rides_for_child_0']);
 my($child) = req()->set_realm('child0')->get('id');
 req()->set_realm_and_user(qw(parent parent));
+
 [
     load_all => [
 	[{parent_id => $child}] => [{
-	    'PrizeRideCount.ride_count' => 100,
+	    'PrizeRideCount.ride_count' => 10,
 	}, {
 	    'PrizeRideCount.ride_count' => 20,
 	}, {
+	    'PrizeRideCount.ride_count' => 50,
+	}],
+    ],
+    inline_case(sub {
+        model('PrizeCoupon')->create({
+	    coupon_code => '000000000', # WRONG
+	    realm_id => $child, # WRONG
+	    user_id => $child,
+	    prize_id => model(Prize => {name => 'bunit50'})->get('prize_id'),
+	    ride_count => 51,
+	});
+    }),
+    load_all => [
+	[{parent_id => $child}] => [{
 	    'PrizeRideCount.ride_count' => 10,
+	}, {
+	    'PrizeRideCount.ride_count' => 20,
 	}],
     ],
 ];

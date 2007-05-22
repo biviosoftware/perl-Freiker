@@ -142,7 +142,7 @@ sub get_delegate_info {
 	    513
 	    USER
 	    ADMIN_READ&ADMIN_WRITE
-	    Model.PrizeSelectList
+	    Model.PrizeSelectList->execute_load_all_with_query
 	    View.Family->prize_select
 	    next=FAMILY_PRIZE_CONFIRM
 	)],
