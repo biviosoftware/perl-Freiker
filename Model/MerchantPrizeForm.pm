@@ -5,14 +5,12 @@ use strict;
 use Bivio::Base 'Model.ImageUploadForm';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-
-sub IMAGE_FILE_IS_REQUIRED {
-    return 0;
-}
+my($_PS) = Bivio::Type->get_instance('PrizeStatus');
 
 sub execute_empty {
     my($self) = @_;
     if (my $p = $self->get_request->unsafe_get('Model.Prize')) {
+Bivio::IO::Alert->info('here');
 	$self->load_from_model_properties($p);
     }
     return;
@@ -20,8 +18,28 @@ sub execute_empty {
 
 sub execute_ok {
     my($self) = shift;
-    $self->create_or_update_from_properties('Prize');
+    my($req) = $self->get_request;
+    my($p) = $req->unsafe_get('Model.Prize');
+    my($m) = $p ? 'update' : 'create';
+    unless ($req->is_substitute_user) {
+	$self->internal_put_field('Prize.prize_status' => $_PS->UNAPPROVED);
+	$self->internal_put_field(
+	    'Prize.ride_count' => $p ? $p->get('ride_count') : 0);
+    }
+    $self->load_from_model_properties(
+	($p || $self->new_other('Prize'))
+	    ->$m($self->get_model_properties('Prize')),
+    );
     $self->SUPER::execute_ok(@_);
+    return if $p;
+    # New prize: Add to all clubs, even though unapproved
+    $self->new_other('ClubList')->do_iterate(sub {
+        $self->new_other('PrizeRideCount')->create({
+	    prize_id => $self->get('Prize.prize_id'),
+	    realm_id => shift->get('Club.club_id'),
+	});
+	return 1;
+    });
     return;
 }
 
@@ -57,12 +75,9 @@ sub internal_initialize {
 	    'Prize.name',
 	    'Prize.description',
 	    'Prize.detail_uri',
-	    'Prize.ride_count',
-	    {
-		name => 'image',
-		type => 'FileField',
-		constraint => 'NONE',
-	    },
+	    'Prize.retail_price',
+	    map(+{name => $_, constraint => 'NONE'},
+		qw(Prize.ride_count Prize.prize_status)),
 	],
 	other => [
 	    'Prize.prize_id',
