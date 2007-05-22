@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Model::PrizeSelectList;
 use strict;
-use Bivio::Base 'Model.AllPrizeList';
+use Bivio::Base 'Model.ClubPrizeList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
