@@ -13,5 +13,5 @@ my($n) = random_string();
 	    prize_status => class('Type.PrizeStatus')->UNAPPROVED,
 	}],
     ],
-    image_file_name => qr{^/public/image/\d+.jpg$}is,
+    image_path => qr{^/public/image/\d+.jpg$}is,
 ];
