@@ -9,26 +9,26 @@ my($_PS) = Bivio::Type->get_instance('PrizeStatus');
 
 sub execute_empty {
     my($self) = @_;
-    if (my $p = $self->get_request->unsafe_get('Model.Prize')) {
-Bivio::IO::Alert->info('here');
-	$self->load_from_model_properties($p);
-    }
+    my($req) = $self->get_request;
+    $self->load_from_model_properties($req->get('Model.Prize'))
+	if $req->get('Type.FormMode')->eq_edit;
     return;
 }
 
 sub execute_ok {
     my($self) = shift;
     my($req) = $self->get_request;
-    my($p) = $req->unsafe_get('Model.Prize');
-    my($m) = $p ? 'update' : 'create';
-    unless ($req->is_substitute_user) {
+    my($edit) =  $req->get('Type.FormMode')->eq_edit;
+    my($p) = $edit ? $req->get_nested('Model.Prize')
+	: $self->new_other('Prize');
+    my($m) = $edit ? 'update' : 'create';
+    unless ($req->is_substitute_user || $req->is_super_user) {
 	$self->internal_put_field('Prize.prize_status' => $_PS->UNAPPROVED);
 	$self->internal_put_field(
-	    'Prize.ride_count' => $p ? $p->get('ride_count') : 0);
+	    'Prize.ride_count' => $edit ? $p->get('ride_count') : 0);
     }
     $self->load_from_model_properties(
-	($p || $self->new_other('Prize'))
-	    ->$m($self->get_model_properties('Prize')),
+	$p->$m($self->get_model_properties('Prize')),
     );
     $self->SUPER::execute_ok(@_);
     return if $p;
