@@ -93,8 +93,23 @@ sub manual_ride_form {
     }]));
 }
 
+sub prize_confirm {
+    return shift->internal_body(vs_simple_form(PrizeConfirmForm => [qw(
+        PrizeConfirmForm.Prize.name
+	PrizeConfirmForm.PrizeRideCount.ride_count
+    )]));
+}
+
 sub prize_coupon {
-    return shift->internal_body('FILL');
+    return shift->internal_body(List(PrizeCouponList => [
+        Prose(<<'EOF'),
+Congratulations!  You may go to your local distributor to pick up
+your prize.
+<br>
+Prize: String(['Prize.name']);<br>
+Code: String(['PrizeCoupon.coupon_code']);<br>
+EOF
+    ]));
 }
 
 sub prize_coupon_list {
@@ -105,7 +120,15 @@ sub prize_coupon_list {
 }
 
 sub prize_select {
-    return shift->internal_body('FILL');
+    return shift->internal_body(vs_list(PrizeSelectList => [
+	['Prize.name' => {
+            column_widget => Link(String(['Prize.name']), URI({
+	        task_id => 'FAMILY_PRIZE_CONFIRM',
+	        query => ['->get_query_for_this'],
+	    })),
+        }],
+	'PrizeRideCount.ride_count',
+    ]))
 }
 
 1;

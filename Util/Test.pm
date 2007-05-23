@@ -25,7 +25,14 @@ sub reset_prizes_for_school {
 	$req->with_realm(Freiker::Test->SPONSOR_NAME, sub {
 	    $self->model('Prize')->do_iterate(
 		sub {
-		    shift->cascade_delete;
+		    my($prize) = @_;
+	            $self->model('PrizeCoupon')->do_iterate(sub {
+		        shift->unauth_delete;
+		        return 1;
+		    }, 'unauth_iterate_start','prize_id', {
+		        prize_id => $prize->get('prize_id'),
+		    });
+		    $prize->cascade_delete;
 		    return 1;
 		},
 		'prize_id',

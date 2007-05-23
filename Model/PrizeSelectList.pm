@@ -6,10 +6,13 @@ use Bivio::Base 'Model.ClubPrizeList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
-sub execute {
-    my($proto, $req) = @_;
-#die;    
-    return 0;
+sub get_query_for_this {
+    my($self) = @_;
+    return {
+        Bivio::SQL::ListQuery->to_char('parent_id')
+	    => $self->get('RealmUser.user_id'),
+        Bivio::SQL::ListQuery->to_char('this') => $self->get('Prize.prize_id'),
+    };
 }
 
 sub internal_initialize {

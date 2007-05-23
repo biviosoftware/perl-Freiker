@@ -12,24 +12,20 @@ sub internal_initialize {
         version => 1,
 	can_iterate => 1,
 	primary_key => ['PrizeCoupon.coupon_code'],
+	parent_id => [qw(PrizeCoupon.user_id RealmUser.user_id)],
         order_by => [
-	    [qw(PrizeCoupon.coupon_code PrizeReceipt.coupon_code(+))],
 	    'PrizeCoupon.creation_date_time',
 	],
 	other => [
+            'PrizeCoupon.ride_count',
+	    ['RealmUser.role', ['MEMBER']],
 	    [qw(PrizeCoupon.prize_id Prize.prize_id)],
 	    'Prize.name',
 	    'Prize.detail_uri',
-	    'PrizeReceipt.receipt_code',
+#	    'PrizeReceipt.receipt_code',
 	],
-	auth_id => [qw(PrizeCoupon.realm_id PrizeReceipt.realm_id(+))],
+	auth_id => 'RealmUser.realm_id',
     });
-}
-
-sub internal_prepare_statement {
-    my($self, $stmt, $query) = @_;
-    $stmt->where($stmt->IS_NULL('PrizeReceipt.receipt_code'));
-    return;
 }
 
 1;

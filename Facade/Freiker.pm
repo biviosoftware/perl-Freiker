@@ -48,6 +48,7 @@ my($_SELF) = __PACKAGE__->new({
 	['Ride.ride_date.NOT_FOUND' => q{This date was not a school day.}],
 	['Ride.ride_date.EXISTS' => q{The Freiker was already credited for this date.  Please enter a different date.}],
 	[US_ZIP_CODE => q{The vs_fe(q{label}); must be 9-digit US Zip code.}],
+	[PRIZE_NOT_EARNED => q{You do not have enough available rides to chose this prize}],
     ],
     Constant => [
 	[xlink_paypal => {
@@ -140,6 +141,9 @@ my($_SELF) = __PACKAGE__->new({
 		epilogue => q{vs_text_as_prose('GENERAL_USER_PASSWORD_QUERY');},
 	    ],
 	]],
+	[Prize => [
+	    name => 'Name',
+	]],
 	[[qw(PrizeCoupon PrizeReceipt)] => [
 	    coupon_code => 'Coupon ID',
 	]],
@@ -151,6 +155,9 @@ my($_SELF) = __PACKAGE__->new({
 		prologue => q{Please enter the Freiker's vs_text_as_prose('PrizeReceipt.coupon_code');.},
 	    ],
 	    ok_button => 'Redeem',
+	]],
+	[PrizeRideCount => [
+	    ride_count => 'Ride Count',
 	]],
 	[UserRegisterForm => [
 	    prose => [

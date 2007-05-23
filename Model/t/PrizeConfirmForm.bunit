@@ -1,0 +1,60 @@
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+
+require 'prize_coupon.PL';
+
+my($child_id) = req()->set_realm('child0')->get('id');
+my($prize_id);
+
+FormModel({
+    setup_request => sub {
+	req()->put(query => {
+	    parent_id => $child_id,
+	    this => $prize_id,
+	});
+	class('Model.PrizeSelectList')->execute_load_this(req());
+	return;
+    },
+});
+
+shell_util(Test => ['reset_prizes_for_school']);
+shell_util(Test => ['reset_rides_for_child_0']);
+
+req()->set_realm_and_user(qw(parent parent));
+$prize_id = model(Prize => {name => 'bunit50'})->get('prize_id');
+
+[
+    empty_case({
+	'Prize.name' => 'bunit50',
+	'PrizeRideCount.ride_count' => '50',
+    }),
+    [{}] => sub {
+	model(PrizeCoupon => {
+            user_id => $child_id,
+            prize_id => $prize_id,
+            ride_count => 50,
+	});
+	return 1;
+    },
+    inline_case(sub {
+       create_prize_coupon('bunit50');
+    }),
+    error_case({
+	'Prize.name' => 'PRIZE_NOT_EARNED',
+    }),
+#     load_all => [
+# 	[{parent_id => $child}] => $prizes,
+#     ],
+#     inline_case(sub {
+#        create_prize_coupon('bunit50');
+#     }),
+#     load_all => [
+# 	[{parent_id => $child}] => $prizes,
+#     ], 
+#     inline_case(sub {
+#        create_prize_coupon('bunit10');
+#     }),
+#     load_all => [
+# 	[{parent_id => $child}] => [@$prizes[0..1]],
+#     ],
+];
