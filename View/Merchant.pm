@@ -19,6 +19,48 @@ sub info {
     }]));
 }
 
+sub pre_compile {
+    my($self) = shift;
+    my(@res) = $self->SUPER::pre_compile(@_);
+    return unless $self->internal_base_type eq 'xhtml';
+    $self->internal_put_base_attr(tools => TaskMenu([
+	'MERCHANT_PRIZE',
+	'MERCHANT_PRIZE_LIST',
+	'MERCHANT_PRIZE_REDEEM',
+    ]));
+    return @res;
+}
+
+sub prize {
+    return shift->internal_body(vs_simple_form(MerchantPrizeForm => [
+	map(+{
+	    field => "MerchantPrizeForm.Prize.$_",
+	    control => ['Model.MerchantPrizeForm', 'full_edit'],
+	}, qw(ride_count prize_status)),
+	'MerchantPrizeForm.Prize.name',
+	'MerchantPrizeForm.Prize.retail_price',
+	'MerchantPrizeForm.Prize.detail_uri',
+	'MerchantPrizeForm.image_file',
+	'MerchantPrizeForm.Prize.description',
+    ]));
+}
+
+sub prize_list {
+    return shift->internal_body(List(MerchantPrizeList => [Link(
+	Join([
+	    Image(['->image_uri'], {
+		alt_text => ['Prize.name'],
+		class => 'in_list',
+	    }),
+	    SPAN_name(String(["Prize.name"], {hard_newlines => 0})),
+	    ' ',
+	    SPAN_desription(String(["Prize.description"], {hard_newlines => 0})),
+	]),
+	['->format_uri', qw(THIS_DETAIL MERCHANT_PRIZE)],
+	{class => 'prize'},
+    )]));
+}
+
 sub prize_redeem {
     return shift->internal_body(vs_simple_form(PrizeRedeemForm => [qw{
 	PrizeRedeemForm.PrizeReceipt.coupon_code
