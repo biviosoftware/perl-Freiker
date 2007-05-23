@@ -4,6 +4,7 @@ package Freiker::Util::Test;
 use strict;
 use Bivio::Base 'Bivio::ShellUtil';
 use Freiker::Test;
+use Freiker::Test::Freiker;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = Bivio::Type->get_instance('Date');
@@ -20,42 +21,45 @@ EOF
 sub reset_prizes_for_school {
     my($self) = @_;
     my($req) = $self->get_request;
-    $req->with_realm(Freiker::Test->SPONSOR_NAME, sub {
-	my($p) = $self->model('Prize');
-	$p->do_iterate(
-	    sub {
-		my($prize) = @_;
-	        $self->model('PrizeRideCount')->do_iterate(sub {
-		    shift->unauth_delete;
+    $req->with_user(Freiker::Test->ADM, sub {
+	$req->with_realm(Freiker::Test->SPONSOR_NAME, sub {
+	    $self->model('Prize')->do_iterate(
+		sub {
+		    my($prize) = @_;
+		    $self->model('PrizeRideCount')->do_iterate(sub {
+			shift->unauth_delete;
+			return 1;
+		    }, 'unauth_iterate_start','prize_id', {
+			prize_id => $prize->get('prize_id'),
+		    });
+		    $prize->cascade_delete;
 		    return 1;
-		}, 'unauth_iterate_start','prize_id', {
-		    prize_id => $prize->get('prize_id'),
+		},
+		'prize_id',
+	    );
+	    my($available) = $self->use('Type.PrizeStatus')->AVAILABLE;
+	    foreach my $i (10, 20, 50, 99, 1000) {
+		my($f) = $self->model('MerchantPrizeForm');
+		$f->process({
+		    'Prize.name' => "bunit$i",
+		    'Prize.description' => "prize for bunit $i",
+		    'Prize.detail_uri' => "http://www.freiker.org?$i",
+		    'Prize.ride_count' => $i,
+		    'Prize.retail_price' => $i,
+		    'Prize.prize_status' =>
+			$i == 99 ? $available->UNAPPROVED : $available,
+		    image_file => $f->format_file_field(
+			Freiker::Test::Freiker->generate_image("prize$i"),
+		    ),
 		});
-		$prize->cascade_delete;
-		return 1;
-	    },
-	    'prize_id',
-	);
-	my($value) = {
-	    name => 'bunit',
-	    description => 'prize for bunit ',
-	    detail_uri => 'http://www.apple.com/ipodnano',
-	};
-	foreach my $i (10, 20, 50, 99, 1000) {
-	    my($v) = {%$value};
-	    $v->{name} .= $i;
-	    $v->{description} .= $i;
-	    $v->{ride_count} = $i;
-	    $v->{retail_price} = $i;
-	    $v->{prize_status} = $self->use('Type.PrizeStatus')->from_name(
-		$i == 99 ? 'UNAPPROVED' : 'AVAILABLE');
-	    $p->create($v);
-	    $req->with_realm(Freiker::Test->SCHOOL_NAME, sub {
-		$p->new_other('PrizeRideCount')->create({
-		    map(($_ => $p->get($_)), qw(ride_count prize_id)),
+		$req->with_realm(Freiker::Test->SCHOOL_NAME, sub {
+		    $f->new_other('PrizeRideCount')->create_or_update({
+			map(($_ => $f->get("Prize.$_")),
+			    qw(ride_count prize_id)),
+		    });
 		});
-	    });
-	}
+	    }
+	});
     });
     return;
 }
