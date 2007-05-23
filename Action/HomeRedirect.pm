@@ -10,8 +10,12 @@ sub execute {
     my($proto, $req) = @_;
     $req->set_realm($req->get('auth_user'));
     my($m) = Bivio::Biz::Model->new($req, 'UserRealmList')->load_all;
-    if ($m->find_row_by_type(Bivio::Auth::RealmType->CLUB)) {
+    if ($m->find_row_by_type(Bivio::Auth::RealmType->FORUM)
+        || $m->find_row_by_type(Bivio::Auth::RealmType->CLUB)
+    ) {
 	$req->set_realm($m->get('RealmUser.realm_id'));
+	return 'merchant_task'
+	    if $req->get_nested(qw(auth_realm type))->eq_forum;
 	return 'wheel_task'
 	    if $m->get('RealmUser.role')->eq_administrator;
     }
