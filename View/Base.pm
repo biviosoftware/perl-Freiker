@@ -40,6 +40,8 @@ sub internal_xhtml_adorned {
 	    If(['auth_user'],
 # List of Family, Schools, and Stores
 	       [sub {
+		    my($req) = shift->get_request;
+#TODO: Refactor: Make a redirect task for realms?
 		    TaskMenu([
 			'FAMILY_FREIKER_LIST',
 			map(+{
@@ -50,11 +52,25 @@ sub internal_xhtml_adorned {
 			}, sort {
 			    $a->{'RealmOwner.display_name'}
 				cmp $b->{'RealmOwner.display_name'}
-			} @{shift->get_request->map_user_realms(
+			} @{$req->map_user_realms(
 			    undef,
 			    {
 				'RealmOwner.realm_type' => Bivio::Auth::RealmType->CLUB,
 				'RealmUser.role' => Bivio::Auth::Role->ADMINISTRATOR,
+			    },
+			)}),
+			map(+{
+			    task_id => 'MERCHANT_PRIZE_LIST',
+			    label => String($_->{'RealmOwner.display_name'}),
+			    realm => $_->{'RealmOwner.name'},
+			    query => undef,
+			}, sort {
+			    $a->{'RealmOwner.display_name'}
+				cmp $b->{'RealmOwner.display_name'}
+			} @{$req->map_user_realms(
+			    undef,
+			    {
+				'RealmOwner.realm_type' => Bivio::Auth::RealmType->FORUM,
 			    },
 			)}),
 			'CLUB_REGISTER',
