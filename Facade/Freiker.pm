@@ -121,6 +121,19 @@ my($_SELF) = __PACKAGE__->new({
 	    'Address.zip' => 'US ZIP+4',
 	    ok_button => 'Register Merchant',
 	]],
+	[Prize => [
+	    name => 'Title',
+	    description => 'Description',
+	    ride_count => 'Required Rides',
+	    retail_price => 'Retail Price',
+	    detail_uri => 'Info Link',
+	    prize_status => 'Status',
+	    modified_date_time => 'Last Updated',
+	]],
+	[MerchantPrizeForm => [
+	    image_file => 'Image',
+	    ok_button => 'OK',
+	]],
 	[UserLoginForm => [
 	    prose => [
 		prologue => q{vs_text_as_prose('USER_CREATE');},
@@ -214,7 +227,7 @@ EOF
 	    FAMILY_MANUAL_RIDE_FORM => q{The missing date has been added.},
 	    FAMILY_FREIKER_CODE_ADD => q{The new Freiker ID was added.},
 	    CLUB_PRIZE => 'The required rides for the prize were updated.',
-	    MERCHANT_PRIZE => 'Thank you for your donation.  Please contact vs_gears_email(); to discuss prize delivery and inventory management.',
+	    MERCHANT_PRIZE => 'Thank you for your donation or update.  Please contact vs_gears_email(); to discuss prize delivery and inventory management.',
 	    GENERAL_USER_PASSWORD_QUERY => <<'EOF',
 An email has been sent to
 String([qw(Model.UserPasswordQueryForm Email.email)]);.
@@ -251,7 +264,7 @@ EOF
 	    CLUB_REGISTER => 'Register Your School',
 	    CLUB_PRIZE => 'Set Rides Required Prize',
 	    CLUB_PRIZE_LIST => 'School Prizes',
-	    MERCHANT_PRIZE => 'Donate a Prize',
+	    MERCHANT_PRIZE => q{If(['Type.FormMode', '->eq_edit'], 'Update Prize Information', 'Donate a Prize');},
 	    MERCHANT_PRIZE_LIST => 'Donated Prizes',
 	    MERCHANT_REGISTER => 'Register Your Business',
 	    MERCHANT_PRIZE_REDEEM => 'Enter a Prize Coupon',
@@ -285,7 +298,7 @@ EOF
 	    FAMILY_PRIZE_COUPON_LIST => 'Past Prizes',
 	    FAMILY_PRIZE_SELECT => 'Choose Prize',
 	    LOGIN => 'Login',
-	    MERCHANT_PRIZE => 'Add or Update Prize',
+	    MERCHANT_PRIZE => 'Add Prize',
 	    MERCHANT_PRIZE_REDEEM => 'Redeem Coupon',
 	    MERCHANT_PRIZE_LIST => 'Donated Prizes',
 	    MERCHANT_REGISTER => 'Register New Merchant',
