@@ -42,19 +42,4 @@ $prize_id = model(Prize => {name => 'bunit50'})->get('prize_id');
     error_case({
 	'Prize.name' => 'PRIZE_NOT_EARNED',
     }),
-#     load_all => [
-# 	[{parent_id => $child}] => $prizes,
-#     ],
-#     inline_case(sub {
-#        create_prize_coupon('bunit50');
-#     }),
-#     load_all => [
-# 	[{parent_id => $child}] => $prizes,
-#     ], 
-#     inline_case(sub {
-#        create_prize_coupon('bunit10');
-#     }),
-#     load_all => [
-# 	[{parent_id => $child}] => [@$prizes[0..1]],
-#     ],
 ];
