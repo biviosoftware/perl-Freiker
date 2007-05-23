@@ -12,7 +12,6 @@ FormModel({
 	    parent_id => $child_id,
 	    this => $prize_id,
 	});
-	class('Model.PrizeSelectList')->execute_load_this(req());
 	return;
     },
 });
@@ -39,7 +38,5 @@ $prize_id = model(Prize => {name => 'bunit50'})->get('prize_id');
     inline_case(sub {
        create_prize_coupon('bunit50');
     }),
-    error_case({
-	'Prize.name' => 'PRIZE_NOT_EARNED',
-    }),
+    [{}] => DIE()->MODEL_NOT_FOUND,
 ];

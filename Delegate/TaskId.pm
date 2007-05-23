@@ -151,7 +151,6 @@ sub get_delegate_info {
 	    514
 	    USER
 	    ADMIN_READ&ADMIN_WRITE
-	    Model.PrizeSelectList->execute_load_this
 	    Model.PrizeConfirmForm
 	    View.Family->prize_confirm
 	    next=FAMILY_PRIZE_COUPON
