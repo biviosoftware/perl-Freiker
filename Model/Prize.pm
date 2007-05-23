@@ -8,6 +8,24 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_IFN) = Bivio::Type->get_instance('ImageFileName');
 my($_PS) = Bivio::Type->get_instance('PrizeStatus');
 
+sub cascade_delete {
+    my($self) = shift;
+    $self->new_other('PrizeRideCount')->do_iterate(
+	sub {
+	    shift->unauth_delete;
+	    return 1;
+	},
+	'unauth_iterate_start',
+	'prize_id',
+	{prize_id => $self->get('prize_id')},
+    );
+    $self->new_other('RealmFile')->delete({
+	path => $self->image_path,
+	override_is_read_only => 1,
+    });
+    return $self->SUPER::cascade_delete(@_);
+}
+
 sub create {
     my($self, $values) = @_;
     $values->{ride_count} ||= 0;
@@ -15,7 +33,7 @@ sub create {
     return shift->SUPER::create(@_);
 }
 
-sub image_file_name {
+sub image_path {
     my(undef, $model, $model_prefix, $values) = shift->internal_get_target(@_);
     return $_IFN->to_absolute(
 	$values->{$model_prefix . 'prize_id'} . '.jpg', 1);
