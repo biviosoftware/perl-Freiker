@@ -56,7 +56,7 @@ sub internal_image_max_width {
 }
 
 sub internal_image_path {
-    return shift->get_request->get('Model.Prize')->image_file_name;
+    return shift->get_request->get('Model.Prize')->image_path;
 }
 
 sub internal_image_properties {
@@ -81,6 +81,11 @@ sub internal_initialize {
 	],
 	other => [
 	    'Prize.prize_id',
+	    {
+		name => 'full_edit',
+		type => 'Boolean',
+		constraint => 'NONE',
+	    },
 	],
     });
 }
