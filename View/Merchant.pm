@@ -33,10 +33,10 @@ sub pre_compile {
 
 sub prize {
     return shift->internal_body(vs_simple_form(MerchantPrizeForm => [
-	map(+{
-	    field => "MerchantPrizeForm.Prize.$_",
-	    control => ['Model.MerchantPrizeForm', 'full_edit'],
-	}, qw(ride_count prize_status)),
+	map([
+	    "MerchantPrizeForm.Prize.$_",
+	    {row_control => ['Model.MerchantPrizeForm', 'full_edit']},
+	], qw(ride_count prize_status)),
 	'MerchantPrizeForm.Prize.name',
 	'MerchantPrizeForm.Prize.retail_price',
 	'MerchantPrizeForm.Prize.detail_uri',
