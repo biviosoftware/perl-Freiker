@@ -17,7 +17,7 @@ sub generate_image {
     my($self, $text) = @_;
     my(undef, $file) = $self->tmp_file('image.jpg');
     $text =~ s/"/'/g;
-    $text =~ s/\S+/ /sg;
+    $text =~ s/\s+/ /sg;
     system(qq{convert -size 150x150 xc:white -fill blue -pointsize 36 -draw 'text 0,100 "$text"' $file}) == 0 || die;
     return $file;
 }
