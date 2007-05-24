@@ -8,6 +8,7 @@ use Freiker::Test::Freiker;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = Bivio::Type->get_instance('Date');
+my($_FF) = Bivio::Type->get_instance('FileField');
 
 sub USAGE {
     return <<'EOF';
@@ -48,7 +49,7 @@ sub reset_prizes_for_school {
 		    'Prize.retail_price' => $i,
 		    'Prize.prize_status' =>
 			$i == 99 ? $available->UNAPPROVED : $available,
-		    image_file => $f->format_file_field(
+		    image_file => $_FF->from_disk(
 			Freiker::Test::Freiker->generate_image("prize$i"),
 		    ),
 		});
