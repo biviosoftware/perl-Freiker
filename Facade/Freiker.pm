@@ -14,12 +14,11 @@ my($_SELF) = __PACKAGE__->new({
     mail_host => 'freiker.org',
     Color => [
 	[footer_border_top => 0x0],
-	[[qw(a_link left_login_background notice h3)] => 0x33CC00],
+	[[qw(a_link left_login_background notice h3 prize_img_border)] => 0x33CC00],
 	[[qw(acknowledgement_border a_hover a_hover_img_border)] => 0x99FF33],
 	[[qw(title topic header_realm header_menu_border_bottom line_border_top)] => 0x666666],
 	[[qw(err warn empty_list_border)] => 0xcc0000],
-	[a_img_border => 0xFFFFFF],
-	[main_left_text => 0xFFFFFF],
+	[[qw(main_left_text a_img_border prizes_background)] => 0xFFFFFF],
     ],
     Font => [
 	[a_link => 'normal'],

@@ -95,7 +95,7 @@ img.graph {
   float: right;
   margin: 1em 0 1em 1em;
 }
-.prose, .form_prose, .list_prose, div.press {
+.prose, .form_prose, .list_prose, div.press, table.prizes {
   width: 40em;
   text-align: left;
   padding: 1ex 0 1ex 0;
@@ -262,6 +262,29 @@ div.donate div.msg {
 .address {
   font-size: 120%;
   font-weight: bold;
+}
+table.prizes tr.even {
+  Color('prizes-background');
+}
+table.prizes tr.even img {
+  float: right;
+  margin-left: 1em;
+}
+table.prizes tr.odd img {
+  float: left;
+  margin-right: 1em;
+}
+table.prizes a:hover {
+  Color('a_link');
+}
+table.prizes a:hover img {
+  Color('prize_img-border');
+}
+table.prizes span.desc p.prose {
+  display: inline;
+}
+table.prizes span.name, table.prizes span.rides {
+  Font('strong');
 }
 EOF
 
