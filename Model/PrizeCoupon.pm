@@ -10,30 +10,6 @@ sub TXN_CODE_FIELD {
     return 'coupon_code';
 }
 
-sub create {
-    my($self, $values) = @_;
-    my($req) = $self->get_request;
-    $self->get_instance('Lock')->execute_unless_acquired($req);
-
-    my($code);
-    my($pc) = $self->new_other('PrizeCoupon');
-
-    # TODO: loop TxnCode->size times
-    foreach my $i (1..1000) {
-	$code = Freiker::Type::TxnCode->generate_random();
-	last
-	    unless $pc->unsafe_load({
-	        coupon_code => $code,
-	    });
-    }
-    Bivio::Die->die('No more Cupon codes!')
-        if $pc->is_loaded();
-
-    $values->{coupon_code} = $code;
-
-    return shift->SUPER::create(@_);
-}
-
 sub create_receipt {
     my($self) = @_;
     return $self->new_other('PrizeReceipt')->create({

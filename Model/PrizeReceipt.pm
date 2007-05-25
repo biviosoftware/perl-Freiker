@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Model::PrizeReceipt;
 use strict;
-use Bivio::Base 'Model.RealmBase';
+use Bivio::Base 'Model.TxnCodeBase';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
