@@ -22,7 +22,6 @@ sub internal_initialize {
 	    [qw(PrizeCoupon.prize_id Prize.prize_id)],
 	    'Prize.name',
 	    'Prize.detail_uri',
-#	    'PrizeReceipt.receipt_code',
 	],
 	auth_id => 'RealmUser.realm_id',
     });
