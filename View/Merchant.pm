@@ -46,19 +46,8 @@ sub prize {
 }
 
 sub prize_list {
-    return shift->internal_body(List(MerchantPrizeList => [Link(
-	Join([
-	    Image(['->image_uri'], {
-		alt_text => ['Prize.name'],
-		class => 'in_list',
-	    }),
-	    SPAN_name(String(["Prize.name"], {hard_newlines => 0})),
-	    ' ',
-	    SPAN_desription(String(["Prize.description"], {hard_newlines => 0})),
-	]),
-	['->format_uri', qw(THIS_DETAIL MERCHANT_PRIZE)],
-	{class => 'prize'},
-    )]));
+     return shift->internal_body(
+	 vs_prize_list(MerchantPrizeList => [qw(THIS_DETAIL MERCHANT_PRIZE)]));
 }
 
 sub prize_redeem {
