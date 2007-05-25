@@ -58,7 +58,7 @@ sub freiker_list {
 			    no_context => 1,
 			}),
 		    ];
-		} qw(FAMILY_FREIKER_RIDE_LIST FAMILY_MANUAL_RIDE_FORM FAMILY_FREIKER_CODE_ADD FAMILY_PRIZE_SELECT))]),
+		} qw(FAMILY_FREIKER_RIDE_LIST FAMILY_PRIZE_COUPON_LIST))]),
 		column_data_class => 'list_actions',
 	    },
 	]),
@@ -74,7 +74,7 @@ sub freiker_ride_list {
 		query => {
 		    'ListQuery.parent_id' => [[qw(Model.FreikerRideList ->get_query)], 'parent_id'],
 		},
-	    }, qw(FAMILY_MANUAL_RIDE_FORM FAMILY_FREIKER_CODE_ADD)),
+	    }, qw(FAMILY_MANUAL_RIDE_FORM FAMILY_FREIKER_CODE_ADD FAMILY_PRIZE_COUPON_LIST)),
 	    {
 		task_id => 'FAMILY_FREIKER_LIST',
 		label => 'back_to_family',
@@ -88,7 +88,6 @@ sub freiker_ride_list {
 
 sub manual_ride_form {
     return shift->internal_body(vs_simple_form(ManualRideForm => [qw{
-        'prologue
         ManualRideForm.Ride.ride_date
     }]));
 }
@@ -105,9 +104,9 @@ sub prize_coupon {
         Prose(<<'EOF'),
 Congratulations!  You may go to your local distributor to pick up
 your prize.
-<br>
-Prize: String(['Prize.name']);<br>
-Code: String(['PrizeCoupon.coupon_code']);<br>
+<br />
+Prize: String(['Prize.name']);<br />
+Code: String(['PrizeCoupon.coupon_code']);<br />
 EOF
     ]));
 }
@@ -120,15 +119,8 @@ sub prize_coupon_list {
 }
 
 sub prize_select {
-    return shift->internal_body(vs_list(PrizeSelectList => [
-	['Prize.name' => {
-            column_widget => Link(String(['Prize.name']), URI({
-	        task_id => 'FAMILY_PRIZE_CONFIRM',
-	        query => ['->get_query_for_this'],
-	    })),
-        }],
-	'PrizeRideCount.ride_count',
-    ]))
+     return shift->internal_body(
+	 vs_prize_list(PrizeSelectList => [qw(THIS_DETAIL FAMILY_PRIZE_CONFIRM)]));
 }
 
 1;
