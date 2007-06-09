@@ -660,6 +660,7 @@ Link(Image('grahamwatson', 'Graham Watson'), 'http://www.grahamwatson.com');
 Link(Image('hirschmanndesign', 'Hirschmann Design'), 'http://www.hirschmann.com');
 Link(Image('meltonconstruction', 'Melton Construction, Inc.'), 'http://www.meltonconstruction.com');
 Link(Image('mirrycle', 'Mirrycle Corp.'), 'http://www.mirrycle.com');
+Link(Image('namaste', 'Namaste Solar Electric, Inc.'), 'http://namastesolar.com');
 Link(Image('resourcerevival', 'Resource Revival, Inc.'), 'http://www.resourcerevival.com');
 Link(Image('saferoutesinfo', 'National Center for Safe Routes to School'), 'http://www.saferoutesinfo.org');
 Link(Image('skyetek', 'Skyetek, Inc.'), 'http://www.skyetek.com');
