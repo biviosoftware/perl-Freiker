@@ -133,9 +133,8 @@ selected randomly from the children who rode the entire week.
 </p>
 <p>
 Link('Parents must register', 'USER_CREATE'); with this website.
-There's no charge, and we only require an email address, which helps
-us avoid registrations by spambots and allows us to contact you when your
-child wins a prize.
+There's no charge, and we only require an email address, which allows
+us to contact you when your child wins a prize.
 </p>
 H3('Rides');
 <p>
@@ -195,9 +194,8 @@ H3('Volunteers');
 Your help would be greatly appreciated.  If you already have
 a SiteRoot(hm_wheels => {value => 'wheel (lead volunteer)'});
 at your school, just
-go to your bike rack in the morning.  If you would like to bring
-Freiker to your school, vs_gears_contact();, and we'll
-get you a scanner, barcodes, and start up prizes.  If you are politically
+go to your bike rack on a Monday morning.  If you would like to bring
+Freiker to your school, vs_gears_contact();.  If you are politically
 inclined, please go to school board and/or city council meetings and
 tell them about Freiker.  If you know how to write grants, we could
 use your help, too.
@@ -205,7 +203,8 @@ use your help, too.
 H3('Donations');
 <p>
 We will gladly accept donations.
-100% of individual donations goes towards prizes or other rewards.
+100% of individual donations are used directly for the program and that
+0% of our funds are used for administrative or overhead expenses.
 Our program is entirely volunteer run, including the software and hardware
 to run our website.  We need your help.
 Link(B('Click here to learn how to donate to Freiker!'), 'SITE_DONATE');
