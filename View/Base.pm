@@ -111,7 +111,6 @@ sub internal_xhtml_adorned {
 	    ),
 	    view_widget_value('base_menu'),
 	]),
-	xhtml_topic => view_widget_value('xhtml_title'),
 	xhtml_header_middle => DIV_donate(
 	    Link(
 		Join([
