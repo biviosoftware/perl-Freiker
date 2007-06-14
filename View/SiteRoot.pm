@@ -72,11 +72,17 @@ Image('freiker-weather', 'Year on year comparison of Freikers vs. Weather',
 <p>
 Twice as many kids are riding to
 Link('Crest View Elementary', 'http://schools.bvsd.org/crestview');
-than were riding last year.  Why?  iPods.  It's that simple. Kids who ride
-to Crest View (and other area schools) receive an iPod if they
+than were riding two years ago.  Why?  iPods.  It's that simple. Kids who
+ride to Crest View (and other area schools) receive an iPod if they
 ride their bikes 90% of the time to school.  At Crest View, that
-means Freikers must ride 150 times this year. Last school year 12
-hard-working Freikers completed this goal.
+means Freikers must ride 150 times this year.  This year we gave out
+50 iPods and about 10 digital camers to hard-working Freikers at
+Crest View, Foothill Elementary, and Horizons K-8.  We gave out lots of
+other prizes, too.  Yet, the cost of the program is only about
+$5,000 per school.  Isn't it worth
+Link('10% of the price of a new Lexus', 'SITE_DONATE');
+to improve our environment by encouraging more kids to get on their
+bikes more often?
 </p>
 <p>
 Freikers do not compete against each other for prizes.  There is no
