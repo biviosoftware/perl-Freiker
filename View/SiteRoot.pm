@@ -75,7 +75,7 @@ Link('Crest View Elementary', 'http://schools.bvsd.org/crestview');
 than were riding two years ago.  Why?  iPods.  It's that simple. Kids who
 ride to Crest View (and other area schools) receive an iPod if they
 ride their bikes 90% of the time to school.  At Crest View, that
-means Freikers must ride 150 times this year.  This year we gave out
+means Freikers must ride 160 times this year.  Last year we gave out
 50 iPods and about 10 digital camers to hard-working Freikers at
 Crest View, Foothill Elementary, and Horizons K-8.  We gave out lots of
 other prizes, too.  Yet, the cost of the program is only about
@@ -233,10 +233,18 @@ sub hm_press {
 	    DT(Join([
 		"$_->[0] - ",
 		SPAN_source(Link($_->[3], $_->[4])),
-		" - $_->[5]",
+		" - ",
+		Prose($_->[5]),
 	    ])),
 	    DD(Link(B($_->[1]), $_->[2])),
 	), [
+	    '6/19/2007',
+	    'Colorado Safe Routes to School Program',
+	    'http://www.saferoutesinfo.org/online_library/details.cfm?id=2193',
+	    'Nation Center for Safe Routes to School',
+	    'http://www.saferoutesinfo.org/',
+	    'Video (Windows) for Link("Apple or Linux click here", "/m/foothills.avi");',
+	], [
 	    '11/02/2006',
 	    'Biking To School Becomes Popular Among Kids',
 	    'http://www.thedenverchannel.com/video/10229138/detail.html',
@@ -580,7 +588,7 @@ An iPod!  This is the piece de resistance for kids nowadays.  If you ride
 90% of the year to school, you'll win one.  It's that simple -- well, not
 really, but there are plenty of other prizes below.  This is just the
 one everybody seems to want.  At Crest View, you have to ride
-SPAN_prize_rides('150 times');, but schools which start Freiker part of the way
+SPAN_prize_rides('160 times');, but schools which start Freiker part of the way
 through the year will use a lower number of rides (90% of possible rides
 during the partial year).
 </p>
