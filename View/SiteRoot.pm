@@ -76,7 +76,7 @@ than were riding two years ago.  Why?  iPods.  It's that simple. Kids who
 ride to Crest View (and other area schools) receive an iPod if they
 ride their bikes 90% of the time to school.  At Crest View, that
 means Freikers must ride 160 times this year.  Last year we gave out
-50 iPods and about 10 digital camers to hard-working Freikers at
+50 iPods and about 10 digital cameras to hard-working Freikers at
 Crest View, Foothill Elementary, and Horizons K-8.  We gave out lots of
 other prizes, too.  Yet, the cost of the program is only about
 $5,000 per school.  Isn't it worth
