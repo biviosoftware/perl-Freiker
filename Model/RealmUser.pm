@@ -9,7 +9,12 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 sub find_club_id {
     my($self, $user_id) = @_;
     return $self->map_iterate(
-	sub {shift->get('realm_id')},
+	sub {
+	    my($ro) = $self->new_other('RealmOwner')->unauth_load_or_die({
+		realm_id => shift->get('realm_id'),
+	    });
+	    return $ro->get('realm_type')->eq_club ? $ro->get('realm_id') : ();
+	},
 	'unauth_iterate_start',
 	# Most recent entry is probably most relevant
 	'creation_date_time asc',
