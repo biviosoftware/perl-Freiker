@@ -15,15 +15,16 @@ sub internal_xhtml_adorned {
     my($self) = @_;
     my(@res) = shift->SUPER::internal_xhtml_adorned(@_);
     view_unsafe_put(
-	base_realm => If(
-	    [qw(auth_realm ->has_owner)],
-	    Join([
-		String(['auth_realm', 'owner', 'display_name']),
-		If([qw(auth_realm type ->eq_club)],
-		   String(' Family')),
-	    ]),
-	    'Freiker',
-	),
+#TODO: Dead?
+# 	base_realm => If(
+# 	    [qw(auth_realm ->has_owner)],
+# 	    Join([
+# 		String(['auth_realm', 'owner', 'display_name']),
+# 		If([qw(auth_realm type ->eq_club)],
+# 		   String(' Family')),
+# 	    ]),
+# 	    'Freiker',
+# 	),
 	base_menu => TaskMenu([
 	    map(+{xlink => SiteRoot($_)},
 		qw(hm_index hm_parents hm_press hm_prizes hm_sponsors hm_wheels)),
