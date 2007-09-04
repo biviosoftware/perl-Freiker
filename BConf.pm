@@ -2,74 +2,17 @@
 # $Id$
 package Freiker::BConf;
 use strict;
-$Freiker::BConf::VERSION = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-$_ = $Freiker::BConf::VERSION;
+use base 'Bivio::BConf';
 
-=head1 NAME
-
-Freiker::BConf - default configuration
-
-=head1 RELEASE SCOPE
-
-RELEASE-SCOPE
-
-=head1 SYNOPSIS
-
-    use Freiker::BConf;
-
-=cut
-
-=head1 EXTENDS
-
-L<Bivio::BConf>
-
-=cut
-
-use Bivio::BConf;
-@Freiker::BConf::ISA = ('Bivio::BConf');
-
-=head1 DESCRIPTION
-
-Configuration.
-
-=cut
-
-#=IMPORTS
-# NOTE: Only import the bare minimum, because this class must be
-# initialized just after Bivio::IO::Config.
-
-#=VARIABLES
-
-=head1 METHODS
-
-=cut
-
-=for html <a name="dev_overrides"></a>
-
-=head2 dev_overrides(string pwd, string host, string user, int http_port) : hash_ref
-
-Development environment configuration.
-
-=cut
+our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub dev_overrides {
-    my($proto, $pwd, $host, $user, $http_port) = @_;
-    return {
-    };
+    return {};
 }
-
-=for html <a name="merge_overrides"></a>
-
-=head2 merge_overrides(string host) : hash_ref
-
-Base configuration.
-
-=cut
 
 sub merge_overrides {
     my($proto, $host) = @_;
-    return {
-        $proto->default_merge_overrides(Freiker => fr => 'bivio Software, Inc.'),
+    return Bivio::IO::Config->merge_list({
         $proto->merge_class_loader({
             delegates => {
 		'Bivio::Agent::HTTP::Cookie' => 'Bivio::Delegate::Cookie',
@@ -93,6 +36,9 @@ sub merge_overrides {
  	'Bivio::SQL::PropertySupport' => {
  	    unused_classes => [],
  	},
+	'Bivio::Test::Language::HTTP' => {
+	    deprecated_text_patterns => 0,
+	},
         'Bivio::UI::Facade' => {
 	    default => 'Freiker',
 	    http_suffix => 'www.freiker.org',
@@ -109,19 +55,9 @@ sub merge_overrides {
 	'Bivio::Test::HTMLParser::Forms' => {
 	    error_color => 'error',
 	},
-    };
+    }, {
+        $proto->default_merge_overrides(Freiker => fr => 'bivio Software, Inc.'),
+    });
 }
-
-#=PRIVATE METHODS
-
-=head1 COPYRIGHT
-
-opyright (c) 2005 bivio Software, Inc.  All rights reserved.
-
-=head1 VERSION
-
-$Id$
-
-=cut
 
 1;

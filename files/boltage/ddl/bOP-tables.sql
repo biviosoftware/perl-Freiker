@@ -133,6 +133,7 @@ CREATE TABLE forum_t (
   parent_realm_id NUMERIC(18) NOT NULL,
   want_reply_to NUMERIC(1) NOT NULL,
   is_public_email NUMERIC(1) NOT NULL,
+  require_otp NUMERIC(1) NOT NULL,
   CONSTRAINT forum_t1 PRIMARY KEY(forum_id)
 )
 /
@@ -175,6 +176,16 @@ CREATE TABLE motion_vote_t (
   vote NUMERIC(2) NOT NULL,
   creation_date_time DATE NOT NULL,
   CONSTRAINT motion_vote_t1 PRIMARY KEY(motion_id, user_id)
+)
+/
+
+CREATE TABLE otp_t (
+  user_id NUMERIC(18) NOT NULL,
+  otp_md5 VARCHAR(16) NOT NULL,
+  seed VARCHAR(8) NOT NULL,
+  sequence NUMERIC(3) NOT NULL,
+  last_login DATE NOT NULL,
+  CONSTRAINT otp_t1 primary key(user_id)
 )
 /
 
@@ -253,6 +264,13 @@ CREATE TABLE tuple_use_t  (
   label VARCHAR(100) NOT NULL,
   moniker VARCHAR(100) NOT NULL,
   CONSTRAINT tuple_use_t1 PRIMARY KEY(realm_id, tuple_def_id)
+)
+/
+
+CREATE TABLE realm_dag_t (
+  parent_id NUMERIC(18) NOT NULL,
+  child_id NUMERIC(18) NOT NULL,
+  constraint realm_dag_t1 primary key (parent_id, child_id)
 )
 /
 

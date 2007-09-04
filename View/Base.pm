@@ -60,22 +60,22 @@ sub internal_xhtml_adorned {
 				'RealmUser.role' => Bivio::Auth::Role->ADMINISTRATOR,
 			    },
 			)}),
-			map(+{
-			    task_id => 'MERCHANT_PRIZE_LIST',
-			    label => String($_->{'RealmOwner.display_name'}),
-			    realm => $_->{'RealmOwner.name'},
-			    query => undef,
-			}, sort {
-			    $a->{'RealmOwner.display_name'}
-				cmp $b->{'RealmOwner.display_name'}
-			} @{$req->map_user_realms(
-			    undef,
-			    {
-				'RealmOwner.realm_type' => Bivio::Auth::RealmType->FORUM,
-			    },
-			)}),
+# 			map(+{
+# 			    task_id => 'MERCHANT_PRIZE_LIST',
+# 			    label => String($_->{'RealmOwner.display_name'}),
+# 			    realm => $_->{'RealmOwner.name'},
+# 			    query => undef,
+# 			}, sort {
+# 			    $a->{'RealmOwner.display_name'}
+# 				cmp $b->{'RealmOwner.display_name'}
+# 			} @{$req->map_user_realms(
+# 			    undef,
+# 			    {
+# 				'RealmOwner.realm_type' => Bivio::Auth::RealmType->FORUM,
+# 			    },
+# 			)}),
 			'CLUB_REGISTER',
-			'MERCHANT_REGISTER',
+# 			'MERCHANT_REGISTER',
 		    ]),
 		}],
 		If([sub {

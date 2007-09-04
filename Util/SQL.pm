@@ -15,6 +15,13 @@ sub ddl_files {
     return shift->SUPER::ddl_files(['bOP', 'fr']);
 }
 
+sub initialize_db {
+    return shift->call_super_before(\@_, sub {
+        shift->new_other('SiteForum')->init;
+	return;
+    });
+}
+
 sub init_realm_role {
     my($self) = shift;
     my(@res) = $self->SUPER::init_realm_role(@_);
@@ -32,8 +39,7 @@ sub init_realm_role {
 sub initialize_test_data {
     my($self) = @_;
     my($req) = $self->get_request;
-    $self->create_test_user(Freiker::Test->ADM);
-    $self->new_other('Bivio::Biz::Util::RealmRole')->make_super_user;
+    $self->new_other('TestUser')->init;
     foreach my $x (qw(WHEEL SPONSOR_EMP DISTRIBUTOR_EMP)) {
 	$self->model(UserRegisterForm => {
 	    'RealmOwner.display_name' => Freiker::Test->$x(),
@@ -107,12 +113,6 @@ sub initialize_test_data {
 	});
     }
     $self->new_other('Test')->reset_prizes_for_school;
-    return;
-}
-
-sub internal_upgrade_db {
-    my($self) = @_;
-    $self->internal_upgrade_db_website;
     return;
 }
 
