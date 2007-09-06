@@ -14,8 +14,8 @@ sub execute {
         || $m->find_row_by_type(Bivio::Auth::RealmType->CLUB)
     ) {
 	$req->set_realm($m->get('RealmUser.realm_id'));
-	return 'merchant_task'
-	    if $req->get_nested(qw(auth_realm type))->eq_forum;
+# 	return 'merchant_task'
+# 	    if $req->get_nested(qw(auth_realm type))->eq_forum;
 	return 'wheel_task'
 	    if $m->get('RealmUser.role')->eq_administrator;
     }
