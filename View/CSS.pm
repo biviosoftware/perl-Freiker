@@ -95,6 +95,9 @@ img.graph {
   float: right;
   margin: 1em 0 1em 1em;
 }
+div.wiki {
+  width: 40em;
+}
 .prose, .form_prose, .list_prose, div.press, table.prizes {
   width: 40em;
   text-align: left;
