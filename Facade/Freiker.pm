@@ -220,6 +220,7 @@ EOF
 	    ok_button => 'Send',
 	]],
 	[prose => [
+	    wiki_by_line => '',
 	    LOGIN => q{Already registered?  Link('Click here to login.', {task_id => 'LOGIN', no_context => 1});},
 	    USER_CREATE => q{Child not registered?  vs_link('Click here to register.', 'USER_CREATE');},
 	    CLUB_REGISTER => q{Would you like to become a wheel? vs_link('Click here to register your school.', 'CLUB_REGISTER');},
