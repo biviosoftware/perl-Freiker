@@ -31,6 +31,7 @@ sub merge_overrides {
 		TestLanguage => ['Freiker::Test'],
 		Type => ['Freiker::Type'],
 		View => ['Freiker::View'],
+		FacadeComponent => ['Freiker::FacadeComponent'],
 	    },
         }),
  	'Bivio::SQL::PropertySupport' => {

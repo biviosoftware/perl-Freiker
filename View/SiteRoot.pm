@@ -238,6 +238,7 @@ sub hm_press {
 	    ])),
 	    DD(Link(B($_->[1]), $_->[2])),
 	), [
+# http://www.velonews.com/tech/report/articles/13247.0.html
 	    '6/19/2007',
 	    'Colorado Safe Routes to School Program',
 	    'http://www.saferoutesinfo.org/online_library/details.cfm?id=2193',

@@ -7,6 +7,12 @@ use Bivio::Base 'Bivio::UI::View::CSS';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 my($_SITE) = __PACKAGE__->internal_compress(<<'EOF');
+h2 {
+  Font('title');
+}
+.main_top .byline {
+  float: right;
+}
 td.header_left, td.header_right, td.main_left {
   width: 11em;
 }
@@ -161,14 +167,6 @@ div.crest_view {
   padding: 10px;
   vertical-align: middle;
 }
-#parents .list td {
-  padding-top: .05em;
-  padding-bottom: .05em;
-}
-#parents .list {
-  margin-top: -1ex;
-  margin-bottom: 1ex;
-}
 .learn_more {
   font-size: 80%;
   white-space: nowrap;
@@ -288,6 +286,12 @@ table.prizes span.desc p.prose {
 }
 table.prizes span.name, table.prizes span.rides {
   Font('strong');
+}
+body.body_wiki_Home .main_top .title {
+  display: none;
+}
+body.body_wiki_Home .main_top .byline {
+ float: none;
 }
 EOF
 
