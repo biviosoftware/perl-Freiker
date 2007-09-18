@@ -21,6 +21,26 @@ sub get_delegate_info {
 	    next=USER_REALMLESS_REDIRECT
 	    FORBIDDEN=LOGIN
 	)],
+ 	[qw(
+ 	    FORUM_WIKI_VIEW
+ 	    48
+ 	    FORUM
+ 	    ANYBODY
+ 	    Action.WikiView
+	    View.Wiki->view
+	    MODEL_NOT_FOUND=FORUM_WIKI_NOT_FOUND
+	    edit_task=FORUM_WIKI_EDIT
+	    want_author=1
+ 	)],
+ 	[qw(
+ 	    FORUM_FILE
+ 	    52
+ 	    FORUM
+ 	    ANYBODY
+ 	    Action.RealmFile
+        )],
+#TODO: Blog
+
 # 	[qw(
 # 	    MY_CLUB_SITE
 # 	    6
