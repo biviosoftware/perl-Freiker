@@ -37,7 +37,7 @@ sub get_delegate_info {
  	    52
  	    FORUM
  	    ANYBODY
- 	    Action.RealmFile
+ 	    Action.RealmFile->access_controlled_execute
         )],
 #TODO: Blog
 
