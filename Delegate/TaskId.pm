@@ -262,6 +262,14 @@ sub get_delegate_info {
 	    View.School->prize
 	    next=CLUB_PRIZE_LIST
 	)],
+	[qw(
+	    CLUB_RIDE_DATE_LIST
+	    525
+	    CLUB
+	    ADMIN_READ
+	    Model.ClubRideDateList->execute_load_page
+	    View.School->ride_date_list
+	)],
     ]);
 }
 
