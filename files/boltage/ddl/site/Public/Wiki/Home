@@ -1,6 +1,8 @@
+@div.prose
 @h2 The Frequent Biker Program
 @a.movie href=freikometer.avi ^freikometer.gif
 @h3 Fried-o-whatsit?
+@p.prose
 That's "Freikometer", and it adds a lot of fun to bike encouragement
 programs.  Freiker's success is due to fantatical dedication to data.
 Like many other bike programs, we started with punch cards.  The next

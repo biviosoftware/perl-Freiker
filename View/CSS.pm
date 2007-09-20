@@ -104,6 +104,10 @@ div.topic {
   text-align: left;
   padding: 1ex 0 1ex 0;
 }
+! IE Bug: If you set .prose, it'll work badly
+.prose {
+  width: auto;
+}
 .list .label {
   padding-top: .2em;
   padding-right: .5em;
