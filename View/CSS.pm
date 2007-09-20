@@ -22,6 +22,18 @@ td.header_left {
 td.header_middle {
   width: auto;
 }
+td.header_middle div.donate {
+  margin: 2ex 0 2ex 0;
+  text-align: center;
+}
+td.header_middle div.donate div.msg {
+  text-align: center;
+  font-size: 120%;
+  font-weight: bold;
+  font-style: italic;
+  Color('notice');
+  text-decoration: underline;
+}
 td.main_left div.login {
   text-align: center;
   Color('left_login-background');

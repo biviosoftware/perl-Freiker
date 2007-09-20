@@ -15,24 +15,18 @@ sub internal_xhtml_adorned {
     my($self) = @_;
     my(@res) = shift->SUPER::internal_xhtml_adorned(@_);
     view_unsafe_put(
-#TODO: Dead?
-# 	base_realm => If(
-# 	    [qw(auth_realm ->has_owner)],
-# 	    Join([
-# 		String(['auth_realm', 'owner', 'display_name']),
-# 		If([qw(auth_realm type ->eq_club)],
-# 		   String(' Family')),
-# 	    ]),
-# 	    'Freiker',
-# 	),
-	base_menu => TaskMenu([
-	    map(+{xlink => SiteRoot($_)},
-		qw(hm_index hm_parents hm_press hm_prizes hm_sponsors hm_wheels)),
-	]),
 	xhtml_title => Prose(
 #TODO: Incorporate RealmOwner.display_name
 #TODO: Give parent access to freiker's realm?
 	    vs_text([sub {"xhtml.title.$_[1]"}, ['task_id', '->get_name']]),
+	),
+	wiki_widget_contact => vs_gears_email(),
+	wiki_widget_paypal_form => DIV_donate(
+	    Form(PayPalForm => Join([
+		SPAN_money('$'),
+		FormField('PayPalForm.amount', {class => 'money'}),
+		FormButton('ok_button'),
+	    ])),
 	),
     );
     view_unsafe_put(
@@ -110,7 +104,10 @@ sub internal_xhtml_adorned {
 		   ' ',
 	       ),
 	    ),
-	    view_widget_value('base_menu'),
+	    WikiText('@b-menu.left_nav Main', {
+		realm_id => vs_constant('site_realm_id'),
+		task_id => 'FORUM_WIKI_VIEW',
+	    }),
 	]),
 	xhtml_header_middle => DIV_donate(
 	    Link(
@@ -118,21 +115,19 @@ sub internal_xhtml_adorned {
 		    Image('donate', 'Please donate'),
 		    DIV_msg(q{It's tax-deductible!}),
 		]),
-		'SITE_DONATE',
+		URI({
+		    realm => vs_constant('site_realm_name'),
+		    task_id => 'PAYPAL_FORM',
+		    query => undef,
+		    path_info => undef,
+		}),
 	    ),
 	),
-	xhtml_header_right => DIV_user_state(
-	    Director([qw(user_state ->get_name)], {
-		JUST_VISITOR => XLink('user_create_no_context'),
-		LOGGED_OUT => XLink('login_no_context'),
-		LOGGED_IN => XLink('LOGOUT'),
-	    }),
-	),
 	xhtml_footer_middle => TaskMenu([
-	    'SITE_DONATE',
+	    'PAYPAL_FORM',
 	    'SITE_ROOT',
-	    XLink('login_no_context'),
-	    'USER_CREATE',
+	    XLink('user_logged_out'),
+	    XLink('user_just_visitor'),
 	]),
     );
     return @res;

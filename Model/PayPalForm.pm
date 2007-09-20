@@ -58,4 +58,27 @@ sub internal_initialize {
     });
 }
 
+sub internal_post_execute {
+    my($self) = @_;
+    my($req) = $self->req;
+    $req->put(path_info => 'Donate');
+    $self->use('Action.WikiView')->execute_prepare_html(
+	$req,
+	undef,
+	Bivio::Agent::TaskId->FORUM_WIKI_VIEW,
+    );
+    return;
+}
+
+sub internal_pre_execute {
+    my($self) = @_;
+    my($req) = $self->req;
+    $self->throw_die(NOT_FOUND => {
+	message => 'Only works in site realm',
+	enity => $req->get('auth_id'),
+    }) unless Bivio::UI::Constant->get_value(site_realm_id => $req)
+	eq $req->get('auth_id');
+    return;
+}
+
 1;

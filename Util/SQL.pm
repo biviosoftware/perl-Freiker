@@ -116,4 +116,9 @@ sub initialize_test_data {
     return;
 }
 
+sub internal_upgrade_db_site_wiki {
+    my($self) = @_;
+    return;
+}
+
 1;

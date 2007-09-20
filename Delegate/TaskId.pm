@@ -26,7 +26,7 @@ sub get_delegate_info {
  	    48
  	    FORUM
  	    ANYBODY
- 	    Action.WikiView
+	    Action.WikiView->execute_prepare_html
 	    View.Wiki->view
 	    MODEL_NOT_FOUND=FORUM_WIKI_NOT_FOUND
 	    edit_task=FORUM_WIKI_EDIT
@@ -201,12 +201,12 @@ sub get_delegate_info {
 	    MODEL_NOT_FOUND=MERCHANT_PRIZE_REDEEM
 	)],
 	[qw(
-	    SITE_DONATE
+	    PAYPAL_FORM
 	    518
-	    GENERAL
+	    FORUM
 	    ANYBODY
 	    Model.PayPalForm
-	    Action.LocalFilePlain->execute_uri_as_view
+	    View.Wiki->view
 	    next=SITE_ROOT
         )],
 	[qw(
