@@ -1,4 +1,3 @@
-@div.prose
 @h2 The Frequent Biker Program
 @a.movie href=freikometer.avi ^freikometer.gif
 @h3 Fried-o-whatsit?
@@ -23,7 +22,7 @@ The best way to understand how the Freikometer works is to see it in
 action.  
 @a href=freikometer.avi View the movie (5mb).
 
-@h3 Freiker Doubles Ridership!^freiker-weather.png
+@h3 Freiker Doubles Ridership! ^freiker-weather.png
 Twice as many kids are riding to
 @a href=http://schools.bvsd.org/crestview Crest View Elementary
 than were riding two years ago.  Why?  iPods.  It's that simple. Kids who
