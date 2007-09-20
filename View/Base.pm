@@ -38,6 +38,7 @@ sub internal_xhtml_adorned {
 		    my($req) = shift->get_request;
 #TODO: Refactor: Make a redirect task for realms?
 		    TaskMenu([
+			'ADM_SUBSTITUTE_USER',
 			'FAMILY_FREIKER_LIST',
 			map(+{
 			    task_id => 'CLUB_FREIKER_LIST',
@@ -106,6 +107,7 @@ sub internal_xhtml_adorned {
 	    ),
 	    WikiText('@b-menu.left_nav Main', {
 		realm_id => vs_constant('site_realm_id'),
+		realm_name => vs_constant('site_realm_name'),
 		task_id => 'FORUM_WIKI_VIEW',
 	    }),
 	]),
@@ -119,12 +121,15 @@ sub internal_xhtml_adorned {
 		    realm => vs_constant('site_realm_name'),
 		    task_id => 'PAYPAL_FORM',
 		    query => undef,
-		    path_info => undef,
 		}),
 	    ),
 	),
 	xhtml_footer_middle => TaskMenu([
-	    'PAYPAL_FORM',
+	    {
+		task_id => 'PAYPAL_FORM',
+		realm => vs_constant('site_realm_name'),
+		query => undef,
+	    },
 	    'SITE_ROOT',
 	    XLink('user_logged_out'),
 	    XLink('user_just_visitor'),
