@@ -1,13 +1,15 @@
+@h2 For Parents
+
 @a href=/pub/register Register your family here.
 
 The Freiker Program encourages kids to ride their bikes to school.  The
 program is
-@a href=/hm/wheels run by volunteers
+@a href=Wheels run by volunteers
 and supported with
-@a href=/hm/sponsors donations from sponsors
+@a href=Sponsors donations from sponsors
 as
 well as parents.  
-@a href=/hm/donate Please donate to Freiker!
+@a href=/site/donate Please donate to Freiker!
 
 @h3 RFID tags
 
@@ -19,13 +21,13 @@ late to school or are an afternoon kindergartner, don't worry, you'll be
 counted.  The RFID tag does not identify your child.  This
 is to help ensure you and your child's privacy.  The code is unique, which is
 how our software knows your child has ridden that day.  We 
-@b do not require
+@strong do not require
 any information that would identify your child.
 
 @h3 Prizes
 
 Everybody can 
-@a href=/hm/prizes win a prize@
+@a href=Prizes win a prize@
 .  Freiker is not a
 competition between children, classes, or schools.  After ten rides, every
 Freiker (program participant) is eligible for a prize.  At the end of the
@@ -55,9 +57,7 @@ the Add Missing Ride link.
 
 @h3 Cheating
 
-Each school's 
-@a href=/hm/wheels Wheels
-decide what is cheating.  Some
+Each school's ^Wheels decide what is cheating.  Some
 schools include scooters.  Others don't allow them.  With an iPod at
 stake, cheating is inevitable.  If your child is caught checking in with
 the Freikometer, and she hasn't ridden to school that day, she will lose
@@ -73,7 +73,7 @@ are to be seen.  Freiker encourages kids to ride safely.  We will supply
 helmets to children who need and cannot afford them.  Your child must wear
 a helmet to participate in the program.
 
-@b Parents are responsible for their child's safety.
+@strong Parents are responsible for their child's safety.
 Please teach your children about road safety.
 We recommend you ride with your child until you are satisfied
 your child can ride alone. There are many excellent resources that help
@@ -94,11 +94,7 @@ From time to time, we may take photographs of your child.  We may
 put your child's picture on our website, in a brochure, or other
 printed materials to show how much fun Freiker is.  If you do not
 want your child's picture published, please contact us at 
-@span class=email
-gears@
-@img alt="at sign image to help avoid spam" class=at height=15 src=/i/at.gif width=15 @
-ski.local@
-@/span@
+@b-widget contact@
 .
 We understand and completely respect your desire
 to maintain your family's privacy.
@@ -107,16 +103,13 @@ to maintain your family's privacy.
 
 Your help would be greatly appreciated.  If you already have
 a 
-@a href=/hm/wheels wheel (lead volunteer)
+@a href=Wheels wheel (lead volunteer)
 at your school, just
 go to your bike rack on a Monday morning.  If you would like to bring
 Freiker to your school, please contact us at 
-@span class=email
-gears@
-@img alt="at sign image to help avoid spam" class=at height=15 src=/i/at.gif width=15 @
-ski.local@
-@/span@
-.  If you are politically
+@b-widget contact@
+.
+If you are politically
 inclined, please go to school board and/or city council meetings and
 tell them about Freiker.  If you know how to write grants, we could
 use your help, too.
@@ -128,20 +121,16 @@ We will gladly accept donations.
 0% of our funds are used for administrative or overhead expenses.
 Our program is entirely volunteer run, including the software and hardware
 to run our website.  We need your help.
-@a href=/hm/donate
-@b Click here to learn how to donate to Freiker!
+@a href=/site/donate
+@strong Click here to learn how to donate to Freiker!
 @/a
 It's tax-deductible!
 
 @h3 Feedback
 
 We encourage feedback so please contact us at 
-@span class=email
-gears@
-@img alt="at sign image to help avoid spam" class=at height=15 src=/i/at.gif width=15 @
-ski.local@
-@/span@
- with your
+@b-widget contact
+with your
 questions, comments, and/or suggestions.
 
 @a href=/pub/register Register your family here.

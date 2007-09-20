@@ -1,0 +1,99 @@
+div.main_top div.title {
+  display: none;
+  margin: 0;
+  padding: 0;
+  height: 0;
+}
+div.main_top div.byline {
+  float: none;
+}
+div.main_top {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+div.wiki,
+div.wiki h3,
+div.wiki h2 {
+  width: 40em;
+  padding: 0;
+  margin: 0;
+}
+div.wiki h2 {
+  color: #666666;
+  font-size: 140%;
+  font-weight: bold;
+  margin-bottom: .5ex;
+  text-indent: 0;
+}
+div.wiki div.prose h3,
+div.wiki div.prose h4,
+div.wiki a.movie {
+  text-indent: 0;
+}
+^Press dl.press dt {
+  margin-top: 1.5ex;
+}
+^Press dl.press dd {
+  margin: .3ex 0 0 0;
+}
+^Press dl.press dd a {
+  font-weight: bold;
+}
+^Donate blockquote.address {
+  font-size: 120%;
+  font-weight: bold;
+}
+^Donate div.donate form div.field_err {
+  display: inline;
+  margin-right: .5em;
+  font-weight: bold;
+  font-size: 100%;
+}
+^Donate div.thanks {
+  padding: .5ex;
+  text-align: center;
+  font-size: 120%;
+  font-weight: bold;
+  color: 0x33CC00;
+}
+^Donate span.money {
+  font-size: 120%;
+  font-weight: bold;
+  color: 0x33CC00;
+  margin-right: .5em;
+}
+^Prizes div.wiki span.rides {
+  font-weight: bold;
+}
+^Prizes img.left {
+  padding-right: 2em;
+  clear: left;
+  float: left;
+}
+^Prizes img.right {
+  padding-left: 2em;
+  clear: right;
+  float: right;
+}
+^Prizes img.winners {
+  display: block;
+  margin: auto;
+  background: url(prize-winners.jpg) no-repeat;
+  width: 250px;
+  height: 212px;
+}
+^Home img.graph {
+  display: block;
+  float: right;
+  margin: 1em 0 1em 1em;
+}
+^Home a.movie {
+  display: block;
+  float: left;
+  margin: 0 1em 1em 0;
+}
+^Sponsors div.simple img {
+  padding: 10px;
+}

@@ -1,7 +1,6 @@
+@div.prose
 @h2 The Frequent Biker Program
-@a class=movie href=/m/freikometer.avi
-@img class=freikometer height=200 src=/i/freikometer.gif width=267 
-@/a
+@a.movie href=freikometer.avi ^freikometer.gif
 @h3 Fried-o-whatsit?
 That's "Freikometer", and it adds a lot of fun to bike encouragement
 programs.  Freiker's success is due to fantatical dedication to data.
@@ -22,13 +21,9 @@ is going well.
 
 The best way to understand how the Freikometer works is to see it in
 action.  
-@a href=/m/freikometer.avi View the movie (5mb).
+@a href=freikometer.avi View the movie (5mb).
 
-@h3
-Freiker Doubles Ridership!
-@img class=graph height=268 src=/i/freiker-weather.png width=342 
-@/h3
-
+@h3 Freiker Doubles Ridership!^freiker-weather.png
 Twice as many kids are riding to
 @a href=http://schools.bvsd.org/crestview Crest View Elementary
 than were riding two years ago.  Why?  iPods.  It's that simple. Kids who
@@ -39,7 +34,7 @@ means Freikers must ride 160 times this year.  Last year we gave out
 Crest View, Foothill Elementary, and Horizons K-8.  We gave out lots of
 other prizes, too.  Yet, the cost of the program is only about
 $5,000 per school.  Isn't it worth
-@a href=/hm/donate 10% of the price of a new Lexus
+@a href=/site/donate 10% of the price of a new Lexus
 to improve our environment by encouraging more kids to get on their
 bikes more often?
 
@@ -48,7 +43,7 @@ best in class, school, or otherwise.  Every kid wins if they try.
 Ride to school once, and you're a Freiker.  Ride to school the whole
 week, and you are entered in a drawing to win
 the 
-@a href=/hm/prizes Green Gear
+@a href=Prizes Green Gear
 and $10.
 That's an achievable goal for any kid, and it's the first step
 towards a healthier, more self-reliant, more alert student.
