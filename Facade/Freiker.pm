@@ -54,6 +54,7 @@ my($_SELF) = __PACKAGE__->new({
     ],
     Task => [
 	[CLUB_FREIKER_LIST => '?/freikers'],
+	[CLUB_RIDE_DATE_LIST => '?/ride-dates'],
 	[CLUB_PRIZE => '?/prize'],
 	[CLUB_PRIZE_LIST => '?/prizes'],
 	[CLUB_REGISTER => '/pub/register-school'],
@@ -95,6 +96,7 @@ my($_SELF) = __PACKAGE__->new({
 	[['email', 'login'] => 'Your Email'],
 	[club_name => 'Official Name'],
 	['FreikerCode.freiker_code' => q{Freiker ID}],
+	[ride_count => 'Rides'],
 	[Ride => [
 	    ride_date => 'Date',
 	]],
@@ -201,7 +203,6 @@ EOF
 	]],
 	[[qw(FreikerList ClubFreikerList)] => [
 	    'RealmOwner.display_name' => 'Freiker',
-	    ride_count => 'Rides',
 	    empty_list_prose => 'No Freikers as yet.',
 	    list_actions => 'Actions',
 	]],
@@ -259,8 +260,9 @@ EOF
 	[FAMILY_FREIKER_CODE_ADD => 'New helmet tag'],
 	[FAMILY_PRIZE_SELECT => 'Select prize'],
 	[PAYPAL_FORM => ''],
-	['xhtml.title' => [
-	    CLUB_FREIKER_LIST => "Your School's Freikers",
+	[title => [
+	    CLUB_FREIKER_LIST => 'Registered Freikers',
+	    CLUB_RIDE_DATE_LIST => 'Rides by Date',
 	    CLUB_REGISTER => 'Register Your School',
 	    CLUB_PRIZE => 'Set Rides Required Prize',
 	    CLUB_PRIZE_LIST => 'School Prizes',
@@ -288,6 +290,8 @@ EOF
 		'Enter New Freiker ID for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	]],
 	['task_menu.title' => [
+	    CLUB_FREIKER_LIST => 'Freikers',
+	    CLUB_RIDE_DATE_LIST => 'Rides',
 	    CLUB_PRIZE => 'Update prize',
 	    CLUB_PRIZE_LIST => 'Available prizes',
 	    CLUB_REGISTER => 'Register new school',
