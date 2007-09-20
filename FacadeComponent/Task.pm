@@ -8,10 +8,11 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub parse_uri {
     my($self, $uri) = (shift, shift);
-    $uri = '/go/site/wiki/' . (
-	$1 eq 'index' ? 'Home'
-	: $1 eq 'press/20060506' ? 'Press_06May2006'
-	: ucfirst($1)
+    $uri = '/go/site/' . (
+	$1 eq 'index' ? 'wiki/Home'
+	: $1 eq 'press/20060506' ? 'wiki/Press_06May2006'
+	: $1 eq 'donate' ? 'donate'
+	: ('wiki/' . ucfirst($1))
     ) if $uri =~ m{^/+hm/+(.+)$};
     return $self->SUPER::parse_uri($uri, @_);
 }
