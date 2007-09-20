@@ -23,7 +23,7 @@ sub internal_initialize {
 	    },
 	],
         group_by => ['Ride.ride_date'],
-	parent_id => [qw(FreikerCode.club_id)],
+	auth_id => [qw(FreikerCode.club_id)],
 	other => [
 	    map(+{
 		name => $_,
@@ -41,8 +41,8 @@ sub internal_prepare_statement {
 
 sub is_date_ok {
     my($self, $date) = @_;
-    $self->load_all({
-	parent_id => $self->get_request->map_user_realms(
+    $self->unauth_load_all({
+	auth_id => $self->get_request->map_user_realms(
 	    sub {shift->{'RealmUser.realm_id'}},
 	    {'RealmOwner.realm_type' => Bivio::Auth::RealmType->CLUB},
 	)->[0],
