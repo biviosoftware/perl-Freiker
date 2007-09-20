@@ -67,17 +67,17 @@ div.wiki a.movie {
 ^Prizes div.wiki span.rides {
   font-weight: bold;
 }
-^Prizes img.left {
+^Prizes a.left img {
   padding-right: 2em;
   clear: left;
   float: left;
 }
-^Prizes img.right {
+^Prizes a.right img {
   padding-left: 2em;
   clear: right;
   float: right;
 }
-^Prizes img.winners {
+^Prizes div.winners {
   display: block;
   margin: auto;
   background: url(prize-winners.jpg) no-repeat;
