@@ -34,6 +34,9 @@ sub merge_overrides {
 		FacadeComponent => ['Freiker::FacadeComponent'],
 	    },
         }),
+	'Bivio::Biz::Model::MailReceiveDispatchForm' => {
+	    ignore_dashes_in_recipient => 1,
+	},
  	'Bivio::SQL::PropertySupport' => {
  	    unused_classes => [],
  	},
