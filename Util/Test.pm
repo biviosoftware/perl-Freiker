@@ -21,7 +21,7 @@ EOF
 
 sub reset_freikometer_folders {
     my($self) = @_;
-    $self->req->assert_is_test;
+    $self->req->assert_test;
     foreach my $p (map(
 	@$_,
 	map($self->model($_)->map_iterate(sub {shift->get('RealmFile.path')}),
@@ -44,7 +44,7 @@ sub reset_freikometer_folders {
 sub reset_prizes_for_school {
     my($self) = @_;
     my($req) = $self->req;
-    $req->assert_is_test;
+    $req->assert_test;
     $req->with_user(Freiker::Test->ADM, sub {
 	$req->with_realm(Freiker::Test->SPONSOR_NAME, sub {
 	    $self->model('Prize')->do_iterate(
