@@ -59,9 +59,13 @@ sub merge_overrides {
 	'Bivio::Test::HTMLParser::Forms' => {
 	    error_color => 'error',
 	},
-    }, {
-        $proto->default_merge_overrides(Freiker => fr => 'bivio Software, Inc.'),
-    });
+    },
+    $proto->default_merge_overrides({
+	version => 2,
+	root => 'Freiker',
+	prefix => 'fr',
+	owner => 'bivio Software, Inc.',
+    }));
 }
 
 1;
