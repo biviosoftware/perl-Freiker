@@ -9,10 +9,12 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub freikometer_list {
     return shift->internal_body(
-	vs_paged_list(AdmFreikometerList => [qw(
-	    RealmOwner.name
-	    RealmFile.modified_date_time
-	)]),
+	vs_paged_list(AdmFreikometerList => [
+	    'RealmOwner.name',
+	    ['RealmFile.modified_date_time', {
+		mode => 'DATE_TIME',
+	    }],
+	]),
     );
 
 }
