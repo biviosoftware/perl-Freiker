@@ -41,7 +41,7 @@ sub FREIKER_CODE {
 }
 
 sub FREIKOMETER {
-    return 'freikometer';
+    return 'fm_freikometer';
 }
 
 sub PARENT {

@@ -8,6 +8,8 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub execute {
     my($proto, $req) = @_;
+    return 'adm_task'
+	if $req->is_super_user;
     $req->set_realm($req->get('auth_user'));
     my($m) = Bivio::Biz::Model->new($req, 'UserRealmList')->load_all;
     if ($m->find_row_by_type(Bivio::Auth::RealmType->FORUM)

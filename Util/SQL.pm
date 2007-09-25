@@ -15,6 +15,31 @@ sub ddl_files {
     return shift->SUPER::ddl_files(['bOP', 'fr']);
 }
 
+sub internal_upgrade_db_freikometer_folders {
+    my($self) = @_;
+    my($list) = {@{
+	$self->model('RealmUser')->map_iterate(
+	    sub {(shift->get('user_id') => 1)},
+	    'unauth_iterate_start',
+	    'realm_id',
+	    {role => Bivio::Auth::Role->FREIKOMETER},
+	),
+    }};
+    foreach my $fm (keys(%$list)) {
+	$self->req->with_user($fm, sub {
+	    $self->req->with_realm($fm, sub {
+		$self->model('RealmFile')->init_realm->map_invoke(
+		    create_folder => [
+			map([{path => $self->model($_)->FOLDER}],
+			    qw(FreikometerDownloadList FreikometerUploadList)),
+		    ],
+		);
+	    }),
+	});
+    }
+    return;
+}
+
 sub initialize_db {
     return shift->call_super_before(\@_, sub {
         shift->new_other('SiteForum')->init;
@@ -62,8 +87,9 @@ sub initialize_test_data {
     });
     $req->set_realm(Freiker::Test->SCHOOL_NAME);
     my($club_id) = $req->get('auth_id');
-    $self->create_test_user(Freiker::Test->FREIKOMETER);
-    $self->new_other('RealmAdmin')->join_user('FREIKOMETER');
+    $req->set_realm($club_id);
+    $self->new_other('Freikometer')->create(Freiker::Test->FREIKOMETER);
+    $self->req('auth_user')->update_password($self->TEST_PASSWORD);
     $req->set_realm($club_id);
     my($epc) = $self->use('Type.EPC');
     my($csv) = '';
@@ -113,11 +139,10 @@ sub initialize_test_data {
 	});
     }
     $self->new_other('Test')->reset_prizes_for_school;
-    return;
-}
-
-sub internal_upgrade_db_site_wiki {
-    my($self) = @_;
+    $self->use('IO.File')->do_in_dir(site => sub {
+        $self->new_other('RealmFile')
+	    ->main(qw(-user adm -realm site import_tree));
+    });
     return;
 }
 

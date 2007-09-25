@@ -19,9 +19,32 @@ commands
 EOF
 }
 
+sub reset_freikometer_folders {
+    my($self) = @_;
+    $self->req->assert_is_test;
+    foreach my $p (map(
+	@$_,
+	map($self->model($_)->map_iterate(sub {shift->get('RealmFile.path')}),
+	    qw(FreikometerDownloadList FreikometerUploadList)),
+    )) {
+	$self->model('RealmFile')->delete({path => $p});
+    }
+    $self->set_realm_and_user(
+	Freiker::Test->FREIKOMETER,
+	Freiker::Test->FREIKOMETER,
+    );
+    $self->new_other('Freikometer')->download({
+	filename => 'test.sh',
+	content_type => 'application/x-sh',
+	content => \("date\n"),
+    });
+    return;
+}
+
 sub reset_prizes_for_school {
     my($self) = @_;
-    my($req) = $self->get_request;
+    my($req) = $self->req;
+    $req->assert_is_test;
     $req->with_user(Freiker::Test->ADM, sub {
 	$req->with_realm(Freiker::Test->SPONSOR_NAME, sub {
 	    $self->model('Prize')->do_iterate(

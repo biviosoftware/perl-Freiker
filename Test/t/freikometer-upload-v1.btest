@@ -1,0 +1,12 @@
+# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+home_page();
+basic_authorization('fm_freikometer');
+my($epc) = Bivio::Type->get_instance('EPC')
+    ->new(Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE)->as_string;
+my($date) = Bivio::Type->get_instance('DateTime')->local_now_as_file_name;
+send_request(PUT => '/fm/upload', undef, <<"EOF");
+EPC,DateTime
+$epc,$date
+EOF

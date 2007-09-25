@@ -53,11 +53,14 @@ my($_SELF) = __PACKAGE__->new({
 	}],
     ],
     Task => [
+	[ADM_FREIKOMETER_LIST => '?/freikometers'],
+	[BOT_FREIKOMETER_DOWNLOAD => '?/fm-down/*'],
+	[BOT_FREIKOMETER_UPLOAD => '/fm/*'],
 	[CLUB_FREIKER_LIST => '?/freikers'],
-	[CLUB_RIDE_DATE_LIST => '?/ride-dates'],
 	[CLUB_PRIZE => '?/prize'],
 	[CLUB_PRIZE_LIST => '?/prizes'],
 	[CLUB_REGISTER => '/pub/register-school'],
+	[CLUB_RIDE_DATE_LIST => '?/ride-dates'],
 	[FAMILY_FREIKER_ADD => '?/register-freiker'],
 	[FAMILY_FREIKER_CODE_ADD => '?/add-tag'],
 	[FAMILY_FREIKER_LIST => '?/freikers'],
@@ -69,16 +72,15 @@ my($_SELF) = __PACKAGE__->new({
 	[FAMILY_PRIZE_SELECT => '?/select-prize'],
 	[FAVICON_ICO => '/favicon.ico'],
 	[FORUM_CSS => undef],
-	[FREIKOMETER_UPLOAD => '/fm/upload'],
 	[LOCAL_FILE_PLAIN => ['i/*', 'f/*', 'h/*', 'm/*']],
 	[MERCHANT_PRIZE => '?/prize'],
-	[MERCHANT_PRIZE_REDEEM => '?/redeem-coupon'],
 	[MERCHANT_PRIZE_LIST => '?/prizes'],
 	[MERCHANT_PRIZE_RECEIPT => '?/prize-receipt'],
+	[MERCHANT_PRIZE_REDEEM => '?/redeem-coupon'],
 	[MERCHANT_PRIZE_REDEEM => '?/redeem-prize'],
 	[MERCHANT_REGISTER => '/pub/register-merchant'],
-	[PAYPAL_RETURN => 'pp/*'],
 	[PAYPAL_FORM => ['?/donate']],
+	[PAYPAL_RETURN => 'pp/*'],
 	[USER_REALMLESS_REDIRECT => 'ru/*'],
     ],
     Text => [
@@ -198,6 +200,10 @@ String([qw(Model.FreikerRideList ->get_display_name)]);.
 EOF
 	    ],
 	]],
+	[AdmFreikometerList => [
+	    'RealmOwner.name' => 'Freikometer',
+	    'RealmFile.modified_date_time' => 'Last Upload',
+	]],
 	[separator => [
 	    optional => 'Optional information used for statistical purposes',
 	]],
@@ -280,6 +286,7 @@ EOF
 	    USER_CREATE => 'Please Register',
 	    LOGIN => 'Please Login',
 	    ADM_SUBSTITUTE_USER => 'Act as User',
+	    ADM_FREIKOMETER_LIST => 'Freikometers',
 	    USER_PASSWORD => 'Change Your Password',
 	    [qw(USER_CREATE_DONE GENERAL_USER_PASSWORD_QUERY)] => 'Check Your Mail',
 	    FAMILY_FREIKER_RIDE_LIST =>

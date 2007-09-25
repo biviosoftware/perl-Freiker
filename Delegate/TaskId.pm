@@ -18,6 +18,7 @@ sub get_delegate_info {
 	    merchant_task=MERCHANT_PRIZE_LIST
 	    wheel_task=CLUB_FREIKER_LIST
 	    family_task=FAMILY_FREIKER_LIST
+	    adm_task=ADM_FREIKOMETER_LIST
 	    next=USER_REALMLESS_REDIRECT
 	    FORBIDDEN=LOGIN
 	)],
@@ -142,12 +143,12 @@ sub get_delegate_info {
 	    next=FAMILY_FREIKER_LIST
 	)],
 	[qw(
-	    FREIKOMETER_UPLOAD
+	    ADM_FREIKOMETER_LIST
 	    511
-	    GENERAL
-	    ANYBODY
-	    Action.BasicAuthorization
-	    Action.FreikometerUpload
+	    USER
+	    SUPER_USER_TRANSIENT
+	    Model.AdmFreikometerList->execute_load_page
+	    View.Adm->freikometer_list
 	)],
 	[qw(
 	    CLUB_FREIKER_LIST
@@ -269,6 +270,22 @@ sub get_delegate_info {
 	    ADMIN_READ
 	    Model.ClubRideDateList->execute_load_page
 	    View.School->ride_date_list
+	)],
+	[qw(
+	    BOT_FREIKOMETER_UPLOAD
+	    526
+	    GENERAL
+	    ANYBODY
+	    Action.FreikometerUpload
+	    Action.FreikometerDownload->execute_redirect_next_get
+	    Action.EmptyReply
+	)],
+	[qw(
+	    BOT_FREIKOMETER_DOWNLOAD
+	    527
+	    USER
+	    ADMIN_READ
+	    Action.FreikometerDownload->execute_get
 	)],
     ]);
 }
