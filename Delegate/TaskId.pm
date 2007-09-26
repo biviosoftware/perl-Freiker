@@ -145,8 +145,8 @@ sub get_delegate_info {
 	[qw(
 	    ADM_FREIKOMETER_LIST
 	    511
-	    USER
-	    SUPER_USER_TRANSIENT
+	    GENERAL
+	    ADMIN_READ
 	    Model.AdmFreikometerList->execute_load_page
 	    View.Adm->freikometer_list
 	)],

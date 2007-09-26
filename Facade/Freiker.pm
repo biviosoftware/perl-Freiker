@@ -53,7 +53,7 @@ my($_SELF) = __PACKAGE__->new({
 	}],
     ],
     Task => [
-	[ADM_FREIKOMETER_LIST => '?/freikometers'],
+	[ADM_FREIKOMETER_LIST => 'adm/freikometers'],
 	[BOT_FREIKOMETER_DOWNLOAD => '?/fm-down/*'],
 	[BOT_FREIKOMETER_UPLOAD => '/fm/*'],
 	[CLUB_FREIKER_LIST => '?/freikers'],
