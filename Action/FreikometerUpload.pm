@@ -29,7 +29,7 @@ sub execute {
     my($pi) = $req->get('path_info');
     # Old upload.PL used /fm/upload
     $pi = $_D->local_now_as_file_name . '.csv'
-	if $pi eq 'upload';
+	if $pi eq '/upload';
     Bivio::IO::Log->write_compressed(
 	File::Spec->catfile(
 	    $req->get('auth_user')->get('name'),
