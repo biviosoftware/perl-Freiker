@@ -28,7 +28,7 @@ sub execute {
     $req->set_realm($r->[0]);
     my($pi) = $req->get('path_info');
     # Old upload.PL used /fm/upload
-    $pi = $_D->local_now_as_file_name . '.csv'
+    $pi = $_D->to_file_name($_D->local_today) . '.csv'
 	if $pi eq '/upload';
     Bivio::IO::Log->write_compressed(
 	File::Spec->catfile(
