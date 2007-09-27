@@ -14,6 +14,7 @@ usage: fr-freikometer [options] command [args..]
 commands
   create name -- creates freikometer in realm
   download file ... - downloads files to freikometer realm
+  reboot -- reboots a freikometer
 EOF
 }
 
@@ -45,18 +46,23 @@ sub download {
     $self->usage_error(
 	$self->req('auth_realm'), ': -realm must be a freikometer',
     ) unless $self->req(qw(auth_realm type))->eq_user;
-    my($suffix) = qr{^(?:rpm|pl|sh|tgz)$};
     return [map({
 	my($f) = $_;
-	$self->usage_error($f->{filename}, ": suffix must match $suffix")
-	    unless $_FP->get_suffix($f->{filename}) =~ $suffix;
 	$self->model('RealmFile')->create_with_content({
 	    path => $_FP->join(
 		$self->model('FreikometerDownloadList')->FOLDER,
-		$_DT->local_now_as_file_name. '-' . $f->{filename},
+		$f->{filename},
 	    ),
 	}, $f->{content})->get('path');
     } @files)];
+}
+
+sub reboot {
+    return shift->download({
+	filename => 'reboot',
+	content => \('reboot'),
+	content_type => 'application/octet',
+    });
 }
 
 1;
