@@ -75,7 +75,7 @@ sub freiker_ride_list {
 		query => {
 		    'ListQuery.parent_id' => [[qw(Model.FreikerRideList ->get_query)], 'parent_id'],
 		},
-	    }, qw(FAMILY_MANUAL_RIDE_FORM FAMILY_FREIKER_CODE_ADD FAMILY_PRIZE_COUPON_LIST)),
+	    }, qw(FAMILY_MANUAL_RIDE_FORM FAMILY_FREIKER_CODE_ADD)),
 	    {
 		task_id => 'FAMILY_FREIKER_LIST',
 		label => 'back_to_family',
