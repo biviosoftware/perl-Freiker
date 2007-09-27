@@ -28,12 +28,13 @@ sub execute {
     $req->set_realm($r->[0]);
     my($pi) = $req->get('path_info');
     # Old upload.PL used /fm/upload
-    $pi = $_D->local_now_as_file_name . '.csv'
-	if $pi eq '/upload';
+    $pi = $_FP->get_clean_tail(
+	$pi ne '/upload' ? $pi
+	: $_D->local_now_as_file_name . '.csv');
     Bivio::IO::Log->write_compressed(
 	File::Spec->catfile(
 	    $req->get('auth_user')->get('name'),
-	    $_DT->local_now_as_file_name . '-' . $_FP->get_clean_tail($pi)
+	    $_DT->local_now_as_file_name . '-' . $pi,
 	),
 	$req->get_content,
 	$req,
