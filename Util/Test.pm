@@ -14,6 +14,7 @@ sub USAGE {
     return <<'EOF';
 usage: fr-test [options] command [args..]
 commands
+  reset_freikometer_folders -- clears folders and sets up one download
   reset_prizes_for_school -- create bunit10, bunit20, bunit50, bunit1000
   reset_rides_for_child_0 -- give 100 rides to child_0
 EOF
@@ -27,7 +28,7 @@ sub reset_freikometer_folders {
 	map($self->model($_)->map_iterate(sub {shift->get('RealmFile.path')}),
 	    qw(FreikometerDownloadList FreikometerUploadList)),
     )) {
-	$self->model('RealmFile')->delete({path => $p});
+	$self->model('RealmFile')->delete_deep({path => $p});
     }
     $self->set_realm_and_user(
 	Freiker::Test->FREIKOMETER,
