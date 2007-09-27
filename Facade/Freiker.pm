@@ -184,7 +184,7 @@ my($_SELF) = __PACKAGE__->new({
 	]],
 	[FreikerCodeForm => [
 	    prose => [
-		prologue => q{Enter the new Freiker ID from the tag on your child's helmet.  If the tag is missing from your child's helmet or you need another tag for a new helmet, vs_wheel_contact();.},
+		prologue => q{Enter the new Freiker ID from the tag on your child's helmet.  If the tag is missing from your child's helmet or you need another tag for a new helmet, vs_wheel_Contact();.},
 	    ],
 	    ok_button => 'Add tag',
 	]],
@@ -289,6 +289,8 @@ EOF
 	    ADM_FREIKOMETER_LIST => 'Freikometers',
 	    USER_PASSWORD => 'Change Your Password',
 	    [qw(USER_CREATE_DONE GENERAL_USER_PASSWORD_QUERY)] => 'Check Your Mail',
+	]],
+	['xhtml.title' => [
 	    FAMILY_FREIKER_RIDE_LIST =>
 		'String([qw(Model.FreikerRideList ->get_display_name)]); Rides',
 	    FAMILY_MANUAL_RIDE_FORM =>
