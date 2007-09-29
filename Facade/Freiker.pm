@@ -184,7 +184,7 @@ my($_SELF) = __PACKAGE__->new({
 	]],
 	[FreikerCodeForm => [
 	    prose => [
-		prologue => q{Enter the new Freiker ID from the tag on your child's helmet.  If the tag is missing from your child's helmet or you need another tag for a new helmet, vs_wheel_Contact();.},
+		prologue => q{Enter the new Freiker ID from the tag on your child's helmet.  If the tag is missing from your child's helmet or you need another tag for a new helmet, vs_wheel_contact();.},
 	    ],
 	    ok_button => 'Add tag',
 	]],
