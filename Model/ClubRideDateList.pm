@@ -11,6 +11,7 @@ sub internal_initialize {
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
 	can_iterate => 1,
+	date => 'Ride.ride_date',
 	primary_key => ['Ride.ride_date'],
         order_by => [
 	    'Ride.ride_date',
