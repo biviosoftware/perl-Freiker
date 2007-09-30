@@ -11,6 +11,10 @@ sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
+	date => {
+	    name => 'Ride.ride_date',
+	    in_select => 0,
+	},
 	primary_key => [
 	    ['RealmUser.user_id', 'Ride.realm_id', 'RealmOwner.realm_id'],
 	],
@@ -29,10 +33,6 @@ sub internal_initialize {
 	    ['RealmUser.role', [Bivio::Auth::Role->MEMBER]],
 	    {
 		name => 'Ride.freiker_code',
-		in_select => 0,
-	    },
-	    {
-		name => 'Ride.ride_date',
 		in_select => 0,
 	    },
 	    {
