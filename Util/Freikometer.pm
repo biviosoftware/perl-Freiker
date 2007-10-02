@@ -46,7 +46,7 @@ sub create {
 }
 
 sub do_all {
-    my($self, $method, @args) = shift->arg_list(\@_, ['Text']);
+    my($self, $method, @args) = shift->arg_list(\@_, [['Text']]);
     return join(
 	"\n",
 	@{$self->model('AdmFreikometerList')->map_iterate(sub {
@@ -60,7 +60,7 @@ sub do_all {
 }
 
 sub do_command {
-    my($self, @cmd) = shift->arg_list(\@_, ['Text']);
+    my($self, @cmd) = shift->arg_list(\@_, [['Text']]);
     return $self->download({
 	filename => $_DT->local_now_as_file_name . '.sh',
 	content => \(join("\n", @cmd, '')),
@@ -69,7 +69,7 @@ sub do_command {
 }
 
 sub download {
-    my($self, @file) = shift->arg_list(\@_, ['FileArg']);
+    my($self, @file) = shift->arg_list(\@_, [['FileArg']]);
     $self->usage_error(
 	$self->req('auth_realm'), ': -realm must be a freikometer',
     ) unless $self->req(qw(auth_realm type))->eq_user;
