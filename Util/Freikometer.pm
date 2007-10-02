@@ -13,7 +13,11 @@ sub USAGE {
 usage: fr-freikometer [options] command [args..]
 commands
   create name -- creates freikometer in realm
-  download file ... - downloads files to freikometer realm
+  do_all method args -- runs method with args on all fms
+  do_command cmd ... -- runs cmd(s) on freikometer in shell
+  download file ... -- downloads files to freikometer realm
+  list_download -- lists the download folder
+  list_upload -- lists the upload folder
   reboot -- reboots a freikometer
 EOF
 }
@@ -41,28 +45,79 @@ sub create {
     return [$req->format_http('BOT_FREIKOMETER_UPLOAD'), $name, $p];
 }
 
+sub do_all {
+    my($self, $method, @args) = shift->arg_list(\@_, ['Text']);
+    return join(
+	"\n",
+	@{$self->model('AdmFreikometerList')->map_iterate(sub {
+            my($n) = shift->get('RealmOwner.name');
+	    my($res) = $self->req->with_realm($n, sub {$self->$method(@args)});
+	    return "$n:\n"
+		. (ref($res) ? ${Bivio::IO::Ref->to_string($res)} : $res)
+		. "\n";
+	})},
+    );
+}
+
+sub do_command {
+    my($self, @cmd) = shift->arg_list(\@_, ['Text']);
+    return $self->download({
+	filename => $_DT->local_now_as_file_name . '.sh',
+	content => \(join("\n", @cmd, '')),
+	content_type => 'text/plain',
+    });
+}
+
 sub download {
-    my($self, @files) = shift->arg_list(\@_, ['FileArg']);
+    my($self, @file) = shift->arg_list(\@_, ['FileArg']);
     $self->usage_error(
 	$self->req('auth_realm'), ': -realm must be a freikometer',
     ) unless $self->req(qw(auth_realm type))->eq_user;
-    return [map({
-	my($f) = $_;
-	$self->model('RealmFile')->create_with_content({
-	    path => $_FP->join(
-		$self->model('FreikometerDownloadList')->FOLDER,
-		$f->{filename},
-	    ),
-	}, $f->{content})->get('path');
-    } @files)];
+    return $self->req->with_user(
+	$self->req('auth_user') || $self->req(qw(auth_realm owner)),
+	sub {
+	    map({
+		my($f) = $_;
+		$self->model('RealmFile')->create_or_update_with_content({
+		    path => $_FP->join(
+			$self->model('FreikometerDownloadList')->FOLDER,
+			$f->{filename},
+		    ),
+		}, $f->{content})->get('path');
+	    } @file);
+	    return $self->list_download;
+        },
+    );
+}
+
+sub list_download {
+    return _list('Download', @_);
+}
+
+sub list_upload {
+    return _list('Upload', @_);
 }
 
 sub reboot {
     return shift->download({
-	filename => 'reboot',
+	filename => '00-REBOOT',
 	content => \('reboot'),
-	content_type => 'application/octet',
+	content_type => 'text/plain',
     });
+}
+
+sub _list {
+    my($which, $self) = @_;
+    return join(
+	"\n",
+	@{$self->model("Freikometer${which}List")->map_iterate(sub {
+            my($d, $p) = shift->get(qw(
+	        RealmFile.modified_date_time
+	        RealmFile.path
+	    ));
+	    return $_DT->to_local_string($d) . ' ' . ($p =~ m{([^/]+)$})[0];
+	})},
+    );
 }
 
 1;
