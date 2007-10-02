@@ -12,7 +12,9 @@ sub FOLDER_LC {
 
 sub internal_initialize {
     my($self) = @_;
-    return $self->merge_initialize_info($self->SUPER::internal_initialize, {
+    my($parent) = $self->SUPER::internal_initialize;
+    push(@{$parent->{other} ||= []}, @{$parent->{order_by} || []});
+    return $self->merge_initialize_info($parent, {
         version => 1,
         order_by => [
 	    {
