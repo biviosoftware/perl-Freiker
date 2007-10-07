@@ -35,7 +35,7 @@ sub last_week {
 	    content_type => 'text/plain',
 	}),
 	$self->commit_or_rollback,
-	$self->new_other('Freiker')->info($winner->get('freiker_code')),
+	_info($self, $winner->get('freiker_code')),
     ];
 }
 
@@ -76,6 +76,22 @@ sub _choose {
 	$self->model('Address')->load->get('zip'),
 	$choices->[Bivio::Biz::Random->integer(scalar(@$choices))],
     );
+}
+
+sub _info {
+    my($self, $freiker_code) = @_;
+    my($club_id) = $self->model('FreikerCode', {
+	freiker_code => $freiker_code,
+    })->get('club_id');
+    my($user_id);
+    $self->model('Ride')->do_iterate(sub {
+	$user_id = shift->get('realm_id');
+	return 0;
+    }, unauth_iterate_start => 'ride_date', {
+	freiker_code => $freiker_code,
+    });
+    return $self->model(RealmOwner => {realm_id => $user_id})->get('realm_type')->eq_club ? ()
+	: $self->new_other('Freiker')->info($freiker_code);
 }
 
 sub _search_dow {
