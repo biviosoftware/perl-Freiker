@@ -23,10 +23,13 @@ EOF
 sub last_week {
     my($self) = @_;
     my($winner) = _choose($self, _choices($self));
-    return (
-	$winner->as_string, ',', $winner->get('freiker_code'), ',gg=',
-	$_D->to_string($_D->local_today),
-	"\n",
+    return [
+	$winner->as_string
+	    . ','
+	    . $winner->get('freiker_code')
+	    .',gg='
+	    . $_D->to_string($_D->local_today)
+	    . "\n",
 	$self->new_other('Freikometer')->do_all(download => {
 	    filename => 'green_gear',
 	    content => \($winner->as_string),
@@ -34,7 +37,7 @@ sub last_week {
 	}),
 	$self->commit_or_rollback,
 	$self->new_other('Freiker')->info($winner->get('freiker_code')),
-    );
+    ];
 }
 
 sub _choices {
