@@ -28,8 +28,7 @@ sub last_week {
 	    . ','
 	    . $winner->get('freiker_code')
 	    .',gg='
-	    . $_D->to_string($_D->local_today)
-	    . "\n",
+	    . $_D->to_string($_D->local_today),
 	$self->new_other('Freikometer')->do_all(download => {
 	    filename => 'green_gear',
 	    content => \($winner->as_string),
