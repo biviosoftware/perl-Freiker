@@ -49,7 +49,10 @@ sub do_all {
     my($self, $method, @args) = shift->arg_list(\@_, [['Text']]);
     return join(
 	"\n",
-	@{$self->model('AdmFreikometerList')->map_iterate(sub {
+	@{$self->model(
+	    $self->req('auth_realm')->is_general ? 'AdmFreikometerList'
+		: 'FreikometerList',
+	)->map_iterate(sub {
             my($n) = shift->get('RealmOwner.name');
 	    my($res) = $self->req->with_realm($n, sub {$self->$method(@args)});
 	    return "$n:\n"
