@@ -87,9 +87,11 @@ sub initialize_test_data {
     });
     $req->set_realm(Freiker::Test->SCHOOL_NAME);
     my($club_id) = $req->get('auth_id');
-    $req->set_realm($club_id);
-    $self->new_other('Freikometer')->create(Freiker::Test->FREIKOMETER);
-    $self->req('auth_user')->update_password($self->TEST_PASSWORD);
+    foreach my $fm (map(Freiker::Test->FREIKOMETER($_), 0..1)) {
+	$req->set_realm($club_id);
+	$self->new_other('Freikometer')->create($fm);
+	$self->req('auth_user')->update_password($self->TEST_PASSWORD);
+    }
     $req->set_realm($club_id);
     my($epc) = $self->use('Type.EPC');
     my($csv) = '';

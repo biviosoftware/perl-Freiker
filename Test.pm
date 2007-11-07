@@ -41,7 +41,8 @@ sub FREIKER_CODE {
 }
 
 sub FREIKOMETER {
-    return 'fm_freikometer';
+    my(undef, $which) = @_;
+    return 'fm_freikometer' . ($which ? $which : '');
 }
 
 sub PARENT {
