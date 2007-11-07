@@ -1,0 +1,26 @@
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+Request('initialize_fully');
+foreach my $fm (map(class('Freiker::Test')->FREIKOMETER($_), 1, 0)) {
+    req()->set_realm_and_user($fm);
+    model('RealmFile')->delete_deep({path => '/Download'});
+    shell_util(Freikometer => ['download', from_type(qw(FileArg FreikometerDownload/t1.txt))]);
+}
+commit();
+[
+    class() => [
+	execute_redirect_next_get => [
+	    [req()] => sub {
+		my(undef, $actual) = @_;
+		var(path_info => $actual->[0]->{path_info} || die);
+		return 1;
+	    },
+	],
+	execute_get => [
+	    sub {
+		req()->put(path_info => var('path_info'));
+		return [req()];
+	    } => undef,
+	],
+    ],
+];
