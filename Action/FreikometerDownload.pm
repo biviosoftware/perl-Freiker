@@ -3,7 +3,6 @@
 package Freiker::Action::FreikometerDownload;
 use strict;
 use Bivio::Base 'Action.RealmFile';
-use Bivio::Agent::Job::Dispatcher;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FOLDER_RE) = qr{^\Q@{[
