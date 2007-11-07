@@ -11,7 +11,7 @@ my($_FOLDER_RE) = qr{^\Q@{[
 ]}/}o;
 sub execute_get {
     my($proto, $req, @rest) = @_;
-    my(@res) = $proto->SUPER::execute($req, @rest);
+    my(@res) = $proto->SUPER::access_controlled_execute($req, @rest);
     my($rf) = Bivio::Biz::Model->new($req, 'RealmFile');
     my($pi) = $req->get('path_info');
     $req->throw_die(CORRUPT_QUERY => {
