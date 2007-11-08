@@ -28,7 +28,7 @@ sub reset_freikometer_folders {
 	map($self->model($_)->map_iterate(sub {shift->get('RealmFile.path')}),
 	    qw(FreikometerDownloadList FreikometerUploadList)),
     )) {
-	$self->model('RealmFile')->delete_deep({path => $p});
+	$self->model('RealmFile')->unauth_delete_deep({path => $p});
     }
     $self->set_realm_and_user(
 	Freiker::Test->FREIKOMETER,
