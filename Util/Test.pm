@@ -45,6 +45,8 @@ sub reset_freikometer_folders {
 sub reset_prizes_for_school {
     my($self) = @_;
     my($req) = $self->req;
+#TODO: Get working agin
+    return;
     $req->assert_test;
     $req->with_user(Freiker::Test->ADM, sub {
 	$req->with_realm(Freiker::Test->SPONSOR_NAME, sub {
