@@ -12,8 +12,9 @@ send_request(PUT => "/fm/$date.csv", undef, <<"EOF");
 EPC,DateTime
 $epc,$date
 EOF
+
 # Set by reset_freikometer_folders
-test_ok(get_uri() =~ m{.*-test\.sh$});
+test_ok(get_uri() =~ m{.*test\.sh$});
 test_equals("date\n", get_content());
 home_page();
 do_logout();
