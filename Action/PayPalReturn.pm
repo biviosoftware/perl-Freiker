@@ -14,8 +14,11 @@ sub execute {
     my($pi, $q) = $req->get(qw(path_info query));
     ($pi, $q) = ($pi || '?') =~ /^(.*?)\?(.*)$/s
 	unless $q;
-    return {
+    return $pi ? {
 	uri => $pi,
+	query => $q,
+    } : {
+	task_id => 'SITE_ROOT',
 	query => $q,
     };
 }
