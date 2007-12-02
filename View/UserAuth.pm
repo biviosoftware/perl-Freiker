@@ -41,7 +41,7 @@ tax-deductible.  We have been very successful at increasing ridership
 in Boulder.  With success comes increased costs.  Please take a minute
 to donate:
 
-Link('/hm/donate');
+Link('/site/donate');
 
 We accept checks and credit cards through PayPal.  You don't have to
 register with PayPal, just skip down to "Don't have a PayPal Account?"
