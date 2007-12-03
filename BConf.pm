@@ -61,7 +61,7 @@ sub merge_overrides {
 	},
     },
     $proto->default_merge_overrides({
-	version => 2,
+	version => 3,
 	root => 'Freiker',
 	prefix => 'fr',
 	owner => 'bivio Software, Inc.',
