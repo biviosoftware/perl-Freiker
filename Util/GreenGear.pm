@@ -90,7 +90,8 @@ sub _info {
     }, unauth_iterate_start => 'ride_date', {
 	freiker_code => $freiker_code,
     });
-    return $self->model(RealmOwner => {realm_id => $user_id})->get('realm_type')->eq_club ? ()
+    return $self->unauth_model(RealmOwner => {realm_id => $user_id})
+	->get('realm_type')->eq_club ? ()
 	: $self->new_other('Freiker')->info($freiker_code);
 }
 

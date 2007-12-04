@@ -20,7 +20,7 @@ sub info {
     my($self, @ids) = _args(@_);
     return join('', map(
 	$self->new_other('RealmAdmin')->info(
-	    $self->model(RealmOwner => {realm_id => $_})),
+	    $self->unauth_model(RealmOwner => {realm_id => $_})),
 	@ids,
     ));
 }
@@ -29,13 +29,13 @@ sub missing_rides {
     my($self, $user_id, $club_id, $family_id) = _args(@_);
     my($req) = $self->get_request;
     my($dates) = {@{
-	$self->model('ClubRideDateList', {auth_id => $club_id})
+	$self->unauth_model('ClubRideDateList', {auth_id => $club_id})
 	    ->map_rows(sub {shift->get('Ride.ride_date') => 1}),
     }};
     $req->with_realm(
 	$family_id,
 	sub {
-	    $self->model('FreikerRideList', {
+	    $self->unauth_model('FreikerRideList', {
 		parent_id => $user_id,
 		auth_id => $req->get('auth_id'),
 	    })->do_rows(sub {
