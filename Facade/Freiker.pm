@@ -71,7 +71,6 @@ my($_SELF) = __PACKAGE__->new({
 	[FAMILY_PRIZE_COUPON_LIST => '?/prize-coupons'],
 	[FAMILY_PRIZE_SELECT => '?/select-prize'],
 	[FAVICON_ICO => '/favicon.ico'],
-	[FORUM_CSS => undef],
 	[LOCAL_FILE_PLAIN => ['i/*', 'f/*', 'h/*', 'm/*']],
 	[MERCHANT_PRIZE => '?/prize'],
 	[MERCHANT_PRIZE_LIST => '?/prizes'],
