@@ -102,7 +102,6 @@ my($_SELF) = __PACKAGE__->new({
 	    ride_date => 'Date',
 	]],
 	['WikiView.start_page' => 'Home'],
-	['WikiStyle.css_file_name' => 'wiki.css'],
 	['Address.zip.desc' =>
 	     q{A 9-digit US zip code is required.  Link('Look it up at the USPS.', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});},
         ],
