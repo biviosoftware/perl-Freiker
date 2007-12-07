@@ -6,7 +6,7 @@ use Bivio::Base 'Bivio::UI::View::CSS';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
-my($_SITE) = __PACKAGE__->internal_compress(<<'EOF');
+my($_SITE) = <<'EOF';
 h2 {
   Font('title');
 }
