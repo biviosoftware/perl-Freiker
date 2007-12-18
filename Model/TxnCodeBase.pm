@@ -21,6 +21,7 @@ sub create {
 	    $values->{$field} = $ft->generate_random;
 	} while grep($_ eq $values->{$field}, @$codes);
     }) unless $values->{$field};
+Bivio::IO::Alert->info($values);
     return shift->SUPER::create(@_);
 }
 

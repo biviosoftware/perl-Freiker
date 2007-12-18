@@ -22,34 +22,6 @@ sub get_delegate_info {
 	    next=USER_REALMLESS_REDIRECT
 	    FORBIDDEN=LOGIN
 	)],
- 	[qw(
- 	    FORUM_WIKI_VIEW
- 	    48
- 	    FORUM
- 	    ANYBODY
-	    Action.WikiView->execute_prepare_html
-	    View.Wiki->view
-	    MODEL_NOT_FOUND=FORUM_WIKI_NOT_FOUND
-	    edit_task=FORUM_WIKI_EDIT
-	    want_author=1
- 	)],
- 	[qw(
- 	    FORUM_FILE
- 	    52
- 	    FORUM
- 	    ANYBODY
- 	    Action.RealmFile->access_controlled_execute
-        )],
-#TODO: Blog
-
-# 	[qw(
-# 	    MY_CLUB_SITE
-# 	    6
-# 	    GENERAL
-# 	    ANY_USER
-# 	    Bivio::Auth::RealmType->execute_club
-# 	    Action.ClientRedirect->execute_path_info
-# 	)],
 	[qw(
 	    MERCHANT_REGISTER
 	    501

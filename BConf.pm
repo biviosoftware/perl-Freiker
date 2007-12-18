@@ -21,7 +21,6 @@ sub merge_overrides {
 	      	'Bivio::Type::RealmName' => 'Freiker::Delegate::RealmName',
 	      	'Bivio::Auth::Permission' => 'Freiker::Delegate::Permission',
 	      	'Bivio::Auth::Role' => 'Freiker::Delegate::Role',
-		'Bivio::TypeError' => 'Freiker::Delegate::TypeError',
 	    },
 	    maps => {
 		Action => ['Freiker::Action'],

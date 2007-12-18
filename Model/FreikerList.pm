@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Model::FreikerList;
 use strict;
-use base 'Freiker::Model::YearBaseList';
+use Bivio::Base 'Model.YearBaseList';
 use Freiker::Biz;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
@@ -16,7 +16,7 @@ sub internal_initialize {
 	    in_select => 0,
 	},
 	primary_key => [
-	    ['RealmUser.user_id', 'Ride.realm_id', 'RealmOwner.realm_id'],
+	    [qw(RealmUser.user_id Ride.user_id RealmOwner.realm_id FreikerCode.user_id)],
 	],
         order_by => [
 	    'RealmOwner.display_name',
@@ -30,15 +30,11 @@ sub internal_initialize {
 		select_value => 'COUNT(*) as ride_count',
 		sort_order => 0,
 	    },
-	    ['RealmUser.role', [Bivio::Auth::Role->MEMBER]],
-	    {
-		name => 'Ride.freiker_code',
+	    ['RealmUser.role', ['FREIKER']],
+	    map(+{
+		name => $_,
 		in_select => 0,
-	    },
-	    {
-		name => 'RealmUser.role',
-		in_select => 0,
-	    },
+	    }, qw(Ride.ride_upload_id RealmUser.role FreikerCode.freiker_code)),
 	],
 	auth_id => 'RealmUser.realm_id',
 	group_by => [qw(

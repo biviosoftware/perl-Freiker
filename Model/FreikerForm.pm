@@ -1,12 +1,12 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::FreikerForm;
 use strict;
 use Bivio::Base 'Model.FreikerCodeForm';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_D) = Bivio::Type->get_instance('Date');
-my($_G) = Bivio::Type->get_instance('Gender');
+my($_D) = __PACKAGE__->use('Type.Date');
+my($_G) = __PACKAGE__->use('Type.Gender');
 
 sub execute_empty {
     my($self) = @_;
@@ -17,25 +17,22 @@ sub execute_empty {
 sub execute_ok {
     my($self) = @_;
     my($req) = $self->get_request;
-    $self->internal_put_field(
-	'User.birth_date' => $_D->date_from_parts(
-	    1, 1, $self->get('birth_year')));
-    my($uid) = ($self->new_other('User')->create_realm(
-	$self->get_model_properties('User'),
-	{},
-    ))[0]->get('user_id');
-    my($ru) = $self->new_other('RealmUser')->create({
+    my(@res) = shift->SUPER::execute_ok(@_);
+    return if $self->in_error;
+    $self->internal_put_field('User.birth_date' =>
+        $_D->date_from_parts(1, 1, $self->get('birth_year')));
+    my($u) = $self->get_model('User')
+	->update($self->get_model_properties('User'));
+    $self->new_other('RealmUser')->create({
 	realm_id => $req->get('auth_id'),
-	user_id => $uid,
-        role => Bivio::Auth::Role->MEMBER,
+	user_id => $u->get('user_id'),
+#TODO: FREIKER role.  There are no privs.  Just a FREIKER.
+        role => Bivio::Auth::Role->FREIKER,
     });
-    $ru->create({
-	realm_id => $self->get('Club.club_id'),
-	user_id => $uid,
-	role => Bivio::Auth::Role->MEMBER,
+    $u->get_model('RealmOwner')->update({
+	display_name => $u->get('first_name'),
     });
-    $self->internal_put_field('Ride.realm_id' => $uid);
-    return shift->SUPER::execute_ok(@_);
+    return @res;
 }
 
 sub internal_initialize {
@@ -43,9 +40,10 @@ sub internal_initialize {
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
         visible => [
-	    'User.first_name',
-	    'FreikerCode.freiker_code',
-	    'Club.club_id',
+	    {
+		name => 'User.first_name',
+		constraint => 'NOT_NULL',
+	    },
 	    {
 		name => 'birth_year',
 		type => 'Year',
@@ -55,28 +53,9 @@ sub internal_initialize {
 	],
 	other => [
 	    'User.birth_date',
+	    [qw(FreikerCode.user_id User.user_id)],
 	],
     });
-}
-
-sub internal_pre_execute {
-    my($self) = @_;
-    $self->new_other('ClubSelectList')->load_all;
-    return;
-}
-
-sub validate {
-    my($self) = @_;
-    return if $self->in_error;
-    my($req) = $self->get_request;
-    my($l) = $req->get('Model.ClubSelectList');
-    return $self->internal_put_error('Club.club_id' => 'NULL')
-	if $l->EMPTY_KEY_VALUE eq $self->get('Club.club_id');
-    return $self->internal_put_error('Club.club_id' => 'NOT_FOUND')
-	unless $l->find_row_by_id($self->get('Club.club_id'));
-    $self->internal_put_field(
-	'FreikerCode.club_id' => $self->get('Club.club_id'));
-    return shift->SUPER::validate(@_);
 }
 
 1;

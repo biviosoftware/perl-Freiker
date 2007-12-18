@@ -30,6 +30,7 @@ sub internal_initialize {
 	    coupon_code => ['PrizeCoupon.coupon_code', 'PRIMARY_KEY'],
 	    realm_id => ['RealmOwner.realm_id', 'PRIMARY_KEY'],
 	    user_id => ['User.user_id', 'NOT_NULL'],
+# do we need this?
 	    receipt_code => ['TxnCode', 'NOT_NULL'],
             creation_date_time => ['DateTime', 'NOT_NULL'],
 	},

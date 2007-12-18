@@ -1,16 +1,39 @@
 # Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 ListModel();
-req()->set_realm('parent');
-do('./SetupRides.PL');
+my($today) = do('./SetupRides.PL');
 [
-    load_all => [
-	[] => [{
-	    ride_count => 2,
-	    'RealmOwner.display_name' => 'child0',
-	}, {
-	    ride_count => 1,
-	    'RealmOwner.display_name' => 'child1',
-	}],
+    {
+	method => 'load_all',
+	compute_params => sub {
+	    my(undef, $params) = @_;
+	    return $params
+		if ref($params->[0]);
+	    req()->set_realm($params->[0]);
+	    return [];
+	},
+	compute_return => sub {
+	    return shift->get('object')->map_rows(
+		sub {[shift->get(qw(RealmOwner.display_name ride_count))]},
+	    );
+	},
+    } => [
+	bunit123456789 => [
+	    [1236 => 1],
+	    [1237 => 1],
+	    [1238 => 1],
+	    [child0 => 100],
+	    [child1 => 1],
+        ],
+	parent => [
+	    [child0 => 100],
+	    [child1 => 1],
+        ],
+	[{
+	    begin_date => $today,
+	    end_date => $today,
+	}] => [
+	    [child0 => 1],
+	],
     ],
 ];

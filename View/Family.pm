@@ -8,28 +8,21 @@ use Bivio::UI::ViewLanguageAUTOLOAD;
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub freiker_add {
-    return shift->internal_body(vs_simple_form(FreikerForm => [qw{
-        FreikerForm.User.first_name
-	FreikerForm.FreikerCode.freiker_code
-    },
-	['FreikerForm.Club.club_id' => {
-	    wf_class => 'Select',
-	    choices => ['Model.ClubSelectList'],
-	    list_id_field => 'Club.club_id',
-	    list_display_field => 'RealmOwner.display_name',
-	}],
-    qw{
-	-optional
-	FreikerForm.birth_year
-    },
+    return shift->internal_body(vs_simple_form(FreikerForm => [
+        'FreikerForm.User.first_name',
+	'FreikerForm.FreikerCode.freiker_code',
+        _club_id('FreikerForm'),
+	'-optional',
+	'FreikerForm.birth_year',
         ['FreikerForm.User.gender', {class => 'radio_grid'}],
     ]));
 }
 
 sub freiker_code_add {
-    return shift->internal_body(vs_simple_form(FreikerCodeForm => [qw{
-	FreikerForm.FreikerCode.freiker_code
-    }]));
+    return shift->internal_body(vs_simple_form(FreikerCodeForm => [
+	'FreikerCodeForm.FreikerCode.freiker_code',
+        _club_id('FreikerCodeForm'),
+    ]));
 }
 
 sub freiker_list {
@@ -122,6 +115,16 @@ sub prize_coupon_list {
 sub prize_select {
      return shift->internal_body(
 	 vs_prize_list(PrizeSelectList => [qw(THIS_DETAIL FAMILY_PRIZE_CONFIRM)]));
+}
+
+sub _club_id {
+    my($form) = @_;
+    return ["$form.Club.club_id" => {
+	wf_class => 'Select',
+	choices => ['Model.ClubSelectList'],
+	list_id_field => 'Club.club_id',
+	list_display_field => 'RealmOwner.display_name',
+    }];
 }
 
 1;

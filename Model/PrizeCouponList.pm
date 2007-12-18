@@ -18,7 +18,7 @@ sub internal_initialize {
 	],
 	other => [
             'PrizeCoupon.ride_count',
-	    ['RealmUser.role', ['MEMBER']],
+	    ['RealmUser.role', ['FREIKER']],
 	    [qw(PrizeCoupon.prize_id Prize.prize_id)],
 	    'Prize.name',
 	    'Prize.detail_uri',

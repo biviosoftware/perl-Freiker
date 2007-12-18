@@ -1,11 +1,7 @@
 # Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
-
 require 'prize_coupon.PL';
-
-my($child_id) = req()->set_realm('child0')->get('id');
-my($prize_id);
-
+my($prize_id, $child_id);
 FormModel({
     setup_request => sub {
 	req()->put(query => {
@@ -15,13 +11,13 @@ FormModel({
 	return;
     },
 });
-
+req()->set_realm('bunit123456789');
 shell_util(Test => ['reset_prizes_for_school']);
-shell_util(Test => ['reset_rides_for_child_0']);
-
+req()->set_realm('bunit123456789');
+shell_util(Test => ['reset_prizes_for_child_0']);
+$child_id = realm_id('child0');
+$prize_id = unauth_model(Prize => {name => 'bunit50'})->get('prize_id');
 req()->set_realm_and_user(qw(parent parent));
-$prize_id = model(Prize => {name => 'bunit50'})->get('prize_id');
-
 [
     empty_case({
 	'Prize.name' => 'bunit50',
@@ -37,6 +33,8 @@ $prize_id = model(Prize => {name => 'bunit50'})->get('prize_id');
     },
     inline_case(sub {
        create_prize_coupon('bunit50');
+       commit();
+       return;
     }),
     [{}] => DIE()->MODEL_NOT_FOUND,
 ];

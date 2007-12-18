@@ -12,12 +12,6 @@ FormModel({
     },
 });
 req()->set_realm('parent');
-$child_id = model(RealmOwner => {
-    name => class('Freiker::Test')->CHILD(1),
-})->get('realm_id');
 my($today) = do('./SetupRides.PL');
 req()->set_realm_and_user(qw(parent parent));
-my($school_id) = model(RealmOwner => {
-    name => Freiker::Test->SCHOOL_NAME,
-})->get('realm_id');
-($today, $child_id, $school_id);
+($today, $child_id = realm_id('child1'), realm_id('bunit123456789'));

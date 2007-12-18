@@ -2,28 +2,22 @@
 # $Id$
 package Freiker::Model::FreikerCode;
 use strict;
-use base 'Bivio::Biz::PropertyModel';
-use Bivio::Util::CSV;
+use Bivio::Base 'Model.RealmBase';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_EPC) = Bivio::Type->get_instance('EPC');
 
-sub import_csv {
-    my($self, $csv) = @_;
-    my($req) = $self->get_request;
-    my($zip) = $self->new_other('Address')->load->get('zip');
-    my($res) = 0;
-    foreach my $row (@{Bivio::Util::CSV->parse($csv)}) {
-	my($epc) = $_EPC->from_literal_or_die($row->[0]);
-	Bivio::Die->die($epc->get('zip'), ': invalid zip; expected: ', $zip)
-	    unless $epc->get('zip') eq $zip;
-	$self->create({
-	    freiker_code => $epc->get('freiker_code'),
-	    club_id => $req->get('auth_id'),
-	});
-	$res++;
-    }
-    return $res;
+sub REALM_ID_FIELD {
+    return 'club_id';
+}
+
+sub create_from_epc_and_code {
+    my($self, $epc, $code) = @_;
+    return $self->create({
+	epc => $epc,
+	freiker_code => $code,
+	user_id => $self->new_other('User')->create_freiker($code),
+    });
 }
 
 sub internal_initialize {
@@ -33,9 +27,23 @@ sub internal_initialize {
 	table_name => 'freiker_code_t',
 	columns => {
 	    freiker_code => ['FreikerCode', 'PRIMARY_KEY'],
-            club_id => ['Club.club_id', 'NOT_NULL'],
+	    epc => ['EPC', 'NOT_NULL'],
+            user_id => ['User.user_id', 'NOT_NULL'],
+	    modified_date_time => ['DateTime', 'NOT_NULL'],
         },
     });
+}
+
+sub unsafe_get_realm_ids {
+    my($self, $freiker_code) = @_;
+    return !$self->unauth_load({freiker_code => $freiker_code}) ? () : (
+	$self->get(qw(user_id club_id)),
+	$self->get_request->with_realm($self->get('user_id'), sub {
+	    Bivio::Die->eval(sub {
+	        $self->new_other('RealmUser')->get_any_online_admin;
+	    });
+	}),
+    );
 }
 
 1;

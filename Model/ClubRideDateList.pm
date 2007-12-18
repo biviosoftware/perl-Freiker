@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Model::ClubRideDateList;
 use strict;
-use base 'Freiker::Model::YearBaseList';
+use Bivio::Base 'Model.YearBaseList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
@@ -20,7 +20,7 @@ sub internal_initialize {
 		type => 'Integer',
 		constraint => 'NOT_NULL',
 		in_select => 1,
-		select_value => 'COUNT(ride_t.freiker_code) AS ride_count',
+		select_value => 'COUNT(ride_t.user_id) AS ride_count',
 	    },
 	],
         group_by => ['Ride.ride_date'],
@@ -29,15 +29,10 @@ sub internal_initialize {
 	    map(+{
 		name => $_,
 		in_select => 0,
-	    }, qw(FreikerCode.freiker_code Ride.freiker_code)),
+	    }, qw(Ride.user_id FreikerCode.freiker_code)),
+	    [qw(Ride.user_id FreikerCode.user_id)],
 	],
     });
-}
-
-sub internal_prepare_statement {
-    my($self, $stmt) = @_;
-    $stmt->where([qw(FreikerCode.freiker_code Ride.freiker_code)]);
-    return;
 }
 
 sub is_date_ok {

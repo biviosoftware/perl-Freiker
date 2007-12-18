@@ -1,16 +1,6 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
-my($today) = class('Type.Date')->now;
-my($yesterday) = class('Type.Date')->add_days($today, -1);
-foreach my $n (0, 1) {
-    req()->set_user(class('Freiker::Test')->CHILD($n));
-    req()->with_realm(req('auth_user_id'), sub {model('Ride')->delete_all()});
-    foreach my $d ($yesterday, $n ? () : $today) {
-	model('Ride')->create({
-	    realm_id => req('auth_user_id'),
-	    ride_date => $d,
-	    freiker_code => class('Freiker::Test')->FREIKER_CODE($n),
-	});
-    }
-}
-$today;
+req()->set_realm('bunit123456789');
+shell_util(Test => ['reset_freikers']);
+class('Type.Date')->now;
+

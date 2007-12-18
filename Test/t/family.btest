@@ -1,0 +1,37 @@
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+home_page();
+do_test_backdoor(Test => 'reset_freikers');
+login_as('parent');
+follow_link('register.*child');
+submit_form({
+    first => 'Bobby',
+    freiker => '1236',
+    school => 'bunit Elementary',
+    birth => '1999',
+    radio => 'Male',
+});
+follow_link_in_table(qw(freiker freiker bobby action helmet));
+sleep(1);
+submit_form({
+    freiker => '1237',
+    school => 'bunit Elementary',
+});
+verify_text('Bobby (1237, 1236)');
+follow_link('missing');
+my($d) = test_use('Type.Date');
+submit_form({
+    date => $d->now_as_string,
+});
+verify_table(Date => [
+    ['Date'],
+    map([$d->to_string($d->add_days($d->now, 0))],
+	0, -2, -3,),
+]);
+follow_link('helmet');
+test_deviance('already assigned');
+submit_form({
+    freiker => '1237',
+    school => 'bunit Elementary',
+});

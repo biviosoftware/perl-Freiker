@@ -2,7 +2,7 @@
 # $Id$
 ShellUtil();
 [
-    [qw(reset_rides_for_child_0)] => sub {
+    [qw(reset_freikers)] => sub {
 	assert_equals(100 => req()->with_realm('child0' => sub {
 	    return int(@{model('Ride')->map_iterate});
 	}));

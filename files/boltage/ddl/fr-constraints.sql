@@ -1,4 +1,4 @@
--- Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
+-- Copyright (c) 2005-2007 bivio Software, Inc.  All rights reserved.
 -- $Id$
 --
 -- Constraints & Indexes for Freiker Models
@@ -47,6 +47,23 @@ ALTER TABLE freiker_code_t
   ADD CONSTRAINT freiker_code_t3
   FOREIGN KEY (club_id)
   REFERENCES club_t(club_id)
+/
+CREATE INDEX freiker_code_t4 ON freiker_code_t (
+  user_id
+)
+/
+ALTER TABLE freiker_code_t
+  ADD CONSTRAINT freiker_code_t5
+  FOREIGN KEY (user_id)
+  REFERENCES user_t(user_id)
+/
+CREATE UNIQUE INDEX freiker_code_t6 ON freiker_code_t (
+  epc
+)
+/
+CREATE INDEX freiker_code_t7 ON freiker_code_t (
+  modified_date_time
+)
 /
 
 --
@@ -182,14 +199,14 @@ CREATE UNIQUE INDEX prize_receipt_t8 ON prize_receipt_t (
 --
 -- ride_t
 --
-CREATE INDEX ride_t2 ON ride_t (
-  freiker_code
-)
-/
 ALTER TABLE ride_t
-  ADD CONSTRAINT ride_t3
-  FOREIGN KEY (freiker_code)
-  REFERENCES freiker_code_t(freiker_code)
+  ADD CONSTRAINT ride_t2
+  FOREIGN KEY (user_id)
+  REFERENCES user_t(user_id)
+/
+CREATE INDEX ride_t3 ON ride_t (
+  user_id
+)
 /
 CREATE INDEX ride_t4 ON ride_t (
   ride_date
@@ -197,18 +214,36 @@ CREATE INDEX ride_t4 ON ride_t (
 /
 ALTER TABLE ride_t
   ADD CONSTRAINT ride_t5
-  FOREIGN KEY (realm_id)
-  REFERENCES realm_owner_t(realm_id)
+  FOREIGN KEY (ride_upload_id)
+  REFERENCES ride_upload_t(ride_upload_id)
 /
 CREATE INDEX ride_t6 ON ride_t (
-  realm_id
+  ride_upload_id
 )
 /
-CREATE INDEX ride_t7 ON ride_t (
+
+--
+-- ride_upload_id
+--
+ALTER TABLE ride_upload_t
+  ADD CONSTRAINT ride_upload_t2
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/
+CREATE INDEX ride_upload_t3 ON ride_upload_t (
+  club_id
+)
+/
+ALTER TABLE ride_upload_t
+  ADD CONSTRAINT ride_upload_t4
+  FOREIGN KEY (freikometer_user_id)
+  REFERENCES user_t(user_id)
+/
+CREATE INDEX ride_upload_t5 ON ride_upload_t (
+  freikometer_user_id
+)
+/
+CREATE INDEX ride_upload_t4 ON ride_upload_t (
   creation_date_time
 )
-/
-ALTER TABLE ride_t
-  ADD CONSTRAINT ride_t8
-  CHECK (is_manual_entry BETWEEN 0 AND 1)
 /

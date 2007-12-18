@@ -13,7 +13,7 @@ well as parents.
 
 @h3 RFID tags
 
-To participate in the program, your child's helmet is marked with an
+To participate in the program, your child's helmet is marked with a
 Radio Frequency Identifier (RFID) tag by a Freiker volunteer.
 Every day your child must ride by the Freikometer
 to be counted.  The Freikometer runs before and after school so if you are
@@ -34,10 +34,11 @@ Freiker (program participant) is eligible for a prize.  At the end of the
 year, there's a party for all Freikers, even if you have only ridden to
 school one time!  You just need your Freiker helmet tag to get in.
 
-Every Monday one child wins an extra prize called the
-Green Gear along with $10 cash.  To be eligible for the Green Gear, a
-child must ride every school day the prior week.  The Green Gear is
-selected randomly from the children who rode the entire week.
+@!Every Monday one child wins an extra prize called the
+@!@a href=^Green_Gear Green Gear
+@!along with $10 cash.  To be eligible for the Green Gear, a
+@!child must ride every school day the prior week.  The Green Gear is
+@!selected randomly from the children who rode the entire week.
 
 @a href=/pub/register Parents must register
 with this website.
@@ -117,9 +118,7 @@ use your help, too.
 @h3 Donations
 
 We will gladly accept donations.
-100% of individual donations are used directly for the program and that
-0% of our funds are used for administrative or overhead expenses.
-Our program is entirely volunteer run, including the software and hardware
+Our program has been entirely volunteer run to date, including the software and hardware
 to run our website.  We need your help.
 @a href=/site/donate
 @strong Click here to learn how to donate to Freiker!

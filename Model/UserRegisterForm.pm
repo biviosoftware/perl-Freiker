@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Model::UserRegisterForm;
 use strict;
-use base 'Bivio::Biz::Model::UserRegisterForm';
+use Bivio::Base 'Model';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
@@ -21,7 +21,10 @@ sub internal_initialize {
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
         visible => [
-	    'Address.zip',
+	    {
+		name => 'Address.zip',
+		type => 'USZipCode9',
+	    },
 	],
     });
 }

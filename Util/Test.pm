@@ -9,15 +9,69 @@ use Freiker::Test::Freiker;
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = Bivio::Type->get_instance('Date');
 my($_FF) = Bivio::Type->get_instance('FileField');
+my($_SA) = __PACKAGE__->use('Type.StringArray');
 
 sub USAGE {
     return <<'EOF';
 usage: fr-test [options] command [args..]
 commands
+  reset_freikers -- deletes and creates unregistered rides
   reset_freikometer_folders -- clears folders and sets up one download
   reset_prizes_for_school -- create bunit10, bunit20, bunit50, bunit1000
-  reset_rides_for_child_0 -- give 100 rides to child_0
 EOF
+}
+
+sub reset_freikers {
+    my($self) = @_;
+    my($req) = $self->req;
+    $req->set_realm(Freiker::Test->SCHOOL_NAME);
+    my($club_id) = $req->get('auth_id');
+    my($fc) = $self->model('FreikerCode');
+    my($rides) = [];
+    my($now) = $_D->now;
+    my($indexes) = [0..4];
+    foreach my $u (@{$_SA->sort_unique([
+	map(
+	    $fc->unsafe_load({
+		freiker_code => Freiker::Test->FREIKER_CODE($_),
+	    }) ? ($fc->get('user_id'), $fc->delete)[0] : (),
+	    @$indexes,
+	),
+    ])}) {
+	$req->with_realm($u => sub {
+	    $self->model('Ride')->cascade_delete({});
+	    $self->model('User')->unauth_delete_realm($u);
+	});
+    }
+    $req->set_realm($club_id);
+    foreach my $index (@$indexes) {
+	my($code) = Freiker::Test->FREIKER_CODE($index);
+	my($epc) = Freiker::Test->EPC($index);
+	$fc->create_from_epc_and_code($epc, $code);
+	$req->get('Model.RealmOwner')->update({name => $code});
+	$req->with_realm(Freiker::Test->PARENT, sub {
+	    $self->model(FreikerForm => {
+		'User.first_name' => my $name = Freiker::Test->CHILD($index),
+		'Club.club_id' => $club_id,
+		'FreikerCode.club_id' => $club_id,
+		'FreikerCode.freiker_code' => Freiker::Test->FREIKER_CODE($index),
+		'User.gender' => $self->use('Type.Gender')->FEMALE,
+		'birth_year' => 1999,
+	    });
+	    $self->req('Model.RealmOwner')->update({name => $name});
+	}) if $index <= 1;
+	push(@$rides, map(+{
+	    epc => $epc,
+	    datetime => $_D->add_days($now, -$_),
+	}, ($index ? $index : 0..99)));
+    }
+    $req->with_user(Freiker::Test->FREIKOMETER, sub {
+	my($rif) = $self->model('RideImportForm');
+	foreach my $r (@$rides) {
+	    $rif->process_record($r);
+	}
+    });
+    return;
 }
 
 sub reset_freikometer_folders {
@@ -45,8 +99,6 @@ sub reset_freikometer_folders {
 sub reset_prizes_for_school {
     my($self) = @_;
     my($req) = $self->req;
-#TODO: Get working agin
-    return;
     $req->assert_test;
     $req->with_user(Freiker::Test->ADM, sub {
 	$req->with_realm(Freiker::Test->SPONSOR_NAME, sub {
@@ -87,37 +139,6 @@ sub reset_prizes_for_school {
 		});
 	    }
 	});
-    });
-    return;
-}
-
-sub reset_rides_for_child_0 {
-    my($self) = @_;
-    $self->get_request->with_realm(Freiker::Test->CHILD, sub {
-	my($r) = $self->model('Ride');
-	$r->do_iterate(
-	    sub {
-		shift->delete;
-		return 1;
-	    },
-	    'freiker_code',
-	);
-	my($v) = {
-	    is_manual_entry => 0,
-	    freiker_code => Freiker::Test->FREIKER_CODE,
-	    ride_date => $_D->local_today,
-	};
-	foreach my $i (1..100) {
-	    $v->{ride_date} = $_D->add_days($v->{ride_date}, -1);
-	    $r->create($v);
-	}
-	$r->new_other('PrizeCoupon')->do_iterate(
-	    sub {
-		shift->cascade_delete;
-		return 1;
-	    },
-	    'coupon_code',
-	);
     });
     return;
 }

@@ -1,4 +1,4 @@
--- Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
+-- Copyright (c) 2005-2007 bivio Software, Inc.  All rights reserved.
 -- $Id$
 --
 -- Sequences for bOP PetShop Models
@@ -18,5 +18,9 @@
 --
 CREATE SEQUENCE prize_s
   MINVALUE 100021
+  CACHE 1 INCREMENT BY 100000
+/
+CREATE SEQUENCE ride_upload_s
+  MINVALUE 100022
   CACHE 1 INCREMENT BY 100000
 /

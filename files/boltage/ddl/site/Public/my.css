@@ -40,24 +40,24 @@ div.wiki a.movie {
 ^/my/wiki/Press dl.press dd a {
   font-weight: bold;
 }
-^/my/wiki/Donate blockquote.address {
+^/my/Donate blockquote.address {
   font-size: 120%;
   font-weight: bold;
 }
-^/my/wiki/Donate div.donate form div.field_err {
+^/my/Donate div.donate form div.field_err {
   display: inline;
   margin-right: .5em;
   font-weight: bold;
   font-size: 100%;
 }
-^/my/wiki/Donate div.thanks {
+^/my/Donate div.thanks {
   padding: .5ex;
   text-align: center;
   font-size: 120%;
   font-weight: bold;
   color: 0x33CC00;
 }
-^/my/wiki/Donate span.money {
+^/my/Donate span.money {
   font-size: 120%;
   font-weight: bold;
   color: 0x33CC00;

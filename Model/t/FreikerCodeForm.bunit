@@ -1,34 +1,46 @@
 # Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 my($today, $child_id, $school_id) = do('./RideList.PL');
+my($num_rides) = _count();
+my($first_ride_date) = unauth_model('FreikerRideList', {
+    parent_id => $child_id,
+    auth_id => req('auth_id'),
+})->set_cursor_or_die(0)->get('Ride.ride_date');
+sub _count {
+    return req()->with_realm(
+	$child_id,
+	sub {scalar(@{model('Ride')->map_iterate(sub {1}, 'ride_date')})},
+    );
+}
 [
     [{
 	'FreikerCode.freiker_code' => class('Freiker::Test')->FREIKER_CODE(2),
+	'Club.club_id' => $school_id,
     }] => sub {
-	model(Ride => {
-	    realm_id => $child_id,
-	    freiker_code => class('Freiker::Test')->FREIKER_CODE(2),
-	});
+	assert_equals($num_rides + 1, _count());
 	return 1;
     },
     error_case({
 	'FreikerCode.freiker_code' => class('Freiker::Test')->FREIKER_CODE(0),
+	'Club.club_id' => $school_id,
     } => {
 	'FreikerCode.freiker_code' => 'EXISTS',
     }),
     inline_case(sub {
-	model('Ride')->create({
-	    freiker_code => class('Freiker::Test')->FREIKER_CODE(3),
-	    ride_date => model('FreikerRideList', {
-		parent_id => $child_id,
-		auth_id => req('auth_id'),
-	    })->set_cursor_or_die(0)->get('Ride.ride_date'),
-	    realm_id => $school_id,
+	req()->with_realm($school_id, sub {
+	    model('RideImportForm')->process_record({
+		epc => class('Freiker::Test')->EPC(3),
+		datetime => $first_ride_date,
+	    });
 	});
+	return;
     }),
     error_case({
 	'FreikerCode.freiker_code' => class('Freiker::Test')->FREIKER_CODE(3),
+	'Club.club_id' => $school_id,
     } => {
-	'FreikerCode.freiker_code' => 'MUTUALLY_EXCLUSIVE',
+	'FreikerCode.freiker_code'
+	    => 'MUTUALLY_EXCLUSIVE: '
+	    . class('Type.Date')->to_string($first_ride_date),
     }),
 ];

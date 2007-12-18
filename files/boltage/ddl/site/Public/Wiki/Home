@@ -1,50 +1,63 @@
 @h1 The Frequent Biker Program
-@div.prose
-@a.movie href=freikometer.avi ^freikometer.gif
+@a.movie href=^/my/file/freikometer.html ^freikometer.gif 
+@h3 Getting Kids Active 
+Freiker is dedicated to substantially increasing the number of children regularly bicycling to school.  Freiker uses advanced technology to count and provide incentives for kids who ride to school. 
+
+The prevalence of overweight children and adolescents in the U.S. has doubled over the past 20 years.  This significant increase is due to many factors, but we believe that one of the steps to fighting this problem is to encourage children to be active.  In fact, the U.S. Dept. of Health and Human Services recommends that children engage in at least 60 minutes of moderate intensity physical activity most days of the week, preferably daily to promote health and psychological well-being.  
+
+And the daily trip to school is a perfect opportunity for activity.  Plus, it's fun, and kids and parents love being outside, getting some exercise, and seeing other participating families when they arrive at school.
+
+@h3 Additional benefits of Freiker
+Independence: Children gain confidence when they don't have to rely on their parents or a bus to get them to and from school.  
+
+Focus: studies show that regular physical activity results in more alert individuals and even promotes brain activity.
+
+Neighborhood:  On a bike, the trip from home to school becomes a full sensory experience - children talk and wave to their neighbors, feel and smell the changes in the seasons, and see their neighborhood in a whole different light. 
+
+Environment:  More kids on bikes means fewer cars on the road, and fewer cars idling in front of the school in the mornings and afternoons.
+
+Community:  Many parents ride to school with their children, and schools benefit from the impromptu social gatherings that occur around the bike racks. 
+ 
+Safety:  Since the RFID tags are on the helmets, children who ride without helmets aren't counted by the Freikometer.
+
+@h3 How It Works
+A participating child (a "Freiker") earns prizes based on the number of days he or she rides over the course of a school year.  Freikers do not compete against each other for prizes.  There is no best in class or school.  Every Freiker wins if he or she rides.  Ride to school once, and you're a Freiker.  Ride to school ten times, and you have qualified for a prize.  These are achievable goals for any child, and they represent the first step towards a healthier, more self-reliant, more alert student. 
+
 @h3 Fried-o-whatsit?
-@p.prose
 That's "Freikometer", and it adds a lot of fun to bike encouragement
-programs.  Freiker's success is due to fantatical dedication to data.
+programs.  Freiker's success is measurable due to fanatical dedication to data.
 Like many other bike programs, we started with punch cards.  The next
-year we used barcodes and scanners.  2006-2007 is the year of the Freikometer:
+year we used barcodes and scanners.  In 2006, we debuted the Freikometer:
 an automatic device that counts riders and uploads the data securely to
 freiker.org.  It's solar powered so you can put it right near the
 bike racks at your school.
 
-The Freikometer is currently under test at several
+The Freikometer is currently being used at five 
 @a href=http://www.bvsd.org Boulder Valley School District
-schools.  The freikometers survived a very harsh winter -- for the
-most part.  We're glad the winter is over, and they are operating very well in
-our wet but warm spring.  We will be upgrading all Freikometers in the summer
-of 2007 to operate better in extreme cold. We will be expanding outside the
-Boulder area; it's a matter of time to prove out the technology, which so far
-is going well.
+schools.  The Freikometers survived (for the most part) the harsh winter of 2006-2007.  We completely redesigned the Freikometers for the 2007-2008 school year, and they are working better than ever and should operate better in the extreme cold.  We are looking to expand the program outside the Boulder area; if you are interested in having your school participate, please contact us by email at 
+.  
 
 The best way to understand how the Freikometer works is to see it in
 action.  
-@a href=freikometer.avi View the movie (5mb).
+@a href=^/my/file/freikometer.html View the movie (5mb).
 
-@h3 Freiker Doubles Ridership! ^freiker-weather.png
+@h3 Freiker Doubles Ridership! ^freiker-weather.gif
 Twice as many kids are riding to
 @a href=http://schools.bvsd.org/crestview Crest View Elementary
-than were riding two years ago.  Why?  iPods.  It's that simple. Kids who
+than were riding three years ago.  Why?  iPods.  It's that simple. Kids who
 ride to Crest View (and other area schools) receive an iPod if they
-ride their bikes 90% of the time to school.  At Crest View, that
-means Freikers must ride 160 times this year.  Last year we gave out
+ride their bikes 160 times to school.  Last year we gave out
 50 iPods and about 10 digital cameras to hard-working Freikers at
 Crest View, Foothill Elementary, and Horizons K-8.  We gave out lots of
 other prizes, too.  Yet, the cost of the program is only about
-$5,000 per school.  Isn't it worth
-@a href=/site/donate 10% of the price of a new Lexus
+$7,500 per school.  Isn't it worth
+@a href=/site/donate 15% of the price of a new Lexus
 to improve our environment by encouraging more kids to get on their
 bikes more often?
 
-Freikers do not compete against each other for prizes.  There is no
-best in class, school, or otherwise.  Every kid wins if they try.
-Ride to school once, and you're a Freiker.  Ride to school the whole
-week, and you are entered in a drawing to win
-the 
-@a href=Prizes Green Gear
-and $10.
-That's an achievable goal for any kid, and it's the first step
-towards a healthier, more self-reliant, more alert student.
+@h3 Questions?
+Your questions may have already been answered in our 
+@a href=FAQ Frequently Asked Questions page
+, or you can contact us by email at 
+@b-widget contact@
+.

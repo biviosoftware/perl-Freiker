@@ -1,0 +1,14 @@
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+PropertyModel();
+req()->set_realm('bunit123456789');
+[
+    is_registered_freiker => [
+	realm_id('child0') => 1,
+	realm_id('1236') => 0,
+    ],
+    find_club_id_for_freiker => [
+	realm_id('child0') => realm_id('bunit123456789'),
+	realm_id('1236') => realm_id('bunit123456789'),
+    ],
+];

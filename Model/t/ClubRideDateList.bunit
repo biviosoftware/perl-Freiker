@@ -3,6 +3,7 @@
 ListModel();
 my($today) = do('./SetupRides.PL');
 my($tomorrow) = class('Type.Date')->add_days($today, 1);
+req()->set_user('child0');
 [
     is_date_ok => [
 	$today => 1,

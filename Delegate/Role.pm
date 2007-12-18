@@ -10,6 +10,7 @@ sub get_delegate_info {
     return [
 	@{shift->SUPER::get_delegate_info(@_)},
 	FREIKOMETER => [21],
+	FREIKER => [22],
     ];
 }
 

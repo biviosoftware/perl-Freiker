@@ -1,5 +1,14 @@
 @h1 In the news
 @dl.press
+
+@dt 
+12/2/2007 -
+@a href=^steveouting.com Steve Outing
+- Blog
+@/dt
+@dd
+@a href=http://www.steveouting.com/brilliant-using-technology-to-change-behavior.html   Brilliant! Using technology to change behavior
+@/dd
 @dt
 9/11/2007 - 
 @a href=^velonews.com VeloNews
@@ -48,5 +57,14 @@
 @/dt
 @dd
 @a href=Press_06May2006 Freiker Bike Encouragement Program at Crest View Elementary School Celebrates Success - Freiker Receives Grant and Community Support
+@/dd
+
+@dt
+11/5/2005 -
+@a href=^gratefulweb.com Grateful Web
+- Site of the Month
+@/dt
+@dd
+@a href=http://www.gratefulweb.net/gwebNews/gwebDesign/siteOfTheMonth.asp?articleid=612&zoneid=5  The Freiker Program Encourages Kids to Bike to School
 @/dd
 @/dl

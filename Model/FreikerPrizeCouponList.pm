@@ -17,7 +17,7 @@ sub internal_initialize {
 	    [qw(PrizeCoupon.coupon_code PrizeReceipt.coupon_code(+))],
 	],
 	other => [
-	    ['RealmUser.role', ['MEMBER']],
+	    ['RealmUser.role', ['FREIKER']],
 	    [qw(PrizeCoupon.prize_id Prize.prize_id)],
 	    'Prize.name',
 	],

@@ -36,8 +36,12 @@ sub DISTRIBUTOR_NAME {
     return $_RN->from_display_name_and_zip($proto->DISTRIBUTOR, $proto->ZIP);
 }
 
+sub EPC {
+    return sprintf('%016X%08X', 0xABCDEF, 1234 + ($_[1] || 0));
+}
+
 sub FREIKER_CODE {
-    return '1234' + ($_[1] || 0);
+    return 1234 + ($_[1] || 0);
 }
 
 sub FREIKOMETER {
@@ -54,7 +58,7 @@ sub SCHOOL {
 }
 
 sub SCHOOL_NAME {
-    #loosely coupled with UserRegisterForm
+    # Loosely coupled with UserRegisterForm
     return 'bunit' . shift->ZIP;
 }
 

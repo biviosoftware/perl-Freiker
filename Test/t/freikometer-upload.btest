@@ -4,22 +4,19 @@ test_setup('Freiker');
 home_page();
 basic_authorization('fm_freikometer');
 do_test_backdoor(Test => '-realm fm_freikometer reset_freikometer_folders');
-my($epc) = test_use('Type.EPC')
-    ->new(Freiker::Test->ZIP, Freiker::Test->FREIKER_CODE)->as_string;
+my($epc) = test_use('Freiker::Test')->EPC;
 my($date) = test_use('Type.DateTime')->local_now_as_file_name;
 basic_authorization('fm_freikometer');
 send_request(PUT => "/fm/$date.csv", undef, <<"EOF");
 EPC,DateTime
 $epc,$date
 EOF
-
-# Set by reset_freikometer_folders
-test_ok(get_uri() =~ m{.*test\.sh$});
+test_ok(get_uri() =~ m{.*Download/test\.sh$});
 test_equals("date\n", get_content());
 home_page();
 do_logout();
 login_as('adm');
 verify_table(Freikometer => [
     ['Freikometer', 'Last Upload'],
-    ['fm_freikometer', qr{@{[test_use('Type.Date')->now_as_string]}}],
+    [qr{^fm_freikometer$}, qr{\Q@{[test_use('Type.Date')->now_as_string]}\E}],
 ]);

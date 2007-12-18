@@ -50,28 +50,13 @@ sub missing_rides {
 sub _args {
     my($self, $freiker_code) = @_;
     my($req) = $self->get_request;
-    my($club_id) = $self->model('FreikerCode', {
+    my($club_id, $user_id) = $self->unauth_model('FreikerCode', {
 	freiker_code => $freiker_code,
-    })->get('club_id');
-    my($user_id);
-    $self->model('Ride')->do_iterate(sub {
-	$user_id = shift->get('realm_id');
-	return 0;
-    }, unauth_iterate_start => 'ride_date', {
-	freiker_code => $freiker_code,
-    });
+    })->get(qw(club_id user_id));
     $self->usage_error($freiker_code, ': freiker code not found')
 	unless $user_id;
-    return ($self, $user_id, $club_id, $req->with_user($user_id, sub {
-	@{$req->map_user_realms(sub {
-	    my($row) = @_;
-	    return $row->{'RealmOwner.realm_type'}->eq_user
-		    ? $row->{'RealmUser.realm_id'} : ();
-	    }, {
-		'RealmUser.role' => Bivio::Auth::Role->MEMBER,
-	    })},
-	}),
-    );
+    return ($self, $user_id, $club_id,
+	    $self->model('RealmUser')->family_id_for_freiker($user_id));
 }
 
 1;

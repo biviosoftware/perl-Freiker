@@ -1,6 +1,7 @@
 # Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 ShellUtil();
+shell_util(Test => ['reset_freikers']);
 req()->set_realm_and_user(qw(parent child0));
 my($rides) = model('FreikerRideList', {
     parent_id => req('auth_user_id'),

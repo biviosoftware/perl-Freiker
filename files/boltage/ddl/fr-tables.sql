@@ -1,4 +1,4 @@
--- Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
+-- Copyright (c) 2005-2007 bivio Software, Inc.  All rights reserved.
 -- $Id$
 --
 -- Data Definition Language for Freiker Models
@@ -20,8 +20,11 @@ CREATE TABLE club_aux_t (
 /
 
 CREATE TABLE freiker_code_t (
-  freiker_code NUMERIC(9) NOT NULL,
   club_id NUMERIC(18) NOT NULL,
+  freiker_code NUMERIC(9) NOT NULL,
+  epc CHAR(24) NOT NULL,
+  user_id NUMERIC(18) NOT NULL,
+  modified_date_time DATE NOT NULL,
   CONSTRAINT freiker_code_t1 PRIMARY KEY(freiker_code)
 )
 /
@@ -71,12 +74,19 @@ CREATE TABLE prize_ride_count_t (
 /
 
 CREATE TABLE ride_t (
-  freiker_code NUMERIC(9) NOT NULL,
+  user_id NUMERIC(18) NOT NULL,
   ride_date DATE NOT NULL,
-  realm_id NUMERIC(18) NOT NULL,
-  creation_date_time DATE NOT NULL,
   ride_time DATE NOT NULL,
-  is_manual_entry NUMERIC(1) NOT NULL,
-  CONSTRAINT ride_t1 PRIMARY KEY(freiker_code, ride_date)
+  ride_upload_id NUMERIC(18),
+  CONSTRAINT ride_t1 PRIMARY KEY(user_id, ride_date)
+)
+/
+
+CREATE TABLE ride_upload_t (
+  ride_upload_id NUMERIC(18) NOT NULL,
+  club_id NUMERIC(18) NOT NULL,
+  creation_date_time DATE NOT NULL,
+  freikometer_user_id NUMERIC(18) NOT NULL,
+  CONSTRAINT ride_upload_t1 PRIMARY KEY(ride_upload_id)
 )
 /

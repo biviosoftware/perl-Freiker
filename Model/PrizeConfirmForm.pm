@@ -2,15 +2,14 @@
 # $Id$
 package Freiker::Model::PrizeConfirmForm;
 use strict;
-use Bivio::Base 'Bivio::Biz::FormModel';
-use Freiker::Model::PrizeSelectList;
+use Bivio::Base 'Biz.FormModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub internal_pre_execute {
     my($self) = @_;
-    $self->clear_errors();
-    Freiker::Model::PrizeSelectList->execute_load_this($self->get_request());
+    $self->clear_errors;
+    $self->new_other('PrizeSelectList')->execute_load_this($self->req);
     my($prize) = $self->get_request()->get('Model.PrizeSelectList');
     unless ($prize->get_result_set_size) {
 	$self->internal_put_error('Prize.name' => 'PRIZE_NOT_EARNED');
