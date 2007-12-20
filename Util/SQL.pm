@@ -122,11 +122,186 @@ sub initialize_test_data {
     return;
 }
 
-sub internal_upgrade_db_club_aux {
+sub internal_upgrade_db_prize {
     my($self) = @_;
     my($req) = $self->req;
     $self->run(<<'EOF');
-DROP TABLE club_aux_t
+CREATE TABLE prize_t (
+  prize_id NUMERIC(18) NOT NULL,
+  realm_id NUMERIC(18) NOT NULL,
+  modified_date_time DATE NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  description VARCHAR(4000) NOT NULL,
+  detail_uri VARCHAR(255) NOT NULL,
+  ride_count NUMERIC(9) NOT NULL,
+  retail_price NUMERIC(9) NOT NULL,
+  prize_status NUMERIC(2) NOT NULL,
+  CONSTRAINT prize_t1 PRIMARY KEY(prize_id)
+)
+/
+
+CREATE TABLE prize_coupon_t (
+  coupon_code NUMERIC(9) NOT NULL,
+  realm_id NUMERIC(18) NOT NULL,
+  user_id NUMERIC(18) NOT NULL,
+  prize_id NUMERIC(18) NOT NULL,
+  creation_date_time DATE NOT NULL,
+  ride_count NUMERIC(9) NOT NULL,
+  CONSTRAINT prize_coupon_t1 PRIMARY KEY(realm_id, coupon_code)
+)
+/
+
+CREATE TABLE prize_receipt_t (
+  coupon_code NUMERIC(9) NOT NULL,
+  realm_id NUMERIC(18) NOT NULL,
+  user_id NUMERIC(18) NOT NULL,
+  creation_date_time DATE NOT NULL,
+  receipt_code NUMERIC(9) NOT NULL,
+  CONSTRAINT prize_receipt_t1 PRIMARY KEY(realm_id, coupon_code)
+)
+/
+
+CREATE TABLE prize_ride_count_t (
+  prize_id NUMERIC(18) NOT NULL,
+  realm_id NUMERIC(18) NOT NULL,
+  modified_date_time DATE NOT NULL,
+  ride_count NUMERIC(9) NOT NULL,
+  CONSTRAINT prize_ride_count_t1 PRIMARY KEY(prize_id, realm_id)
+)
+/
+
+--
+-- prize_t
+--
+ALTER TABLE prize_t
+  ADD CONSTRAINT prize_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX prize_t3 ON prize_t (
+  realm_id
+)
+/
+CREATE INDEX prize_t4 ON prize_t (
+  modified_date_time
+)
+/
+CREATE INDEX prize_t5 ON prize_t (
+  name
+)
+/
+CREATE INDEX prize_t6 ON prize_t (
+  ride_count
+)
+/
+
+--
+-- prize_coupon_t
+--
+ALTER TABLE prize_coupon_t
+  ADD CONSTRAINT prize_coupon_t2
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX prize_coupon_t3 ON prize_coupon_t (
+  realm_id
+)
+/
+ALTER TABLE prize_coupon_t
+  ADD CONSTRAINT prize_coupon_t4
+  FOREIGN KEY (prize_id)
+  REFERENCES prize_t(prize_id)
+/
+CREATE INDEX prize_coupon_t5 ON prize_coupon_t (
+  prize_id
+)
+/
+ALTER TABLE prize_coupon_t
+  ADD CONSTRAINT prize_coupon_t6
+  FOREIGN KEY (user_id)
+  REFERENCES user_t(user_id)
+/
+CREATE INDEX prize_coupon_t7 ON prize_coupon_t (
+  user_id
+)
+/
+CREATE INDEX prize_coupon_t8 ON prize_coupon_t (
+  creation_date_time
+)
+/
+CREATE INDEX prize_coupon_t9 ON prize_coupon_t (
+  ride_count
+)
+/
+
+--
+-- price_ride_count_t
+--
+ALTER TABLE prize_ride_count_t
+  ADD CONSTRAINT prize_ride_count_t2
+  FOREIGN KEY (prize_id)
+  REFERENCES prize_t(prize_id)
+/
+CREATE INDEX prize_ride_count_t3 ON prize_ride_count_t (
+  prize_id
+)
+/
+ALTER TABLE prize_ride_count_t
+  ADD CONSTRAINT prize_ride_count_t4
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX prize_ride_count_t5 ON prize_ride_count_t (
+  realm_id
+)
+/
+CREATE INDEX prize_ride_count_t6 ON prize_ride_count_t (
+  modified_date_time
+)
+/
+CREATE INDEX prize_ride_count_t7 ON prize_ride_count_t (
+  ride_count
+)
+/
+
+--
+-- prize_receipt_t
+--
+ALTER TABLE prize_receipt_t
+  ADD CONSTRAINT prize_receipt_t2
+  FOREIGN KEY (coupon_code, realm_id)
+  REFERENCES prize_coupon_t(coupon_code, realm_id)
+/
+ALTER TABLE prize_receipt_t
+  ADD CONSTRAINT prize_receipt_t3
+  FOREIGN KEY (realm_id)
+  REFERENCES realm_owner_t(realm_id)
+/
+CREATE INDEX prize_receipt_t4 ON prize_receipt_t (
+  realm_id
+)
+/
+ALTER TABLE prize_receipt_t
+  ADD CONSTRAINT prize_receipt_t5
+  FOREIGN KEY (user_id)
+  REFERENCES user_t(user_id)
+/
+CREATE INDEX prize_receipt_t6 ON prize_receipt_t (
+  user_id
+)
+/
+CREATE INDEX prize_receipt_t7 ON prize_receipt_t (
+  creation_date_time
+)
+/
+CREATE UNIQUE INDEX prize_receipt_t8 ON prize_receipt_t (
+  realm_id,
+  receipt_code
+)
+/
+CREATE SEQUENCE prize_s
+  MINVALUE 100021
+  CACHE 1 INCREMENT BY 100000
 /
 EOF
     return;
