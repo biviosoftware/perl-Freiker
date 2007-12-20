@@ -11,14 +11,6 @@
 --   It makes it much easier to manage the constraints and indices this way.
 --
 
-CREATE TABLE club_aux_t (
-  realm_id NUMERIC(18) NOT NULL,
-  website VARCHAR(255) NOT NULL,
-  club_size NUMERIC(9) NOT NULL,
-  CONSTRAINT club_aux_t1 PRIMARY KEY(realm_id)
-)
-/
-
 CREATE TABLE freiker_code_t (
   freiker_code NUMERIC(9) NOT NULL,
   epc CHAR(24) NOT NULL,

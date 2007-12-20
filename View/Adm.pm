@@ -19,4 +19,11 @@ sub freikometer_list {
 
 }
 
+sub freiker_code_import {
+    return shift->internal_body(vs_simple_form(FreikerCodeImportForm => [
+        'FreikerCodeImportForm.source',
+    ]));
+}
+
+
 1;

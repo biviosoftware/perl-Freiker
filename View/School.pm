@@ -11,6 +11,7 @@ sub ride_date_list {
     return shift->internal_put_base_attr(
 	tools => TaskMenu([qw(
 	    CLUB_FREIKER_LIST
+	    CLUB_FREIKER_CODE_IMPORT
 	)]),
 	body => vs_paged_list(ClubRideDateList => [
 	    'Ride.ride_date',
@@ -23,6 +24,7 @@ sub freiker_list {
     return shift->internal_put_base_attr(
 	tools => TaskMenu([qw(
 	    CLUB_RIDE_DATE_LIST
+	    CLUB_FREIKER_CODE_IMPORT
 	)]),
 	body => vs_paged_list(ClubFreikerList => [
 	    'RealmOwner.display_name',
@@ -34,8 +36,8 @@ sub freiker_list {
 sub register {
     return shift->internal_body(vs_simple_form(ClubRegisterForm => [qw{
 	ClubRegisterForm.club_name
-	ClubRegisterForm.ClubAux.club_size
-	ClubRegisterForm.ClubAux.website
+	ClubRegisterForm.club_size
+	ClubRegisterForm.Website.url
 	ClubRegisterForm.Address.zip
     }]));
 }

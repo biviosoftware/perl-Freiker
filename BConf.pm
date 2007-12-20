@@ -21,10 +21,12 @@ sub merge_overrides {
 	      	'Bivio::Type::RealmName' => 'Freiker::Delegate::RealmName',
 	      	'Bivio::Auth::Permission' => 'Freiker::Delegate::Permission',
 	      	'Bivio::Auth::Role' => 'Freiker::Delegate::Role',
+		'Bivio::Type::RowTagKey' => 'Freiker::Delegate::RowTagKey',
 	    },
 	    maps => {
 		Action => ['Freiker::Action'],
 		Facade => ['Freiker::Facade'],
+		Delegate => ['Freiker::Delegate'],
 		Model => ['Freiker::Model'],
 		ShellUtil => ['Freiker::Util'],
 		TestLanguage => ['Freiker::Test'],

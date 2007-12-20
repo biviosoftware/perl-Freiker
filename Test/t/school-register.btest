@@ -4,9 +4,27 @@ test_setup('Freiker');
 my($e, $z) = register_random('wheel');
 follow_link(qr{^register.*school}i);
 submit_form({
-    name => "School $z",
+    name => my $name = "School $z",
     number => 10,
     website => "http://school$z.org",
     zip => $z,
 });
-# setup prizes
+do_logout();
+login_as('adm');
+follow_link($name);
+follow_link('codes');
+my($floor) = int($z / 1000) * 1000 + 100;
+my($codes) = [map(random_integer($floor + 800, $floor), 1..10)];
+my($epcs) = [map(sprintf('%016X%08X',  $z, $_), @$codes)];
+submit_form({
+    csv => file_field('any.csv', join(
+	'',
+	"EPC,Print\n",
+	map(sprintf("%s,%d\n", $epcs->[$_], $codes->[$_]), 0 .. $#$codes),
+    )),
+});
+#TODO: Need to import rides
+# verify_table(Name => [
+#     ['Name'],
+#     map([$_], sort {$a <=> $b} @$codes),
+# ]);

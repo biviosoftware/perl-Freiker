@@ -15,11 +15,16 @@ sub internal_xhtml_adorned {
     my($self) = @_;
     my(@res) = shift->SUPER::internal_xhtml_adorned(@_);
     view_unsafe_put(
-	xhtml_title => Prose(
-#TODO: Incorporate RealmOwner.display_name
-#TODO: Give parent access to freiker's realm?
-	    vs_text([sub {"xhtml.title.$_[1]"}, ['task_id', '->get_name']]),
-	),
+	xhtml_title => Join([
+	    If([qw(auth_realm type ->eq_club)],
+	       Join([
+		   String([qw(auth_realm owner display_name)]),
+		   ': ',
+	       ]),
+	    ),
+	    Prose(vs_text(
+		[sub {"xhtml.title.$_[1]"}, ['task_id', '->get_name']])),
+	]),
 	wiki_widget_contact => vs_gears_email(),
 	wiki_widget_paypal_form => DIV_donate(
 	    Form(PayPalForm => Join([
@@ -39,6 +44,7 @@ sub internal_xhtml_adorned {
 #TODO: Refactor: Make a redirect task for realms?
 		    TaskMenu([
 			'ADM_SUBSTITUTE_USER',
+			'ADM_FREIKOMETER_LIST',
 			'FAMILY_FREIKER_LIST',
 			map(+{
 			    task_id => 'CLUB_FREIKER_LIST',

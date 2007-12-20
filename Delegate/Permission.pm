@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Delegate::Permission;
 use strict;
-use base 'Bivio::Delegate::SimplePermission';
+use Bivio::Base 'Delegate.SimplePermission';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 

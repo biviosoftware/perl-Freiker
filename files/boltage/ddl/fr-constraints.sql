@@ -20,23 +20,6 @@
 ----------------------------------------------------------------
 
 --
--- club_aux_t
---
-ALTER TABLE club_aux_t
-  ADD CONSTRAINT club_aux_t2
-  FOREIGN KEY (realm_id)
-  REFERENCES realm_owner_t(realm_id)
-/
-CREATE UNIQUE INDEX club_aux_t3 ON club_aux_t (
-  website
-)
-/
-CREATE INDEX club_aux_t4 ON club_aux_t (
-  club_size
-)
-/
-
---
 -- freiker_code_t
 --
 CREATE INDEX freiker_code_t2 ON freiker_code_t (

@@ -259,6 +259,15 @@ sub get_delegate_info {
 	    ADMIN_READ
 	    Action.FreikometerDownload->execute_get
 	)],
+	[qw(
+	    CLUB_FREIKER_CODE_IMPORT
+	    528
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE&SUPER_USER_TRANSIENT
+	    Model.FreikerCodeImportForm
+	    View.Adm->freiker_code_import
+	    next=CLUB_FREIKER_LIST
+	)],
     ]);
 }
 
