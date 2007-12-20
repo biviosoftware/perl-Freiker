@@ -7,6 +7,8 @@ use base 'Bivio::ShellUtil';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FP) = __PACKAGE__->use('Type.FilePath');
 my($_DT) = __PACKAGE__->use('Type.DateTime');
+my($_F) = __PACKAGE__->use('IO.File');
+my($_R) = __PACKAGE__->use('IO.Ref');
 
 sub USAGE {
     return <<'EOF';
@@ -16,6 +18,7 @@ commands
   do_all method args -- runs method with args on all fms
   do_command cmd ... -- runs cmd(s) on freikometer in shell
   download file ... -- downloads files to freikometer realm
+  download_playlist -- downloads playlist for FM
   list_download -- lists the download folder
   list_upload -- lists the upload folder
   reboot -- reboots a freikometer
@@ -74,7 +77,8 @@ sub do_command {
 sub download {
     my($self, @file) = shift->arg_list(\@_, [['FileArg']]);
     $self->usage_error(
-	$self->req('auth_realm'), ': -realm must be a freikometer',
+	$self->req('auth_realm')->as_string,
+	': -realm must be a freikometer',
     ) unless $self->req(qw(auth_realm type))->eq_user;
     return $self->req->with_user(
 	$self->req('auth_user') || $self->req(qw(auth_realm owner)),
@@ -90,6 +94,30 @@ sub download {
 	    } @file);
 	    return $self->list_download;
         },
+    );
+}
+
+sub download_playlist {
+    my($self) = @_;
+    my($req) = $self->req;
+    return $self->download(
+	$req->with_realm($req->get('auth_id'), sub {
+	    return $req->with_user($req->get('auth_id'), sub {
+                $self->model('Club')->set_realm_for_freikometer;
+		return +{
+		    filename => 'playlist.pl',
+		    content_type => 'text/plain',
+		    content => $_R->to_string({@{
+			$self->model('FreikerCodeList')->map_iterate(
+			    sub {(
+				shift->get('FreikerCode.freiker_code'),
+				'default',
+			    )},
+			),
+		    }}),
+		};
+	    }),
+	}),
     );
 }
 
