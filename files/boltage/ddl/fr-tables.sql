@@ -20,9 +20,9 @@ CREATE TABLE club_aux_t (
 /
 
 CREATE TABLE freiker_code_t (
-  club_id NUMERIC(18) NOT NULL,
   freiker_code NUMERIC(9) NOT NULL,
   epc CHAR(24) NOT NULL,
+  club_id NUMERIC(18) NOT NULL,
   user_id NUMERIC(18) NOT NULL,
   modified_date_time DATE NOT NULL,
   CONSTRAINT freiker_code_t1 PRIMARY KEY(freiker_code)
