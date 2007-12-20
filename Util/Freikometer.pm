@@ -110,7 +110,7 @@ sub download_playlist {
 		    content => $_R->to_string({@{
 			$self->model('FreikerCodeList')->map_iterate(
 			    sub {(
-				shift->get('FreikerCode.freiker_code'),
+				shift->get('FreikerCode.epc'),
 				'default',
 			    )},
 			),
