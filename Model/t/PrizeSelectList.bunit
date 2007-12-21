@@ -6,7 +6,7 @@ require 'prize_coupon.PL';
 
 shell_util(Test => ['reset_prizes_for_school']);
 shell_util(Test => ['reset_rides_for_child_0']);
-my($child) = req()->set_realm('child0')->get('id');
+my($child) = req()->set_realm('child')->get('id');
 req()->set_realm_and_user(qw(parent parent));
 
 my($prizes) = [{

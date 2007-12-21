@@ -3,7 +3,10 @@
 Request('initialize_fully');
 foreach my $fm (map(class('Freiker::Test')->FREIKOMETER($_), 1, 0)) {
     req()->set_realm_and_user($fm);
-    model('RealmFile')->delete_deep({path => '/Download'});
+    model('RealmFile')->unauth_delete_deep({
+	realm_id => req('auth_id'),
+	path => '/Download',
+    });
     shell_util(Freikometer => ['download', from_type(qw(FileArg FreikometerDownload/t1.txt))]);
 }
 commit();

@@ -32,7 +32,12 @@ sub freiker_list {
 	    FAMILY_FREIKER_ADD
 	)]),
 	body => vs_list(FreikerList => [
-	    'RealmOwner.display_name',
+	    ['RealmOwner.display_name' => {
+		wf_list_link => {
+		    task => 'FAMILY_FREIKER_RIDE_LIST',
+		    query => 'THIS_CHILD_LIST',
+		},
+	    }],
 	    [ride_count => {
 		wf_list_link => {
 		    task => 'FAMILY_FREIKER_RIDE_LIST',

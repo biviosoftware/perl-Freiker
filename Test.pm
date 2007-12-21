@@ -15,12 +15,8 @@ sub ADM {
     return 'adm';
 }
 
-sub CHILD_1 {
-    return 'child_1';
-}
-
 sub CHILD {
-    return 'child' . ($_[1] || 0);
+    _which(child => @_);
 }
 
 sub DISTRIBUTOR {
@@ -45,12 +41,11 @@ sub FREIKER_CODE {
 }
 
 sub FREIKOMETER {
-    my(undef, $which) = @_;
-    return 'fm_freikometer' . ($which ? $which : '');
+    _which(fm_freikometer => @_);
 }
 
 sub PARENT {
-    return 'parent';
+    return _which(parent => @_);
 }
 
 sub SCHOOL {
@@ -85,6 +80,11 @@ sub WHEEL {
 
 sub ZIP {
     return '123456789';
+}
+
+sub _which {
+    my($base, undef, $which) = @_;
+    return $base . ($which ? $which : '');
 }
 
 1;

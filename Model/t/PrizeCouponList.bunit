@@ -4,7 +4,7 @@ ListModel();
 require 'prize_coupon.PL';
 shell_util(Test => ['reset_prizes_for_school']);
 shell_util(Test => ['reset_rides_for_child_0']);
-my($child) = req()->set_realm('child0')->get('id');
+my($child) = req()->set_realm('child')->get('id');
 create_prize_coupon('bunit10');
 #create_prize_coupon('bunit20', req()->set_realm('child1')->get('id'));
 create_prize_coupon('bunit50');

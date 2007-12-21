@@ -25,5 +25,4 @@ sub freiker_code_import {
     ]));
 }
 
-
 1;

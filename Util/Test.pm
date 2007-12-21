@@ -48,7 +48,6 @@ sub reset_freikers {
 	my($code) = Freiker::Test->FREIKER_CODE($index);
 	my($epc) = Freiker::Test->EPC($index);
 	$fc->create_from_epc_and_code($epc, $code);
-	$req->get('Model.RealmOwner')->update({name => $code});
 	$req->with_realm(Freiker::Test->PARENT, sub {
 	    $self->model(FreikerForm => {
 		'User.first_name' => my $name = Freiker::Test->CHILD($index),

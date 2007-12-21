@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Model::AdmFreikometerList;
 use strict;
-use Bivio::Base 'Bivio::Biz::ListModel';
+use Bivio::Base 'Biz.ListModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 

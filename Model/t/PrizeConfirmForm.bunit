@@ -15,7 +15,7 @@ req()->set_realm('bunit123456789');
 shell_util(Test => ['reset_prizes_for_school']);
 req()->set_realm('bunit123456789');
 shell_util(Test => ['reset_prizes_for_child_0']);
-$child_id = realm_id('child0');
+$child_id = realm_id('child');
 $prize_id = unauth_model(Prize => {name => 'bunit50'})->get('prize_id');
 req()->set_realm_and_user(qw(parent parent));
 [

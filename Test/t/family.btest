@@ -35,3 +35,11 @@ submit_form({
     freiker => '1237',
     school => 'bunit Elementary',
 });
+test_conformance();
+do_logout();
+login_as('1236');
+follow_link('Bobby');
+verify_text('Bobby (1237, 1236)');
+do_logout();
+test_deviance(qr{not.*registered.*please.*click}i);
+login_as('1238');

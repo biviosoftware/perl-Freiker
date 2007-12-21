@@ -103,7 +103,7 @@ sub download_playlist {
     return $self->download(
 	$req->with_realm($req->get('auth_id'), sub {
 	    return $req->with_user($req->get('auth_id'), sub {
-                $self->model('Club')->set_realm_for_freikometer;
+                $self->model('RealmUser')->set_realm_for_freikometer;
 		return +{
 		    filename => 'playlist.pl',
 		    content_type => 'text/plain',

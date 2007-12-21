@@ -3,7 +3,7 @@
 ShellUtil();
 [
     [qw(reset_freikers)] => sub {
-	assert_equals(100 => req()->with_realm('child0' => sub {
+	assert_equals(100 => req()->with_realm('child' => sub {
 	    return int(@{model('Ride')->map_iterate});
 	}));
 	return 1;

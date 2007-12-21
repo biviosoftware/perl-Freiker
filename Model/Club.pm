@@ -54,33 +54,6 @@ sub create_realm {
     return $self;
 }
 
-sub set_freikometer_for_realm {
-    my($self) = @_;
-    $self->req->set_user(
-	$self->new_other('FreikometerList')
-	    ->load_all->get('RealmOwner.realm_id'),
-    );
-    return $self;
-}
-
-sub set_realm_for_freikometer {
-    my($self) = @_;
-    my($req) = $self->req;
-    my($r) = $req->map_user_realms(
-	sub {shift->{'RealmOwner.name'}},
-	{
-	    'RealmOwner.realm_type' =>  Bivio::Auth::RealmType->CLUB,
-	    'RealmUser.role' => Bivio::Auth::Role->FREIKOMETER,
-	},
-    );
-    _die($req, FORBIDDEN => 'user not a freikometer')
-	unless @$r;
-    _die($req, INVALID_OP => "@$r: too many realms found")
-	if @$r > 1;
-    $req->set_realm($r->[0]);
-    return $self;
-}
-
 sub _die {
     my($req, $die, $msg) = @_;
     Bivio::IO::Alert->warn($die, ': ', $msg, ' ', $req);

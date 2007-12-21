@@ -35,8 +35,8 @@ my($_SELF) = __PACKAGE__->new({
 	['PrizeCoupon.coupon_code.NOT_FOUND' => q{The vs_fe(q{label}); is not valid.  Please verify the number carefully.  If you already did this, please have the Freiker's parent contact us at vs_gears_email();.}],
 	['PayPalForm.amount.NULL' => 'Any amount will do!'],
 	['FreikerCode.freiker_code' => [
-	    NOT_FOUND => 'This is not a valid vs_fe(q{label}); for your school.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.',
-	    EXISTS => 'The vs_fe(q{label}); is already assigned to a Freiker.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.',
+	    NOT_FOUND => q{This is not a valid vs_fe('label'); for your school.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.},
+	    EXISTS => q{The vs_fe('label'); is already assigned to a Freiker.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.If(['->is_substitute_user'], SPAN_sui(' To force the assignment, resubmit the form.'));},
 	    MUTUALLY_EXCLUSIVE => q{The vs_fe(q{label}); was scanned on a date your child rode with his old vs_fe(q{label});.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.},
 	]],
 	['ClubRegisterForm.Website.url.EXISTS' => q{This school's website is already registered.  Please try to find the "wheel" at your school.}],
@@ -46,6 +46,8 @@ my($_SELF) = __PACKAGE__->new({
 	['Ride.ride_date.EXISTS' => q{The Freiker was already credited for this date.  Please enter a different date.}],
 	[US_ZIP_CODE => q{The vs_fe(q{label}); must be 9-digit US Zip code.}],
 	[PRIZE_NOT_EARNED => q{You do not have enough available rides to chose this prize}],
+	['UserLoginForm.login.OFFLINE_USER' => q{Not a registered Freiker Code.  Link('Please click on this link to register.', 'USER_CREATE');}],
+	['AdmSubstituteUserForm.login.OFFLINE_USER' => q{Freiker Code not registered.  User must register before you can act as user.}],
     ],
     Constant => [
 	[xlink_paypal => {

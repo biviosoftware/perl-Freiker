@@ -2,7 +2,7 @@
 # $Id$
 ShellUtil();
 shell_util(Test => ['reset_freikers']);
-req()->set_realm_and_user(qw(parent child0));
+req()->set_realm_and_user(qw(parent child));
 my($rides) = model('FreikerRideList', {
     parent_id => req('auth_user_id'),
     auth_id => req('auth_id'),
@@ -15,5 +15,5 @@ my($rides) = model('FreikerRideList', {
 	}
 	return 1;
     },
-    [qw(info 1234)] => qr{child0.*bunit123456789.*parent}s,
+    [qw(info 1234)] => qr{child.*bunit123456789.*parent}s,
 ];

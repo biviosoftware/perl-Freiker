@@ -153,6 +153,10 @@ table.prizes span.desc p.prose {
 table.prizes span.name, table.prizes span.rides {
   Font('strong');
 }
+span.sui {
+  Color('header_su-background');
+  Font('header_su');
+}
 EOF
 
 sub internal_site_css {

@@ -15,7 +15,7 @@ sub execute {
     my($proto, $req) = @_;
     return
 	unless $req->is_http_method('put');
-    Bivio::Biz::Model->new($req, 'Club')->set_realm_for_freikometer;
+    Bivio::Biz::Model->new($req, 'RealmUser')->set_realm_for_freikometer;
     my($pi) = $_FP->get_clean_tail($req->get('path_info'));
     Bivio::IO::Log->write_compressed(
 	File::Spec->catfile(

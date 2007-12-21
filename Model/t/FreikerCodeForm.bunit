@@ -1,46 +1,100 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 my($today, $child_id, $school_id) = do('./RideList.PL');
+my($_D) = class('Type.Date');
+my($day) = [map($_D->add_days($today, -$_), 0..10)];
 my($num_rides) = _count();
-my($first_ride_date) = unauth_model('FreikerRideList', {
-    parent_id => $child_id,
-    auth_id => req('auth_id'),
-})->set_cursor_or_die(0)->get('Ride.ride_date');
+sub _fc {
+    return class('Freiker::Test')->FREIKER_CODE(shift);
+}
+sub _epc {
+    return class('Freiker::Test')->EPC(shift);
+}
 sub _count {
     return req()->with_realm(
 	$child_id,
 	sub {scalar(@{model('Ride')->map_iterate(sub {1}, 'ride_date')})},
     );
 }
+sub _add_rides {
+    my($kid, @days) = @_;
+    req()->with_realm($school_id, sub {
+	my($rif) = model('RideImportForm');
+	foreach my $d (@days) {
+            $rif->process_record({
+ 	        epc => _epc($kid),
+	        datetime => $day->[$d],
+	    });
+	}
+    });
+    return;
+}
 [
+    empty_case({
+	'FreikerCode.freiker_code' => undef,
+	'Club.club_id' => $school_id,
+    }),
     [{
-	'FreikerCode.freiker_code' => class('Freiker::Test')->FREIKER_CODE(2),
+	'FreikerCode.freiker_code' => _fc(2),
 	'Club.club_id' => $school_id,
     }] => sub {
 	assert_equals($num_rides + 1, _count());
 	return 1;
     },
     error_case({
-	'FreikerCode.freiker_code' => class('Freiker::Test')->FREIKER_CODE(0),
+	'FreikerCode.freiker_code' => _fc(0),
 	'Club.club_id' => $school_id,
     } => {
 	'FreikerCode.freiker_code' => 'EXISTS',
     }),
     inline_case(sub {
-	req()->with_realm($school_id, sub {
-	    model('RideImportForm')->process_record({
-		epc => class('Freiker::Test')->EPC(3),
-		datetime => $first_ride_date,
-	    });
-	});
+        _add_rides(1, 3..4);
+	_add_rides(3, 3..4);
 	return;
     }),
     error_case({
-	'FreikerCode.freiker_code' => class('Freiker::Test')->FREIKER_CODE(3),
+	'FreikerCode.freiker_code' => _fc(3),
 	'Club.club_id' => $school_id,
     } => {
 	'FreikerCode.freiker_code'
 	    => 'MUTUALLY_EXCLUSIVE: '
-	    . class('Type.Date')->to_string($first_ride_date),
+	    . join(', ', map($_D->to_string($day->[$_]), reverse(3..4))),
     }),
+    inline_case(sub {
+        _add_rides(1, 3);
+	_add_rides(3, 3);
+	return;
+    }),
+    [{
+	'FreikerCode.freiker_code' => _fc(3),
+	'Club.club_id' => $school_id,
+    }] => sub {
+	assert_equals($num_rides + 1, _count());
+    },
+    error_case({
+	'FreikerCode.freiker_code' => _fc(0),
+	'Club.club_id' => $school_id,
+	are_you_sure => 1,
+    } => {
+	'FreikerCode.freiker_code' => 'EXISTS',
+    }),
+    inline_case(sub {
+	req()->set_user('adm');
+	model(AdmSubstituteUserForm => {login => 'parent'});
+	return;
+    }),
+    error_case({
+	'FreikerCode.freiker_code' => _fc(0),
+	'Club.club_id' => $school_id,
+    } => {
+	'FreikerCode.freiker_code' => 'EXISTS',
+    }),
+    [{
+	'FreikerCode.freiker_code' => _fc(0),
+	'Club.club_id' => $school_id,
+	are_you_sure => 1,
+    }] => sub {
+	assert_equals(100, _count());
+	return 1;
+    },
 ];

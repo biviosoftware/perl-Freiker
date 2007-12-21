@@ -6,12 +6,6 @@ use Bivio::Base 'Model.YearBaseList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
-sub get_club_id {
-    my($self) = @_;
-    return $self->new_other('RealmUser')->find_club_id_for_freiker(
-	$self->get_user_id);
-}
-
 sub get_display_name {
     my($self) = @_;
     my($uid) = $self->get_user_id;
@@ -34,6 +28,7 @@ sub internal_initialize {
         order_by => ['Ride.ride_date'],
 	parent_id => [qw(Ride.user_id RealmUser.user_id)],
 	auth_id => ['RealmUser.realm_id'],
+	other => ['Ride.ride_upload_id'],
     });
 }
 

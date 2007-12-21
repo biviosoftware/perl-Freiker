@@ -56,7 +56,7 @@ sub _args {
     $self->usage_error($freiker_code, ': freiker code not found')
 	unless $user_id;
     return ($self, $user_id, $club_id,
-	    $self->model('RealmUser')->family_id_for_freiker($user_id));
+	    $self->model('RealmUser')->unsafe_family_id_for_freiker($user_id));
 }
 
 1;

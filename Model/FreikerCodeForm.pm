@@ -6,6 +6,18 @@ use Bivio::Base 'Biz.FormModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = __PACKAGE__->use('Type.Date');
+my($_OVERLAP_SLOP) = 1;
+my($_FREIKER) = __PACKAGE__->use('Auth.Role')->FREIKER;
+
+sub execute_empty {
+    my($self) = @_;
+    return 
+	unless my $frl = $self->req->unsafe_get('Model.FreikerRideList');
+    $self->internal_put_field(
+	'Club.club_id' => $self->new_other('RealmUser')
+	    ->club_id_for_freiker($frl->get_query->get('parent_id')));
+    return;
+}
 
 sub execute_ok {
     my($self) = @_;
@@ -22,6 +34,13 @@ sub internal_initialize {
 	    'FreikerCode.freiker_code',
 	    'Club.club_id',
 	],
+	hidden => [
+	    {
+		name => 'are_you_sure',
+		type => 'Boolean',
+		constraint => 'NONE',
+	    },
+	],
 	other => [
 	    'FreikerCode.user_id',
 	],
@@ -34,15 +53,29 @@ sub internal_pre_execute {
     return;
 }
 
+sub _delete_rides {
+    my($self, $rides) = @_;
+    return unless @$rides;
+    $self->map_by_two(
+	sub {
+	    my($date, $user_id) = @_;
+	    $self->new('Ride')->unauth_delete({
+		ride_date => $date,
+		user_id => $user_id,
+	    });
+	},
+	$rides,
+    );
+    return;
+}
+
 sub _iterate_rides {
     my($self, $user_id, $op) = @_;
     $self->new_other('Ride')->do_iterate(
 	$op,
         'unauth_iterate_start',
         'ride_date',
-	{
-	    user_id => $user_id,
-	},
+	{user_id => $user_id},
     );
     return;
 }
@@ -94,31 +127,38 @@ sub _validate_rides {
     my($self, $new_uid) = @_;
     return 1
 	unless my $frl = $self->req->unsafe_get('Model.FreikerRideList');
-    my($new_dates) = {};
+    my($new_auto) = {};
+    my($new_manual) = {};
     _iterate_rides(
 	$self, $new_uid, sub {
-	    $new_dates->{shift->get('ride_date')} = 1;
+	    my($d, $up) = shift->get(qw(ride_date ride_upload_id));
+	    ($up ? $new_auto : $new_manual)->{$d} = 1;
 	    return 1;
 	},
     );
+    my($can_delete) = {};
     my($overlap) = {};
-    my($curr_uid);
+    my($curr_uid) = $frl->get_query->get('parent_id');
     $frl->do_rows(sub {
 	my($it) = @_;
-	$curr_uid ||= $it->get('Ride.user_id');
-	my($d) = $it->get('Ride.ride_date');
-#TODO: Delete manual override
-	$overlap->{$d}++
-	    if $new_dates->{$d};
+	my($d, $up) = $it->get(qw(Ride.ride_date Ride.ride_upload_id));
+	if ($new_manual->{$d} || $new_auto->{$d}) {
+	    if ($new_auto->{$d} && $up) {
+		$overlap->{$d} = $new_uid;
+	    }
+	    else {
+		$can_delete->{$d} = $up ? $curr_uid : $new_uid;
+	    }
+	}
 	return 1;
     });
     return $self->internal_put_error_and_detail(
 	'FreikerCode.freiker_code' => 'MUTUALLY_EXCLUSIVE',
 	keys(%$overlap) > 10 ? keys(%$overlap) . ' days'
 	    : join(', ', sort(map($_D->to_string($_), keys(%$overlap)))),
-    ) if keys(%$overlap);
-    $self->internal_put_field('FreikerCode.user_id' => $curr_uid)
-	if $curr_uid;
+    ) if keys(%$overlap) > $_OVERLAP_SLOP;
+    $self->internal_put_field('FreikerCode.user_id' => $curr_uid);
+    _delete_rides($self, [%$can_delete, %$overlap]);
     return 1;
 }
 
@@ -126,8 +166,22 @@ sub _validate_user {
     my($self, $new_uid) = @_;
     return
 	unless $new_uid;
-    return $self->internal_put_error('FreikerCode.freiker_code' => 'EXISTS')
-	if $self->new_other('RealmUser')->is_registered_freiker($new_uid);
+    if (my $fid = $self->new_other('RealmUser')
+	    ->unsafe_family_id_for_freiker($new_uid)
+    ) {
+	$self->internal_put_error('FreikerCode.freiker_code' => 'EXISTS');
+	return unless $self->req->is_substitute_user;
+	unless ($self->unsafe_get('are_you_sure')) {
+	    $self->internal_put_field(are_you_sure => 1);
+	    return;
+	}
+	$self->internal_clear_error('FreikerCode.freiker_code');
+	$self->new_other('RealmUser')->unauth_delete({
+	    user_id => $new_uid,
+	    realm_id => $fid,
+	    role => $_FREIKER,
+	});
+    }
     $self->internal_put_field('FreikerCode.user_id' => $new_uid);
     return $new_uid;
 }

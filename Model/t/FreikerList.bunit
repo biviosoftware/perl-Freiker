@@ -22,18 +22,18 @@ my($today) = do('./SetupRides.PL');
 	    [1236 => 1],
 	    [1237 => 1],
 	    [1238 => 1],
-	    [child0 => 100],
+	    [child => 100],
 	    [child1 => 1],
         ],
 	parent => [
-	    [child0 => 100],
+	    [child => 100],
 	    [child1 => 1],
         ],
 	[{
 	    begin_date => $today,
 	    end_date => $today,
 	}] => [
-	    [child0 => 1],
+	    [child => 1],
 	],
     ],
 ];
