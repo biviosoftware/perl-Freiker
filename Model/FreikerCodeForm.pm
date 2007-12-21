@@ -92,9 +92,15 @@ sub _update_user {
 	$it->create($v);
 	return 1;
     });
-    $self->get_model('FreikerCode')->update({
-	user_id => $curr_uid,
-    });
+    $self->new_other('FreikerCode')->do_iterate(
+	sub {
+	    shift->update({user_id => $curr_uid});
+	    return 1;
+	},
+	'unauth_iterate_start',
+	'freiker_code',
+	{user_id => $new_uid},
+    );
     $self->req->with_realm(
 	$self->get('Club.club_id'),
 	sub {
