@@ -139,6 +139,9 @@ my($_SELF) = __PACKAGE__->new({
 	    image_file => 'Image',
 	    ok_button => 'OK',
 	]],
+	[AdmSubstituteUserForm => [
+	    login => 'Email or Code:',
+	]],
 	[UserLoginForm => [
 	    prose => [
 		prologue => q{vs_text_as_prose('USER_CREATE');},
