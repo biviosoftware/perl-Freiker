@@ -6,6 +6,10 @@ use Bivio::Base 'Biz.ListModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
+sub LOAD_ALL_SIZE {
+    return 10_000;
+}
+
 sub find_row_by_code {
     return shift->find_row_by('FreikerCode.freiker_code', shift);
 }
