@@ -10,7 +10,6 @@
 div.wiki {
   padding: 0;
   margin: 0;
-  width: 40em;
 }
 div.wiki h1,
 div.wiki h3,
@@ -20,7 +19,7 @@ div.wiki h2 {
 }
 div.wiki h1,
 div.wiki h2 {
-  color: #666666;
+  color: #545962;
   font-size: 140%;
   font-weight: bold;
   margin-bottom: .5ex;
@@ -55,23 +54,26 @@ div.wiki a.movie {
   text-align: center;
   font-size: 120%;
   font-weight: bold;
-  color: 0x33CC00;
+  color: #39b44a;
 }
 ^/my/Donate span.money {
+  margin-right: .5em;
+}
+^/my/Donate span.money,
+^/my/Donate input.money {
   font-size: 120%;
   font-weight: bold;
-  color: 0x33CC00;
-  margin-right: .5em;
+  color: #39b44a;
 }
 ^/my/wiki/Prizes div.wiki span.rides {
   font-weight: bold;
 }
-^/my/wiki/Prizes a.left img {
+^/my/wiki/Prizes div.wiki a.left img {
   padding-right: 2em;
   clear: left;
   float: left;
 }
-^/my/wiki/Prizes a.right img {
+^/my/wiki/Prizes div.wiki a.right img {
   padding-left: 2em;
   clear: right;
   float: right;
@@ -83,6 +85,35 @@ div.wiki a.movie {
   width: 250px;
   height: 212px;
 }
+^/my/wiki/Home div.wiki div.ride_summary { 
+  float: right;
+  padding: 0 .5em .5em .5em;
+}
+^/my/wiki/Home div.wiki div.ride_summary h3 { 
+  padding-left: .5em;
+  text-align: center;
+}
+^/my/wiki/Home div.wiki table.ride_summary th { 
+  padding-bottom: 0;
+  color: #545962;
+  font-weight: bold;
+}
+^/my/wiki/Home div.wiki table.ride_summary td { 
+  padding-bottom: .2em;
+  padding-top: .2em;
+}
+^/my/wiki/Home div.wiki table.ride_summary td.school { 
+  font-weight: bold;
+}
+^/my/wiki/Home div.wiki table.ride_summary td.amount_cell span {
+  padding: 0 .3em;
+}
+^/my/wiki/Home div.wiki table.ride_summary td.amount_cell span.rank_1 {
+  background-color: #47e55c;
+  font-weight: bold;
+  padding: .2em .3em;
+  color: white;
+}
 ^/my/wiki/Home h3 img {
   display: block;
   float: right;
@@ -93,6 +124,7 @@ div.wiki a.movie {
   float: left;
   margin: 0 1em 1em 0;
 }
+
 ^/my/wiki/Sponsors div.simple img {
   padding: 10px;
 }

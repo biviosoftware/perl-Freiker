@@ -268,6 +268,14 @@ sub get_delegate_info {
 	    View.Adm->freiker_code_import
 	    next=CLUB_FREIKER_LIST
 	)],
+	[qw(
+	    ALL_CLUB_SUMMARY_LIST
+	    529
+	    GENERAL
+	    ANYBODY
+	    Model.AllClubSummaryList->execute_load_all
+	    View.WikiWidget->all_club_summary_list
+	)],
     ]);
 }
 

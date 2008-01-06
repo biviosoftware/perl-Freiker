@@ -14,4 +14,11 @@ sub from_display_name_and_zip {
     return lc(substr($n, 0, $proto->get_width - length($zip)) . $zip);
 }
 
+sub strip_school_classifiers {
+    my($proto, $display_name) = @_;
+    return join(' ',
+        grep(!/^(?:elementary|middle|junior|high|school|k-8|charter|alternative|magnet)$/i,
+            split(' ', $display_name)));
+}
+
 1;

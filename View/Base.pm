@@ -86,28 +86,29 @@ sub internal_xhtml_adorned {
 			Bivio::Biz::Model->new($req, 'ContextlessUserLoginForm')->process;
 			return 1;
 		   }],
-		   RoundedBox(
-		       Form(ContextlessUserLoginForm =>
-			   Join([
-			       map((
-				   DIV_label(String(vs_text("ContextlessUserLoginForm.$_"))),
-				   FormField("ContextlessUserLoginForm.$_", {size => 15}),
-			       ), qw(login RealmOwner.password)),
-			       StandardSubmit(['ok_button']),
-			       Link('Not Registered?', 'USER_CREATE', {
-				   class => 'label',
-			       }),
-			   ]),
-			   {
-			       action => URI({
-				   task_id => 'LOGIN',
-				   no_context => 1,
-			       }),
-			   },
-			), {
-			    class => 'login',
-			},
-		   ),
+		   Join([
+		       DIV_login(Join([RoundedBox(
+			   Form(ContextlessUserLoginForm =>
+			       Join([
+				   map((
+				       DIV_label(String(vs_text("ContextlessUserLoginForm.$_"))),
+				       FormField("ContextlessUserLoginForm.$_", {size => 15}),
+				   ), qw(login RealmOwner.password)),
+				   StandardSubmit(['ok_button']),
+				   Link('Not Registered?', 'USER_CREATE', {
+				       class => 'label',
+				   }),
+			       ]),
+			       {
+				   action => URI({
+				       task_id => 'LOGIN',
+				       no_context => 1,
+				   }),
+			       },
+			    ),
+		       ), DIV_sandbag1('', {tag_if_empty => 1})])),
+		       DIV_sandbag2('', {tag_if_empty => 1}),
+		   ]),
 		   ' ',
 	       ),
 	    ),
@@ -120,8 +121,8 @@ sub internal_xhtml_adorned {
 	xhtml_header_middle => DIV_donate(
 	    Link(
 		Join([
-		    Image('donate', 'Please donate'),
-		    DIV_msg(q{It's tax-deductible!}),
+		    DIV('Please Donate'),
+		    DIV_subtitle('even $10 helps!'),
 		]),
 		URI({
 		    realm => vs_constant('site_realm_name'),

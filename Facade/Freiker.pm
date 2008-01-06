@@ -14,21 +14,22 @@ my($_SELF) = __PACKAGE__->new({
     mail_host => 'freiker.org',
     Color => [
 	[footer_border_top => 0x0],
-	[[qw(a_link left_login_background notice h3 prize_img_border nav)] => 0x33CC00],
-	[[qw(acknowledgement_border a_hover a_hover_img_border)] => 0x99FF33],
-	[[qw(title topic)] => 0x666666],
+	[[qw(a_link left_login_background notice h3 prize_img_border nav left_nav_background)] => 0x39b44a],
+	[[qw(acknowledgement_border a_hover a_hover_img_border)] => 0x46db5a],
+	[[qw(title topic footer_border_top)] => 0x545962],
 	[[qw(err warn empty_list_border)] => 0xcc0000],
-	[[qw(main_left_text a_img_border prizes_background)] => 0xFFFFFF],
+	[[qw(left_nav_a_hover main_left_text a_img_border prizes_background)] => 0xFFFFFF],
     ],
     Font => [
 	[a_link => 'normal'],
 	[a_hover => 'underline'],
-	[body => ['family=Verdana, Arial, Helvetica, Geneva, SunSans-Regular, sans-serif', 'small']],
+	[body => ['family=Arial', 'small']],
 	[highlight => 'bold'],
 	[pending_upload => ['italic', 'uppercase']],
 	[footer => []],
-	[topic => [qw(140% bold)]],
-	[nav => '140%'],
+	[[qw(topic nav)] => [qw(140% bold)]],
+	[left_nav_a_hover => []],
+	[user_state => [qw(140% bold nowrap)]],
     ],
     FormError => [
 	[NUMBER => 'Please enter a number'],
@@ -56,6 +57,7 @@ my($_SELF) = __PACKAGE__->new({
     ],
     Task => [
 	[ADM_FREIKOMETER_LIST => 'adm/freikometers'],
+	[ALL_CLUB_SUMMARY_LIST => 'pub/ride-summary'],
 	[BOT_FREIKOMETER_DOWNLOAD => '?/fm-down/*'],
 	[BOT_FREIKOMETER_UPLOAD => '/fm/*'],
 	[CLUB_FREIKER_LIST => '?/freikers'],
@@ -229,6 +231,12 @@ EOF
 	    source => 'CSV File',
 	    ok_button => 'Import',
 	]],
+	[AllClubSummaryList => [
+	    'RealmOwner.display_name' => 'School',
+	    days_1 => 'Day',
+	    days_5 => 'Week',
+	    days_20 => 'Month',
+	]],
 	[UserPasswordQueryForm => [
 	    'prose.prologue' => q{P_prose('Please enter the email address you used to register and click Send.  You will receive an email with a link to reset your password.');},
 	    ok_button => 'Send',
@@ -299,6 +307,7 @@ EOF
 	    ADM_FREIKOMETER_LIST => 'Freikometers',
 	    USER_PASSWORD => 'Change Your Password',
 	    [qw(USER_CREATE_DONE GENERAL_USER_PASSWORD_QUERY)] => 'Check Your Mail',
+	    ALL_CLUB_SUMMARY_LIST => 'Real-time Ridership',
 	]],
 	['xhtml.title' => [
 	    FAMILY_FREIKER_RIDE_LIST =>
@@ -323,6 +332,7 @@ EOF
 	    MERCHANT_PRIZE_REDEEM => 'Redeem coupon',
 	    MERCHANT_PRIZE_LIST => 'Donated prizes',
 	    MERCHANT_REGISTER => 'Register new merchant',
+	    PAYPAL_FORM => 'Donate',
 	    SITE_ROOT => 'Home',
 	    USER_CREATE => 'Register',
 	    USER_PASSWORD => 'Account',

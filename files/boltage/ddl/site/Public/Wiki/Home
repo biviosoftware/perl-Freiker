@@ -1,6 +1,9 @@
 @h1 The Frequent Biker Program
-@a.movie href=^/my/file/freikometer.html ^freikometer.gif 
-@h3 Getting Kids Active 
+@div.ride_summary
+@h3 Real-Time Ridership
+@b-embed /pub/ride-summary
+@/div
+
 Freiker is dedicated to substantially increasing the number of children regularly bicycling to school.  Freiker uses advanced technology to count and provide incentives for kids who ride to school. 
 
 The prevalence of overweight children and adolescents in the U.S. has doubled over the past 20 years.  This significant increase is due to many factors, but we believe that one of the steps to fighting this problem is to encourage children to be active.  In fact, the U.S. Dept. of Health and Human Services recommends that children engage in at least 60 minutes of moderate intensity physical activity most days of the week, preferably daily to promote health and psychological well-being.  

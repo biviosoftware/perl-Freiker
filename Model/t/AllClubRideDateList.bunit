@@ -1,0 +1,13 @@
+# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+ListModel();
+do('./SetupRides.PL');
+[
+    load_all => [
+	[] => [
+	    map(+{
+		ride_count => ($_ > 1 && $_ < 6) ? 2 : 1,
+	    }, 1 .. 60),
+	],
+    ],
+];
