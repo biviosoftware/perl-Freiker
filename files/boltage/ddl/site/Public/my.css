@@ -85,6 +85,12 @@ div.wiki a.movie {
   width: 250px;
   height: 212px;
 }
+^/my/wiki/Home div.main_top div.title {
+  font-size: 140%;
+}
+^/my/wiki/Home div.wiki { 
+  font-size: 120%;
+}
 ^/my/wiki/Home div.wiki div.ride_summary { 
   float: right;
   padding: 0 .5em .5em .5em;
@@ -94,7 +100,7 @@ div.wiki a.movie {
   text-align: center;
 }
 ^/my/wiki/Home div.wiki table.ride_summary th { 
-  padding-bottom: 0;
+  padding-bottom: .1em;
   color: #545962;
   font-weight: bold;
 }
@@ -119,12 +125,25 @@ div.wiki a.movie {
   float: right;
   margin: 1em 0 1em 1em;
 }
-^/my/wiki/Home a.movie {
+^/my/wiki/Freikometer a.movie {
   display: block;
   float: left;
   margin: 0 1em 1em 0;
 }
-
+^/my/wiki/Freikometer a.movie span,
+^/my/wiki/Freikometer a.movie img {
+  display: block;
+  font-size: 140%;
+}
 ^/my/wiki/Sponsors div.simple img {
   padding: 10px;
+}
+div.wiki div.testimonial {
+  text-indent: 2em;
+  font-style: italic;
+  margin-top: 2ex;
+  width: 30em;
+}
+div.wiki div.testimonial span.author {
+  font-style: normal;
 }
