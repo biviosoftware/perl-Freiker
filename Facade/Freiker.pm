@@ -318,6 +318,8 @@ EOF
 		'Enter New Freiker ID for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	]],
 	['task_menu.title' => [
+#TODO: Remove 1/15/08
+	    GENERAL_CONTACT => 'Contact',
 	    CLUB_FREIKER_LIST => 'Freikers',
 	    CLUB_RIDE_DATE_LIST => 'Rides',
 	    CLUB_PRIZE => 'Update prize',
