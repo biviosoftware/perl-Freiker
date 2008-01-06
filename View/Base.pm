@@ -25,7 +25,10 @@ sub internal_xhtml_adorned {
 	    Prose(vs_text(
 		[sub {"xhtml.title.$_[1]"}, ['task_id', '->get_name']])),
 	]),
-	wiki_widget_contact => vs_gears_email(),
+	wiki_widget_contact => Link(
+	    String('our contact form'),
+	    'GENERAL_CONTACT',
+	),
 	wiki_widget_paypal_form => DIV_donate(
 	    Form(PayPalForm => Join([
 		SPAN_money('$'),
