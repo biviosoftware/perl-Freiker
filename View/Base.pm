@@ -132,6 +132,7 @@ sub internal_xhtml_adorned {
 	    ),
 	),
 	xhtml_footer_middle => TaskMenu([
+	    'GENERAL_CONTACT',
 	    {
 		task_id => 'PAYPAL_FORM',
 		realm => vs_constant('site_realm_name'),
