@@ -142,7 +142,7 @@ my($_SELF) = __PACKAGE__->new({
 	    ok_button => 'OK',
 	]],
 	[AdmSubstituteUserForm => [
-	    login => 'Email or Code:',
+	    login => 'Email or Code',
 	]],
 	[UserLoginForm => [
 	    prose => [
