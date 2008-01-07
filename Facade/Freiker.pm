@@ -14,9 +14,9 @@ my($_SELF) = __PACKAGE__->new({
     mail_host => 'freiker.org',
     Color => [
 	[footer_border_top => 0x0],
-	[[qw(a_link left_login_background notice h3 prize_img_border nav left_nav_background)] => 0x39b44a],
-	[[qw(acknowledgement_border a_hover a_hover_img_border)] => 0x46db5a],
-	[[qw(title topic footer_border_top)] => 0x545962],
+	[[qw(a_link left_login_background notice h3 prize_img_border nav left_nav_background)] => 0x33aa33],
+	[[qw(acknowledgement_border a_hover a_hover_img_border)] => 0x41d941],
+	[[qw(title topic footer_border_top)] => 0x666666],
 	[[qw(err warn empty_list_border)] => 0xcc0000],
 	[[qw(left_nav_a_hover main_left_text a_img_border prizes_background)] => 0xFFFFFF],
     ],

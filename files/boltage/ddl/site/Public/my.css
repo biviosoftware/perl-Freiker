@@ -19,7 +19,7 @@ div.wiki h2 {
 }
 div.wiki h1,
 div.wiki h2 {
-  color: #545962;
+  color: #666666;
   font-size: 140%;
   font-weight: bold;
   margin-bottom: .5ex;
@@ -54,7 +54,7 @@ div.wiki a.movie {
   text-align: center;
   font-size: 120%;
   font-weight: bold;
-  color: #39b44a;
+  color: #33aa33;
 }
 ^/my/Donate span.money {
   margin-right: .5em;
@@ -63,7 +63,7 @@ div.wiki a.movie {
 ^/my/Donate input.money {
   font-size: 120%;
   font-weight: bold;
-  color: #39b44a;
+  color: #33aa33;
 }
 ^/my/wiki/Prizes div.wiki span.rides {
   font-weight: bold;
@@ -101,7 +101,7 @@ div.wiki a.movie {
 }
 ^/my/wiki/Home div.wiki table.ride_summary th { 
   padding-bottom: .1em;
-  color: #545962;
+  color: #666666;
   font-weight: bold;
 }
 ^/my/wiki/Home div.wiki table.ride_summary td { 
@@ -115,7 +115,7 @@ div.wiki a.movie {
   padding: 0 .3em;
 }
 ^/my/wiki/Home div.wiki table.ride_summary td.amount_cell span.rank_1 {
-  background-color: #47e55c;
+  background-color: #41d941;
   font-weight: bold;
   padding: .2em .3em;
   color: white;
