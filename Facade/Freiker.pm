@@ -16,7 +16,7 @@ my($_SELF) = __PACKAGE__->new({
 	[footer_border_top => 0x0],
 	[[qw(a_link left_login_background notice h3 prize_img_border nav left_nav_background)] => 0x33aa33],
 	[[qw(acknowledgement_border a_hover a_hover_img_border)] => 0x41d941],
-	[[qw(title topic footer_border_top)] => 0x666666],
+	[[qw(title topic footer_border_top footer_tag_line)] => 0x666666],
 	[[qw(err warn empty_list_border)] => 0xcc0000],
 	[[qw(left_nav_a_hover main_left_text a_img_border prizes_background)] => 0xFFFFFF],
     ],
@@ -30,6 +30,7 @@ my($_SELF) = __PACKAGE__->new({
 	[[qw(topic nav)] => [qw(140% bold)]],
 	[left_nav_a_hover => []],
 	[user_state => [qw(140% bold nowrap)]],
+	[footer_tag_line => [qw(100% bold)]],
     ],
     FormError => [
 	[NUMBER => 'Please enter a number'],
@@ -54,6 +55,11 @@ my($_SELF) = __PACKAGE__->new({
 	[xlink_paypal => {
 	    uri => 'http://www.paypal.com/us',
 	}],
+	[my_site_redirect_map => [
+	    [qw(GENERAL ADMINISTRATOR ADM_FREIKOMETER_LIST)],
+	    [qw(CLUB ADMINISTRATOR CLUB_FREIKER_LIST)],
+	    [qw(USER ADMINISTRATOR FAMILY_FREIKER_LIST)],
+	]],
     ],
     Task => [
 	[ADM_FREIKOMETER_LIST => 'adm/freikometers'],
@@ -85,7 +91,6 @@ my($_SELF) = __PACKAGE__->new({
 	[MERCHANT_REGISTER => '/pub/register-merchant'],
 	[PAYPAL_FORM => ['?/donate']],
 	[PAYPAL_RETURN => 'pp/*'],
-	[USER_REALMLESS_REDIRECT => 'ru/*'],
     ],
     Text => [
 	[support_email => 'gears'],
