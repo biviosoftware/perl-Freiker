@@ -134,16 +134,19 @@ sub internal_xhtml_adorned {
 		}),
 	    ),
 	),
-	xhtml_footer_middle => TaskMenu([
-	    'GENERAL_CONTACT',
-	    {
-		task_id => 'PAYPAL_FORM',
-		realm => vs_constant('site_realm_name'),
-		query => undef,
-	    },
-	    'SITE_ROOT',
-	    XLink('user_logged_out'),
-	    XLink('user_just_visitor'),
+	xhtml_footer_middle => Join([
+	    TaskMenu([
+		'GENERAL_CONTACT',
+		{
+		    task_id => 'PAYPAL_FORM',
+		    realm => vs_constant('site_realm_name'),
+		    query => undef,
+		},
+		'SITE_ROOT',
+		XLink('user_logged_out'),
+		XLink('user_just_visitor'),
+	    ]),
+	    DIV_tag_line('Saving our society, one bike ride at a time.'),
 	]),
     );
     return @res;
