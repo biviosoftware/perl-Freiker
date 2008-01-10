@@ -102,6 +102,11 @@ div.main_body {
 td.footer_middle div.task_menu {
   text-align: center;
 }
+td.footer_middle div.tag_line {
+  text-align: center;
+  margin-top: 2ex;
+  Font('footer_tag_line');
+}
 a img, a:hover img {
   border: 1px solid;
   Color('a_img-border');
