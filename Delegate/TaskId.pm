@@ -10,19 +10,6 @@ sub get_delegate_info {
     my($proto) = @_;
     return $proto->merge_task_info(@{$proto->standard_components}, [
 	[qw(
-	    MY_SITE
-	    4
-	    GENERAL
-	    ANY_USER
-	    Action.HomeRedirect
-	    merchant_task=MERCHANT_PRIZE_LIST
-	    wheel_task=CLUB_FREIKER_LIST
-	    family_task=FAMILY_FREIKER_LIST
-	    adm_task=ADM_FREIKOMETER_LIST
-	    next=USER_REALMLESS_REDIRECT
-	    FORBIDDEN=LOGIN
-	)],
-	[qw(
 	    MERCHANT_REGISTER
 	    501
 	    GENERAL
@@ -40,16 +27,7 @@ sub get_delegate_info {
 	    View.Merchant->prize_redeem
 	    next=MERCHANT_PRIZE_RECEIPT
 	)],
-	[qw(
-	    USER_REALMLESS_REDIRECT
-	    503
-	    GENERAL
-	    ANYBODY
-	    Action.RealmlessRedirect
-	    visitor_task=SITE_ROOT
-	    home_task=MY_SITE
-	    unauth_task=SITE_ROOT
-	)],
+#503
 	[qw(
 	    CLUB_REGISTER
 	    504
