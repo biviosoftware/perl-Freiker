@@ -49,7 +49,7 @@ sub internal_initialize {
 
 sub internal_pre_execute {
     my($self) = @_;
-    $self->new_other('ClubSelectList')->load_all;
+    $self->new_other('ClubList')->load_all;
     return;
 }
 
@@ -59,7 +59,7 @@ sub _delete_rides {
     $self->map_by_two(
 	sub {
 	    my($date, $user_id) = @_;
-	    $self->new('Ride')->unauth_delete({
+	    $self->new_other('Ride')->unauth_delete({
 		ride_date => $date,
 		user_id => $user_id,
 	    });
@@ -115,7 +115,7 @@ sub _update_user {
 
 sub _validate_club {
     my($self) = @_;
-    my($l) = $self->req('Model.ClubSelectList');
+    my($l) = $self->req('Model.ClubList');
     return $self->internal_put_error('Club.club_id' => 'NULL')
 	if $l->EMPTY_KEY_VALUE eq $self->get('Club.club_id');
     return $self->internal_put_error('Club.club_id' => 'NOT_FOUND')
