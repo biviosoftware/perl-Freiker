@@ -126,9 +126,10 @@ sub _club_id {
     my($form) = @_;
     return ["$form.Club.club_id" => {
 	wf_class => 'Select',
-	choices => ['Model.ClubSelectList'],
+	choices => ['Model.ClubList'],
 	list_id_field => 'Club.club_id',
 	list_display_field => 'RealmOwner.display_name',
+	unknown_label => 'Select School',
     }];
 }
 
