@@ -24,13 +24,13 @@ sub internal_initialize {
 	    },
 	],
         group_by => ['Ride.ride_date'],
-	auth_id => [qw(FreikerCode.club_id)],
+	auth_id => [qw(RideUpload.club_id)],
 	other => [
 	    map(+{
 		name => $_,
 		in_select => 0,
-	    }, qw(Ride.user_id FreikerCode.freiker_code)),
-	    [qw(Ride.user_id FreikerCode.user_id)],
+	    }, qw(Ride.user_id Ride.ride_upload_id RideUpload.ride_upload_id RideUpload.club_id)),
+	    [qw(Ride.ride_upload_id RideUpload.ride_upload_id)],
 	],
     });
 }
