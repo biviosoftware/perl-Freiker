@@ -29,7 +29,7 @@ sub reset_freikers {
     my($fc) = $self->model('FreikerCode');
     my($rides) = [];
     my($now) = $_D->now;
-    my($indexes) = [0..4];
+    my($indexes) = [0..5];
     foreach my $u (@{$_SA->sort_unique([
 	map(
 	    $fc->unsafe_load({
@@ -69,6 +69,16 @@ sub reset_freikers {
 	foreach my $r (@$rides) {
 	    $rif->process_record($r);
 	}
+    });
+    $req->with_realm(Freiker::Test->PARENT, sub {
+        $self->model(FreikerRideList => {
+	    parent_id => $self->unauth_model(RealmOwner => {name => 'child1'})
+		->get('realm_id'),
+	});
+        $self->model(FreikerCodeForm => {
+	    'Club.club_id' => $club_id,
+	    'FreikerCode.freiker_code' => Freiker::Test->FREIKER_CODE(2),
+	});
     });
     return;
 }

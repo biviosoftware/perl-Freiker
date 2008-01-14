@@ -5,17 +5,17 @@ do('./SetupRides.PL');
 [
     is_registered_freiker => [
 	realm_id('child') => 1,
-	realm_id('1236') => 0,
+	realm_id('1237') => 0,
     ],
     club_id_for_freiker => [
 	realm_id('child') => realm_id('bunit123456789'),
-	realm_id('1236') => realm_id('bunit123456789'),
+	realm_id('1237') => realm_id('bunit123456789'),
     ],
     club_id_for_freiker_code => [
 	1234 => realm_id('bunit123456789'),
     ],
     unsafe_family_id_for_freiker => [
 	realm_id('child') => realm_id('parent'),
-	realm_id('1237') => [undef],
+	realm_id('1238') => [undef],
     ],
 ];

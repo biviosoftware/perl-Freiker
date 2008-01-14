@@ -16,7 +16,7 @@ sub internal_initialize {
 	    in_select => 0,
 	},
 	primary_key => [
-	    [qw(RealmUser.user_id Ride.user_id RealmOwner.realm_id FreikerCode.user_id)],
+	    [qw(RealmUser.user_id Ride.user_id RealmOwner.realm_id)],
 	],
         order_by => [
 	    'RealmOwner.display_name',
@@ -34,7 +34,7 @@ sub internal_initialize {
 	    map(+{
 		name => $_,
 		in_select => 0,
-	    }, qw(Ride.ride_upload_id RealmUser.role FreikerCode.freiker_code)),
+	    }, qw(Ride.ride_upload_id RealmUser.role)),
 	],
 	auth_id => 'RealmUser.realm_id',
 	group_by => [qw(

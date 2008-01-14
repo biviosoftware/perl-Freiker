@@ -35,7 +35,7 @@ sub _add_rides {
 	'Club.club_id' => $school_id,
     }),
     [{
-	'FreikerCode.freiker_code' => _fc(2),
+	'FreikerCode.freiker_code' => _fc(3),
 	'Club.club_id' => $school_id,
     }] => sub {
 	assert_equals($num_rides + 1, _count());
@@ -48,25 +48,25 @@ sub _add_rides {
 	'FreikerCode.freiker_code' => 'EXISTS',
     }),
     inline_case(sub {
-        _add_rides(1, 3..4);
-	_add_rides(3, 3..4);
+        _add_rides(1, 4..5);
+	_add_rides(4, 4..5);
 	return;
     }),
     error_case({
-	'FreikerCode.freiker_code' => _fc(3),
+	'FreikerCode.freiker_code' => _fc(4),
 	'Club.club_id' => $school_id,
     } => {
 	'FreikerCode.freiker_code'
 	    => 'MUTUALLY_EXCLUSIVE: '
-	    . join(', ', map($_D->to_string($day->[$_]), reverse(3..4))),
+	    . join(', ', map($_D->to_string($day->[$_]), reverse(4..5))),
     }),
     inline_case(sub {
-        _add_rides(1, 3);
-	_add_rides(3, 3);
+        _add_rides(1, 4);
+	_add_rides(4, 4);
 	return;
     }),
     [{
-	'FreikerCode.freiker_code' => _fc(3),
+	'FreikerCode.freiker_code' => _fc(4),
 	'Club.club_id' => $school_id,
     }] => sub {
 	assert_equals($num_rides + 1, _count());
@@ -89,6 +89,24 @@ sub _add_rides {
     } => {
 	'FreikerCode.freiker_code' => 'EXISTS',
     }),
+    error_case({
+	'FreikerCode.freiker_code' => _fc(0),
+	'Club.club_id' => $school_id,
+	are_you_sure => 1,
+    } => {
+	'FreikerCode.freiker_code'
+	    => 'MUTUALLY_EXCLUSIVE: '
+	    . join(', ', map($_D->to_string($day->[$_]), reverse(1..2))),
+    }),
+    inline_case(sub {
+	unauth_model(Ride => {
+	    user_id => $child_id,
+	    ride_date => $day->[2],
+	})->update({
+	    ride_upload_id => undef,
+	});
+	return;
+    }),
     [{
 	'FreikerCode.freiker_code' => _fc(0),
 	'Club.club_id' => $school_id,
@@ -97,4 +115,5 @@ sub _add_rides {
 	assert_equals(100, _count());
 	return 1;
     },
+
 ];

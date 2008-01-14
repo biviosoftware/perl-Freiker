@@ -7,7 +7,7 @@ login_as('parent');
 follow_link('register.*child');
 submit_form({
     first => 'Bobby',
-    freiker => '1236',
+    freiker => '1237',
     school => 'bunit Elementary',
     birth => '1999',
     radio => 'Male',
@@ -15,10 +15,10 @@ submit_form({
 follow_link_in_table(qw(freiker freiker bobby action helmet));
 sleep(1);
 submit_form({
-    freiker => '1237',
+    freiker => '1238',
     school => 'bunit Elementary',
 });
-verify_text('Bobby (1237, 1236)');
+verify_text('Bobby (1238, 1237)');
 follow_link('missing');
 my($d) = test_use('Type.Date');
 submit_form({
@@ -27,19 +27,19 @@ submit_form({
 verify_table(Date => [
     ['Date'],
     map([$d->to_string($d->add_days($d->now, 0))],
-	0, -2, -3,),
+	0, -3, -4,),
 ]);
 follow_link('helmet');
 test_deviance('already assigned');
 submit_form({
-    freiker => '1237',
+    freiker => '1238',
     school => 'bunit Elementary',
 });
 test_conformance();
 do_logout();
-login_as('1236');
+login_as('1237');
 follow_link('Bobby');
-verify_text('Bobby (1237, 1236)');
+verify_text('Bobby (1238, 1237)');
 do_logout();
 test_deviance(qr{not.*registered.*please.*click}i);
-login_as('1238');
+login_as('1239');

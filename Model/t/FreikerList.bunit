@@ -1,4 +1,4 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2008 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 ListModel();
 my($today) = do('./SetupRides.PL');
@@ -19,15 +19,15 @@ my($today) = do('./SetupRides.PL');
 	},
     } => [
 	bunit123456789 => [
-	    [1236 => 1],
 	    [1237 => 1],
 	    [1238 => 1],
+	    [1239 => 1],
 	    [child => 100],
-	    [child1 => 1],
+	    [child1 => 2],
         ],
 	parent => [
 	    [child => 100],
-	    [child1 => 1],
+	    [child1 => 2],
         ],
 	[{
 	    begin_date => $today,
