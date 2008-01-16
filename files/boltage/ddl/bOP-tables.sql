@@ -175,7 +175,16 @@ CREATE TABLE motion_vote_t (
   realm_id NUMERIC(18) NOT NULL,
   vote NUMERIC(2) NOT NULL,
   creation_date_time DATE NOT NULL,
+  comment VARCHAR(500),
   CONSTRAINT motion_vote_t1 PRIMARY KEY(motion_id, user_id)
+)
+/
+
+CREATE TABLE nonunique_email_t (
+  realm_id NUMERIC(18) NOT NULL,
+  location NUMERIC(2) NOT NULL,
+  email VARCHAR(100),
+  CONSTRAINT nonunique_email_t1 PRIMARY KEY(realm_id, location)
 )
 /
 
@@ -194,6 +203,14 @@ CREATE TABLE phone_t (
   location NUMERIC(2) NOT NULL,
   phone VARCHAR(30),
   CONSTRAINT phone_t1 primary key(realm_id, location)
+)
+/
+
+CREATE TABLE row_tag_t (
+  primary_id NUMERIC(18) NOT NULL,
+  key NUMERIC(3) NOT NULL,
+  value VARCHAR(500) NOT NULL,
+  CONSTRAINT row_tag_t1 primary key(primary_id, key)
 )
 /
 
@@ -270,7 +287,8 @@ CREATE TABLE tuple_use_t  (
 CREATE TABLE realm_dag_t (
   parent_id NUMERIC(18) NOT NULL,
   child_id NUMERIC(18) NOT NULL,
-  constraint realm_dag_t1 primary key (parent_id, child_id)
+  realm_dag_type NUMERIC(2) NOT NULL,
+  constraint realm_dag_t1 primary key (parent_id, child_id, realm_dag_type)
 )
 /
 
