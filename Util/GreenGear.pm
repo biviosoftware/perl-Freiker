@@ -22,20 +22,20 @@ EOF
 
 sub last_week {
     my($self) = @_;
-    my($winner) = _choose($self, _choices($self));
+    my($code, $epc, $user_id) = _choose($self, _choices($self));
     return [
-	$winner->as_string
-	    . ','
-	    . $winner->get('freiker_code')
-	    .',gg='
-	    . $_D->to_string($_D->local_today),
+	"$epc,$code,gg=" . $_D->to_string($_D->local_today),
 	$self->new_other('Freikometer')->do_all(download => {
 	    filename => 'green_gear',
-	    content => \($winner->as_string),
+	    content => \($epc),
 	    content_type => 'text/plain',
 	}),
 	$self->commit_or_rollback,
-	_info($self, $winner->get('freiker_code')),
+	map($_ && $self->new_other('RealmAdmin')->info(
+	    $self->unauth_model(RealmOwner => {realm_id => $_})),
+	    $user_id,
+	    $self->model('RealmUser')->unsafe_family_id_for_freiker($user_id),
+	)
     ];
 }
 
@@ -56,12 +56,12 @@ sub _choices {
 	}
 	return $row->[1] == $max ? $row->[0] : ();
     },
-        qq{SELECT ride_t.freiker_code, count(ride_date)
-	    FROM ride_t, freiker_code_t
-	    WHERE freiker_code_t.freiker_code = ride_t.freiker_code
-	    AND freiker_code_t.club_id = ?
+        qq{SELECT ride_t.user_id, count(ride_date)
+	    FROM ride_t, realm_user_t
+	    WHERE realm_user_t.user_id = ride_t.user_id
+	    AND realm_user_t.realm_id = ?
 	    AND ride_date BETWEEN $_DT_SQL AND $_DT_SQL
-	    GROUP BY ride_t.freiker_code
+	    GROUP BY ride_t.user_id
 	    ORDER BY count(ride_date) desc},
         [$self->req('auth_id'), $start, _search_dow($start, 'Saturday', +1)],
     );
@@ -72,27 +72,17 @@ sub _choose {
     Bivio::Die->die('no choices?')
         unless @$choices;
     _trace($choices) if $_TRACE;
-    return $_EPC->new(
-	$self->model('Address')->load->get('zip'),
-	$choices->[Bivio::Biz::Random->integer(scalar(@$choices))],
+    my($id) = $choices->[Bivio::Biz::Random->integer(scalar(@$choices))];
+    my($epc, $code);
+    $self->model('FreikerCode')->do_iterate(
+	sub {
+	    ($epc, $code) = shift->get(qw(epc freiker_code));
+	    return 0;
+	},
+	'modified_date_time desc',
+	{user_id => $id},
     );
-}
-
-sub _info {
-    my($self, $freiker_code) = @_;
-    my($club_id) = $self->model('FreikerCode', {
-	freiker_code => $freiker_code,
-    })->get('club_id');
-    my($user_id);
-    $self->model('Ride')->do_iterate(sub {
-	$user_id = shift->get('realm_id');
-	return 0;
-    }, unauth_iterate_start => 'ride_date', {
-	freiker_code => $freiker_code,
-    });
-    return $self->unauth_model(RealmOwner => {realm_id => $user_id})
-	->get('realm_type')->eq_club ? ()
-	: $self->new_other('Freiker')->info($freiker_code);
+    return ($code, $epc, $id);
 }
 
 sub _search_dow {
