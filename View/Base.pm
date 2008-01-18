@@ -146,7 +146,7 @@ sub internal_xhtml_adorned {
 		XLink('user_logged_out'),
 		XLink('user_just_visitor'),
 	    ]),
-	    DIV_tag_line('Saving our society, one bike ride at a time.'),
+	    DIV_tag_line('Saving our society, one bike ride at a time.&#153;'),
 	]),
     );
     return @res;
