@@ -37,23 +37,17 @@ You will use this address to login along with the password you
 will set when you click on the above link.
 
 Freiker, Inc. (EIN 56-2539016) is finally a 501(c)(3) so donations are
-tax-deductible.  We have been very successful at increasing ridership
-in Boulder.  With success comes increased costs.  Please take a minute
-to donate:
+tax-deductible.  Even $10 will help:
 
 Link('/site/donate');
-
-We accept checks and credit cards through PayPal.  You don't have to
-register with PayPal, just skip down to "Don't have a PayPal Account?"
-It's a very convenient way to donate and to help keep the kids
-excited to ride.
 
 100% of our donations by individuals go towards prizes for the kids.
 
 Thanks for riding,
-Rob Nagler
+Zach Noffsinger
 Executive Director
 Freiker, Inc.
+Saving our society, one bike ride at a time.(tm)
 EOF
     );
     return;
