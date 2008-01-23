@@ -37,7 +37,7 @@ You will use this address to login along with the password you
 will set when you click on the above link.
 
 Freiker, Inc. (EIN 56-2539016) is finally a 501(c)(3) so donations are
-tax-deductible.  Even $10 will help:
+tax-deductible.  Just $10 will help:
 
 Link('/site/donate');
 
