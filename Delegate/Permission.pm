@@ -10,7 +10,7 @@ sub get_delegate_info {
     my($proto) = @_;
     return [
 	@{$proto->SUPER::get_delegate_info},
-	RIDE_WRITE => [21],
+	RIDE_WRITE => [51],
     ];
 }
 
