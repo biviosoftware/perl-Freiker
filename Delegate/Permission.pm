@@ -1,4 +1,4 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2008 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Delegate::Permission;
 use strict;
@@ -10,7 +10,7 @@ sub get_delegate_info {
     my($proto) = @_;
     return [
 	@{$proto->SUPER::get_delegate_info},
-	RIDE_WRITE => [51],
+	RIDE_WRITE => 51,
     ];
 }
 
