@@ -49,7 +49,7 @@ sub create {
 }
 
 sub do_all {
-    my($self, $method, @args) = shift->arg_list(\@_, [['Text']]);
+    my($self, $method, @args) = shift->name_args(['Text'], \@_);
     return join(
 	"\n",
 	@{$self->model(
@@ -66,7 +66,7 @@ sub do_all {
 }
 
 sub do_command {
-    my($self, @cmd) = shift->arg_list(\@_, [['Text']]);
+    my($self, @cmd) = shift->name_args(['Text'], \@_);
     return $self->download({
 	filename => $_DT->local_now_as_file_name . '.sh',
 	content => \(join("\n", @cmd, '')),
@@ -75,7 +75,7 @@ sub do_command {
 }
 
 sub download {
-    my($self, @file) = shift->arg_list(\@_, [['FileArg']]);
+    my($self, @file) = shift->name_args(['FileArg'], \@_);
     $self->usage_error(
 	$self->req('auth_realm')->as_string,
 	': -realm must be a freikometer',
