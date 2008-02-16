@@ -41,10 +41,10 @@ sub internal_upgrade_db_freikometer_folders {
 }
 
 sub initialize_db {
-    return shift->call_super_before(\@_, sub {
-        shift->new_other('SiteForum')->init;
-	return;
-    });
+    my($self) = shift;
+    my(@res) = $self->SUPER::initialize_db(@_);
+    $self->new_other('SiteForum')->init;
+    return @res;
 }
 
 sub init_realm_role {

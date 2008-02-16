@@ -27,15 +27,14 @@ sub edit {
 }
 
 sub view {
-    return shift->call_super_before(\@_, sub {
-        view_unsafe_put(
-	    xhtml_byline => If(
-		['->can_user_execute_task', 'FORUM_WIKI_EDIT'],
-		vs_text_as_prose('wiki_view_byline'),
-	    ),
-	);
-	return;
-    });
+    my(@res) = shift->SUPER::view(@_);
+    view_unsafe_put(
+	xhtml_byline => If(
+	    ['->can_user_execute_task', 'FORUM_WIKI_EDIT'],
+	    vs_text_as_prose('wiki_view_byline'),
+	),
+    );
+    return @res;
 }
 
 1;
