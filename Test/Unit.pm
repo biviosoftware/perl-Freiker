@@ -3,10 +3,15 @@
 package Freiker::Test::Unit;
 use strict;
 use Bivio::Base 'TestUnit';
-use Bivio::SuperAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FC) = __PACKAGE__->use('Type.FreikerCode');
+our($AUTOLOAD);
+
+sub AUTOLOAD {
+    $Bivio::Test::Unit::AUTOLOAD = $AUTOLOAD;
+    return Bivio::Test::Unit::AUTOLOAD(@_);
+}
 
 sub builtin_realm_id {
     my($proto, $code_name_or_email) = @_;
