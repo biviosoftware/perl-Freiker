@@ -55,11 +55,30 @@ sub _add_rides {
     error_case({
 	'FreikerCode.freiker_code' => _fc(4),
 	'Club.club_id' => $school_id,
+	super_user_override => 1,
     } => {
 	'FreikerCode.freiker_code'
 	    => 'MUTUALLY_EXCLUSIVE: '
 	    . join(', ', map($_D->to_string($day->[$_]), reverse(4..5))),
     }),
+    inline_case(sub {
+        _add_rides(1, 4..5);
+	_add_rides(4, 4..5);
+	req()->set_user('adm');
+	model(AdmSubstituteUserForm => {login => 'parent'});
+	return;
+    }),
+    [{
+	'FreikerCode.freiker_code' => _fc(4),
+	'Club.club_id' => $school_id,
+	super_user_override => 1,
+    }] => sub {
+	assert_equals($num_rides + 2, _count());
+	class('Action.UserLogout')->execute(req());
+	req()->set_realm_and_user(qw(parent parent));
+	return 1;
+    },
+    inline_rollback(),
     inline_case(sub {
         _add_rides(1, 4);
 	_add_rides(4, 4);
@@ -70,11 +89,12 @@ sub _add_rides {
 	'Club.club_id' => $school_id,
     }] => sub {
 	assert_equals($num_rides + 1, _count());
+	return 1;
     },
     error_case({
 	'FreikerCode.freiker_code' => _fc(0),
 	'Club.club_id' => $school_id,
-	are_you_sure => 1,
+	super_user_override => 1,
     } => {
 	'FreikerCode.freiker_code' => 'EXISTS',
     }),
@@ -89,15 +109,6 @@ sub _add_rides {
     } => {
 	'FreikerCode.freiker_code' => 'EXISTS',
     }),
-    error_case({
-	'FreikerCode.freiker_code' => _fc(0),
-	'Club.club_id' => $school_id,
-	are_you_sure => 1,
-    } => {
-	'FreikerCode.freiker_code'
-	    => 'MUTUALLY_EXCLUSIVE: '
-	    . join(', ', map($_D->to_string($day->[$_]), reverse(1..2))),
-    }),
     inline_case(sub {
 	unauth_model(Ride => {
 	    user_id => $child_id,
@@ -110,10 +121,9 @@ sub _add_rides {
     [{
 	'FreikerCode.freiker_code' => _fc(0),
 	'Club.club_id' => $school_id,
-	are_you_sure => 1,
+	super_user_override => 1,
     }] => sub {
 	assert_equals(100, _count());
 	return 1;
     },
-
 ];
