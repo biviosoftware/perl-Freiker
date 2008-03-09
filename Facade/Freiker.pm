@@ -39,7 +39,7 @@ my($_SELF) = __PACKAGE__->new({
 	['FreikerCode.freiker_code' => [
 	    NOT_FOUND => q{This is not a valid vs_fe('label'); for your school.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.},
 	    EXISTS => q{The vs_fe('label'); is already assigned to a Freiker.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.If(['->is_substitute_user'], SPAN_sui(' To force the assignment, resubmit the form.'));},
-	    MUTUALLY_EXCLUSIVE => q{The vs_fe(q{label}); was scanned on vs_fe(q{detail}); when your child also rode with his old vs_fe(q{label});.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.},
+	    MUTUALLY_EXCLUSIVE => q{The vs_fe(q{label}); was scanned on vs_fe(q{detail}); when your child also rode with his old vs_fe(q{label});.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.If(['->is_substitute_user'], SPAN_sui(' To force the assignment, resubmit the form.'));},
 	]],
 	['ClubRegisterForm.Website.url.EXISTS' => q{This school's website is already registered.  Please try to find the "wheel" at your school.}],
 	['ClubRegisterForm.club_name.EXISTS' => q{Your school is already registered.  Please try to find the "wheel" at your school.}],
