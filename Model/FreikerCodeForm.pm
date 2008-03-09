@@ -36,7 +36,7 @@ sub internal_initialize {
 	],
 	hidden => [
 	    {
-		name => 'are_you_sure',
+		name => 'super_user_override',
 		type => 'Boolean',
 		constraint => 'NONE',
 	    },
@@ -78,6 +78,16 @@ sub _iterate_rides {
 	{user_id => $user_id},
     );
     return;
+}
+
+sub _super_user_override {
+    my($self) = @_;
+    return 0
+	unless $self->req->is_substitute_user;
+    return 1
+	if $self->unsafe_get('super_user_override');
+    $self->internal_put_field(super_user_override => 1);
+    return 0;
 }
 
 sub _update_user {
@@ -162,7 +172,7 @@ sub _validate_rides {
 	'FreikerCode.freiker_code' => 'MUTUALLY_EXCLUSIVE',
 	keys(%$overlap) > 10 ? keys(%$overlap) . ' days'
 	    : join(', ', sort(map($_D->to_string($_), keys(%$overlap)))),
-    ) if keys(%$overlap) > $_OVERLAP_SLOP;
+    ) if keys(%$overlap) > $_OVERLAP_SLOP && !_super_user_override($self);
     $self->internal_put_field('FreikerCode.user_id' => $curr_uid);
     _delete_rides($self, [%$can_delete, %$overlap]);
     return 1;
@@ -176,11 +186,7 @@ sub _validate_user {
 	    ->unsafe_family_id_for_freiker($new_uid)
     ) {
 	$self->internal_put_error('FreikerCode.freiker_code' => 'EXISTS');
-	return unless $self->req->is_substitute_user;
-	unless ($self->unsafe_get('are_you_sure')) {
-	    $self->internal_put_field(are_you_sure => 1);
-	    return;
-	}
+	return unless _super_user_override($self);
 	$self->internal_clear_error('FreikerCode.freiker_code');
 	$self->new_other('RealmUser')->unauth_delete({
 	    user_id => $new_uid,
