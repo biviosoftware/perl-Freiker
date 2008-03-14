@@ -36,14 +36,15 @@ sub last_week {
 	    ', '
 	    . $self->unauth_model(RealmOwner => {realm_id => $user_id})
 		->get('display_name');
-	my($r) = $self->unauth_model(RealmOwner => {
-	    realm_id => $self->model('RealmUser')
-		->unsafe_family_id_for_freiker($user_id),
-	});
-	$res .= ', ' . $r->get('display_name')
-	    . ', ' . $self->unauth_model(
-		Email => {realm_id => $r->get('realm_id')},
-	    )->get('email');
+	if (my $fid = $self->model('RealmUser')
+	    ->unsafe_family_id_for_freiker($user_id)
+	) {
+	    my($r) = $self->unauth_model(RealmOwner => {realm_id => $fid});
+	    $res .= ', ' . $r->get('display_name')
+		. ', ' . $self->unauth_model(
+		    Email => {realm_id => $r->get('realm_id')},
+		)->get('email');
+	}
     }
     return $res;
 }
