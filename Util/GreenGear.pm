@@ -23,20 +23,29 @@ EOF
 sub last_week {
     my($self) = @_;
     my($code, $epc, $user_id) = _choose($self, _choices($self));
-    return [
-	"$epc,$code,gg=" . $_D->to_string($_D->local_today),
-	$self->new_other('Freikometer')->do_all(download => {
-	    filename => 'green_gear',
-	    content => \($epc),
-	    content_type => 'text/plain',
-	}),
-	$self->commit_or_rollback,
-	map($_ && $self->new_other('RealmAdmin')->info(
-	    $self->unauth_model(RealmOwner => {realm_id => $_})),
-	    $user_id,
-	    $self->model('RealmUser')->unsafe_family_id_for_freiker($user_id),
-	)
-    ];
+    $self->new_other('Freikometer')->do_all(download => {
+	filename => 'green_gear',
+	content => \($epc),
+	content_type => 'text/plain',
+    });
+    $self->commit_or_rollback;
+    my($res) = ',gg=' . $_D->to_string($_D->local_today) . "\n";
+    $res .= "$code";
+    if ($user_id) {
+	$res .=
+	    ', '
+	    . $self->unauth_model(RealmOwner => {realm_id => $user_id})
+		->get('display_name');
+	my($r) = $self->unauth_model(RealmOwner => {
+	    realm_id => $self->model('RealmUser')
+		->unsafe_family_id_for_freiker($user_id),
+	});
+	$res .= ', ' . $r->get('display_name')
+	    . ', ' . $self->unauth_model(
+		Email => {realm_id => $r->get('realm_id')},
+	    )->get('email');
+    }
+    return $res;
 }
 
 sub _choices {
