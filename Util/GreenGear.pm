@@ -29,7 +29,9 @@ sub last_week {
 	content_type => 'text/plain',
     });
     $self->commit_or_rollback;
-    my($res) = ',gg=' . $_D->to_string($_D->local_today) . "\n";
+    my($res) =
+	"GreenGear " . $self->req(qw(auth_realm owner display_name)) . "\n"
+	. ',gg=' . $_D->to_string($_D->local_today) . "\n";
     $res .= "$code";
     if ($user_id) {
 	$res .=
