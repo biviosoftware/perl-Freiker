@@ -38,7 +38,7 @@ td.header_middle div.donate a div {
   text-align: center;
   margin: auto;
 }
-td.header_middle div.donate a {
+td.header_middle div.donate a div {
   font-size: 200%;
   font-weight: bold;
   Color('a_link');
