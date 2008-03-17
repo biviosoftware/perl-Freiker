@@ -46,7 +46,10 @@ sub internal_xhtml_adorned {
 		    my($req) = shift->get_request;
 #TODO: Refactor: Make a redirect task for realms?
 		    TaskMenu([
-			'ADM_SUBSTITUTE_USER',
+			map(+{
+			    task_id => $_,,
+			    realm => vs_constant('site_adm_realm_name'),
+			}, qw(SITE_ADM_USER_LIST SITE_ADM_SUBSTITUTE_USER)),
 			'ADM_FREIKOMETER_LIST',
 			'FAMILY_FREIKER_LIST',
 			map(+{
