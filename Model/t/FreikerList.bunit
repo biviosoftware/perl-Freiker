@@ -29,11 +29,5 @@ my($today) = do('./SetupRides.PL');
 	    [child => 100],
 	    [child1 => 2],
         ],
-	[{
-	    begin_date => $today,
-	    end_date => $today,
-	}] => [
-	    [child => 1],
-	],
     ],
 ];
