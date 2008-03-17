@@ -1,4 +1,4 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2008 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::FreikerList;
 use strict;
@@ -11,12 +11,8 @@ sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
-	date => {
-	    name => 'Ride.ride_date',
-	    in_select => 0,
-	},
 	primary_key => [
-	    [qw(RealmUser.user_id Ride.user_id RealmOwner.realm_id)],
+	    [qw(RealmUser.user_id RealmOwner.realm_id)],
 	],
         order_by => [
 	    'RealmOwner.display_name',
@@ -27,20 +23,12 @@ sub internal_initialize {
 		type => 'Integer',
 		constraint => 'NOT_NULL',
 		in_select => 1,
-		select_value => 'COUNT(*) as ride_count',
+		select_value => '(SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id)',
 		sort_order => 0,
 	    },
 	    ['RealmUser.role', ['FREIKER']],
-	    map(+{
-		name => $_,
-		in_select => 0,
-	    }, qw(Ride.ride_upload_id RealmUser.role)),
 	],
 	auth_id => 'RealmUser.realm_id',
-	group_by => [qw(
-            RealmUser.user_id
-            RealmOwner.display_name
-	)],
     });
 }
 
