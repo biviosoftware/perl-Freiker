@@ -4,6 +4,12 @@ test_setup('Freiker');
 home_page();
 do_test_backdoor(Test => 'reset_freikers');
 login_as('parent');
+follow_link('child6');
+go_back();
+follow_link_in_table(qw(freiker freiker child6 action missing));
+go_back();
+follow_link_in_table(qw(freiker freiker child6 action helmet));
+go_back();
 follow_link('register.*child');
 submit_form({
     first => 'Bobby',
