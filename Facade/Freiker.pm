@@ -64,28 +64,6 @@ my($_SELF) = __PACKAGE__->new({
 	    [qw(CLUB ADMINISTRATOR CLUB_FREIKER_LIST)],
 	    [qw(USER ADMINISTRATOR FAMILY_FREIKER_LIST)],
 	]],
-	    map({
-		my($id, $name) = @$_;
-		(
-		    [$name => sub {shift->get_facade->$name()}],
-		    [$id => sub {
-			 my($f) = shift->get_facade;
-			 my($req) = $f->req;
-			 my($res) = Bivio::Die->eval(sub {
-			     my($ro) = Bivio::Biz::Model->new($req, 'RealmOwner');
-			     return $ro->get('realm_id')
-			         if $ro->unauth_load({name => $f->$name()});
-			     return;
-			 });
-			 return $res
-			     if $res;
-			 Bivio::IO::Alert->warn($f->$name(), ': realm not found');
-			 return 1;
-		    }],
-		);
-	    }
-	        [qw(site_adm_realm_id SITE_ADM_REALM_NAME)],
-	    ),
     ],
     Task => [
 	[ADM_FREIKOMETER_LIST => 'adm/freikometers'],
