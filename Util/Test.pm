@@ -29,7 +29,7 @@ sub reset_freikers {
     my($fc) = $self->model('FreikerCode');
     my($rides) = [];
     my($now) = $_D->now;
-    my($indexes) = [0..5];
+    my($indexes) = [0..6];
     foreach my $u (@{$_SA->sort_unique([
 	map(
 	    $fc->unsafe_load({
@@ -58,11 +58,12 @@ sub reset_freikers {
 		'birth_year' => 1999,
 	    });
 	    $self->req('Model.RealmOwner')->update({name => $name});
-	}) if $index <= 1;
+	}) if $index <= 1 || $index == 6;
 	push(@$rides, map(+{
 	    epc => $epc,
 	    datetime => $_D->add_days($now, -$_),
-	}, ($index ? $index : 0..99)));
+	}, ($index ? $index : 0..99)))
+	    unless $index == 6;
     }
     $req->with_user(Freiker::Test->FREIKOMETER, sub {
 	my($rif) = $self->model('RideImportForm');
