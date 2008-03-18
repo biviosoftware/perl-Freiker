@@ -17,7 +17,7 @@ sub get_display_name {
 }
 
 sub get_user_id {
-    return shift->set_cursor_or_not_found(0)->get('Ride.user_id');
+    return shift->get_query->get('parent_id');
 }
 
 sub internal_initialize {
