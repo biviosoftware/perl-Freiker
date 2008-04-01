@@ -24,10 +24,12 @@ my($today) = do('./SetupRides.PL');
 	    [1239 => 1],
 	    [child => 100],
 	    [child1 => 2],
+	    [child6 => 0],
         ],
 	parent => [
 	    [child => 100],
 	    [child1 => 2],
+	    [child6 => 0],
         ],
     ],
 ];
