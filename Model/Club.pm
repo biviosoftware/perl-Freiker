@@ -1,4 +1,4 @@
-# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2008 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::Club;
 use strict;
@@ -49,7 +49,7 @@ sub create_realm {
 	    user_id => $u,
 	    role => $_ADMIN,
 	    realm_id => $cid,
-	});
+	}) unless $u eq $req->get('auth_user_id');
     }
     return $self;
 }
