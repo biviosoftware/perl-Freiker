@@ -16,13 +16,13 @@ sub USAGE {
     return <<'EOF';
 usage: fr-greengear [options] command [args..]
 commands
-  last_week -- computes for current realm
+  last_week [date] -- computes for current realm
 EOF
 }
 
 sub last_week {
-    my($self) = @_;
-    my($code, $epc, $user_id) = _choose($self, _choices($self));
+    my($self, $date) = shift->name_args([['Date', undef, $_D->now]], \@_);
+    my($code, $epc, $user_id) = _choose($self, _choices($self, $date));
     $self->new_other('Freikometer')->do_all(download => {
 	filename => 'green_gear',
 	content => \($epc),
@@ -52,9 +52,9 @@ sub last_week {
 }
 
 sub _choices {
-    my($self) = @_;
+    my($self, $date) = @_;
     my($start) = _search_dow(
-	_search_dow($_DT->local_end_of_today, 'Friday', -1),
+	_search_dow($_DT->set_local_end_of_day($date), 'Friday', -1),
 	'Sunday',
 	-1,
     );
