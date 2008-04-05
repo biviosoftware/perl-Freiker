@@ -64,6 +64,7 @@ my($_SELF) = __PACKAGE__->new({
 	    [qw(CLUB ADMINISTRATOR CLUB_FREIKER_LIST)],
 	    [qw(USER ADMINISTRATOR FAMILY_FREIKER_LIST)],
 	]],
+	[ThreePartPage_want_SearchForm => 0],
     ],
     Task => [
 	[ADM_FREIKOMETER_LIST => 'adm/freikometers'],
