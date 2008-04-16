@@ -1,14 +1,11 @@
-# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2008 bivio Software, Inc.  All Rights Reserved.
 # $Id$
-
 ListModel();
 require 'prize_coupon.PL';
-
 shell_util(Test => ['reset_prizes_for_school']);
-shell_util(Test => ['reset_rides_for_child_0']);
-my($child) = req()->set_realm('child')->get('id');
+shell_util(Test => ['reset_freikers']);
+my($child) = realm_id('child');
 req()->set_realm_and_user(qw(parent parent));
-
 my($prizes) = [{
     'PrizeRideCount.ride_count' => 10,
 }, {
