@@ -1,0 +1,42 @@
+@h1 The Freikometer
+@a.movie href=^/my/file/freikometer.html
+^freikometer.gif
+@span Click here to see the movie!
+@/a
+
+Like many other bike encouragement programs, Freiker started with
+punch cards.  The next year we used barcodes and scanners.  In 2006,
+we debuted the Freikometer: an automatic device that counts riders and
+uploads the data securely to this site.  It's solar powered so you can
+put it right near the bike racks at your school.  This has allowed
+us to expand rapidly without compromising the quality of our data.
+
+The Freikometer is currently being used at five
+@a href=http://www.bvsd.org Boulder Valley School District
+schools.  The Freikometers survived (for the most part) the harsh
+winter of 2006-2007.  We completely redesigned the Freikometers for
+the 2007-2008 school year, and they are working better than ever.
+
+@h3 Helmets are a must
+
+The Freikometer counts riders using a radio-frequency identification
+(RFID).  Freikers have RFID tags affixed to their helmets.  When they
+ride to school, they ride past the Freikometer to "ring in".
+
+This means that all participants have to wear helmets.  You can't ring
+in without your helmet.  And, it's easiest to be wearing the helmet as
+you ride by the Freikometer.
+
+@h3 Performance-driven
+
+Freiker's success is measurable due to fanatical dedication to data.
+We want to know that what we are doing is making a difference.
+
+Freiker started at 
+@a href=http://schools.bvsd.org/crestview Crest View Elementary
+in March 2005.  Crest View was a fairly active school with about
+12,000 rides per year.  In 2007-2008 we are likely to surpass 24,000
+rides.  You can see these results in the graph below.
+
+^freiker-weather.gif
+
