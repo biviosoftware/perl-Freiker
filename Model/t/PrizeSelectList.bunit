@@ -2,8 +2,6 @@
 # $Id$
 ListModel();
 require 'prize_coupon.PL';
-shell_util(Test => ['reset_prizes_for_school']);
-shell_util(Test => ['reset_freikers']);
 my($child) = realm_id('child');
 req()->set_realm_and_user(qw(parent parent));
 my($prizes) = [{
@@ -13,21 +11,10 @@ my($prizes) = [{
 }, {
     'PrizeRideCount.ride_count' => 50,
 }];
-
 [
     load_all => [
-	[{parent_id => $child}] => $prizes,
-    ],
-    inline_case(sub {
-       create_prize_coupon('bunit50');
-    }),
-    load_all => [
-	[{parent_id => $child}] => $prizes,
-    ], 
-    inline_case(sub {
-       create_prize_coupon('bunit10');
-    }),
-    load_all => [
-	[{parent_id => $child}] => [@$prizes[0..1]],
+	[{parent_id => $child, prize_credit => 100}] => $prizes,
+ 	[{parent_id => $child, prize_credit => 20}] => [@$prizes[0..1]],
+ 	[{parent_id => $child, prize_credit => 10}] => [$prizes->[0]],
     ],
 ];

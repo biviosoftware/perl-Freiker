@@ -15,8 +15,7 @@ sub execute_ok {
 	$self->internal_catch_field_constraint_error(
 	    'RealmOwner.display_name' => sub {
 		my($dn) = $self->get('RealmOwner.display_name');
-		(undef, $ro) = $self->new_other('Forum')->create_realm(
-		    {},
+		(undef, $ro) = $self->new_other('Merchant')->create_realm(
 		    {
 			display_name => $dn,
 			name => $_RN->from_display_name_and_zip(

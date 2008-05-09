@@ -41,34 +41,11 @@ my($n) = random_string();
 	'Prize.description' => 'new',
 	'Prize.detail_uri' => 'http://www.yahoo.com',
 	'Prize.retail_price' => 10,
-	'Prize.ride_count' => 10,
-	'Prize.prize_status' => class('Type.PrizeStatus')->AVAILABLE,
     }] => [{
 	'Model.Prize' => {
 	    description => 'new',
 	    ride_count => 0,
 	    prize_status => 'UNAPPROVED',
-	},
-	'Model.RealmFile' => undef,
-    }],
-    inline_case(sub {
-        req()->set_user('adm');
-	model(AdmSubstituteUserForm => {
-	    login => Freiker::Test->SPONSOR_EMP,
-	});
-    }),
-    [{
-	'Prize.name' => $n,
-	'Prize.description' => 'other',
-	'Prize.detail_uri' => 'http://www.yahoo.com',
-	'Prize.retail_price' => 10,
-	'Prize.ride_count' => 10,
-	'Prize.prize_status' => class('Type.PrizeStatus')->AVAILABLE,
-    }] => [{
-	'Model.Prize' => {
-	    description => 'other',
-	    ride_count => 10,
-	    prize_status => 'AVAILABLE',
 	},
 	'Model.RealmFile' => undef,
     }],

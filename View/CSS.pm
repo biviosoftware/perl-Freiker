@@ -182,12 +182,25 @@ table.prizes a:hover img {
 table.prizes span.desc p.prose {
   display: inline;
 }
-table.prizes span.name, table.prizes span.rides {
+span.strong, table.prizes span.name, table.prizes span.rides {
   Font('strong');
 }
 span.sui {
   Color('header_su-background');
   Font('header_su');
+}
+span.prize_name {
+  Font('prize_name');
+}
+td.select_prize {
+  background: Icon('select_prize'); center center no-repeat;
+  height: Icon(qw(select_prize height));px;
+  width: Icon(qw(select_prize width));px;
+  text-align: center;
+  vertical-align: middle;
+}
+td.select_prize a {
+  Font('select_prize');
 }
 EOF
 

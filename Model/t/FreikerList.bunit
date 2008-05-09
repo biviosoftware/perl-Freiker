@@ -14,22 +14,24 @@ my($today) = do('./SetupRides.PL');
 	},
 	compute_return => sub {
 	    return shift->get('object')->map_rows(
-		sub {[shift->get(qw(RealmOwner.display_name ride_count))]},
+		sub {
+		    return [shift->get(qw(RealmOwner.display_name ride_count prize_debit prize_credit can_select_prize))];
+		},
 	    );
 	},
     } => [
 	bunit123456789 => [
-	    [1237 => 1],
-	    [1238 => 1],
-	    [1239 => 1],
-	    [child => 100],
-	    [child1 => 2],
-	    [child6 => 0],
+	    [1237 => 1, 0, 1, 0],
+	    [1238 => 1, 0, 1, 0],
+	    [1239 => 1, 0, 1, 0],
+	    [child => 100, 0, 100, 1],
+	    [child1 => 2, 0, 2, 0],
+	    [child6 => 0, 0, 0, 0],
         ],
 	parent => [
-	    [child => 100],
-	    [child1 => 2],
-	    [child6 => 0],
+	    [child => 100, 0, 100, 1],
+	    [child1 => 2, 0, 2, 0],
+	    [child6 => 0, 0, 0, 0],
         ],
     ],
 ];

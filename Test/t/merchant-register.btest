@@ -1,17 +1,42 @@
-# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2008 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 test_setup('Freiker');
 home_page();
-#TODO: Re-enable merchant code
-# my($e, $z) = register_random('merchant');
-# follow_link(qr{^register.*merchant}i);
-# submit_form({
-#     name => "Merchant $z",
-#     '1:$' => "$z My Street",
-#     city => 'Boulder',
-#     state => 'CO',
-#     zip => $z,
-#     web => "http://merchant$z.com",
+do_test_backdoor(Test => 'reset_freikers');
+my($e, $z) = register_random('merchant');
+visit_uri('/pub/register-merchant');
+submit_form({
+    name => "Merchant $z",
+    '1:$' => "$z My Street",
+    city => 'Boulder',
+    state => 'CO',
+    zip => $z,
+    web => "http://merchant$z.com",
 
-# });
-# # setup prizes
+});
+follow_link('donated_prizes');
+follow_link('add_prize');
+my($prize) = "prize$z";
+submit_form({
+    name => $prize,
+    price => 99,
+    link => 'http://www.freiker.org/prize1',
+    image => file_field('prize1.jpg'),
+    description => 'Really cool prize you really really want',
+});
+verify_text(qr{>$prize<.*>0<.*> rides.*really cool prize}is);
+do_logout();
+login_as('adm');
+follow_link('all_prizes');
+follow_link($prize);
+submit_form({
+    rides => 10,
+    status => 'Available',
+});
+do_logout();
+login_as('wheel');
+follow_link('available_prizes');
+follow_link($prize);
+submit_form({
+    ride => 33,
+});

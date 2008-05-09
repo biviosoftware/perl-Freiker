@@ -10,6 +10,7 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = Bivio::Type->get_instance('Date');
 my($_FF) = Bivio::Type->get_instance('FileField');
 my($_SA) = __PACKAGE__->use('Type.StringArray');
+my($_RA) = __PACKAGE__->use('ShellUtil.RealmAdmin');
 
 sub USAGE {
     return <<'EOF';
@@ -24,6 +25,7 @@ EOF
 sub reset_freikers {
     my($self) = @_;
     my($req) = $self->req;
+    $self->reset_prizes_for_school;
     $req->set_realm(Freiker::Test->SCHOOL_NAME);
     my($club_id) = $req->get('auth_id');
     my($fc) = $self->model('FreikerCode');
@@ -58,6 +60,7 @@ sub reset_freikers {
 		'birth_year' => 1999,
 	    });
 	    $self->req('Model.RealmOwner')->update({name => $name});
+	    return;
 	}) if $index <= 1 || $index == 6;
 	push(@$rides, map(+{
 	    epc => $epc,
@@ -70,7 +73,9 @@ sub reset_freikers {
 	foreach my $r (@$rides) {
 	    $rif->process_record($r);
 	}
+	return;
     });
+#put in coupons not redeemed
     $req->with_realm(Freiker::Test->PARENT, sub {
         $self->model(FreikerRideList => {
 	    parent_id => $self->unauth_model(RealmOwner => {name => 'child1'})
@@ -80,13 +85,35 @@ sub reset_freikers {
 	    'Club.club_id' => $club_id,
 	    'FreikerCode.freiker_code' => Freiker::Test->FREIKER_CODE(2),
 	});
+
+	return;
     });
     return;
 }
 
+sub create_prize_coupon {
+    my($self, $prize, $child) = shift->name_args([
+	['prize', 'String'],
+	['?child', 'String', 'child'],
+    ], \@_);
+    return $self->req->with_realm(
+	Freiker::Test->SPONSOR_NAME,
+	sub {
+	    my($prize) = $self->model(Prize => {name => $prize});
+	    return $self->model('PrizeCoupon')->create({
+		realm_id => $self->model('PrizeSelectList')->get_distributor_id,
+		user_id => $_RA->to_id($child),
+		prize_id => $prize->get('prize_id'),
+		ride_count => $prize->get('ride_count'),
+	    });
+	},
+    )->get('coupon_code');
+}
+
 sub reset_freikometer_folders {
     my($self) = @_;
-    $self->req->assert_test;
+    my($req) = $self->req;
+    $req->assert_test;
     foreach my $p (map(
 	@$_,
 	map($self->model($_)->map_iterate(sub {shift->get('RealmFile.path')}),
@@ -94,14 +121,30 @@ sub reset_freikometer_folders {
     )) {
 	$self->model('RealmFile')->unauth_delete_deep({path => $p});
     }
-    $self->set_realm_and_user(
-	Freiker::Test->FREIKOMETER,
-	Freiker::Test->FREIKOMETER,
-    );
-    $self->new_other('Freikometer')->download({
-	filename => 'test.sh',
-	content_type => 'application/x-sh',
-	content => \("date\n"),
+    $req->with_realm(Freiker::Test->FREIKOMETER, sub {
+        $self->req->with_user(Freiker::Test->FREIKOMETER, sub {
+	    $self->new_other('Freikometer')->download({
+		filename => 'test.sh',
+		content_type => 'application/x-sh',
+		content => \("date\n"),
+	    });
+	}),
+    });
+    return;
+}
+
+sub reset_freikometer_playlist {
+    my($self) = @_;
+    my($req) = $self->req;
+    $req->assert_test;
+    $req->with_realm(Freiker::Test->FREIKOMETER, sub {
+        $self->with_user(Freiker::Test->FREIKOMETER, sub {
+	    $self->new_other('Freikometer')->download({
+		filename => 'playlist.pl',
+		content_type => 'text/plain',
+		content => \($self->internal_data_section),
+	    });
+	}),
     });
     return;
 }
@@ -115,20 +158,24 @@ sub reset_prizes_for_school {
 	    $self->model('Prize')->do_iterate(
 		sub {
 		    my($prize) = @_;
-	            $self->model('PrizeCoupon')->do_iterate(sub {
-		        shift->unauth_delete;
-		        return 1;
-		    }, 'unauth_iterate_start','prize_id', {
-		        prize_id => $prize->get('prize_id'),
-		    });
+	            $self->model('PrizeCoupon')->do_iterate(
+			sub {
+			    shift->unauth_delete;
+			    return 1;
+			},
+			'unauth_iterate_start',
+			'prize_id',
+			{prize_id => $prize->get('prize_id')},
+		    );
 		    $prize->cascade_delete;
 		    return 1;
 		},
+		'unauth_iterate_start',
 		'prize_id',
 	    );
 	    my($available) = $self->use('Type.PrizeStatus')->AVAILABLE;
 	    foreach my $i (10, 20, 50, 99, 1000) {
-		my($f) = $self->model('MerchantPrizeForm');
+		my($f) = $self->model('AdmPrizeForm');
 		$f->process({
 		    'Prize.name' => "bunit$i",
 		    'Prize.description' => "prize for bunit $i",
@@ -154,3 +201,113 @@ sub reset_prizes_for_school {
 }
 
 1;
+__DATA__
+{
+  '0000000000ABCDEF000004D2' => 'default',
+  '0000000000ABCDEF000004D3' => 'default',
+  '0000000000ABCDEF000004D4' => 'default',
+  '0000000000ABCDEF000004D5' => 'default',
+  '0000000000ABCDEF000004D6' => 'default',
+  '0000000000ABCDEF000004D7' => 'default',
+  '0000000000ABCDEF000004D8' => 'default',
+  '465245494B4552010003A995' => 'default',
+  '465245494B4552010003A999' => 'default',
+  '465245494B4552010003AA29' => 'default',
+  '465245494B4552010003AA72' => 'default',
+  '465245494B4552010003AA85' => 'default',
+  '465245494B4552010003AB24' => 'default',
+  '465245494B4552010003AD0D' => 'default',
+  '465245494B4552010003AD59' => 'default',
+  '465245494B4552010003AD61' => 'default',
+  '465245494B4552010003ADA2' => 'default',
+  '465245494B4552010003ADD7' => 'default',
+  '465245494B4552010003AE3B' => 'default',
+  '465245494B4552010003AE61' => 'default',
+  '465245494B4552010003AE76' => 'default',
+  '465245494B4552010003AF61' => 'default',
+  '465245494B4552010003AF94' => 'default',
+  '465245494B4552010003AFAB' => 'default',
+  '465245494B4552010003B13B' => 'default',
+  '465245494B4552010003B202' => 'default',
+  '465245494B4552010003B220' => 'default',
+  '465245494B4552010003B268' => 'default',
+  '465245494B4552010003B307' => 'default',
+  '465245494B4552010003B317' => 'default',
+  '465245494B4552010003B330' => 'default',
+  '465245494B4552010003B38E' => 'default',
+  '465245494B4552010003B39D' => 'default',
+  '465245494B4552010003B39F' => 'default',
+  '465245494B4552010003B3ED' => 'default',
+  '465245494B4552010003B3F6' => 'default',
+  '465245494B4552010003B473' => 'default',
+  '465245494B4552010003B47C' => 'default',
+  '465245494B4552010003B4BD' => 'default',
+  '465245494B4552010003B4E0' => 'default',
+  '465245494B4552010003B4EE' => 'default',
+  '465245494B4552010003B4FD' => 'default',
+  '465245494B4552010003B65F' => 'default',
+  '465245494B4552010003B66A' => 'default',
+  '465245494B4552010003B69B' => 'default',
+  '465245494B4552010003B718' => 'default',
+  '465245494B4552010003B7E2' => 'default',
+  '465245494B4552010003B84E' => 'default',
+  '465245494B4552010003B86E' => 'default',
+  '465245494B4552010003B920' => 'default',
+  '465245494B4552010003B9B6' => 'default',
+  '465245494B4552010003BA52' => 'default',
+  '465245494B4552010003BA55' => 'default',
+  '465245494B4552010003BAAF' => 'default',
+  '465245494B4552010003BAB2' => 'default',
+  '465245494B4552010003BB42' => 'default',
+  '465245494B4552010003BB5E' => 'default',
+  '465245494B4552010003BC0A' => 'default',
+  '465245494B4552010003BE7B' => 'default',
+  '465245494B4552010003BEEB' => 'default',
+  '465245494B4552010003BF33' => 'default',
+  '465245494B4552010003C022' => 'default',
+  '465245494B4552010003C03C' => 'default',
+  '465245494B4552010003C065' => 'default',
+  '465245494B4552010003C096' => 'default',
+  '465245494B4552010003C116' => 'default',
+  '465245494B4552010003C132' => 'default',
+  '465245494B4552010003C1D8' => 'default',
+  '465245494B4552010003C1F6' => 'default',
+  '465245494B4552010003C2FB' => 'default',
+  '465245494B4552010003C380' => 'default',
+  '465245494B4552010003C385' => 'default',
+  '465245494B4552010003C3FC' => 'default',
+  '465245494B4552010003C456' => 'default',
+  '465245494B4552010003C462' => 'default',
+  '465245494B4552010003C482' => 'default',
+  '465245494B4552010003C486' => 'default',
+  '465245494B4552010003C551' => 'default',
+  '465245494B4552010003C5D7' => 'default',
+  '465245494B4552010003C5FA' => 'default',
+  '465245494B4552010003C624' => 'default',
+  '465245494B4552010003C641' => 'default',
+  '465245494B4552010003C6ED' => 'default',
+  '465245494B4552010003C748' => 'default',
+  '465245494B4552010003C7D8' => 'default',
+  '465245494B4552010003C812' => 'default',
+  '465245494B4552010003C871' => 'default',
+  '465245494B4552010003C879' => 'default',
+  '465245494B4552010003C8E4' => 'default',
+  '465245494B4552010003C8FA' => 'default',
+  '465245494B4552010003C9EB' => 'default',
+  '465245494B4552010003CAFD' => 'default',
+  '465245494B4552010003CB17' => 'default',
+  '465245494B4552010003CB18' => 'default',
+  '465245494B4552010003CB83' => 'default',
+  '465245494B4552010003CB84' => 'default',
+  '465245494B4552010003CC74' => 'default',
+  '465245494B4552010003CCCA' => 'default',
+  '465245494B4552010003CD11' => 'default',
+  '465245494B4552010003CD8F' => 'default',
+  '465245494B4552010003CE2C' => 'default',
+  '465245494B4552010003CE30' => 'default',
+  '465245494B4552010003CE71' => 'default',
+  '465245494B4552010003CF19' => 'default',
+  '465245494B4552010003CF77' => 'default',
+  '465245494B4552010003D041' => 'default',
+  '465245494B4552010003D047' => 'default',
+};

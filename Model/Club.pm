@@ -51,6 +51,13 @@ sub create_realm {
 	    realm_id => $cid,
 	}) unless $u eq $req->get('auth_user_id');
     }
+    $self->new_other('AdmPrizeList')->do_iterate(sub {
+        $self->new_other('PrizeRideCount')->create({
+	    prize_id => shift->get('Prize.prize_id'),
+	    realm_id => $cid,
+	});
+	return 1;
+    });
     return $self;
 }
 

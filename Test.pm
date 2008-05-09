@@ -19,19 +19,6 @@ sub CHILD {
     _which(child => @_);
 }
 
-sub DISTRIBUTOR {
-    return 'distributor';
-}
-
-sub DISTRIBUTOR_EMP {
-    return 'distributor_emp';
-}
-
-sub DISTRIBUTOR_NAME {
-    my($proto) = @_;
-    return $_RN->from_display_name_and_zip($proto->DISTRIBUTOR, $proto->ZIP);
-}
-
 sub EPC {
     return sprintf('%016X%08X', 0xABCDEF, 1234 + ($_[1] || 0));
 }

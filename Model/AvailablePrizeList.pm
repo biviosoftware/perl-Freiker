@@ -5,7 +5,6 @@ use strict;
 use Bivio::Base 'Model.AdmPrizeList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_P) = Bivio::Biz::Model->get_instance('Prize');
 
 sub internal_initialize {
     my($self) = @_;

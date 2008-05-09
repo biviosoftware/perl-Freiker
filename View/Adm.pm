@@ -25,4 +25,21 @@ sub freiker_code_import {
     ]));
 }
 
+sub prize {
+    return shift->internal_body(vs_simple_form(AdmPrizeForm => [
+	['AdmPrizeForm.Prize.prize_status', {wf_want_select => 1}],
+	'AdmPrizeForm.Prize.ride_count',
+	'AdmPrizeForm.Prize.name',
+	'AdmPrizeForm.Prize.retail_price',
+	'AdmPrizeForm.Prize.detail_uri',
+	'AdmPrizeForm.image_file',
+	'AdmPrizeForm.Prize.description',
+    ]));
+}
+
+sub prize_list {
+     return shift->internal_body(
+	 vs_prize_list(AdmPrizeList => [qw(THIS_DETAIL ADM_PRIZE)]));
+}
+
 1;

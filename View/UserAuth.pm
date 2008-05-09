@@ -21,10 +21,7 @@ sub create {
 sub create_mail {
     view_put(
 	mail_to => Mailbox([['->get_by_regexp', 'Model.\w+RegisterForm'], 'Email.email']),
-	mail_recipients => Join([
-	    Mailbox([['->get_by_regexp', 'Model.\w+RegisterForm'], 'Email.email']),
-	    Mailbox(vs_text('support_email')),
-	], ','),
+	mail_recipients => Mailbox([['->get_by_regexp', 'Model.\w+RegisterForm'], 'Email.email']),
 	mail_subject => Join([vs_site_name(), ' Registration Verification']),
 	mail_body => Prose(<<'EOF'),
 Thank you for registering with vs_site_name();.  In order to

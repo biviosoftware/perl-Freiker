@@ -2,22 +2,23 @@
 # $Id$
 package Freiker::Model::AdmPrizeList;
 use strict;
-use Bivio::Base 'Bivio::Biz::ListModel';
+use Bivio::Base 'Biz.ListModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_P) = Bivio::Biz::Model->get_instance('Prize');
+my($_LOC) = __PACKAGE__->use('Model.Website')->DEFAULT_LOCATION;
 
 sub image_path {
-    my($self) = @_;
-    return $_P->image_path($self, 'Prize.');
+    my($delegator) = shift->delegated_args(@_);
+    return $_P->image_path($delegator, 'Prize.');
 }
 
 sub image_uri {
-    my($self) = @_;
-    return $self->get_request->format_uri({
-	realm => $self->get('RealmOwner.name'),
-	task_id => 'FORUM_PUBLIC_FILE',
-	path_info => $self->image_path,
+    my($delegator) = shift->delegated_args(@_);
+    return $delegator->req->format_uri({
+	realm => $delegator->get('RealmOwner.name'),
+	task_id => 'MERCHANT_FILE',
+	path_info => $delegator->image_path,
 	query => undef,
 	no_context => 1,
     });
@@ -38,10 +39,11 @@ sub internal_initialize {
 	    'RealmOwner.name',
 	    'Prize.description',
 	    'Prize.detail_uri',
+	    'Prize.prize_status',
 	    'Prize.retail_price',
 	    'Website.url',
 	    ['Prize.realm_id', 'RealmOwner.realm_id', 'Website.realm_id'],
-	    ['Website.location', [$self->get_instance('Website')->DEFAULT_LOCATION]],
+	    ['Website.location', [$_LOC]],
 	],
     });
 }

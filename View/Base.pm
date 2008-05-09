@@ -51,6 +51,7 @@ sub internal_xhtml_adorned {
 			    realm => vs_constant('site_adm_realm_name'),
 			}, qw(SITE_ADM_USER_LIST SITE_ADM_SUBSTITUTE_USER)),
 			'ADM_FREIKOMETER_LIST',
+			'ADM_PRIZE_LIST',
 			'FAMILY_FREIKER_LIST',
 			map(+{
 			    task_id => 'CLUB_FREIKER_LIST',
@@ -64,6 +65,21 @@ sub internal_xhtml_adorned {
 			    undef,
 			    {
 				'RealmOwner.realm_type' => Bivio::Auth::RealmType->CLUB,
+				'RealmUser.role' => Bivio::Auth::Role->ADMINISTRATOR,
+			    },
+			)}),
+			map(+{
+			    task_id => 'MERCHANT_PRIZE_LIST',
+			    label => String($_->{'RealmOwner.display_name'}),
+			    realm => $_->{'RealmOwner.name'},
+			    query => undef,
+			}, sort {
+			    $a->{'RealmOwner.display_name'}
+				cmp $b->{'RealmOwner.display_name'}
+			} @{$req->map_user_realms(
+			    undef,
+			    {
+				'RealmOwner.realm_type' => Bivio::Auth::RealmType->MERCHANT,
 				'RealmUser.role' => Bivio::Auth::Role->ADMINISTRATOR,
 			    },
 			)}),

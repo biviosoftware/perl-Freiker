@@ -21,7 +21,7 @@ sub internal_initialize {
 	    prize_id => ['Prize.prize_id', 'PRIMARY_KEY'],
 	    realm_id => ['RealmOwner.realm_id', 'PRIMARY_KEY'],
             modified_date_time => ['DateTime', 'NOT_NULL'],
-	    ride_count => ['RideCount', 'NOT_NULL'],
+	    ride_count => ['PrizeRideCount', 'NOT_NULL'],
 	},
     });
 }

@@ -5,7 +5,10 @@ use strict;
 use Bivio::Base 'Model.ImageUploadForm';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_PS) = Bivio::Type->get_instance('PrizeStatus');
+
+sub LIST_MODEL {
+    return 'MerchantPrizeList';
+}
 
 sub execute_empty {
     my($self) = @_;
@@ -22,26 +25,10 @@ sub execute_ok {
     my($p) = $edit ? $req->get_nested('Model.Prize')
 	: $self->new_other('Prize');
     my($m) = $edit ? 'update' : 'create';
-    unless ($req->is_substitute_user || $req->is_super_user) {
-	$self->internal_put_field('Prize.prize_status' => $_PS->UNAPPROVED);
-	$self->internal_put_field(
-	    'Prize.ride_count' => $edit ? $p->get('ride_count') : 0);
-    }
     $self->load_from_model_properties(
 	$p->$m($self->get_model_properties('Prize')),
     );
-    $self->SUPER::execute_ok(@_);
-    # New prize: Add to all clubs, even though unapproved
-    $self->new_other('ClubList')->do_iterate(sub {
-        $self->new_other('PrizeRideCount')->unauth_create_or_update({
-	    prize_id => $self->get('Prize.prize_id'),
-	    realm_id => shift->get('Club.club_id'),
-	    $p && $p->get('ride_count') != $self->get('Prize.ride_count')
-		? (ride_count => $self->get('Prize.ride_count')) : (),
-	});
-	return 1;
-    });
-    return;
+    return $self->SUPER::execute_ok(@_);
 }
 
 sub internal_image_is_required {
@@ -77,8 +64,6 @@ sub internal_initialize {
 	    'Prize.description',
 	    'Prize.detail_uri',
 	    'Prize.retail_price',
-	    map(+{name => $_, constraint => 'NONE'},
-		qw(Prize.ride_count Prize.prize_status)),
 	],
 	other => [
 	    'Prize.prize_id',
@@ -94,7 +79,7 @@ sub internal_initialize {
 sub internal_pre_execute {
     my($self) = shift;
     $self->use('Type.FormMode')->setup_by_list_this(
-	$self->new_other('MerchantPrizeList'), 'Prize');
+	$self->new_other($self->LIST_MODEL), 'Prize');
     return $self->SUPER::internal_pre_execute(@_);
 }
 

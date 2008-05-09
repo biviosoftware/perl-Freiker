@@ -1,0 +1,22 @@
+# Copyright (c) 2008 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+home_page();
+do_test_backdoor(Test => 'reset_freikers');
+login_as('wheel');
+follow_link('give_prize');
+submit_form({
+    freiker => 1234,
+});
+follow_link('bunit10');
+submit_form('OK');
+follow_link('bunit50');
+submit_form('OK');
+verify_no_text('bunit50');
+follow_link('bunit20');
+submit_form('OK');
+follow_link('bunit20');
+submit_form('OK');
+submit_form({
+    freiker => 1235,
+});

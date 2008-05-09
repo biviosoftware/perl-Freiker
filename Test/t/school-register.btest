@@ -23,8 +23,4 @@ submit_form({
 	map(sprintf("%s,%d\n", $epcs->[$_], $codes->[$_]), 0 .. $#$codes),
     )),
 });
-#TODO: Need to import rides
-# verify_table(Name => [
-#     ['Name'],
-#     map([$_], sort {$a <=> $b} @$codes),
-# ]);
+follow_link('available_prizes');

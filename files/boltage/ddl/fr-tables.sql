@@ -21,6 +21,12 @@ CREATE TABLE freiker_code_t (
 )
 /
 
+CREATE TABLE merchant_t (
+  merchant_id NUMERIC(18) NOT NULL,
+  CONSTRAINT merchant_t1 primary key(merchant_id)
+)
+/
+
 CREATE TABLE prize_t (
   prize_id NUMERIC(18) NOT NULL,
   realm_id NUMERIC(18) NOT NULL,

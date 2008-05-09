@@ -1,0 +1,25 @@
+# Copyright (c) 2007-2008 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+Request();
+require 'prize_coupon.PL';
+my($child) = realm_id('child');
+my($bunit10) = unauth_model('Prize', {name => 'bunit10'})->get('prize_id');
+my($bunit1000) = unauth_model('Prize', {name => 'bunit1000'})->get('prize_id');
+req()->set_realm_and_user(qw(parent parent));
+options({comparator => 'nested_contains'});
+[
+    [req()] => [
+	load_from_drilldown => [
+	    [{
+		this => $bunit10,
+		parent_id => $child,
+	    }] => [
+		{'Prize.prize_id' => $bunit10}
+	    ],
+	    [{
+		this => $bunit1000,
+		parent_id => $child,
+	    }] => DIE()->MODEL_NOT_FOUND,
+	],
+    ],
+];

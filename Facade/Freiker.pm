@@ -23,6 +23,7 @@ my($_SELF) = __PACKAGE__->new({
 	[[qw(title topic footer_border_top footer_tag_line)] => 0x666666],
 	[[qw(err warn empty_list_border)] => 0xcc0000],
 	[[qw(left_nav_a_hover main_left_text a_img_border prizes_background)] => 0xFFFFFF],
+	[select_prize => 0xffcf06],
     ],
     Font => [
 	[a_link => 'normal'],
@@ -34,7 +35,9 @@ my($_SELF) = __PACKAGE__->new({
 	[[qw(topic nav)] => [qw(140% bold)]],
 	[left_nav_a_hover => []],
 	[user_state => [qw(140% bold nowrap)]],
+	[prize_name => 'bold'],
 	[footer_tag_line => [qw(100% bold)]],
+	[select_prize => [qw(bold underline)]],
     ],
     FormError => [
 	[NUMBER => 'Please enter a number'],
@@ -51,9 +54,11 @@ my($_SELF) = __PACKAGE__->new({
 	['Ride.ride_date.NOT_FOUND' => q{This date was not a school day.}],
 	['Ride.ride_date.EXISTS' => q{The Freiker was already credited for this date.  Please enter a different date.}],
 	[US_ZIP_CODE => q{The vs_fe(q{label}); must be 9-digit US Zip code.}],
-	[PRIZE_NOT_EARNED => q{You do not have enough available rides to chose this prize}],
+	['PrizeConformForm.Prize.name.TOO_FEW' => q{You do not have enough available rides to chose this prize}],
 	['UserLoginForm.login.OFFLINE_USER' => q{Not a registered Freiker Code.  Link('Please click on this link to register.', 'USER_CREATE');}],
 	['AdmSubstituteUserForm.login.OFFLINE_USER' => q{Freiker Code not registered.  User must register before you can act as user.}],
+	['FreikerSelectForm.FreikerCode.freiker_code.NOT_FOUND' => q{Freiker Code is not in our database.}],
+	['FreikerSelectForm.FreikerCode.freiker_code.PERMISSION_DENIED' => q{Freiker is not at this school.}],
     ],
     Constant => [
 	[xlink_paypal => {
@@ -61,6 +66,7 @@ my($_SELF) = __PACKAGE__->new({
 	}],
 	[my_site_redirect_map => [
 	    [qw(GENERAL ADMINISTRATOR ADM_FREIKOMETER_LIST)],
+	    [qw(MERCHANT ADMINISTRATOR MERCHANT_PRIZE_REDEEM)],
 	    [qw(CLUB ADMINISTRATOR CLUB_FREIKER_LIST)],
 	    [qw(USER ADMINISTRATOR FAMILY_FREIKER_LIST)],
 	]],
@@ -74,9 +80,14 @@ my($_SELF) = __PACKAGE__->new({
 	[CLUB_FREIKER_LIST => '?/freikers'],
 	[CLUB_PRIZE => '?/prize'],
 	[CLUB_PRIZE_LIST => '?/prizes'],
+	[ADM_PRIZE_LIST => 'adm/prizes'],
+	[ADM_PRIZE => 'adm/prize'],
 	[CLUB_REGISTER => '/pub/register-school'],
 	[CLUB_RIDE_DATE_LIST => '?/ride-dates'],
 	[CLUB_FREIKER_CODE_IMPORT => '?/import-codes'],
+	[CLUB_FREIKER_SELECT => '?/select-freiker'],
+	[CLUB_FREIKER_PRIZE_SELECT => '?/select-prize'],
+	[CLUB_FREIKER_PRIZE_CONFIRM => '?/confirm-prize'],
 	[FAMILY_FREIKER_ADD => '?/register-freiker'],
 	[FAMILY_FREIKER_CODE_ADD => '?/add-tag'],
 	[FAMILY_FREIKER_LIST => '?/freikers'],
@@ -94,6 +105,7 @@ my($_SELF) = __PACKAGE__->new({
 	[MERCHANT_PRIZE_REDEEM => '?/redeem-coupon'],
 	[MERCHANT_PRIZE_REDEEM => '?/redeem-prize'],
 	[MERCHANT_REGISTER => '/pub/register-merchant'],
+	[MERCHANT_FILE => '?/file/*'],
 	[PAYPAL_FORM => ['?/donate']],
 	[PAYPAL_RETURN => 'pp/*'],
     ],
@@ -114,6 +126,8 @@ my($_SELF) = __PACKAGE__->new({
 	[freiker_code => q{Freiker ID}],
 	[club_id => q{School}],
 	[ride_count => 'Rides'],
+	[prize_debit => 'Spent'],
+	[prize_credit => 'Credits'],
 	[Ride => [
 	    ride_date => 'Date',
 	]],
@@ -141,13 +155,15 @@ my($_SELF) = __PACKAGE__->new({
 	[Prize => [
 	    name => 'Title',
 	    description => 'Description',
-	    ride_count => 'Required Rides',
 	    retail_price => 'Retail Price',
 	    detail_uri => 'Info Link',
 	    prize_status => 'Status',
 	    modified_date_time => 'Last Updated',
 	]],
-	[MerchantPrizeForm => [
+	[[qw(PrizeRideCount Prize)] => [
+	    ride_count => 'Required Rides',
+	]],
+	[[qw(MerchantPrizeForm AdmPrizeForm)] => [
 	    image_file => 'Image',
 	    ok_button => 'OK',
 	]],
@@ -169,7 +185,7 @@ my($_SELF) = __PACKAGE__->new({
 	[PrizeReceipt => [
 	    receipt_code => 'Authorization Code',
 	]],
-	[PrizeRedeemForm => [
+	[PrizeCouponRedeemForm => [
 	    prose => [
 		prologue => q{Please enter the Freiker's vs_text_as_prose('PrizeReceipt.coupon_code');.},
 	    ],
@@ -280,7 +296,8 @@ Your transaction has been completed, and a receipt for your
 purchase has been emailed to you. You may log into your account
 at XLink('paypal'); to view details of this transaction.
 EOF
-	    paypal_cancel => q{Your donation has been cancelled.  Please consider donating in the future.}
+	    paypal_cancel => q{Your donation has been cancelled.  Please consider donating in the future.},
+	    CLUB_FREIKER_PRIZE_CONFIRM => q{Please give the Freiker the selected prizes.},
 	]],
 	[xlink => [
 	    paypal => 'PayPal',
@@ -297,7 +314,7 @@ EOF
 	    CLUB_FREIKER_LIST => 'Freikers',
 	    CLUB_RIDE_DATE_LIST => 'Rides by Date',
 	    CLUB_REGISTER => 'Register Your School',
-	    CLUB_PRIZE => 'Set Rides Required Prize',
+	    CLUB_PRIZE => q{Update Prize String(['Model.ClubPrizeList', 'Prize.name']);},
 	    CLUB_PRIZE_LIST => 'School Prizes',
 	    CLUB_FREIKER_CODE_IMPORT => 'Import Codes',
 	    MERCHANT_PRIZE => q{If(['Type.FormMode', '->eq_edit'], 'Update Prize Information', 'Donate a Prize');},
@@ -315,9 +332,15 @@ EOF
 	    LOGIN => 'Please Login',
 	    ADM_SUBSTITUTE_USER => 'Act as User',
 	    ADM_FREIKOMETER_LIST => 'Freikometers',
+	    ADM_PRIZE_LIST => 'All prizes',
+	    ADM_PRIZE => 'Update prize',
 	    USER_PASSWORD => 'Change Your Password',
 	    [qw(USER_CREATE_DONE GENERAL_USER_PASSWORD_QUERY)] => 'Check Your Mail',
 	    ALL_CLUB_SUMMARY_LIST => 'Real-time Ridership',
+	    MERCHANT_FILE => 'Files',
+	    CLUB_FREIKER_SELECT => 'Give Prize',
+	    CLUB_FREIKER_PRIZE_CONFIRM => 'Confirm Prize Selection',
+	    CLUB_FREIKER_PRIZE_SELECT => 'Select Prize',
 	]],
 	['xhtml.title' => [
 	    FAMILY_FREIKER_RIDE_LIST =>
@@ -326,6 +349,7 @@ EOF
 		'Add Missing Ride for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    FAMILY_FREIKER_CODE_ADD =>
 		'Enter New Freiker ID for String([qw(Model.FreikerRideList ->get_display_name)]);',
+	    CLUB_FREIKER_PRIZE_SELECT => 'Select Prize for String([qw(Model.ClubFreikerList RealmOwner.display_name)]);',
 	]],
 	['task_menu.title' => [
 #TODO: Remove 1/15/08

@@ -17,11 +17,12 @@ sub merge_overrides {
             delegates => {
 		'Bivio::Agent::HTTP::Cookie' => 'Bivio::Delegate::Cookie',
 		'Bivio::Agent::TaskId' => 'Freiker::Delegate::TaskId',
+		'Bivio::Type::RowTagKey' => 'Freiker::Delegate::RowTagKey',
+	      	'Bivio::Auth::Permission' => 'Freiker::Delegate::Permission',
+	      	'Bivio::Auth::RealmType' => 'Freiker::Delegate::RealmType',
+	      	'Bivio::Auth::Role' => 'Freiker::Delegate::Role',
 	      	'Bivio::Auth::Support' => 'Bivio::Delegate::SimpleAuthSupport',
 	      	'Bivio::Type::RealmName' => 'Freiker::Delegate::RealmName',
-	      	'Bivio::Auth::Permission' => 'Freiker::Delegate::Permission',
-	      	'Bivio::Auth::Role' => 'Freiker::Delegate::Role',
-		'Bivio::Type::RowTagKey' => 'Freiker::Delegate::RowTagKey',
 	    },
 	    maps => {
 		Action => ['Freiker::Action'],

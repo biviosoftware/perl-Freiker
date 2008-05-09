@@ -21,26 +21,33 @@ sub get_delegate_info {
 	[qw(
 	    MERCHANT_PRIZE_REDEEM
 	    502
-	    FORUM
+	    MERCHANT
 	    ADMIN_READ&ADMIN_WRITE
-	    Model.PrizeRedeemForm
+	    Model.PrizeCouponRedeemForm
 	    View.Merchant->prize_redeem
 	    next=MERCHANT_PRIZE_RECEIPT
 	)],
-#503
+	[qw(
+	    MERCHANT_HOME
+	    503
+	    MERCHANT
+	    DATA_READ
+	    Action.ClientRedirect->execute_next
+	    next=SITE_ROOT
+	)],
 	[qw(
 	    CLUB_REGISTER
 	    504
 	    GENERAL
 	    ANY_USER
 	    Model.ClubRegisterForm
-	    View.School->register
+	    View.Club->register
 	    next=CLUB_FREIKER_LIST
 	)],
 	[qw(
 	    MERCHANT_PRIZE_RECEIPT
 	    505
-	    FORUM
+	    MERCHANT
 	    ADMIN_READ
 	    Model.PrizeReceipt
 	    View.Merchant->prize_receipt
@@ -68,7 +75,7 @@ sub get_delegate_info {
 	[qw(
 	    MERCHANT_PRIZE
 	    508
-	    FORUM
+	    MERCHANT
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.MerchantPrizeForm
 	    View.Merchant->prize
@@ -106,14 +113,14 @@ sub get_delegate_info {
 	    CLUB
 	    ADMIN_READ
 	    Model.ClubFreikerList->execute_load_page
-	    View.School->freiker_list
+	    View.Club->freiker_list
 	)],
 	[qw(
 	    FAMILY_PRIZE_SELECT
 	    513
 	    USER
 	    ADMIN_READ&ADMIN_WRITE
-	    Model.PrizeSelectList->execute_load_all_with_query
+	    Model.PrizeSelectList->execute_load_for_user_and_credit
 	    View.Family->prize_select
 	    next=FAMILY_PRIZE_CONFIRM
 	)],
@@ -145,11 +152,11 @@ sub get_delegate_info {
 	[qw(
 	    MERCHANT_PRIZE_LIST
 	    517
-	    FORUM
+	    MERCHANT
 	    ADMIN_READ
 	    Model.MerchantPrizeList->execute_load_all_with_query
 	    View.Merchant->prize_list
-	    MODEL_NOT_FOUND=MERCHANT_PRIZE_REDEEM
+	    MODEL_NOT_FOUND=MERCHANT_PRIZE
 	)],
 	[qw(
 	    PAYPAL_FORM
@@ -201,7 +208,7 @@ sub get_delegate_info {
 	    CLUB
 	    ADMIN_READ
 	    Model.ClubPrizeList->execute_load_all
-	    View.School->prize_list
+	    View.Club->prize_list
 	)],
 	[qw(
 	    CLUB_PRIZE
@@ -210,7 +217,7 @@ sub get_delegate_info {
 	    ADMIN_READ
 	    Model.ClubPrizeList->execute_load_this
 	    Model.ClubPrizeForm
-	    View.School->prize
+	    View.Club->prize
 	    next=CLUB_PRIZE_LIST
 	)],
 	[qw(
@@ -219,7 +226,7 @@ sub get_delegate_info {
 	    CLUB
 	    ADMIN_READ
 	    Model.ClubRideDateList->execute_load_page
-	    View.School->ride_date_list
+	    View.Club->ride_date_list
 	)],
 	[qw(
 	    BOT_FREIKOMETER_UPLOAD
@@ -253,6 +260,59 @@ sub get_delegate_info {
 	    ANYBODY
 	    Model.AllClubSummaryList->execute_load_all
 	    View.WikiWidget->all_club_summary_list
+	)],
+	[qw(
+	    MERCHANT_FILE
+	    530
+	    MERCHANT
+	    ANYBODY
+	    Action.RealmFile->access_controlled_execute
+	)],
+	[qw(
+	    ADM_PRIZE_LIST
+	    531
+	    GENERAL
+	    ADMIN_READ
+	    Model.AdmPrizeList->execute_load_all_with_query
+	    View.Adm->prize_list
+	)],
+	[qw(
+	    ADM_PRIZE
+	    532
+	    GENERAL
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.AdmPrizeList->execute_load_this
+	    Model.AdmPrizeForm
+	    View.Adm->prize
+	    next=ADM_PRIZE_LIST
+	)],
+	[qw(
+	    CLUB_FREIKER_SELECT
+	    533
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.FreikerSelectForm
+	    View.Club->freiker_select
+	    next=CLUB_FREIKER_PRIZE_SELECT
+	)],
+	[qw(
+	    CLUB_FREIKER_PRIZE_SELECT
+	    534
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.ClubPrizeSelectList->execute_load_for_user_and_credit
+	    View.Club->prize_select
+	    next=CLUB_FREIKER_PRIZE_CONFIRM
+	)],
+	[qw(
+	    CLUB_FREIKER_PRIZE_CONFIRM
+	    535
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.ClubPrizeConfirmForm
+	    View.Club->prize_confirm
+	    next=CLUB_FREIKER_PRIZE_SELECT
+	    cancel=CLUB_FREIKER_SELECT
 	)],
     ]);
 }

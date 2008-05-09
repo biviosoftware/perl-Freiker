@@ -9,12 +9,12 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 sub execute_ok {
     my($self) = @_;
     $self->get_request->get('Model.PrizeCoupon')->create_receipt;
-    return {
+    return Bivio::IO::Alert->debug({
 	task_id => 'next',
 	query => {
 	    'ListQuery.this' => $self->get('PrizeCoupon.coupon_code'),
 	},
-    };
+    });
 }
 
 sub internal_initialize {

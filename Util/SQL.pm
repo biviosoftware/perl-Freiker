@@ -1,4 +1,4 @@
-# Copyright (c) 2005-2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2005-2008 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Util::SQL;
 use strict;
@@ -9,61 +9,38 @@ use Freiker::Test;
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_DT) = Bivio::Type->get_instance('DateTime');
 
-# su - postgres -c 'createuser --no-createdb --no-adduser --pwprompt fruser; createdb --owner fruser fr'
-
 sub ddl_files {
     return shift->SUPER::ddl_files(['bOP', 'fr']);
 }
 
-sub internal_upgrade_db_freikometer_folders {
-    my($self) = @_;
-    my($list) = {@{
-	$self->model('RealmUser')->map_iterate(
-	    sub {(shift->get('user_id') => 1)},
-	    'unauth_iterate_start',
-	    'realm_id',
-	    {role => Bivio::Auth::Role->FREIKOMETER},
-	),
-    }};
-    foreach my $fm (keys(%$list)) {
-	$self->req->with_user($fm, sub {
-	    $self->req->with_realm($fm, sub {
-		$self->model('RealmFile')->init_realm->map_invoke(
-		    create_folder => [
-			map([{path => $self->model($_)->FOLDER}],
-			    qw(FreikometerDownloadList FreikometerUploadList)),
-		    ],
-		);
-	    }),
-	});
-    }
-    return;
-}
-
 sub initialize_db {
-    my($self) = shift;
-    my(@res) = $self->SUPER::initialize_db(@_);
-    $self->new_other('SiteForum')->init;
-    return @res;
+    return shift->call_super_before(\@_, sub {
+        my($self) = @_;
+	$self->new_other('SiteForum')->init;
+	$self->internal_upgrade_db_freiker_distributor;
+        return;
+    });
 }
 
 sub init_realm_role {
-    my($self) = shift;
-    my(@res) = $self->SUPER::init_realm_role(@_);
-    my($rr) = $self->new_other('RealmRole');
-    foreach my $realm (qw(general user club)) {
-	$self->set_realm_and_user($realm, 'user');
-	$rr->edit(ADMINISTRATOR => '+RIDE_WRITE');
-	$rr->edit(FREIKOMETER => qw(+USER +RIDE_WRITE));
-    }
-    return @res;
+    return shift->call_super_before(\@_, sub {
+        my($self) = @_;
+	my($rr) = $self->new_other('RealmRole');
+	foreach my $realm (qw(general user club)) {
+	    $self->set_realm_and_user($realm, 'user');
+	    $rr->edit(ADMINISTRATOR => '+RIDE_WRITE');
+	    $rr->edit(FREIKOMETER => qw(+USER +RIDE_WRITE));
+	}
+	$self->internal_upgrade_db_merchant_realm_type;
+        return;
+    });
 }
 
 sub initialize_test_data {
     my($self) = @_;
     my($req) = $self->get_request;
     $self->new_other('TestUser')->init;
-    foreach my $x (qw(WHEEL SPONSOR_EMP DISTRIBUTOR_EMP)) {
+    foreach my $x (qw(WHEEL SPONSOR_EMP)) {
 	$self->model(UserRegisterForm => {
 	    'RealmOwner.display_name' => Freiker::Test->$x(),
 	    'Address.zip' => Freiker::Test->ZIP,
@@ -101,7 +78,9 @@ sub initialize_test_data {
     });
     $req->set_realm($club_id);
     $self->new_other('Test')->reset_freikers;
-    foreach my $x (qw(SPONSOR DISTRIBUTOR)) {
+    # COUPLING: commit is to release Model.Lock on rides (above).
+    $self->commit_or_rollback;
+    foreach my $x (qw(SPONSOR)) {
 	my($e) = $x . '_EMP';
 	$req->with_user(Freiker::Test->$e() => sub {
 	    $self->model(MerchantInfoForm => {
@@ -122,188 +101,40 @@ sub initialize_test_data {
     return;
 }
 
-sub internal_upgrade_db_prize {
+sub internal_upgrade_db_freiker_distributor {
     my($self) = @_;
     my($req) = $self->req;
-    $self->run(<<'EOF');
-CREATE TABLE prize_t (
-  prize_id NUMERIC(18) NOT NULL,
-  realm_id NUMERIC(18) NOT NULL,
-  modified_date_time DATE NOT NULL,
-  name VARCHAR(100) NOT NULL,
-  description VARCHAR(4000) NOT NULL,
-  detail_uri VARCHAR(255) NOT NULL,
-  ride_count NUMERIC(9) NOT NULL,
-  retail_price NUMERIC(9) NOT NULL,
-  prize_status NUMERIC(2) NOT NULL,
-  CONSTRAINT prize_t1 PRIMARY KEY(prize_id)
-)
-/
+    $req->with_realm(undef, sub {
+	my($ral) = $self->model('RealmAdminList')->load_all
+	    ->set_cursor_or_not_found(0);
+	$req->with_user(
+	    $ral->get('RealmUser.user_id'),
+	    sub {
+		$self->model('MerchantInfoForm', {
+		    'RealmOwner.display_name' => 'Freiker, Inc.',
+		    'Address.street1' => '2701 Iris Ave, Suite S',
+		    'Address.city' => 'Boulder',
+		    'Address.state' => 'CO',
+		    'Address.zip' => '803042435',
+		    'Website.url' => 'http://www.freiker.org',
+		});
+		$ral->do_rows(sub {
+	            $self->model(RealmUserAddForm => {
+			administrator => 1,
+			'RealmUser.realm_id' => $self->req(qw(Model.Merchant merchant_id)),
+			'User.user_id' => $ral->get('RealmUser.user_id'),
+		    }),
+	        });
+		return;
+	    },
+	),
+    });
+    return;
+}
 
-CREATE TABLE prize_coupon_t (
-  coupon_code NUMERIC(9) NOT NULL,
-  realm_id NUMERIC(18) NOT NULL,
-  user_id NUMERIC(18) NOT NULL,
-  prize_id NUMERIC(18) NOT NULL,
-  creation_date_time DATE NOT NULL,
-  ride_count NUMERIC(9) NOT NULL,
-  CONSTRAINT prize_coupon_t1 PRIMARY KEY(realm_id, coupon_code)
-)
-/
-
-CREATE TABLE prize_receipt_t (
-  coupon_code NUMERIC(9) NOT NULL,
-  realm_id NUMERIC(18) NOT NULL,
-  user_id NUMERIC(18) NOT NULL,
-  creation_date_time DATE NOT NULL,
-  receipt_code NUMERIC(9) NOT NULL,
-  CONSTRAINT prize_receipt_t1 PRIMARY KEY(realm_id, coupon_code)
-)
-/
-
-CREATE TABLE prize_ride_count_t (
-  prize_id NUMERIC(18) NOT NULL,
-  realm_id NUMERIC(18) NOT NULL,
-  modified_date_time DATE NOT NULL,
-  ride_count NUMERIC(9) NOT NULL,
-  CONSTRAINT prize_ride_count_t1 PRIMARY KEY(prize_id, realm_id)
-)
-/
-
---
--- prize_t
---
-ALTER TABLE prize_t
-  ADD CONSTRAINT prize_t2
-  FOREIGN KEY (realm_id)
-  REFERENCES realm_owner_t(realm_id)
-/
-CREATE INDEX prize_t3 ON prize_t (
-  realm_id
-)
-/
-CREATE INDEX prize_t4 ON prize_t (
-  modified_date_time
-)
-/
-CREATE INDEX prize_t5 ON prize_t (
-  name
-)
-/
-CREATE INDEX prize_t6 ON prize_t (
-  ride_count
-)
-/
-
---
--- prize_coupon_t
---
-ALTER TABLE prize_coupon_t
-  ADD CONSTRAINT prize_coupon_t2
-  FOREIGN KEY (realm_id)
-  REFERENCES realm_owner_t(realm_id)
-/
-CREATE INDEX prize_coupon_t3 ON prize_coupon_t (
-  realm_id
-)
-/
-ALTER TABLE prize_coupon_t
-  ADD CONSTRAINT prize_coupon_t4
-  FOREIGN KEY (prize_id)
-  REFERENCES prize_t(prize_id)
-/
-CREATE INDEX prize_coupon_t5 ON prize_coupon_t (
-  prize_id
-)
-/
-ALTER TABLE prize_coupon_t
-  ADD CONSTRAINT prize_coupon_t6
-  FOREIGN KEY (user_id)
-  REFERENCES user_t(user_id)
-/
-CREATE INDEX prize_coupon_t7 ON prize_coupon_t (
-  user_id
-)
-/
-CREATE INDEX prize_coupon_t8 ON prize_coupon_t (
-  creation_date_time
-)
-/
-CREATE INDEX prize_coupon_t9 ON prize_coupon_t (
-  ride_count
-)
-/
-
---
--- price_ride_count_t
---
-ALTER TABLE prize_ride_count_t
-  ADD CONSTRAINT prize_ride_count_t2
-  FOREIGN KEY (prize_id)
-  REFERENCES prize_t(prize_id)
-/
-CREATE INDEX prize_ride_count_t3 ON prize_ride_count_t (
-  prize_id
-)
-/
-ALTER TABLE prize_ride_count_t
-  ADD CONSTRAINT prize_ride_count_t4
-  FOREIGN KEY (realm_id)
-  REFERENCES realm_owner_t(realm_id)
-/
-CREATE INDEX prize_ride_count_t5 ON prize_ride_count_t (
-  realm_id
-)
-/
-CREATE INDEX prize_ride_count_t6 ON prize_ride_count_t (
-  modified_date_time
-)
-/
-CREATE INDEX prize_ride_count_t7 ON prize_ride_count_t (
-  ride_count
-)
-/
-
---
--- prize_receipt_t
---
-ALTER TABLE prize_receipt_t
-  ADD CONSTRAINT prize_receipt_t2
-  FOREIGN KEY (coupon_code, realm_id)
-  REFERENCES prize_coupon_t(coupon_code, realm_id)
-/
-ALTER TABLE prize_receipt_t
-  ADD CONSTRAINT prize_receipt_t3
-  FOREIGN KEY (realm_id)
-  REFERENCES realm_owner_t(realm_id)
-/
-CREATE INDEX prize_receipt_t4 ON prize_receipt_t (
-  realm_id
-)
-/
-ALTER TABLE prize_receipt_t
-  ADD CONSTRAINT prize_receipt_t5
-  FOREIGN KEY (user_id)
-  REFERENCES user_t(user_id)
-/
-CREATE INDEX prize_receipt_t6 ON prize_receipt_t (
-  user_id
-)
-/
-CREATE INDEX prize_receipt_t7 ON prize_receipt_t (
-  creation_date_time
-)
-/
-CREATE UNIQUE INDEX prize_receipt_t8 ON prize_receipt_t (
-  realm_id,
-  receipt_code
-)
-/
-CREATE SEQUENCE prize_s
-  MINVALUE 100021
-  CACHE 1 INCREMENT BY 100000
-/
-EOF
+sub internal_upgrade_db_merchant_realm_type {
+    my($self) = @_;
+    $self->new_other('RealmRole')->copy_all(forum => 'merchant');
     return;
 }
 

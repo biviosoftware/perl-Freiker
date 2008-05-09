@@ -23,20 +23,20 @@ sub pre_compile {
     my($self) = shift;
     my(@res) = $self->SUPER::pre_compile(@_);
     return unless $self->internal_base_type eq 'xhtml';
-    $self->internal_put_base_attr(tools => TaskMenu([
-	'MERCHANT_PRIZE',
-	'MERCHANT_PRIZE_LIST',
-	'MERCHANT_PRIZE_REDEEM',
-    ]));
+    $self->internal_put_base_attr(tools =>
+	TaskMenu([
+	    'MERCHANT_PRIZE',
+	    'MERCHANT_PRIZE_LIST',
+	    'MERCHANT_PRIZE_REDEEM',
+	], {
+	    control => [[qw(->req auth_realm type)], '->eq_merchant'],
+	}),
+    );
     return @res;
 }
 
 sub prize {
     return shift->internal_body(vs_simple_form(MerchantPrizeForm => [
-	map([
-	    "MerchantPrizeForm.Prize.$_",
-	    {row_control => ['Model.MerchantPrizeForm', 'full_edit']},
-	], qw(ride_count prize_status)),
 	'MerchantPrizeForm.Prize.name',
 	'MerchantPrizeForm.Prize.retail_price',
 	'MerchantPrizeForm.Prize.detail_uri',
@@ -51,8 +51,8 @@ sub prize_list {
 }
 
 sub prize_redeem {
-    return shift->internal_body(vs_simple_form(PrizeRedeemForm => [qw{
-	PrizeRedeemForm.PrizeReceipt.coupon_code
+    return shift->internal_body(vs_simple_form(PrizeCouponRedeemForm => [qw{
+	PrizeCouponRedeemForm.PrizeCoupon.coupon_code
     }]));
 }
 
