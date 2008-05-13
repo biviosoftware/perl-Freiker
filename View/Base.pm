@@ -81,7 +81,6 @@ sub internal_xhtml_adorned {
 			    undef,
 			    {
 				'RealmOwner.realm_type' => Bivio::Auth::RealmType->MERCHANT,
-				'RealmUser.role' => Bivio::Auth::Role->ADMINISTRATOR,
 			    },
 			)}),
 # 			map(+{
