@@ -330,6 +330,14 @@ sub get_delegate_info {
 	    Model.AdmPrizeCouponList->execute_load_page
 	    View.Adm->prize_coupon_list
 	)],
+	[qw(
+	    GENERAL_PRIZE_LIST
+	    538
+	    GENERAL
+	    ANYBODY
+	    Model.AvailablePrizeList->execute_load_all_with_query
+	    View.General->prize_list
+	)],
     ]);
 }
 

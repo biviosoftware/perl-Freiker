@@ -110,6 +110,7 @@ my($_SELF) = __PACKAGE__->new({
 	[MERCHANT_FILE => '?/file/*'],
 	[PAYPAL_FORM => ['?/donate']],
 	[PAYPAL_RETURN => 'pp/*'],
+	[GENERAL_PRIZE_LIST => 'pub/prizes'],
     ],
     Text => [
 	[support_email => 'gears'],
@@ -352,6 +353,7 @@ EOF
 	    CLUB_FREIKER_SELECT => 'Deliver Prize',
 	    CLUB_FREIKER_PRIZE_CONFIRM => 'Confirm Prize Selection',
 	    CLUB_FREIKER_PRIZE_SELECT => 'Select Prize',
+	    GENERAL_PRIZE_LIST => 'Possible Prizes',
 	]],
 	['xhtml.title' => [
 	    FAMILY_FREIKER_RIDE_LIST =>

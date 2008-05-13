@@ -42,7 +42,8 @@ sub vs_prize_list {
 		    ' rides &mdash; ',
 		    SPAN_desc(WikiText(['Prize.description'])),
 		]),
-		['->format_uri', @$uri_args],
+		$uri_args ? ['->format_uri', @$uri_args]
+		    : ['Prize.detail_uri'],
 	    ),
 	},
     ], {
