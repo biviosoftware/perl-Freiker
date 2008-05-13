@@ -35,7 +35,10 @@ sub vs_prize_list {
 		    ' provided by ',
 		    String(['RealmOwner.display_name']),
 		    ' for ',
-		    SPAN_rides(['Prize.ride_count']),
+		    SPAN_rides(
+			If(['->has_keys', 'PrizeRideCount.ride_count'],
+			   ['PrizeRideCount.ride_count'],
+			   ['Prize.ride_count'])),
 		    ' rides &mdash; ',
 		    SPAN_desc(WikiText(['Prize.description'])),
 		]),
