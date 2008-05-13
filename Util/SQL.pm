@@ -133,6 +133,17 @@ sub internal_upgrade_db_freiker_distributor {
 
 sub internal_upgrade_db_merchant_realm_type {
     my($self) = @_;
+    $self->run(<<'EOF');
+CREATE TABLE merchant_t (
+  merchant_id NUMERIC(18) NOT NULL,
+  CONSTRAINT merchant_t1 primary key(merchant_id)
+)
+/
+CREATE SEQUENCE merchant_s
+  MINVALUE 100023
+  CACHE 1 INCREMENT BY 100000
+/
+EOF
     $self->new_other('RealmRole')->copy_all(forum => 'merchant');
     return;
 }
