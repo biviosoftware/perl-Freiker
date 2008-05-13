@@ -35,8 +35,11 @@ sub get_distributor_id {
 
 sub load_for_user_and_credit {
     my($self, $user_id, $prize_credit) = @_;
-    return $self->load_all(
-	{parent_id => $user_id, prize_credit => $prize_credit})
+    return $self->unauth_load_all({
+	parent_id => $user_id,
+	prize_credit => $prize_credit,
+	auth_id => $self->new_other('RealmUser')->club_id_for_freiker($user_id),
+    })
 }
 
 sub get_query_for_this {
@@ -53,12 +56,6 @@ sub internal_initialize {
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
 	parent_id => ['User.user_id'],
-	other => [
-	    [qw(Prize.prize_id PrizeRideCount.prize_id)],
-	],
-	order_by => [qw(
-	    PrizeRideCount.ride_count
-	)],
 	other_query_keys => [qw(prize_credit)],
     });
 }

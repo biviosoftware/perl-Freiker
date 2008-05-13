@@ -3,7 +3,7 @@
 ListModel();
 require 'prize_coupon.PL';
 my($child) = realm_id('child');
-req()->set_realm_and_user(qw(parent parent));
+req()->set_realm_and_user(qw(bunit123456789 parent));
 my($prizes) = [{
     'PrizeRideCount.ride_count' => 10,
 }, {
