@@ -1,0 +1,22 @@
+# Copyright (c) 2008 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+FormModel({
+    setup_request => sub {
+	model('ClubPrizeList')->load_all->set_cursor_or_die(0);
+	return;
+    },
+});
+shell_util(Test => ['reset_freikers']);
+req()->set_realm_and_user(qw(bunit123456789 wheel));
+[
+    empty_case({
+	'PrizeRideCount.ride_count' => 10,
+    }),
+    [{
+	'PrizeRideCount.ride_count' => 13,
+    }] => [{
+        'Model.PrizeRideCount' => {
+            ride_count => 13,
+        },
+    }],
+];
