@@ -3,3 +3,4 @@
 test_setup('Freiker');
 home_page();
 visit_uri('/pub/ride-summary');
+visit_uri('/pub/prizes');
