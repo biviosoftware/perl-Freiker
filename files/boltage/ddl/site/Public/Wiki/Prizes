@@ -1,87 +1,10 @@
 @h1 Ride and win!
 We have a great variety of prizes.  All prizes 
-@!@strong except the 
-@!@a href=^Green_Gear Green Gear 
 are deducted from your ride
-total.  We are working on prize management system, which will
-show how many rides you may apply to prizes.  Prizes
-will be ordered via your Family's account on this website.
+total.
 
 @a href=/site/donate Click here to donate prizes or money.
 
-@!@a.right href=^resourcerevival.com ^green_gear.gif
-@!Every Monday (or the first school day in the week), we award the 
-@!@a href=^Green_Gear Green Gear
-@!to the top Freiker of the Week.  If several Freikers are tied, we choose one
-@!at random.  The Freiker of the Week also wins $10.  Yes, TEN DOLLARS, just for
-@!riding your bike to school every day the prior week.  This is an extra prize.
-@!You get to use those same rides for any of the ride prizes below.  Special
-@!thanks to 
-@!@a href=^resourcerevival.com Resource Revival, Inc.
-@!for supplying the gears and to
-@!the 
-@!@a href=^boulderbumpshop.com Boulder Bump Shop
-@!for painting
-@!them.
+@b-embed ^/pub/prizes
 
-@a.left href=http://www.apple.com/ipodnano ^ipod_nano.jpg
-An iPod!  This is the piece de resistance for kids nowadays.  If you ride
-90% of the year to school, you'll win one.  It's that simple -- well, not
-really, but there are plenty of other prizes below.  This is just the
-one everybody seems to want.  At Crest View, you have to ride
-@span.rides 160 times
-, but schools which start Freiker part of the way
-through the year will use a lower number of rides (90% of possible rides
-during the partial year).
-
-@a.right href=^grahamwatson.com ^lance_poster.jpg
-Ooo La La! 
-@a href=^grahamwatson.com Graham Watson
-posters
-of Lance Armstrong winning the 2005 Tour de France.  The color and
-scenes are magnificent.  A great way to spice up any Freiker's bedroom
-after only 
-@span.rides 20 rides@
-.
-
-@a.left href=^grahamwatson.com ^lance_calendar.jpg
-2007! Lance Armstrong calendars from
-@a href=^grahamwatson.com Graham Watson
- so you can
-keep track of your Freiker rides, or your homework.  OK, scratch the homework
-bit, you only need 
-@span.rides 40 rides
-for these
-great looking calendars.
-
-@a.right href=http://www.cateye.com/en/product_detail/411 ^cateye_velo_5.jpg
-Zoom! You can see how fast you are going with the Cateye Velo 5
-Cyclocomputer, which was graciously donated by
-@a href=^cateye.com CatEye@
-.
-The cyclocomputer features an odometer set option,
-pacer (average speed compared to current), velocity indicator,
-auto start/stop, auto-power saving. Functions include current speed,
-elapsed time, total distance, trip distance, average speed and
-a clock (12/24hr).  It's yours after 
-@span.rides 50 rides@
-.
-
-@a.left href=^ubikes.com ^ubikes_water_bottle.jpg
-Slurp! Cool water bottles donated by
-@a href=^ubikes.com University Bicycles
-are just the thing
-for hard-riding Freikers.  Stay hydrated when you ride.  Quench
-your thirst with 
-@span.rides 10 rides@
-.
-
-@a.right href=^mirrycle.com ^mirrycle_bells.gif
-Ring! We've got Jellibells, Candibells, and more types of bells than you
-can imagine.  All of these bells were donated by
-@a href=^mirrycle.com Mirrycle Corporation
-maker of fine bells and mirrors.  You can make a racket after
-just 
-@span.rides 10 rides@
-.
 @div.winners 
