@@ -144,6 +144,7 @@ CREATE SEQUENCE merchant_s
   CACHE 1 INCREMENT BY 100000
 /
 EOF
+    $self->model('RealmOwner')->init_realm_type($self->use('Auth.RealmType')->MERCHANT);
     $self->new_other('RealmRole')->copy_all(forum => 'merchant');
     return;
 }
