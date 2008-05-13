@@ -37,6 +37,7 @@ do_logout();
 login_as('wheel');
 follow_link('available_prizes');
 follow_link($prize);
-submit_form({
-    ride => 33,
-});
+verify_form({ride => 10});
+submit_form({ride => 37});
+follow_link($prize);
+verify_form({ride => 37});
