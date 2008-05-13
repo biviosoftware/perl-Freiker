@@ -77,7 +77,6 @@ sub initialize_test_data {
 	password_ok => 1,
     });
     $req->set_realm($club_id);
-    $self->new_other('Test')->reset_freikers;
     # COUPLING: commit is to release Model.Lock on rides (above).
     $self->commit_or_rollback;
     foreach my $x (qw(SPONSOR)) {
@@ -93,7 +92,7 @@ sub initialize_test_data {
 	    });
 	});
     }
-    $self->new_other('Test')->reset_prizes_for_school;
+    $self->new_other('Test')->reset_freikers;
     $self->use('IO.File')->do_in_dir(site => sub {
         $self->new_other('RealmFile')
 	    ->main(qw(-user adm -realm site import_tree));

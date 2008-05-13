@@ -37,6 +37,14 @@ sub prize {
     ]));
 }
 
+sub prize_coupon_list {
+     return shift->internal_body(vs_paged_list(AdmPrizeCouponList => [qw(
+	PrizeCoupon.creation_date_time
+	RealmOwner.display_name
+	Prize.name
+     )]));
+}
+
 sub prize_list {
      return shift->internal_body(
 	 vs_prize_list(AdmPrizeList => [qw(THIS_DETAIL ADM_PRIZE)]));

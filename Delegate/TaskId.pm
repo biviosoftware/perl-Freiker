@@ -314,6 +314,22 @@ sub get_delegate_info {
 	    next=CLUB_FREIKER_PRIZE_SELECT
 	    cancel=CLUB_FREIKER_SELECT
 	)],
+	[qw(
+	    FAMILY_PRIZE_PICKUP
+	    536
+	    USER
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.FreikerList->execute_load_this
+	    Action.FamilyPrizePickup
+	)],
+	[qw(
+	    ADM_PRIZE_COUPON_LIST
+	    537
+	    GENERAL
+	    ADMIN_READ
+	    Model.AdmPrizeCouponList->execute_load_page
+	    View.Adm->prize_coupon_list
+	)],
     ]);
 }
 

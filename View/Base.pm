@@ -52,6 +52,7 @@ sub internal_xhtml_adorned {
 			}, qw(SITE_ADM_USER_LIST SITE_ADM_SUBSTITUTE_USER)),
 			'ADM_FREIKOMETER_LIST',
 			'ADM_PRIZE_LIST',
+			'ADM_PRIZE_COUPON_LIST',
 			'FAMILY_FREIKER_LIST',
 			map(+{
 			    task_id => 'CLUB_FREIKER_LIST',

@@ -56,8 +56,8 @@ sub freiker_list {
 		    Link(
 			String(['prize_credit']),
 			URI({
-			    task_id => 'FAMILY_PRIZE_SELECT',
-			    query => [qw(->format_query THIS_CHILD_LIST)],
+			    task_id => 'FAMILY_PRIZE_PICKUP',
+			    query => [qw(->format_query THIS_DETAIL)],
 			    no_context => 1,
 		        }),
 		    ),
@@ -155,7 +155,7 @@ sub prize_coupon_list {
 
 sub prize_select {
      return shift->internal_body(
-	 vs_prize_list(PrizeSelectList => [qw(THIS_DETAIL FAMILY_PRIZE_CONFIRM)]));
+  	 vs_prize_list(PrizeSelectList => [qw(THIS_DETAIL FAMILY_PRIZE_CONFIRM)]));
 }
 
 sub _club_id {

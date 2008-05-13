@@ -81,6 +81,7 @@ my($_SELF) = __PACKAGE__->new({
 	[CLUB_PRIZE => '?/prize'],
 	[CLUB_PRIZE_LIST => '?/prizes'],
 	[ADM_PRIZE_LIST => 'adm/prizes'],
+	[ADM_PRIZE_COUPON_LIST => 'adm/prize-coupons'],
 	[ADM_PRIZE => 'adm/prize'],
 	[CLUB_REGISTER => '/pub/register-school'],
 	[CLUB_RIDE_DATE_LIST => '?/ride-dates'],
@@ -97,6 +98,7 @@ my($_SELF) = __PACKAGE__->new({
 	[FAMILY_PRIZE_COUPON => '?/prize-coupon'],
 	[FAMILY_PRIZE_COUPON_LIST => '?/prize-coupons'],
 	[FAMILY_PRIZE_SELECT => '?/select-prize'],
+	[FAMILY_PRIZE_PICKUP => '?/pickup-prize'],
 	[FAVICON_ICO => '/favicon.ico'],
 	[LOCAL_FILE_PLAIN => ['i/*', 'f/*', 'h/*', 'm/*']],
 	[MERCHANT_PRIZE => '?/prize'],
@@ -162,6 +164,11 @@ my($_SELF) = __PACKAGE__->new({
 	]],
 	[[qw(PrizeRideCount Prize)] => [
 	    ride_count => 'Required Rides',
+	]],
+	[AdmPrizeCouponList => [
+	    'PrizeCoupon.creation_date_time' => 'Delivered',
+	    'Prize.name' => 'Prize',
+	    'RealmOwner.display_name' => 'Freiker',
 	]],
 	[[qw(MerchantPrizeForm AdmPrizeForm)] => [
 	    image_file => 'Image',
@@ -257,6 +264,9 @@ EOF
 	    source => 'CSV File',
 	    ok_button => 'Import',
 	]],
+	[ClubPrizeConfirmForm => [
+	    ok_button => 'Deliver Prize',
+	]],
 	[AllClubSummaryList => [
 	    'RealmOwner.display_name' => 'School',
 	    days_1 => 'Day',
@@ -297,7 +307,7 @@ purchase has been emailed to you. You may log into your account
 at XLink('paypal'); to view details of this transaction.
 EOF
 	    paypal_cancel => q{Your donation has been cancelled.  Please consider donating in the future.},
-	    CLUB_FREIKER_PRIZE_CONFIRM => q{Please give the Freiker the selected prizes.},
+	    CLUB_FREIKER_PRIZE_CONFIRM => q{Please give the child the selected prizes.},
 	]],
 	[xlink => [
 	    paypal => 'PayPal',
@@ -332,13 +342,14 @@ EOF
 	    LOGIN => 'Please Login',
 	    ADM_SUBSTITUTE_USER => 'Act as User',
 	    ADM_FREIKOMETER_LIST => 'Freikometers',
-	    ADM_PRIZE_LIST => 'All prizes',
+	    ADM_PRIZE_LIST => 'All Prizes',
+	    ADM_PRIZE_COUPON_LIST => 'Delivered Prizes',
 	    ADM_PRIZE => 'Update prize',
 	    USER_PASSWORD => 'Change Your Password',
 	    [qw(USER_CREATE_DONE GENERAL_USER_PASSWORD_QUERY)] => 'Check Your Mail',
 	    ALL_CLUB_SUMMARY_LIST => 'Real-time Ridership',
 	    MERCHANT_FILE => 'Files',
-	    CLUB_FREIKER_SELECT => 'Give Prize',
+	    CLUB_FREIKER_SELECT => 'Deliver Prize',
 	    CLUB_FREIKER_PRIZE_CONFIRM => 'Confirm Prize Selection',
 	    CLUB_FREIKER_PRIZE_SELECT => 'Select Prize',
 	]],
@@ -350,6 +361,7 @@ EOF
 	    FAMILY_FREIKER_CODE_ADD =>
 		'Enter New Freiker ID for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    CLUB_FREIKER_PRIZE_SELECT => 'Select Prize for String([qw(Model.ClubFreikerList RealmOwner.display_name)]);',
+	    FAMILY_PRIZE_PICKUP => 'Where to pickup your prize!',
 	]],
 	['task_menu.title' => [
 #TODO: Remove 1/15/08
