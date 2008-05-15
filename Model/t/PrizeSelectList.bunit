@@ -17,4 +17,5 @@ my($prizes) = [{
  	[{parent_id => $child, prize_credit => 20}] => [@$prizes[0..1]],
  	[{parent_id => $child, prize_credit => 10}] => [$prizes->[0]],
     ],
+    get_prize_credit => 10,
 ];
