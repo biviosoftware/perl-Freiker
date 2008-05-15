@@ -33,6 +33,10 @@ sub get_distributor_id {
 	->get('realm_id');
 }
 
+sub get_prize_credit {
+    return shift->[$_IDI];
+}
+
 sub load_for_user_and_credit {
     my($self, $user_id, $prize_credit) = @_;
     return $self->unauth_load_all({
@@ -63,7 +67,7 @@ sub internal_initialize {
 sub internal_prepare_statement {
     my($self, $stmt, $query) = @_;
     # So doesn't show up with format_uri
-    my($pc) = $query->get('prize_credit');
+    my($pc) = $self->[$_IDI] = $query->get('prize_credit');
     $query->delete('prize_credit');
     $stmt->where(
 	$stmt->EQ('PrizeRideCount.realm_id', [

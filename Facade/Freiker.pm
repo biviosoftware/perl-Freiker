@@ -336,7 +336,7 @@ EOF
 	    FAMILY_PRIZE_CONFIRM => 'Confirm Your Prize Selection',
 	    FAMILY_PRIZE_COUPON => 'Prize Coupon',
 	    FAMILY_PRIZE_COUPON_LIST => q{Past Prizes},
-	    FAMILY_PRIZE_SELECT => 'Congratulations! Choose a Prize!',
+	    FAMILY_PRIZE_SELECT => q{Congratulations! Choose a Prize! You have String([qw(Model.PrizeSelectList ->get_prize_credit)]); credits.},
 	    FAMILY_FREIKER_ADD => 'Register Your Child',
 	    FAMILY_FREIKER_LIST => "Your Freikers",
 	    USER_CREATE => 'Please Register',
@@ -362,7 +362,7 @@ EOF
 		'Add Missing Ride for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    FAMILY_FREIKER_CODE_ADD =>
 		'Enter New Freiker ID for String([qw(Model.FreikerRideList ->get_display_name)]);',
-	    CLUB_FREIKER_PRIZE_SELECT => 'Select Prize for String([qw(Model.ClubFreikerList RealmOwner.display_name)]);',
+	    CLUB_FREIKER_PRIZE_SELECT => q{Select Prize for String([qw(Model.ClubFreikerList RealmOwner.display_name)]); with String([qw(Model.ClubPrizeSelectList ->get_prize_credit)]); credits},
 	    FAMILY_PRIZE_PICKUP => 'Where to pickup your prize!',
 	]],
 	['task_menu.title' => [
