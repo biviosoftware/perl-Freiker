@@ -15,6 +15,12 @@ sub get_display_name {
     ) . ')';
 }
 
+sub get_most_recent {
+    my($self, $user_id) = @_;
+    return $self->unauth_load_all({auth_id => $user_id})->set_cursor_or_die(0)
+	->get('FreikerCode.freiker_code');
+}
+
 sub internal_initialize {
     my($self) = @_;
     my($info) = $self->SUPER::internal_initialize;
