@@ -1,0 +1,27 @@
+# Copyright (c) 2008 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+FormModel({
+    setup_request => sub {
+	req()->put(query => {parent_id => realm_id('child1')});
+	return;
+    },
+});
+shell_util(Test => ['reset_freikers']);
+req()->set_realm_and_user(qw(bunit123456789 wheel));
+[
+    [{
+	add_days => 1,
+    }] => [{
+	'Model.Ride' => {
+	    ride_date => Date()->now,
+	},
+    }],
+    [{
+	add_days => 2,
+    }] => [{
+	'Model.Ride' => {
+	    # child1 already had yesterday
+	    ride_date => Date()->add_days(Date()->now, -4),
+	},
+    }],
+];
