@@ -78,6 +78,7 @@ my($_SELF) = __PACKAGE__->new({
 	[BOT_FREIKOMETER_DOWNLOAD => '?/fm-down/*'],
 	[BOT_FREIKOMETER_UPLOAD => '/fm/*'],
 	[CLUB_FREIKER_LIST => '?/freikers'],
+	[CLUB_FREIKER_MANUAL_RIDE_FORM => '?/give-rides'],
 	[CLUB_PRIZE => '?/prize'],
 	[CLUB_PRIZE_LIST => '?/prizes'],
 	[ADM_PRIZE_LIST => 'adm/prizes'],
@@ -228,6 +229,10 @@ my($_SELF) = __PACKAGE__->new({
 	    ],
 	    ok_button => 'Add tag',
 	]],
+	[ClubManualRideForm => [
+	    add_days => 'Number of Days',
+	    ok_button => 'Give rides',
+	]],
 	[ManualRideForm => [
 	    'Ride.ride_date' => q{Date Missing},
 	    ok_button => 'Add ride',
@@ -353,6 +358,7 @@ EOF
 	    CLUB_FREIKER_SELECT => 'Deliver Prize',
 	    CLUB_FREIKER_PRIZE_CONFIRM => 'Confirm Prize Selection',
 	    CLUB_FREIKER_PRIZE_SELECT => 'Select Prize',
+	    CLUB_FREIKER_MANUAL_RIDE_FORM => 'Give Rides',
 	    GENERAL_PRIZE_LIST => 'Possible Prizes',
 	]],
 	['xhtml.title' => [
@@ -362,6 +368,8 @@ EOF
 		'Add Missing Ride for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    FAMILY_FREIKER_CODE_ADD =>
 		'Enter New Freiker ID for String([qw(Model.FreikerRideList ->get_display_name)]);',
+	    CLUB_FREIKER_MANUAL_RIDE_FORM =>
+		'Give rides to String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    CLUB_FREIKER_PRIZE_SELECT => q{Select Prize for String([qw(Model.ClubFreikerList RealmOwner.display_name)]); with String([qw(Model.ClubPrizeSelectList ->get_prize_credit)]); credits},
 	    FAMILY_PRIZE_PICKUP => 'Where to pickup your prize!',
 	]],

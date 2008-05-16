@@ -338,6 +338,15 @@ sub get_delegate_info {
 	    Model.AvailablePrizeList->execute_load_all_with_query
 	    View.General->prize_list
 	)],
+	[qw(
+	    CLUB_FREIKER_MANUAL_RIDE_FORM
+	    539
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.ClubManualRideForm
+	    View.Club->manual_ride_form
+	    next=CLUB_FREIKER_PRIZE_SELECT
+	)],
     ]);
 }
 
