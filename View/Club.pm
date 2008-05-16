@@ -51,6 +51,12 @@ sub freiker_select {
     );
 }
 
+sub manual_ride_form {
+    return shift->internal_body(vs_simple_form(ClubManualRideForm => [
+	'ClubManualRideForm.add_days',
+    ]));
+}
+
 sub prize {
     return shift->internal_body(vs_simple_form(ClubPrizeForm => [
 	'ClubPrizeForm.PrizeRideCount.ride_count',
@@ -70,9 +76,19 @@ sub prize_list {
 }
 
 sub prize_select {
-     return shift->internal_body(
-	 vs_prize_list(ClubPrizeSelectList =>
-	     [qw(THIS_DETAIL CLUB_FREIKER_PRIZE_CONFIRM)]));
+     return shift->internal_put_base_attr(
+	tools => TaskMenu([
+	    'CLUB_FREIKER_SELECT',
+	    {
+		task_id => 'CLUB_FREIKER_MANUAL_RIDE_FORM',
+		query => {
+		    'ListQuery.parent_id' => [qw(Model.ClubPrizeSelectList ->get_user_id)],
+		},
+	    },
+	]),
+	body => vs_prize_list(ClubPrizeSelectList =>
+	     [qw(THIS_DETAIL CLUB_FREIKER_PRIZE_CONFIRM)]),
+     );
 }
 
 sub register {
