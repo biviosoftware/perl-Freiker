@@ -11,6 +11,7 @@ my($_D) = Bivio::Type->get_instance('Date');
 my($_FF) = Bivio::Type->get_instance('FileField');
 my($_SA) = __PACKAGE__->use('Type.StringArray');
 my($_RA) = __PACKAGE__->use('ShellUtil.RealmAdmin');
+my($_DT) = __PACKAGE__->use('Type.DateTime');
 
 sub USAGE {
     return <<'EOF';
@@ -85,7 +86,11 @@ sub reset_freikers {
 	    'Club.club_id' => $club_id,
 	    'FreikerCode.freiker_code' => Freiker::Test->FREIKER_CODE(2),
 	});
-
+	$self->unauth_model(FreikerCode => {
+	    freiker_code => Freiker::Test->FREIKER_CODE(2),
+	})->update({
+	    modified_date_time => $_DT->add_seconds($_DT->now, 1),
+	});
 	return;
     });
     return;
