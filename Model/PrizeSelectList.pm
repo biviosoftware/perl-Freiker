@@ -55,6 +55,10 @@ sub get_query_for_this {
     };
 }
 
+sub get_user_id {
+    return shift->get_query->get('parent_id');
+}
+
 sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
