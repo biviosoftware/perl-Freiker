@@ -3,17 +3,24 @@
 ShellUtil();
 shell_util(Test => ['reset_freikers']);
 req()->set_realm_and_user(qw(parent child));
-my($rides) = model('FreikerRideList', {
-    parent_id => req('auth_user_id'),
-    auth_id => req('auth_id'),
-})->map_rows(sub {class('Type.Date')->to_file_name(shift->get('Ride.ride_date'))});
 [
     [qw(missing_rides 1234)] => sub {
 	my(undef, $actual) = @_;
-	foreach my $d (@$rides) {
-	    assert_equals([], [$actual->[0] =~ /($d)/]);
-	}
+	assert_equals([], assert_eval($actual->[0]));
 	return 1;
     },
     [qw(info 1234)] => qr{child.*bunit123456789.*parent}s,
+    [qw(rides 1237)] => [to_string(ShellUtil_Test()->child_ride_dates(3, 1))],
+    [qw(missing_rides 1237)] => sub {
+	my(undef, $actual) = @_;
+	my($rides) = ShellUtil_Test()->child_ride_dates(3, 1);
+	assert_equals(
+	    [map({
+		my($x) = $_;
+		grep($x eq $_, @$rides) ? () : $x;
+	    } @{ShellUtil_Test()->all_child_ride_dates(1)})],
+	    assert_eval($actual->[0]),
+	);
+	return 1;
+    },
 ];
