@@ -17,10 +17,29 @@ sub USAGE {
     return <<'EOF';
 usage: fr-test [options] command [args..]
 commands
+  all_child_ride_dates [as_date] -- all valid ride dates
+  child_ride_dates [child [as_date]] -- valid ride for the child (child(0) has many rides)
   reset_freikers -- deletes and creates unregistered rides
   reset_freikometer_folders -- clears folders and sets up one download
   reset_prizes_for_school -- create bunit10, bunit20, bunit50, bunit1000
 EOF
+}
+
+sub all_child_ride_dates {
+    return shift->child_ride_dates(0, @_);
+}
+
+sub child_ride_dates {
+    my($self, $child_index, $as_date) = @_;
+    $child_index ||= 0;
+    return []
+	if $child_index == 6;
+    my($now) = $_D->now;
+    $as_date = $as_date ? sub {$_D->to_string(shift)} : sub {shift};
+    return [map(
+	$as_date->($_D->add_days($now, -$_)),
+	$child_index ? $child_index : 0..99,
+    )];
 }
 
 sub reset_freikers {
@@ -63,11 +82,11 @@ sub reset_freikers {
 	    $self->req('Model.RealmOwner')->update({name => $name});
 	    return;
 	}) if $index <= 1 || $index == 6;
-	push(@$rides, map(+{
-	    epc => $epc,
-	    datetime => $_D->add_days($now, -$_),
-	}, ($index ? $index : 0..99)))
-	    unless $index == 6;
+	push(
+	    @$rides,
+	    map(+{epc => $epc, datetime => $_},
+		@{$self->child_ride_dates($index)}),
+	);
     }
     $req->with_user(Freiker::Test->FREIKOMETER, sub {
 	my($rif) = $self->model('RideImportForm');
