@@ -6,6 +6,7 @@ use Bivio::Base 'Model.YearBaseList';
 use Freiker::Biz;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+my($_SA) = __PACKAGE__->use('Type.StringArray');
 
 sub PRIZE_SELECT_LIST {
     return 'PrizeSelectList';
@@ -52,6 +53,11 @@ sub internal_initialize {
 		type => 'Model.PrizeSelectList',
 		constraint => 'NOT_NULL',
 	    },
+	    {
+		name => 'freiker_codes',
+		type => 'StringArray',
+		constraint => 'NOT_NULL',
+	    },
 	],
 	auth_id => 'RealmUser.realm_id',
     });
@@ -60,6 +66,8 @@ sub internal_initialize {
 sub internal_post_load_row {
     my($self, $row) = @_;
     $row->{prize_credit} = $row->{ride_count} - ($row->{prize_debit} ||= 0);
+    $row->{freiker_codes} = $_SA->new($self->new_other('UserFreikerCodeList')
+	->get_codes($row->{'RealmUser.user_id'}));
     $row->{can_select_prize}
 	= ($row->{prize_select_list}
 	    = $self->new_other($self->PRIZE_SELECT_LIST)
