@@ -5,7 +5,7 @@ use strict;
 use Bivio::Base 'Bivio::ShellUtil';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_D) = Bivio::Type->get_instance('Date');
+my($_D) = __PACKAGE__->use('Type.Date');
 
 sub USAGE {
     return <<'EOF';
@@ -40,18 +40,25 @@ sub missing_rides {
 	    ->map_rows(sub {shift->get('Ride.ride_date') => 1}),
     }};
     $req->with_realm(
-	$family_id,
+	$club_id,
 	sub {
-	    $self->unauth_model('FreikerRideList', {
+	    $self->model('FreikerRideList', {
 		parent_id => $user_id,
-		auth_id => $req->get('auth_id'),
 	    })->do_rows(sub {
 		delete($dates->{shift->get('Ride.ride_date')});
 		return 1;
 	    });
 	},
     );
-    return [reverse(sort(map($_D->to_file_name($_), keys(%$dates))))];
+    return [reverse(sort(map($_D->to_string($_), keys(%$dates))))];
+}
+
+sub rides {
+    my($self, $user_id, $club_id, $family_id) = _args(@_);
+    return $self->unauth_model(FreikerRideList => {
+	parent_id => $user_id,
+	auth_id => $club_id,
+    })->map_rows(sub {$_D->to_string(shift->get('Ride.ride_date'))});
 }
 
 sub _args {
