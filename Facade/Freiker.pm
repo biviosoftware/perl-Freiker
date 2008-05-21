@@ -256,6 +256,7 @@ EOF
 	[[qw(FreikerList ClubFreikerList)] => [
 	    'RealmOwner.display_name' => 'Freiker',
 	    empty_list_prose => 'No Freikers as yet.',
+	    freiker_codes => 'Tag ID(s)',
 	    list_actions => 'Actions',
 	]],
 	[PayPalForm => [

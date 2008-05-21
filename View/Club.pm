@@ -31,6 +31,7 @@ sub freiker_list {
 	)]),
 	body => vs_paged_list(ClubFreikerList => [
 	    'RealmOwner.display_name',
+	    'freiker_codes',
 	    'ride_count',
 	    'prize_debit',
 	    'prize_credit',

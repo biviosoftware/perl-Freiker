@@ -38,6 +38,7 @@ sub freiker_list {
 		    query => 'THIS_CHILD_LIST',
 		},
 	    }],
+	    'freiker_codes',
 # 	    [ride_count => {
 # 		wf_list_link => {
 # 		    task => 'FAMILY_FREIKER_RIDE_LIST',
