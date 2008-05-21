@@ -6,4 +6,8 @@ shell_util(Test => ['reset_freikers']);
     get_most_recent => [
 	realm_id('child1') => 1236,
     ],
+    get_display_name => [
+	realm_id('child') => '(1234)',
+	realm_id('child1') => '(1236, 1235)',
+    ],
 ];
