@@ -11,9 +11,16 @@ sub USAGE {
     return <<'EOF';
 usage: fr-club [options] command [args..]
 commands
+  codes -- returns codes for current realm
   info freiker_code -- list user, club, and family info
   missing_rides freiker_code -- lists missing rides for freiker_code
 EOF
+}
+
+sub codes {
+    my($self) = @_;
+    return $self->model('UserFreikerCodeList')
+	->get_codes($self->req('auth_id'));
 }
 
 sub info {
