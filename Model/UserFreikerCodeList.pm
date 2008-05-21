@@ -6,13 +6,14 @@ use Bivio::Base 'Model.FreikerCodeList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
-sub get_display_name {
+sub get_codes {
     my($self, $user_id) = @_;
-    return '(' . join(
-	', ',
-	@{$self->unauth_load_all({auth_id => $user_id})->map_rows(
-	    sub {shift->get('FreikerCode.freiker_code')})},
-    ) . ')';
+    return $self->unauth_load_all({auth_id => $user_id})->map_rows(
+	sub {shift->get('FreikerCode.freiker_code')});
+}
+
+sub get_display_name {
+    return '(' . join(', ', @{shift->get_codes(@_)}) . ')';
 }
 
 sub get_most_recent {
