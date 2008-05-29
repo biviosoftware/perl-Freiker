@@ -13,6 +13,7 @@ sub ride_date_list {
 	    CLUB_FREIKER_LIST
 	    CLUB_FREIKER_CODE_IMPORT
 	    CLUB_PRIZE_LIST
+	    CLUB_PRIZE_COUPON_LIST
 	)]),
 	body => vs_paged_list(ClubRideDateList => [
 	    'Ride.ride_date',
@@ -28,6 +29,7 @@ sub freiker_list {
 	    CLUB_RIDE_DATE_LIST
 	    CLUB_FREIKER_CODE_IMPORT
 	    CLUB_PRIZE_LIST
+	    CLUB_PRIZE_COUPON_LIST
 	)]),
 	body => vs_paged_list(ClubFreikerList => [
 	    'RealmOwner.display_name',
@@ -48,6 +50,7 @@ sub freiker_select {
 	    CLUB_RIDE_DATE_LIST
 	    CLUB_FREIKER_CODE_IMPORT
 	    CLUB_PRIZE_LIST
+	    CLUB_PRIZE_COUPON_LIST
 	)]),
     );
 }
@@ -69,6 +72,15 @@ sub prize_confirm {
         ClubPrizeConfirmForm.Prize.name
 	ClubPrizeConfirmForm.PrizeRideCount.ride_count
     )]));
+}
+
+sub prize_coupon_list {
+     return shift->internal_body(vs_paged_list(ClubPrizeCouponList => [qw(
+	PrizeCoupon.creation_date_time
+	RealmOwner.display_name
+	freiker_codes
+	Prize.name
+     )]));
 }
 
 sub prize_list {
