@@ -9,6 +9,7 @@ submit_form({
     freiker => 1234,
 });
 follow_link('bunit50');
+sleep(1);
 submit_form('deliver');
 follow_link('deliver_prize');
 submit_form({
@@ -20,10 +21,17 @@ submit_form({
     num => 20,
 });
 follow_link('bunit20');
+sleep(1);
 submit_form('deliver');
+follow_link('delivered_prizes');
+verify_table(Delivered => [
+    [qw(Prize Freiker)],
+    [qw(bunit20 child1)],
+    [qw(bunit50 child)],
+]);
 do_logout();
 login_as('adm');
-follow_link('delivered_prizes');
+follow_link('all_delivered_prizes');
 verify_table(Delivered => [
     [qw(Prize Freiker)],
     [qw(bunit20 child1)],
