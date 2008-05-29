@@ -82,6 +82,7 @@ my($_SELF) = __PACKAGE__->new({
 	[CLUB_FREIKER_MANUAL_RIDE_FORM => '?/give-rides'],
 	[CLUB_PRIZE => '?/prize'],
 	[CLUB_PRIZE_LIST => '?/prizes'],
+	[CLUB_PRIZE_COUPON_LIST => '?/prize-coupons'],
 	[ADM_PRIZE_LIST => 'adm/prizes'],
 	[ADM_PRIZE_COUPON_LIST => 'adm/prize-coupons'],
 	[ADM_PRIZE => 'adm/prize'],
@@ -133,6 +134,7 @@ my($_SELF) = __PACKAGE__->new({
 	[ride_count => 'Rides'],
 	[prize_debit => 'Spent'],
 	[prize_credit => 'Credits'],
+	[freiker_codes => 'Tag ID(s)'],
 	[Ride => [
 	    ride_date => 'Date',
 	]],
@@ -168,7 +170,7 @@ my($_SELF) = __PACKAGE__->new({
 	[[qw(PrizeRideCount Prize)] => [
 	    ride_count => 'Required Rides',
 	]],
-	[AdmPrizeCouponList => [
+	[[qw(AdmPrizeCouponList ClubPrizeCouponList)] => [
 	    'PrizeCoupon.creation_date_time' => 'Delivered',
 	    'Prize.name' => 'Prize',
 	    'RealmOwner.display_name' => 'Freiker',
@@ -256,7 +258,6 @@ EOF
 	[[qw(FreikerList ClubFreikerList)] => [
 	    'RealmOwner.display_name' => 'Freiker',
 	    empty_list_prose => 'No Freikers as yet.',
-	    freiker_codes => 'Tag ID(s)',
 	    list_actions => 'Actions',
 	]],
 	[PayPalForm => [
@@ -351,7 +352,8 @@ EOF
 	    ADM_SUBSTITUTE_USER => 'Act as User',
 	    ADM_FREIKOMETER_LIST => 'Freikometers',
 	    ADM_PRIZE_LIST => 'All Prizes',
-	    ADM_PRIZE_COUPON_LIST => 'Delivered Prizes',
+	    ADM_PRIZE_COUPON_LIST => 'All Delivered Prizes',
+	    CLUB_PRIZE_COUPON_LIST => 'Delivered Prizes',
 	    ADM_PRIZE => 'Update prize',
 	    USER_PASSWORD => 'Change Your Password',
 	    [qw(USER_CREATE_DONE GENERAL_USER_PASSWORD_QUERY)] => 'Check Your Mail',

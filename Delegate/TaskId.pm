@@ -347,6 +347,14 @@ sub get_delegate_info {
 	    View.Club->manual_ride_form
 	    next=CLUB_FREIKER_PRIZE_SELECT
 	)],
+	[qw(
+	    CLUB_PRIZE_COUPON_LIST
+	    540
+	    CLUB
+	    ADMIN_READ
+	    Model.ClubPrizeCouponList->execute_load_page
+	    View.Club->prize_coupon_list
+	)],
     ]);
 }
 
