@@ -31,6 +31,7 @@ sub internal_initialize {
 	columns => {
 	    coupon_code => ['TxnCode', 'PRIMARY_KEY'],
 	    realm_id => ['RealmOwner.realm_id', 'PRIMARY_KEY'],
+#TODO: Add club_id
 	    prize_id => ['Prize.prize_id', 'NOT_NULL'],
 	    user_id => ['User.user_id', 'NOT_NULL'],
             creation_date_time => ['DateTime', 'NOT_NULL'],
