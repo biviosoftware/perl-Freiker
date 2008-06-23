@@ -17,6 +17,7 @@ body {
   padding-right: 1em;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 0;
 }
 h2 {
   Font('title');
@@ -24,9 +25,9 @@ h2 {
 .main_top .byline {
   float: right;
 }
-td.header_left, td.header_right, td.main_left {
-  width: 11em;
-}
+# td.header_left, td.header_right, td.main_left {
+#   width: 11em;
+# }
 td.header_left {
   background-position: left center;
 }
