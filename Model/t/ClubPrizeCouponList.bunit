@@ -1,0 +1,15 @@
+# Copyright (c) 2008 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+ListModel();
+require 'prize_coupon.PL';
+ShellUtil_Test()->create_prize_coupon('bunit10');
+req()->set_realm_and_user('bunit123456789');
+commit();
+[
+    load_all => [
+	[] => [{
+	    'family_display_name'=> 'A Parent',
+	    freiker_codes => StringArray('1234'),
+	}],
+    ],
+];
