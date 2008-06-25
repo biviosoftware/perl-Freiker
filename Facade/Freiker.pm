@@ -174,6 +174,7 @@ my($_SELF) = __PACKAGE__->new({
 	    'PrizeCoupon.creation_date_time' => 'Delivered',
 	    'Prize.name' => 'Prize',
 	    'RealmOwner.display_name' => 'Freiker',
+	    family_display_name => 'Parent',
 	]],
 	[[qw(MerchantPrizeForm AdmPrizeForm)] => [
 	    image_file => 'Image',

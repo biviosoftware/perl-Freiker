@@ -78,6 +78,7 @@ sub prize_coupon_list {
      return shift->internal_body(vs_paged_list(ClubPrizeCouponList => [qw(
 	PrizeCoupon.creation_date_time
 	RealmOwner.display_name
+	family_display_name
 	freiker_codes
 	Prize.name
      )]));
