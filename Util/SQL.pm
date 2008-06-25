@@ -68,7 +68,7 @@ sub initialize_test_data {
 	$self->req('auth_user')->update_password($self->TEST_PASSWORD);
     }
     $self->model(UserRegisterForm => {
-	'RealmOwner.display_name' => Freiker::Test->PARENT,
+	'RealmOwner.display_name' => 'A ' . ucfirst(Freiker::Test->PARENT),
 	'Address.zip' => Freiker::Test->ZIP,
 	'RealmOwner.name' => Freiker::Test->PARENT,
 	'RealmOwner.password' => $self->TEST_PASSWORD,
