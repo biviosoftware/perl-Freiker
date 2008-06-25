@@ -4,7 +4,6 @@ ListModel();
 require 'prize_coupon.PL';
 ShellUtil_Test()->create_prize_coupon('bunit10');
 req()->set_realm_and_user('bunit123456789');
-commit();
 [
     load_all => [
 	[] => [{
