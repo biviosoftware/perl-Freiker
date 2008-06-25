@@ -1,4 +1,4 @@
-# Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
+# Copyright (c) 2005-2008 bivio Software, Inc.  All rights reserved.
 # $Id$
 package Freiker::BConf;
 use strict;
@@ -64,7 +64,7 @@ sub merge_overrides {
 	},
     },
     $proto->default_merge_overrides({
-	version => 6,
+	version => 7,
 	root => 'Freiker',
 	prefix => 'fr',
 	owner => 'bivio Software, Inc.',
