@@ -3,5 +3,5 @@
 ShellUtil();
 shell_util(Test => ['reset_freikers']);
 [
-    [qw(-realm bunit123456789 last_week)] => qr{^GreenGear bunit Elementary\n,gg=[\d/]+\n1234, child, parent}s,
+    [qw(-realm bunit123456789 last_week)] => qr{^GreenGear bunit Elementary\n,gg=[\d/]+\n1234, child, A Parent}s,
 ];
