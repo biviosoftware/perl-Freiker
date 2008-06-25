@@ -6,6 +6,8 @@ use Bivio::Base 'Biz.ListModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_SA) = __PACKAGE__->use('Type.StringArray');
+my($_FREIKER_INT) = b_use('Auth.Role')->FREIKER->as_sql_param;
+my($_USER_INT) = b_use('Auth.RealmType')->USER->as_sql_param;
 
 sub PAGE_SIZE {
     return 500;
@@ -25,6 +27,18 @@ sub internal_initialize {
 	    'PrizeCoupon.creation_date_time',
 	    'Prize.name',
 	    'RealmOwner.display_name',
+	    {
+		name => 'family_display_name',
+		type => 'DisplayName',
+		constraint => 'NONE',
+		select_value => "(SELECT display_name
+                    FROM realm_user_t family_ru, realm_owner_t family_ro
+                    WHERE family_ru.role = $_FREIKER_INT
+                    AND family_ro.realm_type = $_USER_INT
+                    AND family_ru.user_id = realm_user_t.user_id
+                    AND family_ru.realm_id = family_ro.realm_id
+                ) as family_display_name",
+	    },
 	],
 	other => [
 	    ['RealmUser.role', ['FREIKER']],
