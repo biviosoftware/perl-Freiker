@@ -36,6 +36,23 @@ sub internal_xhtml_adorned {
 		FormButton('ok_button'),
 	    ])),
 	),
+	xhtml_dock_left => If(
+	    And(
+		['auth_realm', 'type', '->eq_forum'],
+	    ),
+	    TaskMenu([
+		'FORUM_BLOG_LIST',
+		'FORUM_CALENDAR',
+		{
+		    task_id => 'FORUM_FILE',
+		    control => ['->can_user_execute_task', 'FORUM_FILE_CHANGE'],
+		},
+		'FORUM_MAIL_THREAD_ROOT_LIST',
+		'FORUM_MOTION_LIST',
+		'FORUM_TUPLE_USE_LIST',
+		'FORUM_WIKI_VIEW',
+	    ]),
+	),
     );
     view_unsafe_put(
 	xhtml_main_right => '',
@@ -116,7 +133,7 @@ sub internal_xhtml_adorned {
 				       DIV_label(String(vs_text("ContextlessUserLoginForm.$_"))),
 				       FormField("ContextlessUserLoginForm.$_", {size => 15}),
 				   ), qw(login RealmOwner.password)),
-				   StandardSubmit(['ok_button']),
+				   StandardSubmit('ok_button'),
 				   Link('Not Registered?', 'USER_CREATE', {
 				       class => 'label',
 				   }),
