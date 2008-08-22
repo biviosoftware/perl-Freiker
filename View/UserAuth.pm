@@ -33,18 +33,18 @@ String([['->get_by_regexp', 'Model.\w+RegisterForm'], 'Email.email']); is the em
 You will use this address to login along with the password you
 will set when you click on the above link.
 
-Freiker, Inc. (EIN 56-2539016) is finally a 501(c)(3) so donations are
-tax-deductible.  Just $10 will help:
+Freiker, Inc. (EIN 56-2539016) is a tax-exempt organization under Section
+501(c)3 of the Internal Revenue Code. Your donation is tax deductible to the
+full extent of the law.  Just $10 will help:
 
 Link('/site/donate');
-
-100% of our donations by individuals go towards prizes for the kids.
 
 Thanks for riding,
 Zach Noffsinger
 Executive Director
 Freiker, Inc.
-Saving our society, one bike ride at a time.(tm)
+
+Every ride counts! (tm)
 EOF
     );
     return;
