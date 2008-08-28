@@ -37,7 +37,11 @@ sub internal_load_rows {
 	return 1;
     });
     return _rank([sort(
-	{$b->{days_20} <=> $a->{days_20}}
+	{
+	    $a->{'RealmOwner.display_name'} =~ /SRTS/i ? -1
+		: $b->{'RealmOwner.display_name'} =~ /SRTS/i ? +1
+		: $b->{days_20} <=> $a->{days_20}
+	}
         map({
 	    my($n) = $_;
 	    {
