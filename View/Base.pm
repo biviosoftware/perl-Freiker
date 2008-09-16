@@ -114,7 +114,7 @@ sub internal_xhtml_adorned {
 # 				'RealmOwner.realm_type' => Bivio::Auth::RealmType->FORUM,
 # 			    },
 # 			)}),
-			'CLUB_REGISTER',
+#			'CLUB_REGISTER',
 # 			'MERCHANT_REGISTER',
 		    ]),
 		}],
