@@ -114,7 +114,10 @@ sub internal_xhtml_adorned {
 # 				'RealmOwner.realm_type' => Bivio::Auth::RealmType->FORUM,
 # 			    },
 # 			)}),
-#			'CLUB_REGISTER',
+			{
+			    task_id => 'CLUB_REGISTER',
+			    control => [['->req'], '->is_test'],
+			},
 # 			'MERCHANT_REGISTER',
 		    ]),
 		}],
