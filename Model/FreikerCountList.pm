@@ -1,3 +1,8 @@
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+package Freiker::Model::FreikerCountList;
+use strict;
+
 NEED BOTH
 select ride_date, name, count(*) from ride_t, realm_owner_t where ride_t.realm_id = realm_owner_t.realm_id and realm_owner_t.realm_type = 3 group by ride_date, name order by ride_date, name;
 
