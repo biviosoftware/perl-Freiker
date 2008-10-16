@@ -222,14 +222,14 @@ my($_SELF) = __PACKAGE__->new({
 	[FreikerForm => [
 	    'User.first_name' => q{First Name},
 	    'User.first_name.desc' => q{This is for your information only so it may be a nickname, an abbreviation, or any other identifier.},
-	    'FreikerCode.freiker_code.desc' => q{The number on your child's helmet.},
+	    'FreikerCode.freiker_code.desc' => q{The number on your child's helmet or backpack.},
 	    'birth_year' => q{Year of Birth},
 	    'User.gender' => q{Gender},
 	    ok_button => 'Register child',
 	]],
 	[FreikerCodeForm => [
 	    prose => [
-		prologue => q{Enter the new Freiker ID from the tag on your child's helmet.  If the tag is missing from your child's helmet or you need another tag for a new helmet, vs_wheel_contact();.},
+		prologue => q{Enter the new Freiker ID from the tag on your child's helmet or backpack.  If the tag is missing from your child's helmet or backpack, or you need another tag for a new helmet or backpack, vs_wheel_contact();.},
 	    ],
 	    ok_button => 'Add tag',
 	]],
@@ -327,7 +327,7 @@ EOF
 	[FAMILY_PRIZE_COUPON_LIST => 'Prizes'],
 	[FAMILY_FREIKER_RIDE_LIST => 'Rides'],
 	[FAMILY_MANUAL_RIDE_FORM => 'Add missing ride'],
-	[FAMILY_FREIKER_CODE_ADD => 'New helmet tag'],
+	[FAMILY_FREIKER_CODE_ADD => 'New tag'],
 	[FAMILY_PRIZE_SELECT => 'Select prize'],
 	[PAYPAL_FORM => ''],
 	[title => [
