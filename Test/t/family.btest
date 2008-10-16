@@ -11,7 +11,7 @@ follow_link('child6');
 go_back();
 follow_link_in_table(qw(freiker freiker child6 action missing));
 go_back();
-follow_link_in_table(qw(freiker freiker child6 action helmet));
+follow_link_in_table(qw(freiker freiker child6 action tag));
 go_back();
 follow_link('register.*child');
 submit_form({
@@ -21,7 +21,7 @@ submit_form({
     birth => '1999',
     radio => 'Male',
 });
-follow_link_in_table(qw(freiker freiker bobby action helmet));
+follow_link_in_table(qw(freiker freiker bobby action tag));
 sleep(1);
 submit_form({
     freiker => '1238',
@@ -38,7 +38,7 @@ verify_table(Date => [
     map([$d->to_string($d->add_days($d->now, 0))],
 	0, -3, -4,),
 ]);
-follow_link('helmet');
+follow_link('tag');
 test_deviance('already assigned');
 submit_form({
     freiker => '1238',
