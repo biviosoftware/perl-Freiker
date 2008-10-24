@@ -1,0 +1,234 @@
+		
+@table
+		  
+@tr valign=top
+			
+@td class="fr_h_leftnav"
+			  
+@div class=light_green_oval
+				
+@span class="b1f fr_rb"
+@span class="b2f fr_rb"
+@span class="b3f fr_rb"
+@span class="b4f fr_rb"
+				
+@div class=login_box
+				  
+@img src=^log_in_here.gif 
+				  
+@form action=FIX_ME method=post name=login
+					
+@span.fr_label Your Email:
+					
+@input maxlength=100 name=email_address size=15 type=text value= 
+					
+@span.fr_label Password:
+					
+@input maxlength=100 name=password size=15 type=text value= 
+					
+@div class=standard_submit
+					  
+@input class=submit name=ok_button type=submit value=Login 
+					
+@/div
+				  
+@/form
+				
+@/div
+ 
+				
+@span class="b4f fr_rb"
+@span class="b3f fr_rb"
+@span class="b2f fr_rb"
+@span class="b1f fr_rb"
+			  
+@/div
+ 
+			  
+			  
+@div class=register
+				Need to register your child?
+@br 
+@br 
+				
+@a href=FIXME Register Here 
+			  
+@/div
+			  
+@img src=^bike_kid.jpg 
+			
+@/td
+			
+			
+@td class="fr_h_content"
+			  
+@div class=dark_green_oval
+				
+@span class="b1f fr_rb"
+@span class="b2f fr_rb"
+@span class="b3f fr_rb"
+@span class="b4f fr_rb"
+				
+@div class=green_box
+				  
+@table
+					
+
+					  
+@tr
+						
+@td
+						  
+@strong Freiker (FREquent bIKER, rhymes with biker)
+ believes that every bike ride counts as:
+						  
+						  
+@ul
+							
+@li
+@strong healthy
+ - fun and exercise with friends and family
+@/li
+							
+@li
+@strong environmentally friendly
+ - one less car on the road
+@/li
+							
+@li
+@strong easy
+ - the perfect way to get to school
+@/li
+						  
+@/ul
+						  
+@p
+							Kids do the pedaling, our "
+@a href=howitworks/freikometer.html Freikometer
+" does the counting.  
+							Rides add up throughout the school year and are redeemed for prizes at an end-of-year school party.  It's that simple.
+						  
+@/p
+						  
+						  
+@p
+							Join the movement that's inspiring kids to change our schools, our communities and our world - one bike ride 
+							at a time. 
+@a href=# Become a Freiker today! »
+						  
+@/p
+						
+@/td
+						
+@td
+@img class=learn_more src=^learn_more.gif 
+@/td
+					  
+@/tr
+					
+
+				  
+@/table
+				
+@/div
+ 
+				
+@span class="b4f fr_rb"
+@span class="b3f fr_rb"
+@span class="b2f fr_rb"
+@span class="b1f fr_rb"
+			  
+@/div
+ 
+			  
+			  
+@table
+				
+
+				  
+@tr class=rides_support
+					
+@td
+					  
+@div class=rides_counted
+						
+@img src=^rides_counted.gif 
+						116,790		
+					  
+@/div
+ 
+					
+@/td
+					
+@td
+					  
+@div class=support_freiker
+						
+@table
+						  
+@tr
+							
+@td
+@img src=^support_girl.jpg 
+@/td
+							
+@td
+							  
+@div class=support_text
+								Freiker gives kids a chance to make a positive impact on their future and the future of the planet. 
+								You can help, too.
+							  
+@/div
+							  
+@div class=support_link
+@a href=FIXME
+@img border=0 src=^support_link.gif 
+@/a
+@/div
+							
+@/td
+						  
+@/tr
+						
+@/table
+					  
+@/div
+ 
+					
+@/td
+				  
+@/tr
+				
+
+			  
+@/table
+			  
+@div class=testimonials
+				
+@h3 Testimonials
+				
+@p
+				  "Our bike racks are overflowing. Everybody at Crest View loves the Freiker program and the extra encouragement 
+				  it provides to students to bike to school."  Ned Levine, Crest View Elementary Principal
+				
+@/p
+				
+@p
+			
+				  "I call it 'the smile index,' and I can see it on their faces.  They're happy to be on their 
+				  bikes, and they know they're part of a movement."  Landon Hilliard, Student Transportation
+				  Coordinator for the Boulder Valley School District
+				
+@/p
+				"This is exactly the sort of program One World Two Wheels (1W2W) is proud to support. It gets 
+				kids riding, provides measurable results, and energizes the school community. I've seen it work and 
+				it's terrific."  Rebecca Anderson, Director of One World, Two Wheels 
+			  
+@/div
+			
+@/td
+		  
+@/tr
+		
+@/table
+	  
