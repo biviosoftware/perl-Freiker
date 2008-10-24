@@ -1,0 +1,106 @@
+
+				
+@div class=bread_crumbs
+					
+@a href=index.html Freiker Home
+ > About Us
+				
+@/div
+				
+				
+@h1 Support Freiker
+				
+@img.fr_top_right src=^support_freiker.jpg 
+				
+@p
+Freiker  promotes healthy, sustainable behaviors that are good for children, good for  the environment and good for communities. Childhood obesity rates are skyrocketing,  global warming is occurring, fuel costs are causing a budget crisis for schools  across the nation  there has never been a better time to support Freiker. Please help Freiker to inspire kids to change our  schools, our communities and our world  one bike ride  at a time.
+@br 
+				
+@/p
+				
+@form action=/site/donate method=post name=fn0
+				  
+@p
+					
+@script type=text/javascript
+					  
+					
+@/script
+					
+@input name=v type=hidden value=1 
+					
+@input name=c type=hidden value=aMg__!cc2l0ZQ__ 
+					
+@span style="font-size: 22px; margin-top: 0px; vertical-align: middle;" $
+					
+@input maxlength=9 name=f0 style="border: 2px #006600 solid; height: 18px; width: 150px; font-size: 13px; vertical-align: bottom; padding-top:5px; padding-left:5px; text-align: left;" type=text value=25 
+					
+@input name=f2 style="background-color: #009900; color: #FFFFFF; border: 2px solid #006600; font-size: 13px; font-weight: bold; margin-left: 10px; height: 28px; vertical-align: middle;" type=submit value="Donate Securely via PayPal" 
+				  
+@/p
+				  
+@p
+      
+@em Freiker (EIN  56-2539016) 
+@em is a 501(c)(3) organization, and all  donations are deductible to the extent permitted by law.
+				  
+@/p
+				
+@/form
+				
+@p Or,  if you prefer, please send a check to: 
+				
+@p
+Freiker,  Inc. 
+@br 
+				  2369 Spotswood Place 
+@br 
+				  Boulder, CO 80304-0994 
+@/p
+				
+@p
+Your  donation helps to: 
+@br 
+				
+@/p
+				
+@p
+@strong Support Healthier Kids
+ 
+@br 
+				  The national exercise guidelines call for  elementary school-age children to engage in physical activity for 150 minutes  each week; older children for 225 minutes. By biking to school, children go a  long way towards meeting the guidelines and adopting behaviors that are part of  a healthy lifestyle. Support a bike-to-school program and support the health of  Americas  children.
+@/p
+				
+@p
+@strong Support A Healthier Planet
+@br 
+				  Freikers take a  stand against global warming by utilizing a sustainable mode of transportation.  Although a quick drive to school may seem innocuous, the cumulative effect is  significant. A single gallon of gasoline produces more than 19 pounds of  carbon dioxide.
+@/p
+				
+@p
+@strong
+Support Additional Schools
+@br 
+				  
+@/strong
+@a href=../howitworks/results.html Click here
+ to  see the effect that the Freiker program is having. Help  make Freiker available to more kids at more schools across the nation. 
+@/p
+				
+@p
+@strong Support A Forward-Thinking 501(c)(3) 
+@br 
+				  By developing and using innovative  technology to help combat childhood obesity, global warming and traffic  congestion, Freiker is part of the recent surge of social  entrepreneurship. Freiker relies on  support from individuals, businesses and grants to continue to enhance and  perfect our technology. And, since  Freiker is a 501(c)(3) organization, your donations are tax-deductible to the  full extent of the law. 
+@/p
+				
+@p
+@a href=donate.html Click  here
+ if you want to become a sponsor or make  an in-kind donation.
+@/p
+				
+@p
+@a href=volunteer.html Click  here
+ to volunteer to help Freiker 
+@/p
+				
+			
