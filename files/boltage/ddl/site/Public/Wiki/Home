@@ -7,21 +7,18 @@
 			  
 @div class=dark_green_oval
 				
-@span class="b1f fr_rb"
-@span class="b2f fr_rb"
-@span class="b3f fr_rb"
-@span class="b4f fr_rb"
-				
+@span class="b1f"
+@/span
+@span class="b2f"
+@/span
+@span class="b3f"
+@/span
+@span class="b4f"
+@/span
 @div class=green_box
-				  
 @table
-					
-
-					  
 @tr
-						
 @td
-						  
 @strong Freiker (FREquent bIKER, rhymes with biker)
  believes that every bike ride counts as:
 						  
@@ -74,12 +71,14 @@
 @/table
 				
 @/div
- 
-				
-@span class="b4f fr_rb"
-@span class="b3f fr_rb"
-@span class="b2f fr_rb"
-@span class="b1f fr_rb"
+@span class="b4f"
+@/span
+@span class="b3f"
+@/span
+@span class="b2f"
+@/span
+@span class="b1f"
+@/span
 			  
 @/div
  
