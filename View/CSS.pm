@@ -258,7 +258,7 @@ td.fr_h_leftnav {
   padding: 1em;
 }
 td.fr_h_content {
-  padding: 0 1em 0 0;
+  padding: 0;
 }
 div.login_box form {
   text-align: center;
@@ -283,6 +283,9 @@ td.main_left {
 
 /***** internal pages *****/
 
+div.wiki {
+  margin: 1em;
+}
 div.wiki p {
   padding-top: .5em;
 }
