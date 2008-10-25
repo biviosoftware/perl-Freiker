@@ -55,7 +55,7 @@ sub internal_xhtml_adorned {
 	    ),
 	);
 	view_unsafe_put(
-	    xhtml_header_middle => _menu('HeaderMiddle'),
+	    xhtml_header_middle => RoundedBox(_menu('HeaderMiddle')),
 	    xhtml_footer_left => '',
 	    xhtml_footer_right => '',
 	    xhtml_footer_middle => Join([
@@ -78,6 +78,12 @@ sub internal_xhtml_adorned {
 	);
 	return;
     });
+}
+
+sub internal_xhtml_grid3 {
+    my($self, $name) = @_;
+    my($w) = shift->SUPER::internal_xhtml_grid3(@_);
+    return $name eq 'main' ? RoundedBox($w, 'fr_main_rounded_box') : $w;
 }
 
 sub _menu {
