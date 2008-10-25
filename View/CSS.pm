@@ -37,30 +37,33 @@ table.header td.header_middle {
   text-align: center;
   padding: .5em;
 }
-table.header td.header_middle ul {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.0em;
-  font-weight: bold;
-  background-color: #FFE401;
-  text-align: center;
-  vertical-align: middle;
-  display: block;
-  list-style-type: none;
-  margin: 0;
-  padding: .4em 0;
-}
-table.header td.header_middle ul li {
-  display: inline;
-  padding: .5em .4em;
-}
 table.header td.header_middle img {
   padding-bottom: 1em;
 }
-table.header td.header_middle li a {
+/***** top bmenu *****/
+table.header td.header_middle {
+  width:100%;
+  vertical-align: middle;
+}
+table.header td.header_middle .b_rounded_box_body {
+  background:#FFE401;
+}
+table.header td.header_middle div.bmenu {
+  text-align: center;
+  margin: 0;
+  padding: .6em 0;
+}
+table.header td.header_middle div.bmenu span {
+  padding: 1em .75em;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+table.header td.header_middle span a {
   color: #7A0913;
   text-decoration: none;
 }
-table.header td.header_middle li a:hover {
+table.header td.header_middle span a:hover {
   color: #45B00C;
   text-decoration: none;
 }
