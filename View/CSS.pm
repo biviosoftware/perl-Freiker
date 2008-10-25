@@ -93,6 +93,7 @@ table.main .main_left, table.main .main_middle{
 /***** footer *****/
 table.footer {
   border:0;
+  margin-top: .5em;
 }
 td.footer_left, td.footer_right {
   width: 0;
@@ -127,7 +128,7 @@ table.footer div.legal a:hover {
    color: #FCF67C;
 }
 
-/***** from index (home) page *****/
+/***** NOTE:  may not be necessary - login box and registration box *****/
 div.light_green_oval {
 0  margin: 0 .5em 0 0;
 }
@@ -169,6 +170,8 @@ div.register a {
   color: #2A6D06;
   text-decoration:none;
 }
+
+/***** main content styling *****/
 div.dark_green_oval span {
   background:#2A6D06;
 }
