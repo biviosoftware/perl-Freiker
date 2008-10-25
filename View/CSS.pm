@@ -41,6 +41,9 @@ table.header td.header_middle img {
   padding-bottom: 1em;
 }
 /***** top bmenu *****/
+table.header {
+  margin-bottom: .5em;
+}
 table.header td.header_middle {
   width:100%;
   vertical-align: middle;
@@ -56,7 +59,7 @@ table.header td.header_middle div.bmenu {
 table.header td.header_middle div.bmenu span {
   padding: 1em .75em;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.3em;
+  font-size: 1.4em;
   font-weight: bold;
 }
 table.header td.header_middle span a {
@@ -68,6 +71,11 @@ table.header td.header_middle span a:hover {
   text-decoration: none;
 }
 
+/***** white main oval *****/
+div.fr_main_rounded_box .b_rounded_box_body {
+  background: #FFFFFF;
+}
+
 /***** generic oval styles *****/
 .b1f, .b2f, .b3f, .b4f {font-size:1px; overflow:hidden; display:block;}
 span.b1f {height:1px; margin:0 5px;}
@@ -76,12 +84,6 @@ span.b3f {height:1px; margin:0 2px;}
 span.b4f {height:2px; margin:0 1px;}
 
 /***** generic main table styles *****/
-div.white_oval span {
-   background: #FFFFFF;
-}
-div.yellow_oval span {
-   background:#FFE401; 
-}
 table.main {
   background-color: #FFFFFF;
 }
