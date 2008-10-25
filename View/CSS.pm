@@ -12,7 +12,6 @@ body {
   background-color:#aaa; /* TMP */
   background-color:#45B00C;
   font-family:Verdana, Arial, Helvetica, sans-serif;
-  font-size: .9em;
   width: 77em;
   margin-left: auto;
   margin-right: auto;
@@ -77,7 +76,7 @@ div.fr_main_rounded_box .b_rounded_box_body {
 }
 
 /***** generic oval styles *****/
-.b1f, .b2f, .b3f, .b4f {font-size:1px; overflow:hidden; display:block;}
+span.b1f, span.b2f, span.b3f, span.b4f {font-size:1px; overflow:hidden; display:block;}
 span.b1f {height:1px; margin:0 5px;}
 span.b2f {height:1px; margin:0 3px;}
 span.b3f {height:1px; margin:0 2px;}
@@ -199,7 +198,7 @@ div.green_box table td {
 div.rides_counted {
   background-color: #FFA60E;
   border: #FF5D0E solid 4px;
-  margin-top: 0;
+  margin-top: .5em;
   margin-right: .5em;
   padding: 1em .5em;
   text-align: center;
@@ -216,7 +215,7 @@ div.rides_counted p {
 div.support_freiker {
   background-color: #026EE6;
   border: #082A4E solid 4px;
-  margin-right: 1em;
+  margin-top: .5em;
   font-family:Arial, Helvetica, sans-serif;
   font-size: .9em;
   color: #FFFFFF;
@@ -301,9 +300,13 @@ div.wiki h3 {
   font-size:1.0em;
   color: #000;
 }
+div.main_body, table.main {
+  margin-top:0;
+}
 
 ^/bp/.* div.main_top div.title {
   display:none;
+  height:0;
 }
 
 EOF
