@@ -58,7 +58,7 @@ table.header td.header_middle div.bmenu {
 table.header td.header_middle div.bmenu span {
   padding: 1em .75em;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.4em;
+  font-size: 1.2em;
   font-weight: bold;
 }
 table.header td.header_middle span a {
@@ -93,7 +93,7 @@ table.main .main_left, table.main .main_middle{
 /***** footer *****/
 table.footer {
   border:0;
-  margin-top: .5em;
+  margin-top: 1em;
 }
 td.footer_left, td.footer_right {
   width: 0;
@@ -258,7 +258,7 @@ td.fr_h_leftnav {
   padding: 1em;
 }
 td.fr_h_content {
-  padding: 0 1em 1em 0;
+  padding: 0 1em 0 0;
 }
 div.login_box form {
   text-align: center;
@@ -304,7 +304,8 @@ div.wiki h3 {
   color: #000;
 }
 div.main_body, table.main {
-  margin-top:0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 ^/bp/.* div.main_top div.title {
