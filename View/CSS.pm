@@ -311,6 +311,25 @@ div.main_body, table.main {
   margin-bottom: 0;
 }
 
+div.contact_form {
+  margin-top: 1em;
+}
+
+/***** dontate form styling *****/
+span.money {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5em;
+}
+div.donate input+input {
+  margin-left: 1em;
+  font-size: 1.2em;
+}
+div.donate input.money {
+  margin-left: 5px;
+  font-size: 1.2em;
+}
+
+/***** remove title *****/
 ^/bp/.* div.main_top div.title {
   display:none;
   height:0;
