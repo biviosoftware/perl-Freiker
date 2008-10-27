@@ -1,0 +1,103 @@
+@div class=bread_crumbs
+					
+@a href=^Home Freiker Home
+>
+^About_Us
+>
+In The News
+
+@/div
+				
+				
+@h1 In The News
+
+@img.fr_top_right src=^boy3.jpg
+
+@div class="in_the_news"
+@p 
+5/5/2008 - 
+@a href="http://www.timescall.com" Longmont Daily Times-Call
+ - Article 
+@br
+@a href="http://www.timescall.com/communitytc/schools-story.asp?ID=8452" Get  rolling: Program encourages kids to get to school by wheels or walking 
+
+@p
+1/17/2008 - 
+@a href="http://www.1world2wheels.org" World 2 Wheels (Trek Corp.)
+ - Blog 
+@br
+@a href="http://1world2wheels.org/blog/boulder-colorado-kids-earn-rewards-for-riding-to-school" Boulder,  Colorado Kids Earn Rewards for Riding to School
+ 
+
+@p
+1/16/2008 - 
+@a href="http://www.coloradohometownnews.com/superior%2Dobserver/" Superior  Observer
+ - Article 
+@br
+@a href="http://www.coloradohometownnews.com/superior-observer/top-story.asp?ID=2276" Pedal  Power Program aims to encourage student bike commuters
+
+@p
+1/04/2008 - 
+@a href="http://www.ncsl.org/programs/environ/healthyCommunity/index.htm" National  Conference of State Legislatures
+ - Article 
+@br
+@a href="http://www.ncsl.org/programs/environ/healthycommunity/sumtemp2.htm" Active  Living News: &quot;Frequent Biker Program Gets Schoolchildren Pedaling&quot;
+
+@p
+12/2/2007 - 
+@a href="http://www.steveouting.com" Steve Outing
+ - Blog 
+@br
+@a href="http://www.steveouting.com/brilliant-using-technology-to-change-behavior.html" Brilliant!  Using technology to change behavior
+ 
+@p
+9/11/2007 - 
+@a href="http://www.velonews.com" VeloNews
+ - Article 
+@br
+@a href="http://www.velonews.com/tech/report/articles/13247.0.html" Putting kids  in their place... on top of a bike
+ 
+
+@p
+6/19/2007 - 
+@a href="http://www.saferoutesinfo.org" Nation Center for Safe Routes to School
+ - Video 
+@br
+@a href="http://www.saferoutesinfo.org/online_library/details.cfm?id=2193" Colorado  Safe Routes to School Program
+ 
+@p
+11/02/2006 - 
+@a href="http://www.thedenverchannel.com" ABC News, Channel 7 Denver
+ - TV  (video stream) 
+@br
+@a href="http://www.thedenverchannel.com/video/10229138/detail.html" Biking To  School Becomes Popular Among Kids
+
+@p
+8/04/2006 - 
+@a href="http://www.bcbr.com" Boulder County Business Report
+ - Article 
+@br
+@a href="http://bcbr.datajoe.com/app/ecom/pub_article_details.php?id=82403" Freikometer  Logs Student Bike Rides to School
+
+@p
+6/08/2006 - 
+@a href="http://www.kgnu.org" KGNU Morning Magazine
+ - Radio (22 minutes into  show) 
+@br
+@a href="http://www.kgnu.org/cgi-bin/programinfo.py?time=1149775200" Kids at Crest  View have been Biking to School in Record Numbers
+ 
+@p
+5/06/2006 - 
+@a href="http://www.bvsd.org" Boulder Valley School District
+ - Press Release
+@br
+@a href="http://www.freiker.org/site/wiki/Press_06May2006" Freiker Bike  Encouragement Program at Crest View Elementary School Celebrates Success -  Freiker Receives Grant and Community Support
+ 
+@p
+11/5/2005 - 
+@a href="http://www.gratefulweb.com" Grateful Web
+ - Site of the Month 
+@br
+@a href="http://www.gratefulweb.net/gwebNews/gwebDesign/siteOfTheMonth.asp?articleid=612&amp;zoneid=5" The  Freiker Program Encourages Kids to Bike to School
+ 
+    
