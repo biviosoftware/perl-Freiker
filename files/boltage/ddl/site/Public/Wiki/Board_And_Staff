@@ -1,0 +1,38 @@
+@div class=bread_crumbs
+					
+@a href=^Home Freiker Home
+>
+^About_Us
+>
+Board & Staff
+
+@/div
+				
+				
+@h1 Board & Staff
+
+@img.fr_top_right src=^staff1.jpg
+
+@h2 Executive Director:
+@p
+*Zach*Noffsinger*, an avid recreational cyclist and bike commuter, has served as our Executive Director since late 2007.  Zach was drawn to Freiker because, as a new parent, he found himself more concerned than ever about the health of our nation's children and our environment.  Zach graduated from Duke University and from Duke University School of Law.  He spent almost 10 years working in a law firm before starting his own locally-focused business law practice in the fall of 2007.
+
+@h2 Founder and Technical Director:
+@p
+*Rob*Nagler* owns bivio Software, Inc., which has donated more than $100,000 of R&D to Freiker.  Rob got his start with computers through a volunteer-run program and enjoys leveraging his computer skills to help society.  Rob, a regular bicycling commuter, holds a BS in Computer Engineering from UC San Diego and an MS in Computer Engineering from Stanford University
+
+@img.fr_top_right src=^staff2.jpg
+
+@h2 Board Members:
+@p
+*Tricia*Grafelman* (Chairperson) brings experience as a High School teacher and sports coach, community health educator and practicing professional, and entrepreneur. Tricia has written and published two textbooks on Anatomy and Physiology for use in Massage Therapy Schools.  Tricia is active in church programs, coaching and playing community sports, and she is leading the expansion of Freiker in to the schools of Longmont, Colorado.  Tricia is currently chairperson of the Freiker Board of Directors.
+@p
+*Leslie*Bohm* is a founder and current board member of the Bikes Belong Coalition, the American bicycle industry’s advocacy/lobbying organization, and; the Bikes Belong Foundation, a new 501 (c) 3 dedicated to bicycle safety and youth cycling. Leslie started and is the CEO of Catalyst Communication, a nationally recognized marketing company serving the bicycle and active outdoor sports sectors.  In the late 1990s he helped start Bicycle Colorado, the state’s bicycle advocacy organization. Currently, Leslie is also leading the effort along with the City of Boulder and the Boulder Chamber of Commerce to establish the Active Living Business Cluster of 150+ of companies and non-profits in Boulder County.
+@p
+*Tim*Carlin* has both developed and sold new products in the computer business for over 20 years.  He co-founded Amplitude Software, raising over $10 million in venture capital and eventually selling the company to a publicly traded company. Tim has held various field and corporate positions with Apple Computer, NeXT Computer, and several smaller startups.  He is currently starting another software company.
+@p
+*Vasanthan*Dasan* brings over 15 years of experience in developing new products and services in the software industry. He was recently the Chief Technologist for the Service division of Sun Microsystems, where he led the automation of services for a $5.1 billion business unit.  Prior to that, Vasanthan was with Hewlett Packard and Intergraph.  Vasa is currently the founder of software services company iSnapp LLC.  Vasanthan and his wife, Priya, have two children in elementary school and middle school. He enjoys rugby, cycling and international travel.
+@p
+*Chris*Lietz* is a marketing services executive, a multi-sport enthusiast, and the father of three kids who have participated in the Freiker program.  He holds an engineering degree from Iowa State and an MBA from Northwestern, and has held leadership positions at Accenture, Corporate Express, Seurat Company and Fair Isaac Corporation.  He and his family have cherished living in Boulder, Colorado since 1999, where they are active in First Presbyterian Church and the public school community.
+@p
+*Stephanie*Mayer* is a senior instructor in Plant Biology at the Department of Ecology and Evolutionary Biology at the University of Colorado, Boulder, where she has worked for 9 years. Before moving to Boulder in 1998, she held a similar position at the University of Chicago for 6 years.  Stephanie is an active volunteer in the Boulder Valley Publics schools and Guild member of the Boulder County Safehouse.
