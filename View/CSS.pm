@@ -284,7 +284,7 @@ td.main_left {
 /***** internal pages *****/
 
 div.wiki {
-  margin: 1em;
+  margin: .5em 1em 1em 1em;
 }
 div.wiki p {
   padding-top: .5em;
