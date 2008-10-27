@@ -30,7 +30,7 @@ sub internal_xhtml_adorned {
 		'GENERAL_CONTACT',
 	    ),
 	    wiki_widget_paypal_form => DIV_donate(
-		Form(PayPalForm => Join([
+		    AuxiliaryForm(PayPalForm => Join([
 		    SPAN_money('$'),
 		    FormField('PayPalForm.amount', {class => 'money'}),
 		    FormButton('ok_button'),
