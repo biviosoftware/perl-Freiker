@@ -78,8 +78,8 @@ sub internal_xhtml_adorned {
 	    xhtml_main_left => IfWiki(
 		'/Home',
 		If(['auth_user_id'],
-		   _menu('HomeMainLeft'),
-		    RoundedBox(
+		   RoundedBox(_menu('HomeMainLeft'), 'left_nav'),
+		   RoundedBox(
 			AuxiliaryForm(ContextlessUserLoginForm => Join([
 			    map((
 				DIV_label(String(vs_text("ContextlessUserLoginForm.$_"))),
