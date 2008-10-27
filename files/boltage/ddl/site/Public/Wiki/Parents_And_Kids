@@ -2,7 +2,7 @@
 				
 @div class=bread_crumbs
 					
-@a href=index.html Freiker Home
+@a href=^Home Freiker Home
  > About Us
 				
 @/div
@@ -17,7 +17,7 @@
 @p
 Parents
 				  must 
-@a href=http://www.freiker.org/pub/register register
+@a href=^Register register
  in order for their children to participate  in the program.
 				  It only takes a few  minutes. We need a valid email address  for registration (don't worry, we promise
 				  we won't spam you, and we do not share  our email lists with anyone.), as well as your nine-digit zip code. This information
@@ -33,12 +33,12 @@ Parents
 				  
 @li
 @b
-@a href=http://www.freiker.org/pub/register Register Child
+@a href=^Register Register Child
 @/b
   Click on this function to register each of your children who is participating in the       Freiker program. You will need the number from your child's 
-@a href=../howitworks/freikometer.html Freiker tag
+@a href=^Freikometer Freiker tag
  to add them to your account. Please       note that you cannot register a child until (1) he or she has gotten a 
-@a href=../howitworks/freikometer.html Freiker tag
+@a href=^freikometer Freiker tag
 , which he or she gets from the Freiker volunteer at school, and (2) the tag has been scanned by the       Freikometer at least one time. If       you have multiple children, please add all of them under the same account       and email address using the Register Child function for each child        please do not create a new account for each child. Also, please note that even if your       children have Freiker tags on their helmets, they are not official       participants in the Freiker program, and are not eligible to earn prizes,       until you have registered. Once you       have registered your child's tag, all of the rides for that tag will then       show up. 
 @/li
 				  
@@ -84,7 +84,7 @@ Parents
 				
 @p
 Please  check out our 
-@a href=../howitworks/faq.html FAQ
+@a href=^How_It_Works FAQ
  for answers to many of the  questions you may have about the program. 
 @/p
 				
@@ -92,7 +92,7 @@ Please  check out our
 				
 @p
 Your help would be greatly appreciated. If you would like to volunteer at an existing  program or if you would like to bring Freiker to your school, please contact us  using 
-@a href=http://www.freiker.org/pub/contact our contact form
+@a href=^Contact_Us our contact form
 . 
 @/p
 				
@@ -100,7 +100,7 @@ Your help would be greatly appreciated. If you would like to volunteer at an exi
 				
 @p
 We encourage feedback so please contact us at 
-@a href=http://www.freiker.org/pub/contact our contact form
+@a href=^Contact_Us our contact form
  with  your questions, comments, and/or suggestions. 
 @/p
 				

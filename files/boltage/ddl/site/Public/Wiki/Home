@@ -43,9 +43,7 @@
 @/ul
 						  
 @p
-							Kids do the pedaling, our "
-@a href=howitworks/freikometer.html Freikometer
-" does the counting.  
+							Kids do the pedaling, our "^Freikometer" does the counting.  
 							Rides add up throughout the school year and are redeemed for prizes at an end-of-year school party.  It's that simple.
 						  
 @/p
@@ -54,7 +52,7 @@
 @p
 							Join the movement that's inspiring kids to change our schools, our communities and our world - one bike ride 
 							at a time. 
-@a href=# Become a Freiker today! »
+@a href=^Schools Become a Freiker today! »
 						  
 @/p
 						
@@ -120,7 +118,7 @@ You can help, too.
 @/div
 							  
 @div class=support_link
-@a href=FIXME
+@a href=^Donate
 @img border=0 src=^support_link.gif 
 @/a
 @/div

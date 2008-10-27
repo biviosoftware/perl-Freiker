@@ -2,7 +2,7 @@
 				
 @div class=bread_crumbs
 					
-@a href=index.html Freiker Home
+@a href=^Home Freiker Home
  > About Us
 				
 @/div
@@ -27,14 +27,12 @@
 @p
 The ridership numbers
 				  are 
-@a href=FIXME automatically counted
+@a href=^Results automatically counted
  and sent
-				  to this site by a 
-@a href=FIXME Freikometer
-.
+				  to this site by a ^Freikometer.
 				  The Freikometer is one secret to our success, and the other is
 				  our 
-@a href=FIXME prizes
+a href=^Prizes prizes
 .  Everybody can win a
 				  prize.  Freiker is not a competition between children,
 				  classes, or schools.  The combination of our two "secrets"
@@ -43,9 +41,7 @@ The ridership numbers
 @/p
 				
 @p
-The 
-@a href=FIXME Freikometer
- is a
+The ^Freikometer is a
 				  solar-powered computer that reads
 				  an 
 @a href=http://en.wikipedia.org/wiki/Rfid RFID
@@ -76,8 +72,7 @@ Kids love tracking their progress, earning prizes and being
 @p
 And Freiker gets results.  Check out
 				  our 
-@a href=FIXME Results page
- to see how Freiker
+^Results page to see how Freiker
 				  has doubled ridership.  
 @/p
 				
@@ -134,13 +129,13 @@ Encourages helmet use.  Since the RFID tags are on the
 				
 @p
 Interested schools can 
-@a href=FIXME click here
+@a href=^Schools click here
 				  to get more details about starting a Freiker program.
 @/p
 				
 @p
 Parents, 
-@a href=FIXME click here
+@a href=^Parents_And_Kids click here
  to find out
 				  more about your kid's participation in Freiker. 
 @/p
