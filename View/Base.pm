@@ -75,6 +75,30 @@ sub internal_xhtml_adorned {
 		    ),
 		])),
 	    ]),
+	    xhtml_main_left => IfWiki(
+		'/Home',
+		If(['auth_user_id'],
+		   _menu('HomeMainLeft'),
+		    RoundedBox(
+			AuxiliaryForm(ContextlessUserLoginForm => Join([
+			    map((
+				DIV_label(String(vs_text("ContextlessUserLoginForm.$_"))),
+				FormField("ContextlessUserLoginForm.$_", {size => 15}),
+			    ), qw(login RealmOwner.password)),
+			    StandardSubmit('ok_button'),
+			    Link('Not Registered?', 'USER_CREATE', {
+				class => 'label',
+			    }),
+			]), {
+			    action => URI({
+				task_id => 'LOGIN',
+				no_context => 1,
+			    }),
+			}),
+			'login',
+		   ),
+	        ),
+	    ),
 	);
 	return;
     });
