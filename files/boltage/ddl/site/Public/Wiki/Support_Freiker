@@ -14,30 +14,9 @@
 				
 @p
 Freiker  promotes healthy, sustainable behaviors that are good for children, good for  the environment and good for communities. Childhood obesity rates are skyrocketing,  global warming is occurring, fuel costs are causing a budget crisis for schools  across the nation  there has never been a better time to support Freiker. Please help Freiker to inspire kids to change our  schools, our communities and our world  one bike ride  at a time.
-@br 
-				
 @/p
 				
-@form action=/site/donate method=post name=fn0
-				  
-@p
-					
-@script type=text/javascript
-					  
-					
-@/script
-					
-@input name=v type=hidden value=1 
-					
-@input name=c type=hidden value=aMg__!cc2l0ZQ__ 
-					
-@span style="font-size: 22px; margin-top: 0px; vertical-align: middle;" $
-					
-@input maxlength=9 name=f0 style="border: 2px #006600 solid; height: 18px; width: 150px; font-size: 13px; vertical-align: bottom; padding-top:5px; padding-left:5px; text-align: left;" type=text value=25 
-					
-@input name=f2 style="background-color: #009900; color: #FFFFFF; border: 2px solid #006600; font-size: 13px; font-weight: bold; margin-left: 10px; height: 28px; vertical-align: middle;" type=submit value="Donate Securely via PayPal" 
-				  
-@/p
+@b-embed ^/my/donate
 				  
 @p
       
