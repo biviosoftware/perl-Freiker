@@ -345,6 +345,15 @@ div.FAQ h3 {
   margin-top: 1.5em;
   margin-bottom: 0;
 }
+div.sponsors h2 {
+  margin-top: 2em;
+}
+img.sponsors {
+    margin: 30px; 
+	position: relative;
+	left: 30px;
+}
+
 
 /***** remove title *****/
 ^/bp/.* div.main_top div.title {
