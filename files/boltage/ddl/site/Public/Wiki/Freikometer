@@ -1,42 +1,39 @@
-@h1 The Freikometer
-@a.movie href=^/my/file/freikometer.html
-^freikometer.gif
-@span Click here to see the movie!
-@/a
+@div class=bread_crumbs
+					
+@a href=^Home Freiker Home
+>
+^How_It_Works
+>
+Freikometer
 
-Like many other bike encouragement programs, Freiker started with
-punch cards.  The next year we used barcodes and scanners.  In 2006,
-we debuted the Freikometer: an automatic device that counts riders and
-uploads the data securely to this site.  It's solar powered so you can
-put it right near the bike racks at your school.  This has allowed
-us to expand rapidly without compromising the quality of our data.
+@/div
+				
+				
+@h1 Freikometer
 
-The Freikometer is currently being used at five
-@a href=http://www.bvsd.org Boulder Valley School District
-schools.  The Freikometers survived (for the most part) the harsh
-winter of 2006-2007.  We completely redesigned the Freikometers for
-the 2007-2008 school year, and they are working better than ever.
+@img.fr_top_right src=^freikometer.jpg
 
-@h3 Helmets are a must
-
-The Freikometer counts riders using a radio-frequency identification
-(RFID).  Freikers have RFID tags affixed to their helmets.  When they
-ride to school, they ride past the Freikometer to "ring in".
-
-This means that all participants have to wear helmets.  You can't ring
-in without your helmet.  And, it's easiest to be wearing the helmet as
-you ride by the Freikometer.
-
-@h3 Performance-driven
-
-Freiker's success is measurable due to fanatical dedication to data.
-We want to know that what we are doing is making a difference.
-
-Freiker started at 
-@a href=http://schools.bvsd.org/crestview Crest View Elementary
-in March 2005.  Crest View was a fairly active school with about
-12,000 rides per year.  In 2007-2008 we are likely to surpass 24,000
-rides.  You can see these results in the graph below.
-
-^freiker-weather.gif
+@p
+Put simply, the Freikometer is the automatic device that counts riders and uploads the data securely to this site.  For those more technically inclined, the Freikometer is a solar-powered, eco-friendly radio frequency ID (RFID) tag reader that registers RFID tags placed in the kids’ helmets.
+@p
+The Freikometer counts the number of times a child rides to school, then wirelessly uploads the data to the Freiker website so children can see how close they are to earning a prize.  
+@p
+It’s that simple, and it sure beats using punch cards or surveys – believe us, we know from experience.  
+@p
+Some other benefits of the Freikometer
+@ul
+@li
+*Automatic*counting* - The Freikometer automatically measures participation every day, rain or shine, with no need for volunteers to stand in the snow or heat, punching cards or hand-counting bikers and walkers.  Install it, hand out the tags and then forget about it.  
+@li
+*Daily*feedback* – The Freikometer rings each time that a kid rides under it, giving them daily feedback and a sense of accomplishment.  Seeing kids react to the Freikometer for the first time will absolutely bring a smile to your face!  
+@li
+*Solar-powered* - It’s solar powered so schools can put it right near the bike racks.  All we need is a wooden post to install it on.  
+@li
+*Data* - Freiker's success [Link: How It Works – Results] is measurable due to fanatical dedication to data.  With the date provided by the Freikometer and viewable on this website, schools can measure and evaluate the effect of Freiker.
+@/ul
+@h2 RFID tags
+@p
+Tags provide the other component of our technology.  Each participating child will get an RFID tag on his or her helmet.  The tags contain a chip that is read by the Freikometer.
+@p
+The RFID tag has a unique code and number.  Parents enter this number as part of the registration process, so that their child gets credit for all of his or her rides.  We are very concerned about protecting the privacy of parents and their children, and the RFID tag does not contain any information that can be used to identify a child. 
 
