@@ -329,6 +329,23 @@ div.donate input.money {
   font-size: 1.2em;
 }
 
+/****** Misc for internal pages *****/
+div.in_the_news p
+{
+  margin-top: .5em;
+}
+table.results {
+  margin-top: 1em;
+}
+div.results_chart {
+  margin-top: 2em;
+  margin-left: 5em;
+}
+div.FAQ h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0;
+}
+
 /***** remove title *****/
 ^/bp/.* div.main_top div.title {
   display:none;
