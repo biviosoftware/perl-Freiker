@@ -12,7 +12,7 @@
 				
 @img.fr_top_right src=^girl3.jpg 
 				
-@h3 Registration
+@h2 Registration
 				
 @p
 Parents
@@ -25,17 +25,15 @@ Parents
 				  that the registration must be completed  by a parent or guardian, not a minor. 
 @/p
 				
-@h3 Log In
+@h2 Log In
 				
 @p After  you have completed the registration process, and each time that you log in on  our website, you will be taken to the Your Family page. On that page, you can see how many rides your  child has and you can complete numerous administrative functions:
 				
 @ul
 				  
 @li
-@b
 @a href=^Register Register Child
-@/b
-  Click on this function to register each of your children who is participating in the       Freiker program. You will need the number from your child's 
+-  Click on this function to register each of your children who is participating in the       Freiker program. You will need the number from your child's 
 @a href=^Freikometer Freiker tag
  to add them to your account. Please       note that you cannot register a child until (1) he or she has gotten a 
 @a href=^freikometer Freiker tag
@@ -43,32 +41,31 @@ Parents
 @/li
 				  
 @li
-@b Add Missing Rides
+@strong Add Missing Rides -
   The  Freikometer only runs for a short period before school starts and when it lets  out. If your child is late to school or  if the Freikometer is malfunctioning on any given day, then you can use this  function to make sure that your child's ride gets counted for that day. 
 @/li
 				  
 @li
-@b New Helmet Tag
+@strong New Helmet Tag - 
   Your  child may lose his helmet or get a new helmet, or his or her tag may stop  functioning properly. In each case, he  or she will need to get a new tag from the Freiker volunteer. Use the New Helmet Tag function to add that  new tag to your child's account. If your  child is already participating in Freiker and you just need to register a new  tag, please do not use the Add Child function.
 @/li
 				
 @/ul
 				
-@h3 Rides
+@h2 Rides
 				
 @p Your child must ride by the Freikometer in  the morning or afternoon. We do our best to instruct your child, but it's up to  parents to make sure that they follow through. Some small children need to be  reminded, but older kids get it right away. 
 				
 @p Sometimes the Freikometer is broken, or it  doesn't read an RFID tag properly. In this case, you can login to the website  and click on the Add Missing Ride link. 
 				
-@h3 Safety
+@h2 Safety
 				
 @p We are concerned about your child's safety.  Riding to school is a lot of fun, and it is very safe. The more kids that ride  together, the more likely they are to be seen. Freiker encourages kids to ride  safely. Your child must wear a helmet to participate in the program. 
 				
 @p
 @strong
-@u Parents  are responsible for their child's safety
+Parents  are responsible for their child's safety.
 @/strong
-@strong .
  Please  teach your children about road safety. We recommend you ride with your child  until you are satisfied your child can ride alone. There are many excellent  resources that help you understand bike safety, for example, 
 @a href=http://kidshealth.org/kid/watch/out/bike_safety.html KidsHealth(r)
 , 
@@ -80,7 +77,7 @@ Parents
 . 
 @/p
 				
-@h3 Frequently Asked  Questions
+@h2 Frequently Asked  Questions
 				
 @p
 Please  check out our 
@@ -88,7 +85,7 @@ Please  check out our
  for answers to many of the  questions you may have about the program. 
 @/p
 				
-@h3 Volunteers
+@h2 Volunteers
 				
 @p
 Your help would be greatly appreciated. If you would like to volunteer at an existing  program or if you would like to bring Freiker to your school, please contact us  using 
@@ -96,7 +93,7 @@ Your help would be greatly appreciated. If you would like to volunteer at an exi
 . 
 @/p
 				
-@h3 Feedback
+@h2 Feedback
 				
 @p
 We encourage feedback so please contact us at 
@@ -104,7 +101,7 @@ We encourage feedback so please contact us at
  with  your questions, comments, and/or suggestions. 
 @/p
 				
-@h3 Ride Your Bike, Too
+@h2 Ride Your Bike, Too
 				
 @p Why  let the kids have all the fun? Provide  additional encouragement for your kids to ride by riding your bike to work,  around town and to and from school with your kids. Plus you'll be fitting exercise into your  busy schedule. 
 				
