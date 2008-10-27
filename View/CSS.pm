@@ -347,13 +347,14 @@ div.FAQ h3 {
 }
 div.sponsors h2 {
   margin-top: 2em;
+  font-size: 1.4em;
+  margin-bottom: 1em;
 }
-img.sponsors {
+div.sponsors img {
     margin: 30px; 
 	position: relative;
 	left: 30px;
 }
-
 
 /***** remove title *****/
 ^/bp/.* div.main_top div.title {
