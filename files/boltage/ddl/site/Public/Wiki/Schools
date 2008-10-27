@@ -2,7 +2,7 @@
 				
 @div class=bread_crumbs
 					
-@a href=index.html Freiker Home
+@a href=^Home Freiker Home
  > About Us
 				
 @/div
@@ -17,44 +17,40 @@
 @ul
 				  
 @li
-@b
-@a href=http://www.freiker.org/pub/contact
+@a href=^Contact_Us
 @img.fr_top_right src=^schools.jpg 
 @/a
-More alert kids
-@/b
-: Kids  who get regular exercise are more alert.  Our program can also help kids gain self-confidence. 
+*More*alert*kids:*
+Kids  who get regular exercise are more alert.  Our program can also help kids gain self-confidence. 
 @/li
 				  
 @li
-@b Fewer       cars idling in front of your school
-:       Studies have shown that the most polluted air in any given city is       often around schools as parents drop off and pick up their kids. 
+*Fewer*cars*idling*in*front*of*your*school:*
+Studies have shown that the most polluted air in any given city is       often around schools as parents drop off and pick up their kids. 
 @/li
 				  
 @li
-@b More       parent-child interaction
-:       Many parents ride to school with their children. Adam, a resident of Boulder who lives       near Crest View Elementary, told us I love seeing the happy, steady       parade of kids going by my house, and the families all having morning bike       together time. That's really a great and sweet benefit. 
+*More*parent-child*interaction:*
+Many parents ride to school with their children. Adam, a resident of Boulder who lives       near Crest View Elementary, told us I love seeing the happy, steady       parade of kids going by my house, and the families all having morning bike       together time. That's really a great and sweet benefit. 
 @/li
 				  
 @li
-@b Fewer       or shorter bus routes:
+*Fewer*or*shorter*bus*routes:*
  The more kids that are riding, the fewer that are       riding the bus, which could mean that your school can shorten or eliminate       bus routes. And with the record       price of gas, the cost savings could be substantial.
 @/li
 				
 @/ul
 				
 @p
-@a href=http://www.freiker.org/pub/contact Contact us
+@a href=^Contact_Us Contact us
  and we can help you determine if your school is a good fit for  Freiker, as well as answer any specific questions or issues relating to your  school. 
 @/p
 				
 @h3 Cost and Funding
 				
 @p
-				Freiker  costs $4,000 per year. This fee includes  one leased 
-@a href=../howitworks/freikometer.html Freikometer
-, use of the website  by the schools and kids, hardware and software support and maintenance, and 500  tags. If you need more than one  Freikometer, or if you have special considerations at your school, please 
-@a href=http://www.freiker.org/pub/contact contact us
+				Freiker  costs $4,000 per year. This fee includes  one leased ^Freikometer, use of the website  by the schools and kids, hardware and software support and maintenance, and 500  tags. If you need more than one  Freikometer, or if you have special considerations at your school, please 
+@a href=^Contact_Us contact us
   we are very good at accommodating special needs.
 @/p
 			
@@ -79,24 +75,24 @@ More alert kids
 @ul
 			  
 @li
-@b Installation
+*Installation* - 
   First, you need to install a 4 x 4 wooden  post. We will give you guidelines to  select the proper location, but it should be as near the bike racks as  possible. We will ship you the  Freikometer with installation instructions, and a person with average technical  skills can install it on the post in less than an hour. It helps to have an assistant to lift the  Freikometer and solar panel onto the post.
 @/li
 			  
 @li
-@b Wireless access
+*Wireless*access* - 
   We need access to a standard WiFi network  with DHCP with access to the internet.  This is how the Freikometer uploads the data. A standard wireless router in a window near  the school normally does the trick. 
 @/li
 			  
 @li
-@b Volunteers
+*Volunteers* - 
   The Freikometer significantly cuts down on  the need for volunteer involvement. But  you will still need volunteers or administrators to stand out at the  Freikometer to hand out tags, answer questions, promote the program, etc. We recommend that a Freiker volunteer be at  the Freikometer every day for the first week or two to hand out tags and tell  the kids about the program. On an  ongoing basis, having a volunteer out there one day a week to hand out the  weekly 
-@a href=../howitworks/prizes.html Green Gear award
+@a href=^Prizes Green Gear award
  and any new tags is  usually sufficient. 
 @/li
 			  
 @li
-@b Prizes
+*Prizes* - 
   Each school       determines the type of prizes that it wants to offer the kids, as well as       the number of rides required to earn each level of prize. We find that iPods are extremely       effective. We saw a significant increase in ridership the first year       that iPods were offered, and that ridership level has gone up each       year. The school is also       responsible for obtaining those prizes and delivering them to kids. This can be done on an ongoing basis or       at an end-of-the-year party.
 @/li
 			
@@ -106,7 +102,7 @@ More alert kids
 			
 @p
 If you want to bring  the Freiker program to your school or want to learn more details about the  program, please 
-@a href=http://www.freiker.org/pub/contact contact us
+@a href=^Contact_Us contact us
 . We have been running Freiker at multiple schools for several years, and  we have a lot of good tips and suggestions to share.
 @/p
 				

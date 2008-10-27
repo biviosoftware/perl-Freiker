@@ -2,7 +2,7 @@
 				
 @div class=bread_crumbs
 					
-@a href=index.html Freiker Home
+@a href=^Home Freiker Home
  > About Us
 				
 @/div
@@ -83,7 +83,7 @@ Support Additional Schools
 @br 
 				  
 @/strong
-@a href=../howitworks/results.html Click here
+@a href=^Results Click here
  to  see the effect that the Freiker program is having. Help  make Freiker available to more kids at more schools across the nation. 
 @/p
 				
@@ -94,12 +94,12 @@ Support Additional Schools
 @/p
 				
 @p
-@a href=donate.html Click  here
+@a href=^Donate Click  here
  if you want to become a sponsor or make  an in-kind donation.
 @/p
 				
 @p
-@a href=volunteer.html Click  here
+@a href=^Volunteer Click  here
  to volunteer to help Freiker 
 @/p
 				
