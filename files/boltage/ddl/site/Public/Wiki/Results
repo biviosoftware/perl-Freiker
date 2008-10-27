@@ -1,0 +1,38 @@
+@div class=bread_crumbs
+					
+@a href=^Home Freiker Home
+>
+^How_It_Works
+>
+Results
+
+@/div
+				
+@h1 Results
+			
+@p
+Freiker's  success is measurable due to fanatical dedication to data. We want to know that  what we are doing is making a difference.
+
+@p
+The chart [coming soon] at the right shows  real-time results of our participating schools.   The Day column shows the number of round-trip rides for the current  school day, the Week Column shows aggregate rides for the last five school  days, and the Month column shows aggregate results for the last 20 school days.
+
+@p
+There are more charts showing results below,  but for those who prefer pictures over graphs, the following photos show the  bike racks at Burlington Elementary on a warm, sunny day *before* the  Freiker program began and on a similar day *after* the program  started.
+@table class="results"
+@tr
+@td
+@img.fr_top_right src=^results_before_freiker.jpg
+@/td
+@td
+@img.fr_top_right src=^results_after_freiker.jpg
+@/td
+@/tr
+@/table
+
+@p
+The  chart below show the increase in rides that we have see at 
+@a href="http://schools.bvsd.org/crestview" Crest View Elementary
+since the  programs inception.  We have found that  temperature has the biggest influence in whether a kid rides on a particular  day, so the charts break down the data based on the average temperature and the  average number of riders.
+
+@div class="results_chart"
+^freiker-weather.gif
