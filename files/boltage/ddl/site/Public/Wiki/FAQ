@@ -1,135 +1,117 @@
+@div class=bread_crumbs
+					
+@a href=^Home Freiker Home
+>
+^How_It_Works
+>
+Frequently Asked Questions
+
+@/div
+				
 @h1 Frequently Asked Questions
 
-@h4 How and where does my child get a tag?
-You get them at the Freikometer in the mornings when a volunteer is
-there.  You can find the contact information for the volunteers at
-each participating school here.
+@img.fr_top_right src=^faq.jpg
 
-@h4 How do I register my child?  How do I check my rides?
-@a href=/pub/register You register here. 
-Parents or guardians should register for their children.
-Once registered, you can register all your children under
-one email address.  Many families have more than one child
-participating in Freiker.  Follow the 
-@strong Register child
-link on 
-@a href=/my-site Your Family
-site.
+@div class="FAQ"
+@h3
+How and  where does my child get a tag?
+@p
+You  get them at the Freikometer in the mornings when a volunteer is there. Please  use 
+@a href="http://www.freiker.org/pub/contact?fc=aNDg_%21cc2l0ZQ__%21fL0ZBUQ__" our  contact form
+to find out when a volunteer is going to be at your school.  Volunteers show up at least once a week. 
 
-You should make sure your child has been scanned by a 
-Freikometer one time before trying to register your child. 
-Then you can register.
+@h3
+How do I  register my child? How do I check my rides?
+@p
+Register  here [Link: Registration].  Parents or  guardians should register for their children. Once registered, you can register  all your children under one email address. Many families have more than one  child participating in Freiker. Follow the *child* link on 
+@a href="http://www.freiker.org/my-site" Your Family site.
+@p
+Once  you have registered your child's tag, all of the rides for that tag will then  show up. 
+@h3
+Is  registration required to participate?
+@p
+Yes.   Parents must complete the 
+@a href="http://www.freiker.org/pub/register" registration process
+ to participate.  Your child’s rides will not  count towards earning a prize until he or she is registered.  
 
-Once you have registered your child's tag, all of the rides
-for that tag will then show up.
+@h3
+Who is the  lead volunteer (&quot;Wheel&quot;) at my school?
+@p
+Please  use 
+@a href="http://www.freiker.org/pub/contact?fc=aNDg_%21cc2l0ZQ__%21fL0ZBUQ__" our  contact form
+ and we'll put you in touch with your Wheel 
+@h3
+Can I  register more than one tag for my child?
+@p
+Yes.  When you login and go to Your Family, click on a child's name. Then follow the *New*Helmet*Tag* link to  add a new tag. Once you enter the ID number from the new tag, all the rides  from the multiple tags should show up. 
+@h3
+How do I  add missing rides?
 
-@h4 How do I check my rides?
-Parents should register for children.  You can then 
-register each child.  You star
+@p
+Go  to 
+@a href="http://www.freiker.org/my-site" Your Family
+ and click on the *Add*missing*ride* link  next to your child's name. 
+@h3
+The  Freikometer didn't ring this morning. Is it broken?
+@p
+Maybe.  The Freikometer does malfunction from time to time. Keep in mind that the  Freikometer is scheduled to turn on only for a limited amount of time before  school and after school lets out. If you are unsure if the Freikometer is  broken or not, please use 
+@a href="http://www.freiker.org/pub/contact?fc=aNDg_%21cc2l0ZQ__%21fL0ZBUQ__" our  contact form
+. 
+@h3
+When do my  children win their prizes?
+@p
+In  the past, we have delivered prizes at parties at the end of the school  year.  We are working on the software  which will allow you to order prizes on the web.  This should be available some time before  spring 2009.  We're sorry for the delay,  but we're a non-profit run by volunteers, and our day jobs take precedence. 
 
-@h4 Who is the lead volunteer ("Wheel") at my school?
-Please contact us at
-@b-widget contact
-and we'll put you in touch with your Wheel
+@h3
+Where  should I place the tag on my child's helmet?
+@p
+Ideally  the tag should be placed on the top of the helmet. If this isn't possible then  place the sticker on the side of the helmet most likely to face the Freikometer  as the child rides past. Please note that there are some helmets made with  metal which interferes with the Freikometer reading the tag. It often helps to  place the tag on a piece of cardboard and then tape the cardboard to a metal  helmet (putting additional clear tape over the tag is fine). 
+@h3
+How do I  get a new helmet tag?
+@p
+Please  use 
+@a href="http://www.freiker.org/pub/contact?fc=aNDg_%21cc2l0ZQ__%21fL0ZBUQ__" our  contact form
+ to get a new tag. 
+@h3
+My child  came home with someone else's helmet. Can you help?
+@p
+You  can send us the tag number at 
+@a href="http://www.freiker.org/pub/contact?fc=aNDg_%21cc2l0ZQ__%21fL0ZBUQ__" our contact  form
+ and we'll do our best to notify the child. 
 
-@h4 How do I get a new tag? Can I register more than 1 tag for my child?
-Yes.  When you login and go to Your Family, click on a child's name.
-Then follow the "New Helmet Tag" link to add a new tag.  The new tag
-must have already been scanned by the Freikometer. Once you enter the
-ID number from the new tag, all the rides from the multiple tags
-should show up.
-	
-@h4 How do I add missing rides? 
-Go to
-@a href=/my-site Your Family
-and click on the
-@strong Add missing ride
-link next to your child's name.
+@h3
+Is walking  included?
+@p
+Bicycling  is the primary focus of our program.  But  walking to school provides most if not all of the same benefits that cycling  does, and if school wants to include walking, we can do that.  You are likely to give out more prizes by  including walking, increasing the cost of the program.  And the tags are attached to kids’ backpacks  instead of helmets, so the program doesn’t have the ancillary benefit of  promoting helmet use.  
+@h3
+How do I  get more bike racks for my school?
+@p
+This  is a common problem with Freiker. On the one hand it is flattering, because we  want to see more bikes at schools, but we also know that kids need racks to  lock their bikes to. Talk to your school, parent association, or school board  about installing new racks. Or see if there are local companies or individuals  who would be willing to donate racks or the money to purchase them. 
+@h3
+My child  doesn't have a helmet. Can he or she still participate?
+@p
+Because  we care so much about safety, we require the tags to be fastened to helmets.  That way, children do not get credit unless they wear helmets. If your child  needs a helmet, please use 
+@a href="http://www.freiker.org/pub/contact?fc=aNDg_%21cc2l0ZQ__%21fL0ZBUQ__" our  contact form
+. 
+@h3
+Can I  track when my child arrives or leaves school?
+@p
+No.  The Freikometer stores the tag numbers until it can upload the data to this  website. Sometimes there are network problems that prevent the tags from  getting uploaded. 
 
-@h4 The Freikometer didn't ring this morning.  Is it broken?
-Maybe.  The Freikometer does malfunction from time to time.  Keep in
-mind that the Freikometer is scheduled to only be turned on for a
-limited amount of time before school and after school lets out.
-If you are unsure,
-please contact us at
-@b-widget contact@
-.
-
-@h4 When do my children win their prizes?
-We are working on the software which will allow you to order prizes on
-the web.  This should be available some time this winter.  We're sorry
-for the delay, but we're a non-profit run by volunteers, and our day
-jobs take precedence.
-
-@h4 Where should I place the tag on my child's helmet?
-Ideally the tag should be placed on the top of the helmet. If this
-isn't possible then place the sticker on the side of the helmet most
-likely to face the Freikometer as the child rides past. Please
-note that there are some helmets made with metal which interferes with
-the Freikometer reading the tag. Some Freikers have had success
-placing the tag on a chin strap (putting additional clear tape over
-the tag is fine).
-	
-@h4 How do I get a new helmet tag?
-Please contact us at
-@b-widget contact
-to get a new tag.
-
-@h4 My child came home with someone else's helmet.  Can you help?
-You can send us the tag number at
-@b-widget contact
-and we'll do our best to notify the child.
-
-@h4 Is walking included?
-We don't support walking at this time.  The program is just getting
-started, and we would like to work out the kinks before expanding into
-other modes of transportation (such as walking).
-
-@h4 How do I get more bike racks for my school?
-This is a common problem with Freiker.  On the one hand it is
-flattering, because we want to see more bikes at schools, but we also
-know that kids need racks to lock their bikes to.  Talk to your
-school, parent association, or school board about installing new
-racks.  Or see if there are local companies or individuals who would
-be willing to donate racks or the money to purchase them.  	 
-
-@h4 My child doesn't have a helmet.  Can he or she still participate?
-Because we care so much about safety, we require the tags to be
-fastened to helmets.  That way, children do not get credit unless they
-wear helmets.  If your child needs a helmet, please contact us at
-@b-widget contact@
-.
-
-@h4 Can I track when my child arrives or leaves school?
-No.  The Freikometer stores the tag numbers until it can upload the
-data to this website.  Sometimes there are network problems that
-prevent the tags from getting uploaded.  
-	
-@h4 What if I don't want to give my child's name or email?
-No problem.  You can use any name you want.  And we do not want
-children registering.  Parents register.  We only require an email
-address, not even your real name.  We ask for other data, such as a
-9-digit zip code and gender, but none of that information is required
-to participate in Freiker.  Note that if you do not give us a valid
-email address for yourself, we can't contact you if your child wins
-the Green Gear or to communicate other relevant information.  Don't
-worry, we promise we won't spam you, and we do not share our email
-lists with anyone.
-
-@h4 What if it is snowing or raining?
-You only get credit if you ride, even if it is raining or snowing.
-Many Freikers do ride in bad weather.  It's up to each family to
-decide how often they want to ride.  At Freiker the rule is simple:
-The more you ride, the more you win!
-
-@h4 Who pays for the iPods?
-Freiker, Inc. is a 501(c)3 non-profit. 
-@a href=/site/donate  Your donations pay for prizes.
-We do receive some money from the federally-funded
-@a href=^saferoutesinfo.org Safe Routes to Schools
-program.  We also receive donations from
-@a href=^Sponsors many local companies.
-
-@h4 How can our school become part of the program?
-Please contact us at gears@freiker.org to determine the costs for your program and the necessary steps to add Freiker.  
+@h3
+What if I  don't want to give my child's name or email?
+@p
+No  problem. You can use any name you want. And we do not want children  registering. Parents should complete the registration process.  We only require an email address, but you do  not have to provide your real name if you don’t want.  We ask for other data, such as an address  (which helps us track the number of miles ridden by Freikers) and gender, but  none of that information is required to participate in Freiker. Note that if  you do not give us a valid email address for yourself, we can't contact you if  your child wins the Green Gear or to communicate other relevant information.  Don't worry, we promise we won't spam you, and we do not share our email lists  with anyone. 
+@h3
+What if it  is snowing or raining?
+@p
+You  only get credit if you ride, even if it is raining or snowing. Many Freikers do  ride in bad weather. It's up to each family to decide how often they want to  ride. At Freiker the rule is simple: The more you ride, the more you win! 
+@h3
+How can  our school become part of the program?
+@p
+Please  read 
+@a href="http://www.freiker.org/site/wiki/freiker-brochure.pdf" our  brochure
+ to learn more about the program. If you have further questions,  please contact us using 
+@a href="http://www.freiker.org/pub/contact?fc=aNDg_%21cc2l0ZQ__%21fL0ZBUQ__" our  contact form
+ to determine the costs for your program and the necessary  steps to add Freiker.
 
