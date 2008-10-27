@@ -2,7 +2,7 @@
 				
 @div class=bread_crumbs
 					
-@a href=^index Freiker Home
+@a href=^Home Freiker Home
  > About Us
 				
 @/div
@@ -17,13 +17,11 @@
 @p
 					The Freiker program began at Crest View Elementary in Boulder, Colorado in the spring of 2004.  The founder, 
 					
-@a href=FIXME Rob Nagler
-, couldn't convince his children to ride their bikes to Crest View, less than one mile away.  
+Rob Nagler, couldn't convince his children to ride their bikes to Crest View, less than one mile away.  
 					However, once Rob offered them small prizes, he found his kids regularly pedaling to school.  And they were having fun 
 					doing it.  Rob realized he had stumbled upon a great way to motivate other kids to also ride, and soon Rob and his 
 					newly minted deputy, 
-@a href=staff.html Tim Carlin
-, were standing out at the Crest View bike racks every day 
+Tim Carlin, were standing out at the Crest View bike racks every day 
 					handing out punchcards and prizes to a growing number of kids.
 				
 @/p
@@ -40,8 +38,7 @@
 @p
 					In the summer of 2006, Rob disappeared into his basement and emerged weeks later with the first 
 					
-@a href=FIXME Freikometer
-.  With the launch of the Freikometer, two more schools joined on for the 
+^Freikometer.  With the launch of the Freikometer, two more schools joined on for the 
 					2006-07 school year, bringing us to three schools in the Boulder Valley School District.  
 				
 @/p
@@ -94,7 +91,7 @@
 				
 @li
 Freiker installs the first-ever 
-@a href=../howitworks/freikometer.html Freikometer
+^Freikometer
  at Crest View.
 @/li
 				
