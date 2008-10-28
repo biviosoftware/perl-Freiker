@@ -100,7 +100,7 @@ sub internal_xhtml_adorned {
 			),
 		    ),
 		    map((qr{^/(?:@{[join('|', @$_)]})$}is
-		       => _menu("$_->[0]MainLeft", 'left_nav')),
+		       => RoundedBox(_menu("$_->[0]MainLeft"), 'left_nav')),
 			[qw(About_Us History Board_And_Staff In_The_News)],
 			[qw(How_It_Works Freikometer Prizes Results FAQ)],
 			[qw(Support_Freiker Volunteer Sponsors)],
