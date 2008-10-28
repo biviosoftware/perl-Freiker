@@ -76,28 +76,41 @@ sub internal_xhtml_adorned {
 		])),
 	    ]),
 	    xhtml_main_left => IfWiki(
-		'/Home',
-		If(['auth_user_id'],
-		   RoundedBox(_menu('HomeMainLeft'), 'left_nav'),
-		   RoundedBox(
-			AuxiliaryForm(ContextlessUserLoginForm => Join([
-			    map((
-				DIV_label(String(vs_text("ContextlessUserLoginForm.$_"))),
-				FormField("ContextlessUserLoginForm.$_", {size => 15}),
-			    ), qw(login RealmOwner.password)),
-			    StandardSubmit('ok_button'),
-			    Link('Not Registered?', 'USER_CREATE', {
-				class => 'label',
-			    }),
-			]), {
-			    action => URI({
-				task_id => 'LOGIN',
-				no_context => 1,
-			    }),
-			}),
-			'login',
-		   ),
-	        ),
+		'.*',
+		Director(['->req', 'path_info'], {
+		    qr{^/Home$}is => If(['auth_user_id'],
+		        RoundedBox(_menu('HomeMainLeft'), 'left_nav'),
+			RoundedBox(
+			     AuxiliaryForm(ContextlessUserLoginForm => Join([
+				 map((
+				     DIV_label(String(vs_text("ContextlessUserLoginForm.$_"))),
+				     FormField("ContextlessUserLoginForm.$_", {size => 15}),
+				 ), qw(login RealmOwner.password)),
+				 StandardSubmit('ok_button'),
+				 Link('Not Registered?', 'USER_CREATE', {
+				     class => 'label',
+				 }),
+			     ]), {
+				 action => URI({
+				     task_id => 'LOGIN',
+				     no_context => 1,
+				 }),
+			     }),
+			     'login',
+			),
+		    ),
+		    map((qr{^/(?:@{[join('|', @$_)]})$}is
+		       => _menu("$_->[0]MainLeft", 'left_nav')),
+			[qw(About_Us History Board_And_Staff In_The_News)],
+			[qw(How_It_Works Freikometer Prizes Results FAQ)],
+			[qw(Support_Freiker Volunteer Sponsors)],
+			[qw(Parents_And_Kids)],
+			[qw(Schools)],
+		    ),
+		},
+		    '',
+		    '',
+		),
 	    ),
 	);
 	return;
