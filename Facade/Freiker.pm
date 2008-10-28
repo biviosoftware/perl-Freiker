@@ -134,7 +134,7 @@ my($_SELF) = __PACKAGE__->new({
 	[ride_count => 'Rides'],
 	[prize_debit => 'Spent'],
 	[prize_credit => 'Credits'],
-	[freiker_codes => 'Tag ID(s)'],
+	[freiker_codes => 'Tag ID'],
 	[Ride => [
 	    ride_date => 'Date',
 	]],
