@@ -56,9 +56,12 @@ table.header td.header_middle div.bmenu {
   padding: .6em 0;
 }
 table.header td.header_middle div.bmenu span {
-  padding: 1em .75em;
+  padding: 1em .5em;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.2em;
+  font-weight: bold;
+}
+table.header td.header_middle div.bmenu span a {
   font-weight: bold;
 }
 table.header td.header_middle span a {
@@ -129,20 +132,26 @@ table.footer div.legal a:hover {
 }
 
 /***** NOTE:  may not be necessary - login box and registration box *****/
-div.light_green_oval {
-0  margin: 0 .5em 0 0;
+div.left_nav {
+
 }
-div.light_green_oval span {
-  background:#4DBF0F;
+div.left_nav span.b_rounded_box_body {
+  background: #3815EB
 }
-div.login_box {
-  background-color: #4DBF0F;
-  padding: 1em;
+div.left_nav div.bmenu {
+  background-color: #3815EB;
+  padding: .75em .5em;
   text-align: center;
+  color:#FFFFFF;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.1em;
+}
+div.left_nav div.bmenu a {
+  color:#FFFFFF;
+  font-weight: bold;
 }
 div.login_box label {
   font-family: Arial, Helvetica, sans-serif;
-  color:#FFFFFF;
   display:block;
 }
 div.login_box input {
