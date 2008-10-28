@@ -22,6 +22,10 @@ body {
 table.dock a {
   color:#FFFFFF;
 }
+table.dock span.want_sep, table.dock a.want_sep {
+  background-image: none;
+  border-left: white solid 1px;
+}
 
 /***** header styles *****/
 table.header {
