@@ -4,6 +4,7 @@ package Freiker::View::CSS;
 use strict;
 use Bivio::Base 'Bivio::UI::View::CSS';
 
+
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 my($_SITE) = <<'EOF';
@@ -114,7 +115,7 @@ table.footer tr td div.bmenu span {
 }
 table.footer div.bmenu a {
   color: #FFFFFF;
-  text-decoration:none;
+  text-decoration:none;http://localhost:8888/site/wiki/Home
 }
 table.footer div.bmenu a:hover {
   color: #FCF67C;
@@ -135,7 +136,7 @@ table.footer div.legal a:hover {
    color: #FCF67C;
 }
 
-/***** NOTE:  may not be necessary - login box and registration box *****/
+/***** left navigation - blue rounded box with white separator lines *****/
 div.left_nav {
 
 }
@@ -144,46 +145,52 @@ div.left_nav span.b_rounded_box_body {
 }
 div.left_nav div.bmenu {
   background-color: #3815EB;
-  padding: .75em .5em;
+  padding: 0;
   text-align: center;
   color:#FFFFFF;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.1em;
+}
+div.left_nav div.bmenu span {
+  display: block;
+  padding: .75em 0;
+}
+div.left_nav div.bmenu span.want_sep {
+  border-top: white solid 1px;
 }
 div.left_nav div.bmenu a {
   color:#FFFFFF;
   font-weight: bold;
 }
-div.login_box label {
-  font-family: Arial, Helvetica, sans-serif;
-  display:block;
+
+/***** login box *****/
+div.login span.b_rounded_box_body {
+  background:#4DBF0F;
 }
-div.login_box input {
-  margin-bottom: .5em;
-  font-size: 1.0em;
-}
-div.login_box img {
-  padding-bottom: .3em;
-  margin: 0;
-}
-div.login_box form {
-  margin: 0;
-  padding: 0;
-}
-div.register {
+div.login div.b_rounded_box_body {
+  background-color: #4DBF0F;
   padding: 1em;
-  background-color: #FFF6A6;
-  border: 4px solid #FFB20E;
-  margin: .5em .5em .5em 0;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.1em;
   text-align: center;
 }
-div.register a {
-  color: #2A6D06;
-  text-decoration:none;
+div.login div.b_rounded_box_body form {
+  text-align: center;
 }
-
+div.login div.b_rounded_box_body div.label {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.2em;
+  color: #FFFFFF;
+  display:block;
+  text-align: center;
+}
+div.login div.b_rounded_box_body input {
+  margin-bottom: .5em;
+  font-size: 1.2em;
+  text-align: left;
+}
+div.login div.b_rounded_box_body a {
+  color: #FFFFFF;
+  font-size: 1.1em;
+}
 /***** main content styling *****/
 div.dark_green_oval span {
   background:#2A6D06;
@@ -291,7 +298,7 @@ div.green_box p, div.green_box a {
 td.main_left {
   width: 15em;
   text-align: center;
-  padding: 1em;
+  padding: .75em 0 1em 1em;
 }
 
 /***** internal pages *****/
