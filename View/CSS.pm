@@ -162,6 +162,9 @@ div.left_nav div.bmenu a {
   color:#FFFFFF;
   font-weight: bold;
 }
+div.left_nav div.bmenu span.selected a {
+  color: yellow;
+}
 
 /***** login box *****/
 div.login span.b_rounded_box_body {
@@ -298,7 +301,7 @@ div.green_box p, div.green_box a {
 td.main_left {
   width: 15em;
   text-align: center;
-  padding: .75em 0 1em 1em;
+  padding: .75em .5em 1em 1em;
 }
 
 /***** internal pages *****/
