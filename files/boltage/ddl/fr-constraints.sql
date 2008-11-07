@@ -206,7 +206,7 @@ CREATE INDEX ride_t6 ON ride_t (
 /
 
 --
--- ride_upload_id
+-- ride_upload_t
 --
 ALTER TABLE ride_upload_t
   ADD CONSTRAINT ride_upload_t2
