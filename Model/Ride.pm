@@ -9,6 +9,7 @@ my($_D) = __PACKAGE__->use('Type.Date');
 my($_DT) = __PACKAGE__->use('Type.DateTime');
 my($_EPC) = __PACKAGE__->use('Type.EPC');
 my($_NO_TIME) = __PACKAGE__->use('Type.Time')->time_from_parts(0, 0, 0);
+my($_C) = b_use('SQL.Connection');
 
 sub REALM_ID_FIELD {
     return 'user_id';
@@ -16,6 +17,12 @@ sub REALM_ID_FIELD {
 
 sub USER_ID_FIELD {
     return undef;
+}
+
+sub count_all {
+    my($self) = @_;
+    return $_C->execute_one_row(
+	'SELECT COUNT(*) FROM ride_t WHERE ride_upload_id IS NOT NULL')->[0];
 }
 
 sub create {
@@ -33,7 +40,7 @@ sub internal_initialize {
 	    user_id => ['User.user_id', 'PRIMARY_KEY'],
             ride_date => ['Date', 'PRIMARY_KEY'],
 	    ride_time => ['Time', 'NOT_NULL'],
-	    ride_upload_id => ['RideUpload.ride_upload_id', 'NOT_NULL'],
+	    ride_upload_id => ['RideUpload.ride_upload_id', 'NONE'],
         },
     });
 }
