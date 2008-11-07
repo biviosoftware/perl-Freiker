@@ -7,6 +7,7 @@ use Bivio::UI::ViewLanguageAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_DT) = b_use('Type.DateTime');
+my($_R) = b_use('Model.Ride');
 
 sub VIEW_SHORTCUTS {
     return 'Freiker::ViewShortcuts';
@@ -29,6 +30,7 @@ sub internal_xhtml_adorned {
 		String('our contact form'),
 		'GENERAL_CONTACT',
 	    ),
+	    wiki_widget_ride_count_all => String([sub {$_R->count_all}]),
 	    wiki_widget_paypal_form => DIV_donate(
 		    AuxiliaryForm(PayPalForm => Join([
 		    SPAN_money('$'),
