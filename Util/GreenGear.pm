@@ -16,23 +16,29 @@ sub USAGE {
     return <<'EOF';
 usage: fr-greengear [options] command [args..]
 commands
-  last_week [date] -- computes for current realm
+  last_week [end-date [start-date]] -- computes from start-date (-5 riding days) to end-date
 EOF
 }
 
 sub last_week {
-    my($self, $date) = shift->name_args([['Date', undef, $_D->now]], \@_);
-    my($code, $epc, $user_id) = _choose($self, _choices($self, $date));
+    my($self, $end, $start) = shift->name_args([
+	['Date', undef, $_D->now],
+	'?Date',
+    ], \@_);
+    my($code, $epc, $user_id) = _choose($self, _choices($self, \$start, \$end));
     $self->new_other('Freikometer')->do_all(download => {
 	filename => 'green_gear',
 	content => \($epc),
 	content_type => 'text/plain',
     });
     $self->commit_or_rollback;
-    my($res) =
-	"GreenGear " . $self->req(qw(auth_realm owner display_name)) . "\n"
-	. ',gg=' . $_D->to_string($_D->local_today) . "\n";
-    $res .= "$code";
+    my($res) = join(
+	"\n",
+	'Dates: ' . $_D->to_string($start) . ' - ' . $_D->to_string($end),
+	',gg=' . $_D->to_string($_D->local_today),
+	'GreenGear ' . $self->req(qw(auth_realm owner display_name)),
+	$code,
+    );
     if ($user_id) {
 	$res .=
 	    ', '
@@ -52,14 +58,11 @@ sub last_week {
 }
 
 sub _choices {
-    my($self, $date) = @_;
-    my($start) = _search_dow(
-	_search_dow($_DT->set_local_end_of_day($date), 'Friday', -1),
-	'Sunday',
-	-1,
-    );
+    my($self, $start, $end) = @_;
+    $$end = _search_dow($$end, 'Friday', -1)
+	if $_DT->english_day_of_week($$end) =~ /Sat|Sun/;
+    $$start ||= _search_dow($$end, 'Monday', -1);
     my($max);
-    _trace($_DT->to_string($start)) if $_TRACE;
     return Bivio::SQL::Connection->map_execute(sub {
         my($row) = @_;
 	unless (defined($max)) {
@@ -75,7 +78,7 @@ sub _choices {
 	    AND ride_date BETWEEN $_DT_SQL AND $_DT_SQL
 	    GROUP BY ride_t.user_id
 	    ORDER BY count(ride_date) desc},
-        [$self->req('auth_id'), $start, _search_dow($start, 'Saturday', +1)],
+        [$self->req('auth_id'), $$start, $$end],
     );
 }
 
@@ -99,7 +102,7 @@ sub _choose {
 
 sub _search_dow {
     my($value, $dow, $inc) = @_;
-    $value = $_DT->add_days($value,$inc)
+    $value = $_DT->add_days($value, $inc)
 	while $_DT->english_day_of_week($value) ne $dow;
     return $value;
 }
