@@ -92,7 +92,9 @@
 					  
 @div class=rides_counted
 @img src=^rides_counted.gif 
-@p 116,790
+@p
+@b-widget count_all
+@/p
 @/div
  
 					
