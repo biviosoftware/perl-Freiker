@@ -14,7 +14,7 @@ sub image_path {
 }
 
 sub image_uri {
-    my($delegator) = shift->delegated_args(@_);
+    my(undef, $delegator) = shift->delegated_args(@_);
     return $delegator->req->format_uri({
 	realm => $delegator->get('RealmOwner.name'),
 	task_id => 'MERCHANT_FILE',
