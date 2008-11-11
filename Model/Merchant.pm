@@ -7,14 +7,13 @@ use Bivio::Base 'Model.RealmOwnerBase';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub create_realm {
-    return shift->create->call_super_before(\@_, sub {
-        my($self) = @_;
-	$self->req->with_realm($self->get('merchant_id'), sub {
-	    $self->new_other('RealmFile')->init_realm;
-	    return;
-	});
-        return;
+    my($self) = @_;
+    my(@res) = shift->SUPER::create_realm(@_);
+    $self->req->with_realm($self->get('merchant_id'), sub {
+	$self->new_other('RealmFile')->init_realm;
+	return;
     });
+    return @res;
 }
 
 sub internal_initialize {

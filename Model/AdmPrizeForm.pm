@@ -11,18 +11,16 @@ sub LIST_MODEL {
 }
 
 sub execute_ok {
-    return shift->call_super_before(\@_, sub {
-        my($self) = @_;
-	# New prize: Add to all clubs, even though unapproved
-	$self->new_other('ClubList')->do_iterate(sub {
-            $self->new_other('PrizeRideCount')->unauth_create_or_update({
-	        prize_id => $self->get('Prize.prize_id'),
-	        realm_id => shift->get('Club.club_id'),
-	        ride_count => $self->get('Prize.ride_count'),
-	    });
-	    return 1;
-        });
-        return;
+    my($self) = @_;
+    shift->SUPER::execute_ok(@_);
+    # New prize: Add to all clubs, even though unapproved
+    $self->new_other('ClubList')->do_iterate(sub {
+	$self->new_other('PrizeRideCount')->unauth_create_or_update({
+	    prize_id => $self->get('Prize.prize_id'),
+	    realm_id => shift->get('Club.club_id'),
+	    ride_count => $self->get('Prize.ride_count'),
+	});
+	return 1;
     });
     return 0;
 }
