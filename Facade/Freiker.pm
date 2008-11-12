@@ -24,6 +24,10 @@ my($_SELF) = __PACKAGE__->new({
 	[[qw(err warn empty_list_border)] => 0xcc0000],
 	[[qw(left_nav_a_hover main_left_text a_img_border prizes_background)] => 0xFFFFFF],
 	[select_prize => 0xffcf06],
+	[dd_menu => 0x33aa33],
+	[[qw(dd_menu_selected dd_menu_background)] => 0xffffff],
+	[dd_menu_border => 0x888888],
+	[dd_menu_selected_background => 0x888888],
     ],
     Font => [
 	[a_link => 'normal'],
@@ -74,6 +78,7 @@ my($_SELF) = __PACKAGE__->new({
 	[ThreePartPage_want_SearchForm => 0],
     ],
     Task => [
+	[MERCHANT_HOME => '?'],
 	[ADM_FREIKOMETER_LIST => 'adm/freikometers'],
 	[ALL_CLUB_SUMMARY_LIST => 'pub/ride-summary'],
 	[BOT_FREIKOMETER_DOWNLOAD => '?/fm-down/*'],
@@ -377,6 +382,10 @@ EOF
 		'Give rides to String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    CLUB_FREIKER_PRIZE_SELECT => q{Select Prize for String([qw(Model.ClubFreikerList RealmOwner.display_name)]); with String([qw(Model.ClubPrizeSelectList ->get_prize_credit)]); credits},
 	    FAMILY_PRIZE_PICKUP => 'Where to pickup your prize!',
+	]],
+	[RealmDropDown => [
+	    club => 'School',
+	    merchant => 'Merchant',
 	]],
 	['task_menu.title' => [
 #TODO: Remove 1/15/08
