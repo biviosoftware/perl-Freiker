@@ -97,8 +97,15 @@ span.b4f {height:2px; margin:0 1px;}
 table.main {
   background-color: #FFFFFF;
 }
-table.main .main_left, table.main .main_middle {
+table.main .main_left {
   vertical-align:top;
+}
+table.main .main_middle {
+  vertical-align:top;
+  padding-left: 1.5em;
+}
+^/bp/Home table.main .main_middle {
+  padding-left: 0;
 }
 
 ! ***** footer *****
@@ -304,7 +311,7 @@ div.green_box p, div.green_box a {
 td.main_left {
   width: 15em;
   text-align: center;
-  padding: .75em 1.5em 1em 1em;
+  padding: .75em 1em 1em 1em;
   background-image: url<(>'/bp/bike_kid.jpg') ;
   background-repeat: no-repeat;
   background-position: 0 275px;
@@ -331,7 +338,7 @@ td.main_left {
 ! ***** internal pages *****
 
 div.wiki {
-  margin: .5em 1em 1em 1em;
+  margin: .5em 1em 1em 0;
 }
 div.wiki p {
   padding-top: .5em;
