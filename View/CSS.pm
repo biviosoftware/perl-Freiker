@@ -8,7 +8,7 @@ use Bivio::Base 'Bivio::UI::View::CSS';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 my($_SITE) = <<'EOF';
-/***** from common.css *****/
+! ***** from common.css *****
 body {
   background-color:#aaa; /* TMP */
   background-color:#45B00C;
@@ -19,7 +19,7 @@ body {
   margin-top: 0;
 }
 
-/***** dock styles *****/
+! ***** dock styles *****
 table.dock a {
   color:#FFFFFF;
 }
@@ -28,7 +28,7 @@ table.dock span.want_sep, table.dock a.want_sep {
   border-left: white solid 1px;
 }
 
-/***** header styles *****/
+! ***** header styles *****
 table.header {
   width: 100%;
 }
@@ -44,7 +44,10 @@ table.header td.header_middle {
 table.header td.header_middle img {
   padding-bottom: 1em;
 }
-/***** top bmenu *****/
+div.tools {
+  padding-right: 1em;
+}
+! ***** top bmenu *****
 table.header {
   margin-bottom: .5em;
 }
@@ -78,27 +81,27 @@ table.header td.header_middle span a:hover {
   text-decoration: none;
 }
 
-/***** white main oval *****/
+! ***** white main oval *****
 div.fr_main_rounded_box .b_rounded_box_body {
   background: #FFFFFF;
 }
 
-/***** generic oval styles *****/
+! ***** generic oval styles *****
 span.b1f, span.b2f, span.b3f, span.b4f {font-size:1px; overflow:hidden; display:block;}
 span.b1f {height:1px; margin:0 5px;}
 span.b2f {height:1px; margin:0 3px;}
 span.b3f {height:1px; margin:0 2px;}
 span.b4f {height:2px; margin:0 1px;}
 
-/***** generic main table styles *****/
+! ***** generic main table styles *****
 table.main {
   background-color: #FFFFFF;
 }
-table.main .main_left, table.main .main_middle{
-   vertical-align:top;
+table.main .main_left, table.main .main_middle {
+  vertical-align:top;
 }
 
-/***** footer *****/
+! ***** footer *****
 table.footer {
   border:0;
   margin-top: 1em;
@@ -136,7 +139,7 @@ table.footer div.legal a:hover {
    color: #FCF67C;
 }
 
-/***** left navigation - blue rounded box with white separator lines *****/
+! ***** left navigation - blue rounded box with white separator lines *****
 div.left_nav {
 
 }
@@ -166,7 +169,7 @@ div.left_nav div.bmenu span.selected a {
   color: yellow;
 }
 
-/***** login box *****/
+! ***** login box *****
 div.login span.b_rounded_box_body {
   background:#4DBF0F;
 }
@@ -194,7 +197,7 @@ div.login div.b_rounded_box_body a {
   color: #FFFFFF;
   font-size: 1.1em;
 }
-/***** main content styling *****/
+! ***** main content styling *****
 div.dark_green_oval span {
   background:#2A6D06;
 }
@@ -275,7 +278,7 @@ div.wiki div.testimonials p {
   padding-bottom: .5em;
 }
 
-/***** new *****/
+! ***** new *****
 td.fr_h_leftnav {
   width: 8em;
   text-align: center;
@@ -302,6 +305,9 @@ td.main_left {
   width: 15em;
   text-align: center;
   padding: .75em .5em 1em 1em;
+  background-image: url<(>'/bp/bike_kid.jpg') ;
+  background-repeat: no-repeat;
+  background-position: 0 275px;
 }
 .learn_more {
   position: relative;
@@ -322,7 +328,7 @@ td.main_left {
   left: 11px;
 }
 
-/***** internal pages *****/
+! ***** internal pages *****
 
 div.wiki {
   margin: .5em 1em 1em 1em;
@@ -356,7 +362,7 @@ div.contact_form {
   margin-top: 1em;
 }
 
-/***** dontate form styling *****/
+! ***** dontate form styling *****
 span.money {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.5em;
@@ -370,7 +376,7 @@ div.donate input.money {
   font-size: 1.2em;
 }
 
-/****** Misc for internal pages *****/
+! ****** Misc for internal pages *****
 div.in_the_news p
 {
   margin-top: .5em;
@@ -397,7 +403,7 @@ div.sponsors img {
 	left: 30px;
 }
 
-/***** remove title *****/
+! ***** remove title *****
 ^/bp/.* div.main_top div.title {
   display:none;
   height:0;
