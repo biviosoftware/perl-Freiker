@@ -235,7 +235,7 @@ div.rides_counted p {
   font-size: 2.5em;
   font-weight:bold;
   text-align:center;
-  margin: .2em 0 .2em 0;
+  margin: .1em 0 .2em 0;
   color: #FFFFFF;
 }
 div.support_freiker {
@@ -297,11 +297,28 @@ div.login_box form {
 div.green_box p, div.green_box a {
   font-size: 1.1em;
 }
-
 td.main_left {
   width: 15em;
   text-align: center;
   padding: .75em .5em 1em 1em;
+}
+.learn_more {
+  position: relative;
+}
+.learn_more .parents_button {
+  position: absolute;
+  top: 56px;
+  left: 11px;
+}
+.learn_more .schools_button {
+  position: absolute;
+  top: 93px;
+  left: 11px;
+}
+.learn_more .sponsors_button {
+  position: absolute;
+  top: 130px;
+  left: 11px;
 }
 
 /***** internal pages *****/

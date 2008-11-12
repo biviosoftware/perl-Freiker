@@ -59,7 +59,17 @@
 @/td
 						
 @td
-@img class=learn_more src=^learn_more.gif 
+@div class=learn_more
+@img class=background_image src=^learnmore.gif 
+@a href="^Parents_And_Kids"
+@img class=parents_button src=^parentsbutton.gif 
+@/a
+@a href="^Schools"
+@img class=schools_button src=^schoolsbutton.gif 
+@/a
+@a href="^Sponsors"
+@img class=sponsors_button src=^sponsorsbutton.gif 
+@/a
 @/td
 					  
 @/tr
@@ -93,7 +103,7 @@
 @div class=rides_counted
 @img src=^rides_counted.gif 
 @p
-@b-widget count_all
+@b-widget ride_count_all
 @/p
 @/div
  
