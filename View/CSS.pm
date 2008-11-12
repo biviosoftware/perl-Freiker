@@ -304,7 +304,7 @@ div.green_box p, div.green_box a {
 td.main_left {
   width: 15em;
   text-align: center;
-  padding: .75em .5em 1em 1em;
+  padding: .75em 1.5em 1em 1em;
   background-image: url<(>'/bp/bike_kid.jpg') ;
   background-repeat: no-repeat;
   background-position: 0 275px;
