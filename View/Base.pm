@@ -44,23 +44,25 @@ sub internal_xhtml_adorned_attrs {
 	xhtml_dock_left => TaskMenu([
 	    RealmDropDown('club'),
 	    RealmDropDown('merchant'),
-	    DropDown(
-		String('Admin'),
-		DIV_dd_menu(TaskMenu([
-		    'ADM_FREIKOMETER_LIST',
-		    'ADM_PRIZE_LIST',
-		    'ADM_PRIZE_COUPON_LIST',
-		    map(+{
-			task_id => $_,,
-			realm => vs_constant('site_adm_realm_name'),
-		    }, qw(SITE_ADM_USER_LIST SITE_ADM_SUBSTITUTE_USER)),
-		]), {id => 'admin_drop_down'}),
+	    If(['->can_user_execute_task', 'ADM_FREIKOMETER_LIST'],
+		DropDown(
+		    String('Admin'),
+		    DIV_dd_menu(TaskMenu([
+			'ADM_FREIKOMETER_LIST',
+			'ADM_PRIZE_LIST',
+			'ADM_PRIZE_COUPON_LIST',
+			map(+{
+			    task_id => $_,,
+			    realm => vs_constant('site_adm_realm_name'),
+			}, qw(SITE_ADM_USER_LIST SITE_ADM_SUBSTITUTE_USER)),
+		    ]), {id => 'admin_drop_down'}),
+		),
 	    ),
 	    'FORUM_BLOG_LIST',
 	    'FORUM_CALENDAR',
 	    {
 		task_id => 'FORUM_FILE',
-		control => ['->can_user_execute_task', 'FORUM_FILE_CHANGE'],
+		control => [['->req'], '->can_user_execute_task', 'FORUM_FILE_CHANGE'],
 	    },
 	    'FORUM_MAIL_THREAD_ROOT_LIST',
 #	    'FORUM_MOTION_LIST',
@@ -89,39 +91,44 @@ sub internal_xhtml_adorned_attrs {
 	    ])),
 	]),
 	xhtml_main_left => Or(And(
-		IfWiki('.*', 1),
-		Director(['->req', 'path_info'], {
-		    map((qr{^/(?:@{[join('|', @$_)]})$}is
-		   => RoundedBox(_menu("$_->[0]MainLeft"), 'left_nav')),
-			[qw(About_Us History Board_And_Staff In_The_News)],
-			[qw(How_It_Works Freikometer Prizes Results FAQ)],
-			[qw(Support_Freiker Volunteer Sponsors)],
-			[qw(Parents_And_Kids)],
-			[qw(Schools)],
-		    ),
-		}, '', ''),
+	    IfWiki('.*', 1),
+	    Director(['->req', 'path_info'], {
+		map((qr{^/(?:@{[join('|', @$_)]})$}is
+		    => RoundedBox(_menu("$_->[0]MainLeft"), 'left_nav')),
+		    [qw(About_Us History Board_And_Staff In_The_News)],
+		    [qw(How_It_Works Freikometer Prizes Results FAQ)],
+		    [qw(Support_Freiker Volunteer Sponsors)],
+		    [qw(Parents_And_Kids)],
+		    [qw(Schools)],
+		),
+	    }, '', ''),
 	    ),
-		If(['auth_user_id'],
-		    RoundedBox(_menu('HomeMainLeft'), 'left_nav'),
-		    RoundedBox(
-			 AuxiliaryForm(ContextlessUserLoginForm => Join([
-			     map((
-				 DIV_label(String(vs_text("ContextlessUserLoginForm.$_"))),
-				 FormField("ContextlessUserLoginForm.$_", {size => 15}),
-			     ), qw(login RealmOwner.password)),
-			     StandardSubmit('ok_button'),
-			     Link('Not Registered?', 'USER_CREATE', {
-				 class => 'label',
-			     }),
-			 ]), {
-			     action => URI({
-				 task_id => 'LOGIN',
-				 no_context => 1,
-			     }),
-			 }),
-			 'login',
-		    ),
-		))
+	    If(Not(
+		[['->req', 'task_id'],
+		 '->equals_by_name', 'user_create', 'login']),
+	       If(['auth_user_id'],
+		  RoundedBox(_menu('HomeMainLeft'), 'left_nav'),
+		  RoundedBox(
+		      AuxiliaryForm(ContextlessUserLoginForm => Join([
+			  map((
+			      DIV_label(String(vs_text("ContextlessUserLoginForm.$_"))),
+			      FormField("ContextlessUserLoginForm.$_", {size => 15}),
+			  ), qw(login RealmOwner.password)),
+			  StandardSubmit('ok_button'),
+			  Link('Not Registered?', 'USER_CREATE', {
+			      class => 'label',
+			  }),
+		      ]), {
+			  action => URI({
+			      task_id => 'LOGIN',
+			      no_context => 1,
+			  }),
+		      }),
+		      'login',
+		  ),
+	      ),
+	   ),
+        ),
     );
     return @res;
 }
