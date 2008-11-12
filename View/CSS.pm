@@ -229,13 +229,14 @@ div.rides_counted {
   padding: 1em .5em;
   text-align: center;
 }
-div.rides_counted p {
-  width: 12em;
-  font-family:Arial, Helvetica, sans-serif;
-  font-size: 2.5em;
+div.wiki div.rides_counted p {
+  width: 9.5em;
+  font-family:Verdana, Arial, Helvetica, sans-serif;
+  font-size: 3em;
   font-weight:bold;
   text-align:center;
-  margin: .1em 0 .2em 0;
+  margin: 0;
+  padding: .2em 0 .2em 0;
   color: #FFFFFF;
 }
 div.support_freiker {
