@@ -74,10 +74,20 @@ sub internal_xhtml_adorned_attrs {
 		),
 	    ])),
 	]),
-	xhtml_main_left => IfWiki(
-	    '.*',
-	    Director(['->req', 'path_info'], {
-		qr{^/Home$}is => If(['auth_user_id'],
+	xhtml_main_left => Or(And(
+		IfWiki('.*', 1),
+		Director(['->req', 'path_info'], {
+		    map((qr{^/(?:@{[join('|', @$_)]})$}is
+		   => RoundedBox(_menu("$_->[0]MainLeft"), 'left_nav')),
+			[qw(About_Us History Board_And_Staff In_The_News)],
+			[qw(How_It_Works Freikometer Prizes Results FAQ)],
+			[qw(Support_Freiker Volunteer Sponsors)],
+			[qw(Parents_And_Kids)],
+			[qw(Schools)],
+		    ),
+		}, '', ''),
+	    ),
+		If(['auth_user_id'],
 		    RoundedBox(_menu('HomeMainLeft'), 'left_nav'),
 		    RoundedBox(
 			 AuxiliaryForm(ContextlessUserLoginForm => Join([
@@ -97,20 +107,7 @@ sub internal_xhtml_adorned_attrs {
 			 }),
 			 'login',
 		    ),
-		),
-		map((qr{^/(?:@{[join('|', @$_)]})$}is
-		   => RoundedBox(_menu("$_->[0]MainLeft"), 'left_nav')),
-		    [qw(About_Us History Board_And_Staff In_The_News)],
-		    [qw(How_It_Works Freikometer Prizes Results FAQ)],
-		    [qw(Support_Freiker Volunteer Sponsors)],
-		    [qw(Parents_And_Kids)],
-		    [qw(Schools)],
-		),
-	    },
-		'',
-		'',
-	    ),
-	),
+		))
     );
     return @res;
 }
