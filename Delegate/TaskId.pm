@@ -9,15 +9,6 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 sub get_delegate_info {
     my($proto) = @_;
     return $proto->merge_task_info(@{$proto->standard_components}, [
-#BEBOP: 6.84
-	[qw(
-	    PUBLIC_PING
-	    57
-	    GENERAL
-	    ANYBODY
-	    Action.PingReply
-        )],
-
 	[qw(
 	    MERCHANT_REGISTER
 	    501
@@ -42,7 +33,7 @@ sub get_delegate_info {
 	    MERCHANT
 	    DATA_READ
 	    Action.ClientRedirect->execute_next
-	    next=SITE_ROOT
+	    next=MERCHANT_PRIZE_LIST
 	)],
 	[qw(
 	    CLUB_REGISTER
