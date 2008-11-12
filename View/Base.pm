@@ -42,6 +42,20 @@ sub internal_xhtml_adorned_attrs {
 	),
 # #TODO: Add Your Family * Schools * Merchants * Admin
 	xhtml_dock_left => TaskMenu([
+	    RealmDropDown('club'),
+	    RealmDropDown('merchant'),
+	    DropDown(
+		String('Admin'),
+		DIV_dd_menu(TaskMenu([
+		    'ADM_FREIKOMETER_LIST',
+		    'ADM_PRIZE_LIST',
+		    'ADM_PRIZE_COUPON_LIST',
+		    map(+{
+			task_id => $_,,
+			realm => vs_constant('site_adm_realm_name'),
+		    }, qw(SITE_ADM_USER_LIST SITE_ADM_SUBSTITUTE_USER)),
+		]), {id => 'admin_drop_down'}),
+	    ),
 	    'FORUM_BLOG_LIST',
 	    'FORUM_CALENDAR',
 	    {
@@ -49,7 +63,7 @@ sub internal_xhtml_adorned_attrs {
 		control => ['->can_user_execute_task', 'FORUM_FILE_CHANGE'],
 	    },
 	    'FORUM_MAIL_THREAD_ROOT_LIST',
-	    'FORUM_MOTION_LIST',
+#	    'FORUM_MOTION_LIST',
 	    'FORUM_WIKI_VIEW',
 	]),
     );
