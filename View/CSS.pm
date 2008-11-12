@@ -23,6 +23,13 @@ body {
 table.dock a {
   color:#FFFFFF;
 }
+table.dock .dd_menu a {
+  Font('dd_menu');
+}
+table.dock .dd_menu a:hover {
+  Color('dd_menu_selected-background');
+  Color('dd_menu_selected');
+}
 table.dock span.want_sep, table.dock a.want_sep {
   background-image: none;
   border-left: white solid 1px;
