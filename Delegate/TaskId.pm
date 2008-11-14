@@ -10,6 +10,14 @@ sub get_delegate_info {
     my($proto) = @_;
     return $proto->merge_task_info(@{$proto->standard_components}, [
 	[qw(
+	    CLUB_HOME
+	    7
+	    CLUB
+	    ANYBODY
+	    Action.ClientRedirect->execute_next
+	    next=CLUB_FREIKER_LIST
+	)],
+	[qw(
 	    MERCHANT_REGISTER
 	    501
 	    GENERAL
