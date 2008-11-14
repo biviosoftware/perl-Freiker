@@ -37,4 +37,4 @@ verify_table(Delivered => [
     [qw(bunit20 child1)],
     [qw(bunit50 child)],
 ]);
-follow_link('freiker.*inc');
+
