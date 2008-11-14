@@ -36,7 +36,8 @@ sub create {
 sub image_path {
     my(undef, $model, $model_prefix, $values) = shift->internal_get_target(@_);
     return $_IFN->to_absolute(
-	$values->{$model_prefix . 'prize_id'} . '.jpg', 1);
+	($values->{$model_prefix . 'prize_id'} || die())
+	. '.jpg', 1);
 }
 
 sub internal_initialize {
