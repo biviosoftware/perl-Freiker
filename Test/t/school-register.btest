@@ -2,6 +2,7 @@
 # $Id$
 test_setup('Freiker');
 my($e, $z) = register_random('wheel');
+login_as('adm');
 follow_link(qr{^register.*school}i);
 submit_form({
     name => my $name = "School $z",
@@ -9,9 +10,6 @@ submit_form({
     website => "http://school$z.org",
     zip => $z,
 });
-do_logout();
-login_as('adm');
-follow_link($name);
 follow_link('codes');
 my($floor) = int($z / 1000) * 1000 + 100;
 my($codes) = [map(random_integer($floor + 800, $floor), 1..10)];
