@@ -55,6 +55,8 @@ sub internal_xhtml_adorned_attrs {
 			    task_id => $_,,
 			    realm => vs_constant('site_adm_realm_name'),
 			}, qw(SITE_ADM_USER_LIST SITE_ADM_SUBSTITUTE_USER)),
+			'CLUB_REGISTER',
+			'MERCHANT_REGISTER',
 		    ]), {id => 'admin_drop_down'}),
 		),
 	    ),
