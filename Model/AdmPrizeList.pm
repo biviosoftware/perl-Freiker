@@ -9,8 +9,7 @@ my($_P) = Bivio::Biz::Model->get_instance('Prize');
 my($_LOC) = __PACKAGE__->use('Model.Website')->DEFAULT_LOCATION;
 
 sub image_path {
-    my($delegator) = shift->delegated_args(@_);
-    return $_P->image_path($delegator, 'Prize.');
+    return $_P->image_path(shift, 'Prize.');
 }
 
 sub image_uri {
