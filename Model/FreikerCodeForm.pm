@@ -21,8 +21,10 @@ sub execute_empty {
 
 sub execute_ok {
     my($self) = @_;
-    return unless my $new_uid = _validate_user($self, _validate_club($self));
-    return unless _validate_rides($self, $new_uid);
+    return
+	unless my $new_uid = _validate_user($self, _validate_club($self));
+    return
+	unless _validate_rides($self, $new_uid);
     return _update_user($self, $new_uid);
 }
 
@@ -120,7 +122,9 @@ sub _update_user {
 	},
     );
     $self->new_other('User')->unauth_delete_realm($new_uid);
-    return;
+    return {
+	carry_query => 1,
+    };
 }
 
 sub _validate_club {

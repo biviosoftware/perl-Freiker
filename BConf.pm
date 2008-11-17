@@ -64,7 +64,7 @@ sub merge_overrides {
 	},
     },
     $proto->default_merge_overrides({
-	version => 8,
+	version => 9,
 	root => 'Freiker',
 	prefix => 'fr',
 	owner => 'Freiker, Inc.',

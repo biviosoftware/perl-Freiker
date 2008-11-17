@@ -1,8 +1,8 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2008 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::ManualRideForm;
 use strict;
-use base 'Bivio::Biz::FormModel';
+use Bivio::Base 'Biz.FormModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = Bivio::Type->get_instance('Date');
@@ -26,7 +26,9 @@ sub execute_ok {
 	});
 	return;
     });
-    return;
+    return {
+	carry_query => 1,
+    };
 }
 
 sub internal_initialize {
