@@ -1,20 +1,20 @@
-# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2008 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::PrizeCouponRedeemForm;
 use strict;
-use Bivio::Base 'Bivio::Biz::FormModel';
+use Bivio::Base 'Biz.FormModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub execute_ok {
     my($self) = @_;
     $self->get_request->get('Model.PrizeCoupon')->create_receipt;
-    return Bivio::IO::Alert->debug({
+    return {
 	task_id => 'next',
 	query => {
 	    'ListQuery.this' => $self->get('PrizeCoupon.coupon_code'),
 	},
-    });
+    };
 }
 
 sub internal_initialize {
