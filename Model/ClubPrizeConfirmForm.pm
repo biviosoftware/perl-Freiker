@@ -21,7 +21,9 @@ sub execute_ok {
 	query => {
 	    'ListQuery.parent_id' => $psl->get_query->get('parent_id'),
 	},
-    } : 'cancel';
+    } : {
+	task_id => 'cancel',
+    };
 }
 
 1;
