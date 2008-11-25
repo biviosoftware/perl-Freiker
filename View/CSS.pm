@@ -46,7 +46,12 @@ table.header td.header_left {
 }
 table.header td.header_middle {
   text-align: center;
+  vertical-align: bottom;
   padding: .5em;
+  width:100%;
+  background-image: url<(>'/bp/every_ride_counts.jpg');
+  background-repeat: no-repeat;
+  background-position: 50% 15%;
 }
 table.header td.header_middle img {
   padding-bottom: 1em;
@@ -57,10 +62,6 @@ div.tools {
 ! ***** top bmenu *****
 table.header {
   margin-bottom: .5em;
-}
-table.header td.header_middle {
-  width:100%;
-  vertical-align: middle;
 }
 table.header td.header_middle .b_rounded_box_body {
   background:#FFE401;
