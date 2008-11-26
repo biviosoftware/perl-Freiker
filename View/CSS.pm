@@ -320,10 +320,19 @@ td.main_left {
   width: 15em;
   text-align: center;
   padding: .75em 1em 1em 1em;
+}
+! ***** only put bike_kid image on wiki pages
+^/bp/.* td.main_left {
   background-image: url<(>'/bp/bike_kid.jpg') ;
   background-repeat: no-repeat;
   background-position: 0 275px;
 }
+^.*/wiki/.* td.main_left {
+  background-image: url<(>'/bp/bike_kid.jpg') ;
+  background-repeat: no-repeat;
+  background-position: 0 275px;
+}
+
 .learn_more {
   position: relative;
 }
