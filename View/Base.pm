@@ -51,10 +51,16 @@ sub internal_xhtml_adorned_attrs {
 			'ADM_FREIKOMETER_LIST',
 			'ADM_PRIZE_LIST',
 			'ADM_PRIZE_COUPON_LIST',
-			map(+{
-			    task_id => $_,,
-			    realm => vs_constant('site_adm_realm_name'),
-			}, qw(SITE_ADM_USER_LIST SITE_ADM_SUBSTITUTE_USER)),
+#BEBOP: 7.14 SITE_ADMIN_USER only
+			Bivio::Agent::TaskId->unsafe_from_name(
+			    'SITE_ADMIN_USER_LIST') ? map(+{
+				task_id => $_,,
+				realm => vs_constant('site_admin_realm_name'),
+			    }, qw(SITE_ADMIN_USER_LIST SITE_ADMIN_SUBSTITUTE_USER))
+			    : map(+{
+				task_id => $_,,
+				realm => vs_constant('site_adm_realm_name'),
+			    }, qw(SITE_ADM_USER_LIST SITE_ADM_SUBSTITUTE_USER)),
 			'CLUB_REGISTER',
 			'MERCHANT_REGISTER',
 		    ]), {id => 'admin_drop_down'}),
