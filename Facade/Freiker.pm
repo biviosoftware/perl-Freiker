@@ -6,6 +6,11 @@ use base 'Bivio::UI::FacadeBase';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
+sub SITE_ADMIN_REALM_NAME {
+    return 'site-contact';
+}
+
+#BEBOP: 7.14 - DELETE
 sub SITE_ADM_REALM_NAME {
     return 'site-contact';
 }
