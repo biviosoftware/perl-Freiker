@@ -325,7 +325,7 @@ td.main_left {
 ^/bp/.* td.main_left {
   background-image: url<(>'/bp/bike_kid.jpg') ;
   background-repeat: no-repeat;
-  background-position: 0 275px;
+  background-position: 0 225px;
 }
 ^.*/wiki/.* td.main_left {
   background-image: url<(>'/bp/bike_kid.jpg') ;
