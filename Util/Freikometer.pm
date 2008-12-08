@@ -39,6 +39,7 @@ sub create {
     });
     $ra->join_user('FREIKOMETER');
     $req->set_realm($req->get('auth_user'));
+    $self->model('Email')->load_for_auth_user->update({want_bulletin => 0});
     $self->model('RealmFile')->init_realm->map_invoke(
 	create_folder => [
 	    map([{path => $self->model($_)->FOLDER}],
