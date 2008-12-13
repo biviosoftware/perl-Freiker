@@ -20,16 +20,6 @@ body {
 }
 
 ! ***** dock styles *****
-table.dock a {
-  color:#FFFFFF;
-}
-table.dock .dd_menu a {
-  Font('dd_menu');
-}
-table.dock .dd_menu a:hover {
-  Color('dd_menu_selected-background');
-  Color('dd_menu_selected');
-}
 table.dock span.want_sep, table.dock a.want_sep {
   background-image: none;
   border-left: white solid 1px;
@@ -425,6 +415,11 @@ div.sponsors img {
     margin: 30px; 
 	position: relative;
 	left: 30px;
+}
+div.wiki img.notice_right {
+  float: right; 
+  margin: .5ex 1em 1ex 1em; 
+  border: 1px solid #000000;
 }
 
 ! ***** remove title *****
