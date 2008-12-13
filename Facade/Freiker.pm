@@ -6,15 +6,6 @@ use base 'Bivio::UI::FacadeBase';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
-sub SITE_ADMIN_REALM_NAME {
-    return 'site-contact';
-}
-
-#BEBOP: 7.14 - DELETE
-sub SITE_ADM_REALM_NAME {
-    return 'site-contact';
-}
-
 my($_SELF) = __PACKAGE__->new({
     clone => undef,
     is_production => 1,
@@ -30,7 +21,7 @@ my($_SELF) = __PACKAGE__->new({
 	[[qw(left_nav_a_hover main_left_text a_img_border prizes_background)] => 0xFFFFFF],
 	[select_prize => 0xffcf06],
 	[dd_menu => 0x33aa33],
-	[[qw(dd_menu_selected dd_menu_background)] => 0xffffff],
+	[[qw(dock dd_menu_selected dd_menu_background)] => 0xffffff],
 	[dd_menu_border => 0x888888],
 	[dd_menu_selected_background => 0x888888],
     ],
@@ -43,7 +34,7 @@ my($_SELF) = __PACKAGE__->new({
 	[footer => []],
 	[[qw(topic nav)] => [qw(140% bold)]],
 	[left_nav_a_hover => []],
-	[[qw(user_state dock)] => [qw(140% bold nowrap)]],
+	[dock => [qw(140% bold nowrap)]],
 	[prize_name => 'bold'],
 	[footer_tag_line => [qw(100% bold)]],
 	[select_prize => [qw(bold underline)]],
@@ -81,6 +72,7 @@ my($_SELF) = __PACKAGE__->new({
 	    [qw(USER ADMINISTRATOR FAMILY_FREIKER_LIST)],
 	]],
 	[ThreePartPage_want_SearchForm => 0],
+	[ThreePartPage_want_ForumDropDown => 1],
     ],
     Task => [
 	[MERCHANT_HOME => '?'],
