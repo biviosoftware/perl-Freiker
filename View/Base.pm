@@ -44,28 +44,13 @@ sub internal_xhtml_adorned_attrs {
 	xhtml_dock_left => TaskMenu([
 	    RealmDropDown('club'),
 	    RealmDropDown('merchant'),
-	    If(['->can_user_execute_task', 'ADM_FREIKOMETER_LIST'],
-		DropDown(
-		    String('Admin'),
-		    DIV_dd_menu(TaskMenu([
-			'ADM_FREIKOMETER_LIST',
-			'ADM_PRIZE_LIST',
-			'ADM_PRIZE_COUPON_LIST',
-#BEBOP: 7.14 SITE_ADMIN_USER only
-			Bivio::Agent::TaskId->unsafe_from_name(
-			    'SITE_ADMIN_USER_LIST') ? map(+{
-				task_id => $_,,
-				realm => vs_constant('site_admin_realm_name'),
-			    }, qw(SITE_ADMIN_USER_LIST SITE_ADMIN_SUBSTITUTE_USER))
-			    : map(+{
-				task_id => $_,,
-				realm => vs_constant('site_admin_realm_name'),
-			    }, qw(SITE_ADMIN_USER_LIST SITE_ADMIN_SUBSTITUTE_USER)),
-			'CLUB_REGISTER',
-			'MERCHANT_REGISTER',
-		    ]), {id => 'admin_drop_down'}),
-		),
-	    ),
+	    SiteAdminDropDown([
+		'ADM_FREIKOMETER_LIST',
+		'ADM_PRIZE_LIST',
+		'ADM_PRIZE_COUPON_LIST',
+		'CLUB_REGISTER',
+		'MERCHANT_REGISTER',
+	    ]),
 	    'FORUM_BLOG_LIST',
 	    'FORUM_CALENDAR',
 	    {
