@@ -428,9 +428,16 @@ div.wiki img.notice_right {
 }
 
 ! ***** remove title *****
-^/bp/.* div.main_top div.title {
-  display:none;
-  height:0;
+^(/bp/.*|/my/wiki/.*) div.main_top div.title {
+  display: block;
+  height: auto;
+  font-size:1.6em;
+  color: #000;
+  padding-top: .3em;
+}
+^(/bp/Home|/my/wiki/Home) div.main_top div.title {
+  display: none;
+  height: 0;
 }
 
 EOF
