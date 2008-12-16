@@ -234,7 +234,7 @@ div.rides_counted {
   border: #FF5D0E solid 4px;
   margin-top: .5em;
   margin-right: .5em;
-  padding: 1em .5em;
+  padding: 1em .5em .5em .5em;
   text-align: center;
 }
 div.wiki div.rides_counted p {
@@ -244,8 +244,13 @@ div.wiki div.rides_counted p {
   font-weight:bold;
   text-align:center;
   margin: 0;
-  padding: .2em 0 .2em 0;
+  padding: 0 0 .1em 0;
   color: #FFFFFF;
+}
+div.wiki div.rides_counted a {
+  color: #FFFFFF;
+  font-size: 1.1em;
+  font-weight: bold;
 }
 div.support_freiker {
   background-color: #026EE6;
