@@ -121,7 +121,6 @@ sub internal_xhtml_adorned_attrs {
 			      task_id => 'LOGIN',
 			      no_context => 1,
 			  }),
-			  touch_cookie => 1,
 		      }),
 		      'login',
 		  ),
