@@ -52,14 +52,19 @@ sub internal_xhtml_adorned_attrs {
 		'MERCHANT_REGISTER',
 	    ]),
 	    'FORUM_BLOG_LIST',
-	    'FORUM_CALENDAR',
-	    {
-		task_id => 'FORUM_FILE',
-		control => [['->req'], '->can_user_execute_task', 'FORUM_FILE_CHANGE'],
-	    },
-	    'FORUM_MAIL_THREAD_ROOT_LIST',
-#	    'FORUM_MOTION_LIST',
 	    'FORUM_WIKI_VIEW',
+	    If([['->req'], '->can_user_execute_task', 'FORUM_FILE_CHANGE'],
+	       DropDown(
+		   String('more'),
+		   DIV_dd_menu(TaskMenu([qw(
+		       FORUM_CALENDAR
+		       FORUM_FILE
+		       FORUM_MAIL_THREAD_ROOT_LIST
+		       FORUM_MOTION_LIST
+		       GROUP_USER_LIST
+		   )]), {id => 'more_drop_down'}),
+	     ),
+	   ),
 	]),
     );
     view_unsafe_put(
