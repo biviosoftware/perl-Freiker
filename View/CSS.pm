@@ -237,15 +237,17 @@ div.rides_counted {
   padding: 1em .5em .5em .5em;
   text-align: center;
 }
-div.wiki div.rides_counted p {
-  width: 9.5em;
-  font-family:Verdana, Arial, Helvetica, sans-serif;
+div.wiki div.rides_counted span {
+  width:9.5em;
+!RJN: Is this needed?
+  font-family: Verdana,Arial,Helvetica,sans-serif;
   font-size: 3em;
-  font-weight:bold;
-  text-align:center;
+  font-weight: bold;
+  text-align: center;
   margin: 0;
-  padding: 0 0 .1em 0;
+  padding: .2em 0 .2em 0;
   color: #FFFFFF;
+  display: block;
 }
 div.wiki div.rides_counted a {
   color: #FFFFFF;
