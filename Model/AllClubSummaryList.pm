@@ -1,11 +1,12 @@
-# Copyright (c) 2008 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2008-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::AllClubSummaryList;
 use strict;
 use Bivio::Base 'Biz.ListModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_RN) = __PACKAGE__->use('Type.RealmName');
+my($_RN) = b_use('Type.RealmName');
+my($_DT) = b_use('Type.DateTime');
 
 sub internal_initialize {
     my($self) = @_;
@@ -29,13 +30,21 @@ sub internal_load_rows {
     my($self) = @_;
     my($names) = {};
     my($counts) = {};
+    my($max_date) = {};
     $self->new_other('AllClubRideDateList')->do_iterate(sub {
-	my($n, $dn, $c) = shift->get(qw(
-	    RealmOwner.name RealmOwner.display_name ride_count));
+	my($n, $dn, $c, $d) = shift->get(qw(
+	    RealmOwner.name RealmOwner.display_name ride_count Ride.ride_date));
 	push(@{$counts->{$n} ||= []}, $c);
 	$names->{$n} ||= $dn;
+	$max_date->{$n} = $d
+	    if !$max_date->{$n} || $_DT->compare($d, $max_date->{$n}) > 0;
 	return 1;
     });
+    my($max_max_date) = $_DT->max(values(%$max_date));
+    foreach my $n (keys(%$names)) {
+	delete($names->{$n})
+	    if $_DT->delta_days($max_date->{$n}, $max_max_date) > 30;
+    }
     return _rank([sort(
 	{
 	    $b->{days_20} <=> $a->{days_20}
