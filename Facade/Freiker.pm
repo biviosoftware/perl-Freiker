@@ -260,6 +260,8 @@ EOF
 	]],
 	[[qw(FreikerList ClubFreikerList)] => [
 	    'RealmOwner.display_name' => 'Freiker',
+	    parent_display_name => 'Parent',
+	    parent_email => 'Email',
 	    empty_list_prose => 'No Freikers as yet.',
 	    list_actions => 'Actions',
 	]],
