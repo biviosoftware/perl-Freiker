@@ -1,7 +1,13 @@
-# Copyright (c) 2006-2008 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 ListModel();
 my($today) = do('./SetupRides.PL');
+sub _parent {
+    return email('parent'), 'A Parent';
+}
+sub _no_parent {
+    return (undef, undef);
+}
 [
     {
 	method => 'load_all',
@@ -17,24 +23,24 @@ my($today) = do('./SetupRides.PL');
 		sub {
 		    return [map(
 			ref($_) ? $_->as_literal : $_,
-			shift->get(qw(RealmOwner.display_name ride_count prize_debit prize_credit can_select_prize freiker_codes)),
+			shift->get(qw(RealmOwner.display_name ride_count prize_debit prize_credit can_select_prize freiker_codes parent_email parent_display_name)),
 		    )];
 		},
 	    );
 	},
     } => [
 	bunit123456789 => [
-	    [1237 => 1, 0, 1, 0, 1237],
-	    [1238 => 1, 0, 1, 0, 1238],
-	    [1239 => 1, 0, 1, 0, 1239],
-	    [child => 100, 0, 100, 1, 1234],
-	    [child1 => 2, 0, 2, 0, '1236, 1235'],
-	    [child6 => 0, 0, 0, 0, 1240],
+	    [1237 => 1, 0, 1, 0, 1237, _no_parent()],
+	    [1238 => 1, 0, 1, 0, 1238, _no_parent()],
+	    [1239 => 1, 0, 1, 0, 1239, _no_parent()],
+	    [child => 100, 0, 100, 1, 1234, _parent()],
+	    [child1 => 2, 0, 2, 0, '1236, 1235', _parent()],
+	    [child6 => 0, 0, 0, 0, 1240, _parent],
         ],
 	parent => [
-	    [child => 100, 0, 100, 1, 1234],
-	    [child1 => 2, 0, 2, 0, '1236, 1235'],
-	    [child6 => 0, 0, 0, 0, 1240],
+	    [child => 100, 0, 100, 1, 1234, _parent()],
+	    [child1 => 2, 0, 2, 0, '1236, 1235', _parent()],
+	    [child6 => 0, 0, 0, 0, 1240, _parent()],
         ],
     ],
 ];

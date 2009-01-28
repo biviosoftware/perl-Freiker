@@ -1,4 +1,4 @@
-# Copyright (c) 2006-2008 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::FreikerList;
 use strict;
@@ -29,7 +29,7 @@ sub internal_initialize {
 		constraint => 'NONE',
 		select_value => "(SELECT ro.display_name
                     FROM realm_owner_t ro, realm_user_t ru
-                    WHERE ro.realm_type = @{[b_use('Auth.RealmType')->CLUB->as_sql_param]}
+                    WHERE ro.realm_type = @{[b_use('Auth.RealmType')->USER->as_sql_param]}
                     AND ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
                     AND ru.realm_id = ro.realm_id
                     AND realm_user_t.user_id = ru.user_id
@@ -42,7 +42,7 @@ sub internal_initialize {
 		constraint => 'NONE',
 		select_value => "(SELECT e.email
                     FROM realm_owner_t ro, realm_user_t ru, email_t e
-                    WHERE ro.realm_type = @{[b_use('Auth.RealmType')->CLUB->as_sql_param]}
+                    WHERE ro.realm_type = @{[b_use('Auth.RealmType')->USER->as_sql_param]}
                     AND ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
                     AND e.location = @{[b_use('Model.Email')->DEFAULT_LOCATION->as_sql_param]}
                     AND ru.realm_id = ro.realm_id
