@@ -37,6 +37,8 @@ sub freiker_list {
 	    'ride_count',
 	    'prize_debit',
 	    'prize_credit',
+	    'parent_display_name',
+	    'parent_email',
 	]),
     );
 }
