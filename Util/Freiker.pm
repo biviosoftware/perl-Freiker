@@ -50,7 +50,10 @@ sub missing_rides {
 	    });
 	},
     );
-    return [reverse(sort(map($_D->to_string($_), keys(%$dates))))];
+    return [map(
+	$_D->to_string($_),
+	sort {$_D->compare($b, $a)} keys(%$dates),
+    )];
 }
 
 sub rides {
