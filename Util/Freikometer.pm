@@ -46,7 +46,12 @@ sub create {
 		qw(FreikometerDownloadList FreikometerUploadList)),
 	],
     );
-    return [$req->format_http('BOT_FREIKOMETER_UPLOAD'), $name, $p];
+    return [
+	$req->is_production ? 'https://fm.freikometer.net/fm'
+	    : $req->format_http('BOT_FREIKOMETER_UPLOAD'),
+	$name,
+	$p,
+    ];
 }
 
 sub do_all {
