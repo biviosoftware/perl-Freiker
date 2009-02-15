@@ -47,7 +47,8 @@ sub create {
 	],
     );
     return [
-	$req->is_production ? 'https://fm.freikometer.net/fm'
+	$req->is_production ? 'https://fm.freikometer.net'
+	    . $req->format_uri('BOT_FREIKOMETER_UPLOAD')
 	    : $req->format_http('BOT_FREIKOMETER_UPLOAD'),
 	$name,
 	$p,
