@@ -43,7 +43,7 @@ sub load_for_user_and_credit {
 	parent_id => $user_id,
 	prize_credit => $prize_credit,
 	auth_id => $self->new_other('RealmUser')->club_id_for_freiker($user_id),
-    })
+    });
 }
 
 sub get_query_for_this {
