@@ -11,7 +11,6 @@ FormModel({
 	return;
     },
 });
-req()->set_realm('parent');
 my($today) = do('./SetupRides.PL');
 req()->set_realm_and_user(qw(parent parent));
 ($today, $child_id = realm_id('child1'), realm_id('bunit123456789'));
