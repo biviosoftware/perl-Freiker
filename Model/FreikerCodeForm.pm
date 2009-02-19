@@ -1,13 +1,14 @@
-# Copyright (c) 2006-2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::FreikerCodeForm;
 use strict;
 use Bivio::Base 'Biz.FormModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_D) = __PACKAGE__->use('Type.Date');
+my($_D) = b_use('Type.Date');
 my($_OVERLAP_SLOP) = 1;
-my($_FREIKER) = __PACKAGE__->use('Auth.Role')->FREIKER;
+my($_FREIKER) = b_use('Auth.Role')->FREIKER;
+my($_F) = b_use('ShellUtil.Freiker');
 
 sub execute_empty {
     my($self) = @_;
@@ -95,7 +96,8 @@ sub _super_user_override {
 sub _update_user {
     my($self, $new_uid) = @_;
     my($curr_uid) = $self->get('FreikerCode.user_id');
-    return if $curr_uid eq $new_uid;
+    return
+	if $curr_uid eq $new_uid;
     _iterate_rides($self, $new_uid, sub {
 	my($it) = @_;
 	my($v) = $it->get_shallow_copy;
@@ -122,6 +124,7 @@ sub _update_user {
 	},
     );
     $self->new_other('User')->unauth_delete_realm($new_uid);
+    $self->req->with_user($curr_uid, sub {$_F->audit_clubs});
     return {
 	carry_query => 1,
     };
