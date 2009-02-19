@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Util::SQL;
 use strict;
-use base 'Bivio::Util::SQL';
+use Bivio::Base 'ShellUtil';
 use Bivio::Test::Language::HTTP;
 use Freiker::Test;
 
@@ -102,36 +102,22 @@ sub initialize_test_data {
     return;
 }
 
-sub internal_upgrade_db_freiker_distributor {
+sub internal_upgrade_db_audit_clubs {
     my($self) = @_;
-    my($req) = $self->req;
-    $req->with_realm(undef, sub {
-	my($ral) = $self->model('RealmAdminList')->load_all
-	    ->set_cursor_or_not_found(0);
-	$req->with_user(
-	    $ral->get('RealmUser.user_id'),
-	    sub {
-		$self->model('MerchantInfoForm', {
-		    'RealmOwner.display_name' => 'Freiker, Inc.',
-		    'Address.street1' => '2701 Iris Ave, Suite S',
-		    'Address.city' => 'Boulder',
-		    'Address.state' => 'CO',
-		    'Address.zip' => '803042435',
-		    'Website.url' => 'http://www.freiker.org',
-		});
-		$ral->do_rows(sub {
-	            $self->model(RealmUserAddForm => {
-			administrator => 1,
-			'RealmUser.realm_id' => $self->req(qw(Model.Merchant merchant_id)),
-			'User.user_id' => $ral->get('RealmUser.user_id'),
-		    }),
-	        });
-		return;
-	    },
-	),
-    });
+    my($seen) = {};
+    $self->model('RealmUser')->do_iterate(
+	sub {
+	    my($u) = shift->get('user_id');
+	    $self->req->with_user(
+		$u, sub {$self->new_other('Freiker')->audit_clubs}
+	    ) unless $seen->{$u}++;
+	    return 1;
+	},
+	'unauth_iterate_start',
+	'user_id',
+	{role => b_use('Auth.Role')->FREIKER},
+    );
     return;
 }
 
 1;
-
