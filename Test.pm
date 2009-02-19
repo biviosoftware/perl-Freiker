@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Test;
 use strict;
-use base 'Bivio::Test';
+use Bivio::Base 'Bivio::Test';
 use Bivio::Biz::Action;
 use Bivio::Test::ListModel;
 use Bivio::Test::Request;
@@ -16,62 +16,80 @@ sub ADM {
 }
 
 sub CHILD {
-    _which(child => @_);
+    my(undef, $index, $which) = @_;
+    return _string(
+	child => undef, _number(0, undef, $which) * 10 + ($index || 0));
 }
 
 sub EPC {
-    return sprintf('%016X%08X', 0xABCDEF, 1234 + ($_[1] || 0));
+    return sprintf('%016X%08X', 0xABCDEF, shift->FREIKER_CODE(@_));
 }
 
 sub FREIKER_CODE {
-    return 1234 + ($_[1] || 0);
+    my(undef, $index, $which) = @_;
+    return _number(1234 + 1000 * _number(0, undef, $which), undef, $index);
 }
 
 sub FREIKOMETER {
-    _which(fm_freikometer => @_);
+    return _string(fm_freikometer => @_);
+}
+
+sub MAX_CHILD_INDEX {
+    return 6;
 }
 
 sub PARENT {
-    return _which(parent => @_);
+    return _string(parent => @_);
 }
 
 sub SCHOOL {
-    return 'bunit Elementary';
+    return shift->SCHOOL_BASE(@_) . ' Elementary' ;
+}
+
+sub SCHOOL_BASE {
+    return _string('bunit', @_);
 }
 
 sub SCHOOL_NAME {
+    my($proto, $which) = @_;
     # Loosely coupled with UserRegisterForm
-    return 'bunit' . shift->ZIP;
+    return $proto->SCHOOL_BASE($which) . $proto->ZIP($which);
 }
 
 sub SPONSOR {
-    return 'sponsor';
+    return _string('sponsor', @_);
 }
 
 sub SPONSOR_EMP {
-    return 'sponsor_emp';
+    return _string('sponsor_emp', @_);
 }
 
 sub SPONSOR_NAME {
-    my($proto) = @_;
-    return $_RN->from_display_name_and_zip($proto->SPONSOR, $proto->ZIP);
+    my($proto, $which) = @_;
+    return $_RN->from_display_name_and_zip(
+	$proto->SPONSOR($which), $proto->ZIP($which));
 }
 
 sub WEBSITE {
-    return 'http://www.bivio.biz';
+    return _string('http://www.bivio.biz/', @_);
 }
 
 sub WHEEL {
-    return 'wheel';
+    return _string('wheel', @_);
 }
 
 sub ZIP {
-    return '123456789';
+    return _number(123456789, @_);
 }
 
-sub _which {
+sub _string {
     my($base, undef, $which) = @_;
     return $base . ($which ? $which : '');
+}
+
+sub _number {
+    my($base, undef, $which) = @_;
+    return $base + ($which || 0);
 }
 
 1;
