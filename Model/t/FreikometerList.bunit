@@ -6,8 +6,6 @@ do('./SetupRides.PL');
     load_all => [
 	[] => [{
 	    'RealmOwner.name' => 'fm_freikometer',
-	}, {
-	    'RealmOwner.name' => 'fm_freikometer1',
 	}],
     ],
 ];
