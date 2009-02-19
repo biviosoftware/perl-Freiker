@@ -5,12 +5,13 @@ use strict;
 use Bivio::Base 'Model.FreikerCodeForm';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_D) = __PACKAGE__->use('Type.Date');
-my($_G) = __PACKAGE__->use('Type.Gender');
+my($_D) = b_use('Type.Date');
+my($_G_UNKNOWN) = b_use('Type.Gender')->UNKNOWN;
+my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 
 sub execute_empty {
     my($self) = @_;
-    $self->internal_put_field('User.gender' => $_G->UNKNOWN);
+    $self->internal_put_field('User.gender' => $_G_UNKNOWN);
     return;
 }
 
@@ -26,8 +27,7 @@ sub execute_ok {
     $self->new_other('RealmUser')->create({
 	realm_id => $req->get('auth_id'),
 	user_id => $u->get('user_id'),
-#TODO: FREIKER role.  There are no privs.  Just a FREIKER.
-        role => Bivio::Auth::Role->FREIKER,
+        role => $_FREIKER,
     });
     $u->get_model('RealmOwner')->update({
 	display_name => $u->get('first_name'),
