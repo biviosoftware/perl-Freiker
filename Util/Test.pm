@@ -1,4 +1,4 @@
-# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Util::Test;
 use strict;
@@ -19,9 +19,9 @@ usage: fr-test [options] command [args..]
 commands
   all_child_ride_dates [as_date] -- all valid ride dates
   child_ride_dates [child [as_date]] -- valid ride for the child (child(0) has many rides)
-  reset_freikers -- deletes and creates unregistered rides
+  reset_freikers [which] -- deletes and creates unregistered rides
   reset_freikometer_folders -- clears folders and sets up one download
-  reset_prizes_for_school -- create bunit10, bunit20, bunit50, bunit1000
+  reset_prizes_for_school [which] -- create bunit10, bunit20, bunit50, bunit1000
 EOF
 }
 
@@ -33,7 +33,7 @@ sub child_ride_dates {
     my($self, $child_index, $as_date) = @_;
     $child_index ||= 0;
     return []
-	if $child_index == 6;
+	if $child_index == Freiker::Test->MAX_CHILD_INDEX;
     my($now) = $_D->now;
     $as_date = $as_date ? sub {$_D->to_string(shift)} : sub {shift};
     return [map(
@@ -43,19 +43,16 @@ sub child_ride_dates {
 }
 
 sub reset_freikers {
-    my($self) = @_;
-    my($req) = $self->req;
-    $self->reset_prizes_for_school;
-    $req->set_realm(Freiker::Test->SCHOOL_NAME);
-    my($club_id) = $req->get('auth_id');
+    my($self, $which, $club_id, $req) = _setup_school(@_);
+    $self->reset_prizes_for_school($which);
     my($fc) = $self->model('FreikerCode');
     my($rides) = [];
     my($now) = $_D->now;
-    my($indexes) = [0..6];
+    my($indexes) = [0..Freiker::Test->MAX_CHILD_INDEX];
     foreach my $u (@{$_SA->sort_unique([
 	map(
 	    $fc->unsafe_load({
-		freiker_code => Freiker::Test->FREIKER_CODE($_),
+		freiker_code => Freiker::Test->FREIKER_CODE($_, $which),
 	    }) ? ($fc->get('user_id'), $fc->delete)[0] : (),
 	    @$indexes,
 	),
@@ -67,46 +64,51 @@ sub reset_freikers {
     }
     $req->set_realm($club_id);
     foreach my $index (@$indexes) {
-	my($code) = Freiker::Test->FREIKER_CODE($index);
-	my($epc) = Freiker::Test->EPC($index);
+	my($code) = Freiker::Test->FREIKER_CODE($index, $which);
+	my($epc) = Freiker::Test->EPC($index, $which);
 	$fc->create_from_epc_and_code($epc, $code);
-	$req->with_realm(Freiker::Test->PARENT, sub {
+	$req->with_realm(Freiker::Test->PARENT($which), sub {
+	    # COUPLING: FreikerForm checks FreikerRideList
+	    $self->model('FreikerRideList')->delete_from_request;
 	    $self->model(FreikerForm => {
-		'User.first_name' => my $name = Freiker::Test->CHILD($index),
+		'User.first_name' =>
+		    my $name = Freiker::Test->CHILD($index, $which),
 		'Club.club_id' => $club_id,
 		'FreikerCode.club_id' => $club_id,
-		'FreikerCode.freiker_code' => Freiker::Test->FREIKER_CODE($index),
+		'FreikerCode.freiker_code' => $code,
 		'User.gender' => $self->use('Type.Gender')->FEMALE,
 		'birth_year' => 1999,
 	    });
 	    $self->req('Model.RealmOwner')->update({name => $name});
 	    return;
-	}) if $index <= 1 || $index == 6;
+	}) if $index <= 1 || $index == Freiker::Test->MAX_CHILD_INDEX;
 	push(
 	    @$rides,
 	    map(+{epc => $epc, datetime => $_},
 		@{$self->child_ride_dates($index)}),
 	);
     }
-    $req->with_user(Freiker::Test->FREIKOMETER, sub {
+    $req->with_user(Freiker::Test->FREIKOMETER($which), sub {
 	my($rif) = $self->model('RideImportForm');
 	foreach my $r (@$rides) {
 	    $rif->process_record($r);
 	}
 	return;
     });
-#put in coupons not redeemed
-    $req->with_realm(Freiker::Test->PARENT, sub {
+#TODO: put in coupons not redeemed
+    $req->with_realm(Freiker::Test->PARENT($which), sub {
+	my($code) = Freiker::Test->FREIKER_CODE(2, $which);
         $self->model(FreikerRideList => {
-	    parent_id => $self->unauth_model(RealmOwner => {name => 'child1'})
-		->get('realm_id'),
+	    parent_id => $self->unauth_model(RealmOwner => {
+		name => Freiker::Test->CHILD(1, $which),
+	    })->get('realm_id'),
 	});
         $self->model(FreikerCodeForm => {
 	    'Club.club_id' => $club_id,
-	    'FreikerCode.freiker_code' => Freiker::Test->FREIKER_CODE(2),
+	    'FreikerCode.freiker_code' => $code,
 	});
 	$self->unauth_model(FreikerCode => {
-	    freiker_code => Freiker::Test->FREIKER_CODE(2),
+	    freiker_code => $code,
 	})->update({
 	    modified_date_time => $_DT->add_seconds($_DT->now, 1),
 	});
@@ -174,11 +176,9 @@ sub reset_freikometer_playlist {
 }
 
 sub reset_prizes_for_school {
-    my($self) = @_;
-    my($req) = $self->req;
-    $req->assert_test;
+    my($self, $which, $club_id, $req) = _setup_school(@_);
     $req->with_user(Freiker::Test->ADM, sub {
-	$req->with_realm(Freiker::Test->SPONSOR_NAME, sub {
+	$req->with_realm(Freiker::Test->SPONSOR_NAME($which), sub {
 	    $self->model('Prize')->do_iterate(
 		sub {
 		    my($prize) = @_;
@@ -198,11 +198,12 @@ sub reset_prizes_for_school {
 		'prize_id',
 	    );
 	    my($available) = $self->use('Type.PrizeStatus')->AVAILABLE;
+	    my($school) = Freiker::Test->SCHOOL_BASE($which);
 	    foreach my $i (10, 20, 50, 99, 1000) {
 		my($f) = $self->model('AdmPrizeForm');
 		$f->process({
-		    'Prize.name' => "bunit$i",
-		    'Prize.description' => "prize for bunit $i",
+		    'Prize.name' => "$school$i",
+		    'Prize.description' => "prize for $school $i",
 		    'Prize.detail_uri' => "http://www.freiker.org?$i",
 		    'Prize.ride_count' => $i,
 		    'Prize.retail_price' => $i,
@@ -212,7 +213,7 @@ sub reset_prizes_for_school {
 			Freiker::Test::Freiker->generate_image("prize$i"),
 		    ),
 		});
-		$req->with_realm(Freiker::Test->SCHOOL_NAME, sub {
+		$req->with_realm($club_id, sub {
 		    $f->new_other('PrizeRideCount')->create_or_update({
 			map(($_ => $f->get("Prize.$_")),
 			    qw(ride_count prize_id)),
@@ -222,6 +223,14 @@ sub reset_prizes_for_school {
 	});
     });
     return;
+}
+
+sub _setup_school {
+    my($self, $which) = @_;
+    $which ||= 0;
+    my($req) = $self->req;
+    $req->set_realm(Freiker::Test->SCHOOL_NAME($which));
+    return ($self, $which, $req->get('auth_id'), $req);
 }
 
 1;

@@ -1,4 +1,4 @@
-# Copyright (c) 2005-2008 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2005-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Util::SQL;
 use strict;
@@ -40,61 +40,63 @@ sub initialize_test_data {
     my($self) = @_;
     my($req) = $self->get_request;
     $self->new_other('TestUser')->init;
-    foreach my $x (qw(WHEEL SPONSOR_EMP)) {
+    foreach my $n (0..1) {
+	$req->set_realm(undef);
+	foreach my $x (qw(WHEEL SPONSOR_EMP)) {
+	    $self->model(UserRegisterForm => {
+		'RealmOwner.display_name' => Freiker::Test->$x($n),
+		'Address.zip' => Freiker::Test->ZIP($n),
+		'RealmOwner.name' => Freiker::Test->$x($n),
+		'RealmOwner.password' => $self->TEST_PASSWORD,
+		'confirm_password' => $self->TEST_PASSWORD,
+		'Email.email' => $self->format_test_email(
+		    Freiker::Test->$x($n)),
+		password_ok => 1,
+	    });
+	}
+	$req->with_user(Freiker::Test->WHEEL($n) => sub {
+	    $self->model(ClubRegisterForm => {
+		club_name => Freiker::Test->SCHOOL($n),
+		'Address.zip' => Freiker::Test->ZIP($n),
+		'Website.url' => Freiker::Test->WEBSITE($n),
+		club_size => 32,
+	    });
+	    $req->set_realm(Freiker::Test->SCHOOL_NAME($n));
+
+	    $self->new_other('Freikometer')->create(
+		Freiker::Test->FREIKOMETER($n));
+	    $self->req('auth_user')->update_password($self->TEST_PASSWORD);
+	    return;
+	});
 	$self->model(UserRegisterForm => {
-	    'RealmOwner.display_name' => Freiker::Test->$x(),
-	    'Address.zip' => Freiker::Test->ZIP,
-	    'RealmOwner.name' => Freiker::Test->$x(),
+	    'RealmOwner.display_name' => 'A ' . ucfirst(Freiker::Test->PARENT($n)),
+	    'Address.zip' => Freiker::Test->ZIP($n),
+	    'RealmOwner.name' => Freiker::Test->PARENT($n),
 	    'RealmOwner.password' => $self->TEST_PASSWORD,
 	    'confirm_password' => $self->TEST_PASSWORD,
-	    'Email.email' => $self->format_test_email(Freiker::Test->$x()),
+	    'Email.email' => $self->format_test_email(Freiker::Test->PARENT($n)),
 	    password_ok => 1,
 	});
-    }
-    $req->set_realm(undef);
-    $req->with_user(Freiker::Test->WHEEL => sub {
-	$self->model(ClubRegisterForm => {
-	    club_name => Freiker::Test->SCHOOL,
-	    'Address.zip' => Freiker::Test->ZIP,
-	    'Website.url' => Freiker::Test->WEBSITE,
-	    club_size => 32,
-	});
-    });
-    $req->set_realm(Freiker::Test->SCHOOL_NAME);
-    my($club_id) = $req->get('auth_id');
-    foreach my $fm (map(Freiker::Test->FREIKOMETER($_), 0..1)) {
-	$req->set_realm($club_id);
-	$self->new_other('Freikometer')->create($fm);
-	$self->req('auth_user')->update_password($self->TEST_PASSWORD);
-    }
-    $self->model(UserRegisterForm => {
-	'RealmOwner.display_name' => 'A ' . ucfirst(Freiker::Test->PARENT),
-	'Address.zip' => Freiker::Test->ZIP,
-	'RealmOwner.name' => Freiker::Test->PARENT,
-	'RealmOwner.password' => $self->TEST_PASSWORD,
-	'confirm_password' => $self->TEST_PASSWORD,
-	'Email.email' => $self->format_test_email(Freiker::Test->PARENT),
-	password_ok => 1,
-    });
-    $req->set_realm($club_id);
-    # COUPLING: commit is to release Model.Lock on rides (above).
-    $self->commit_or_rollback;
-    foreach my $x (qw(SPONSOR)) {
-	my($e) = $x . '_EMP';
-	$req->with_user(Freiker::Test->$e() => sub {
-	    $self->model(MerchantInfoForm => {
-		'RealmOwner.display_name' => Freiker::Test->$x(),
-		'Address.zip' => Freiker::Test->ZIP,
-		'Website.url' => Freiker::Test->WEBSITE,
-		'Address.street1' => '123 Anywhere',
-		'Address.city' => 'Boulder',
-		'Address.state' => 'CO',
+	$req->set_realm(Freiker::Test->SCHOOL_NAME($n));
+	# COUPLING: commit is to release Model.Lock on rides (above).
+	$self->commit_or_rollback;
+	foreach my $x (qw(SPONSOR)) {
+	    my($e) = $x . '_EMP';
+	    $req->with_user(Freiker::Test->$e($n) => sub {
+		$self->model(MerchantInfoForm => {
+		    'RealmOwner.display_name' => Freiker::Test->$x($n),
+		    'Address.zip' => Freiker::Test->ZIP($n),
+		    'Website.url' => Freiker::Test->WEBSITE($n),
+		    'Address.street1' => '123 Anywhere',
+		    'Address.city' => 'Boulder',
+		    'Address.state' => 'CO',
+		});
 	    });
-	});
+	}
+	$self->new_other('Test')->reset_freikers($n);
     }
-    $self->new_other('Test')->reset_freikers;
     $self->use('IO.File')->do_in_dir(site => sub {
-        $self->new_other('RealmFile')
+	$self->new_other('RealmFile')
 	    ->main(qw(-user adm -realm site import_tree));
     });
     return;
