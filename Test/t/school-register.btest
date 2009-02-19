@@ -11,8 +11,8 @@ submit_form({
     zip => $z,
 });
 follow_link('codes');
-my($floor) = int($z / 1000) * 1000 + 100;
-my($codes) = [map(random_integer($floor + 800, $floor), 1..10)];
+my($floor) = int($z / 10000) * 10000 + 2000;
+my($codes) = [map(random_integer($floor + 8000, $floor), 1..10)];
 my($epcs) = [map(sprintf('%016X%08X',  $z, $_), @$codes)];
 submit_form({
     csv => file_field('any.csv', join(
