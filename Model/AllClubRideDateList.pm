@@ -23,6 +23,9 @@ sub internal_initialize {
 	    'RealmOwner.display_name',
 	    'RealmOwner.name',
 	],
+	order_by => [
+	    'RealmOwner.display_name',
+	],
     });
 }
 

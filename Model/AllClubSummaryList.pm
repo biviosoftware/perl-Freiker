@@ -50,6 +50,8 @@ sub internal_load_rows {
     return _rank([sort(
 	{
 	    $b->{days_20} <=> $a->{days_20}
+		|| lc($a->{'RealmOwner.display_name'})
+		  cmp lc($b->{'RealmOwner.display_name'})
 	}
         map({
 	    my($n) = $_;
@@ -58,7 +60,7 @@ sub internal_load_rows {
 		    $names->{$n}),
 		_days(sub {shift, _sum($counts->{$n}, shift)}),
 	    };
-	} sort(keys(%$names))),
+	} keys(%$names)),
     )]);
 }
 
