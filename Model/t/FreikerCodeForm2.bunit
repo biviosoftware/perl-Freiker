@@ -1,0 +1,55 @@
+# Copyright (c) 2009 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+my($today, $child_id, $school_id) = do('./RideList.PL');
+my($_D) = class('Type.Date');
+my($day) = [map($_D->add_days($today, -$_), 0..10)];
+my($num_rides) = _count();
+sub _fc {
+    return class('Freiker::Test')->FREIKER_CODE(@_);
+}
+sub _epc {
+    return class('Freiker::Test')->EPC(@_);
+}
+sub _count {
+    return req()->with_realm(
+	$child_id,
+	sub {scalar(@{model('Ride')->map_iterate(sub {1}, 'ride_date')})},
+    );
+}
+sub _add_rides {
+    my($kid, @days) = @_;
+    req()->with_realm($school_id, sub {
+	my($rif) = model('RideImportForm');
+	foreach my $d (@days) {
+            $rif->process_record({
+ 	        epc => _epc($kid),
+	        datetime => $day->[$d],
+	    });
+	}
+    });
+    return;
+}
+[
+    [{
+	'FreikerCode.freiker_code' => _fc(3, 1),
+	'Club.club_id' => realm_id(Freiker::Test->SCHOOL_NAME(1)),
+    }] => sub {
+	assert_equals(1, _count());
+	my($found) = 0;
+	req()->with_realm(Freiker::Test->SCHOOL_NAME(0), sub {
+	    model('ClubFreikerList')->load_all->do_rows(
+		sub {
+		    my($n, $c)
+			= shift->get(qw(RealmOwner.display_name ride_count));
+		    if ($n =~ /^child1 \(\d+/) {
+			assert_equals(2, $c);
+			$found++;
+		    }
+		    return 1
+		},
+	    );
+	});
+	assert_equals(1, $found);
+	return 1;
+    },
+];
