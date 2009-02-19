@@ -34,6 +34,8 @@ sub internal_load_rows {
     $self->new_other('AllClubRideDateList')->do_iterate(sub {
 	my($n, $dn, $c, $d) = shift->get(qw(
 	    RealmOwner.name RealmOwner.display_name ride_count Ride.ride_date));
+	return 1
+	    if $dn =~ /\bdemo\b/;
 	push(@{$counts->{$n} ||= []}, $c);
 	$names->{$n} ||= $dn;
 	$max_date->{$n} = $d
