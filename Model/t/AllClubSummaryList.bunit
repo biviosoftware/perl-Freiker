@@ -5,8 +5,14 @@ do('./SetupRides.PL');
 [
     load_all => [
 	[] => [{
-	    'RealmOwner.display_name', => 'bunit',
+	    'RealmOwner.display_name' => Freiker::Test->SCHOOL_BASE(0),
 	    rank_days_1 => 1,
+	    days_1 => 1,
+	    days_5 => 9,
+	    days_20 => 25,
+	}, {
+	    'RealmOwner.display_name' => Freiker::Test->SCHOOL_BASE(1),
+	    rank_days_1 => 2,
 	    days_1 => 1,
 	    days_5 => 9,
 	    days_20 => 25,

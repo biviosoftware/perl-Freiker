@@ -1,4 +1,4 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 ListModel();
 do('./SetupRides.PL');
@@ -6,9 +6,14 @@ req()->set_realm(undef);
 [
     load_all => [
 	[] => [
-	    map(+{
-		ride_count => ($_ > 1 && $_ < 7) ? 2 : 1,
-	    }, 1 .. 60),
+	    map({
+		my($index) = $_;
+		map(+{
+		    'RealmOwner.display_name' => Freiker::Test->SCHOOL($_),
+		    ride_count => ($index > 1 && $index <= Freiker::Test->MAX_CHILD_INDEX)
+			? 2 : 1,
+		}, 0 .. 1),
+	    } 1 .. 60),
 	],
     ],
 ];
