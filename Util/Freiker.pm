@@ -90,8 +90,11 @@ sub audit_clubs {
 	    $self->model('Ride')->do_iterate(
 		sub {
 		    my($it) = @_;
-		    $it->update({user_id => $new_uid})
-			if $_DT->compare($it->get('ride_date'), $switch_date) <= 0;
+		    if ($_DT->compare($it->get('ride_date'), $switch_date) <= 0) {
+			my($v) = $it->get_shallow_copy;
+			$it->delete;
+			$it->create({%$v, user_id => $new_uid});
+		    }
 		    return 1;
 		},
 		'unauth_iterate_start',
