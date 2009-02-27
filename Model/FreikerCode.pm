@@ -46,6 +46,15 @@ sub unsafe_get_realm_ids {
     );
 }
 
+#BEBOP: 7.38
+sub unsafe_load_first {
+    my($self) = shift;
+    $self->iterate_start(@_);
+    my($ok) = $self->iterate_next_and_load;
+    $self->iterate_end;
+    return $ok ? $self : undef;
+}
+
 sub user_id_to_epc {
     # Must be in auth_realm of school
     my($self, $user_id) = @_;
