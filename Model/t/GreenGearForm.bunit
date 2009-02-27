@@ -25,7 +25,6 @@ my($create) = sub {
 	},
     }];
 };
-commit();
 [
     empty_case($params->(-5, -1, 1, 1)),
     $create->(-20, -16, 1, 0),
