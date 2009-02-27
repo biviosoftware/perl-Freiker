@@ -363,6 +363,23 @@ sub get_delegate_info {
 	    Model.ClubPrizeCouponList->execute_load_page
 	    View.Club->prize_coupon_list
 	)],
+	[qw(
+	    GREEN_GEAR_FORM
+	    541
+	    ANY_GROUP
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.GreenGearForm
+	    View.GreenGear->form
+	    next=GREEN_GEAR_LIST
+	)],
+	[qw(
+	    GREEN_GEAR_LIST
+	    542
+	    ANY_GROUP
+	    ADMIN_READ
+	    Model.GreenGearList->execute_load_page
+	    View.GreenGear->list
+	)],
     ]);
 }
 

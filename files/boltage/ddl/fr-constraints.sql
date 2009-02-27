@@ -50,6 +50,44 @@ CREATE INDEX freiker_code_t7 ON freiker_code_t (
 /
 
 --
+-- green_gear_t
+--
+CREATE INDEX green_gear_t2 ON green_gear_t (
+  club_id
+)
+/
+ALTER TABLE green_gear_t
+  ADD CONSTRAINT green_gear_t3
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/
+CREATE INDEX green_gear_t4 ON green_gear_t (
+  user_id
+)
+/
+ALTER TABLE green_gear_t
+  ADD CONSTRAINT green_gear_t5
+  FOREIGN KEY (user_id)
+  REFERENCES user_t(user_id)
+/
+CREATE INDEX green_gear_t6 ON green_gear_t (
+  end_date
+)
+/
+ALTER TABLE green_gear_t
+  ADD CONSTRAINT green_gear_t7
+  CHECK (must_be_registered BETWEEN 0 AND 1)
+/
+ALTER TABLE green_gear_t
+  ADD CONSTRAINT green_gear_t8
+  CHECK (must_be_unique BETWEEN 0 AND 1)
+/
+CREATE INDEX green_gear_t9 ON green_gear_t (
+  creation_date_time
+)
+/
+
+--
 -- prize_t
 --
 ALTER TABLE prize_t

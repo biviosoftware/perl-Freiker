@@ -21,6 +21,18 @@ CREATE TABLE freiker_code_t (
 )
 /
 
+CREATE TABLE green_gear_t (
+  club_id NUMERIC(18) NOT NULL,
+  begin_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  must_be_registered NUMERIC(1) NOT NULL,
+  must_be_unique NUMERIC(1) NOT NULL,
+  user_id NUMERIC(18) NOT NULL,
+  creation_date_time DATE NOT NULL,
+  CONSTRAINT green_gear_t1 PRIMARY KEY(club_id, begin_date)
+)
+/
+
 CREATE TABLE merchant_t (
   merchant_id NUMERIC(18) NOT NULL,
   CONSTRAINT merchant_t1 primary key(merchant_id)

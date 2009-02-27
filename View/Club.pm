@@ -14,6 +14,7 @@ sub ride_date_list {
 	    CLUB_FREIKER_CODE_IMPORT
 	    CLUB_PRIZE_LIST
 	    CLUB_PRIZE_COUPON_LIST
+	    GREEN_GEAR_LIST
 	)]),
 	body => vs_paged_list(ClubRideDateList => [
 	    'Ride.ride_date',
@@ -30,6 +31,7 @@ sub freiker_list {
 	    CLUB_FREIKER_CODE_IMPORT
 	    CLUB_PRIZE_LIST
 	    CLUB_PRIZE_COUPON_LIST
+	    GREEN_GEAR_LIST
 	)]),
 	body => vs_paged_list(ClubFreikerList => [
 	    'RealmOwner.display_name',

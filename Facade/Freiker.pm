@@ -1,4 +1,4 @@
-# Copyright (c) 2006-2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Facade::Freiker;
 use strict;
@@ -60,10 +60,19 @@ my($_SELF) = __PACKAGE__->new({
 	['AdmSubstituteUserForm.login.OFFLINE_USER' => q{Freiker Code not registered.  User must register before you can act as user.}],
 	['FreikerSelectForm.FreikerCode.freiker_code.NOT_FOUND' => q{Freiker Code is not in our database.}],
 	['FreikerSelectForm.FreikerCode.freiker_code.PERMISSION_DENIED' => q{Freiker is not at this school.}],
+	['ClubGreenGearForm.GreenGear.begin_date.GREATER_THAN_ZERO' => q{Green Gear must be after most recent Green Gear (DateTime(['Model.GreenGearList', 'GreenGear.end_date'], Date);)}],
+	['ClubGreenGearForm.GreenGear.end_date.MUTUALLY_EXCLUSIVE' => q{Last Day must not be before First}],
+	['ClubGreenGearForm.GreenGear.begin_date.EMPTY' => q{No rides found between First and Last Days}],
+	['ClubGreenGearForm.GreenGear.begin_date.EXISTS' => q{All eligible participants have already won at least once.  Uncheck the "prior winners" box to select one of these riders, or change the date range.}],
+	['ClubGreenGearForm.GreenGear.begin_date.UNSUPPORTED_TYPE' => q{None of the eligible participants is registered.  Uncheck the "must be registered" box to select one of these riders, or change the date range.}],
     ],
     Constant => [
 	[xlink_paypal => {
 	    uri => 'http://www.paypal.com/us',
+	}],
+	[xlink_all_users => {
+	    task_id => 'SITE_ADMIN_USER_LIST',
+	    realm => 'site-admin',
 	}],
 	[my_site_redirect_map => [
 	    [qw(GENERAL ADMINISTRATOR ADM_FREIKOMETER_LIST)],
@@ -116,6 +125,8 @@ my($_SELF) = __PACKAGE__->new({
 	[PAYPAL_FORM => ['?/donate']],
 	[PAYPAL_RETURN => 'pp/*'],
 	[GENERAL_PRIZE_LIST => 'pub/prizes'],
+	[GREEN_GEAR_FORM => '?/select-green-gear'],
+	[GREEN_GEAR_LIST => '?/green-gears'],
     ],
     Text => [
 	[support_email => 'gears'],
@@ -137,6 +148,8 @@ my($_SELF) = __PACKAGE__->new({
 	[prize_debit => 'Spent'],
 	[prize_credit => 'Credits'],
 	[freiker_codes => 'Tag ID'],
+	[parent_display_name => 'Parent'],
+	[parent_email => 'Email'],
 	[Ride => [
 	    ride_date => 'Date',
 	]],
@@ -181,6 +194,16 @@ my($_SELF) = __PACKAGE__->new({
 	[[qw(MerchantPrizeForm AdmPrizeForm)] => [
 	    image_file => 'Image',
 	    ok_button => 'OK',
+	]],
+	[GreenGear => [
+	    begin_date => 'First Day',
+	    end_date => 'Last Day',
+	    must_be_unique => 'If possible, prior winners are not eligible.',
+	    must_be_registered => 'Freiker must be registered in order to win.',
+	]],
+	[GreenGearList => [
+	    'GreenGear.begin_date' => 'Date',
+	    'RealmOwner.display_name' => 'Freiker',
 	]],
 	[AdmSubstituteUserForm => [
 	    login => 'Email or Code',
@@ -260,8 +283,6 @@ EOF
 	]],
 	[[qw(FreikerList ClubFreikerList)] => [
 	    'RealmOwner.display_name' => 'Freiker',
-	    parent_display_name => 'Parent',
-	    parent_email => 'Email',
 	    empty_list_prose => 'No Freikers as yet.',
 	    list_actions => 'Actions',
 	]],
@@ -300,6 +321,7 @@ EOF
 	    GENERAL_USER_PASSWORD_QUERY => q{Forgot your password? Link('Click here to get a new one.', 'GENERAL_USER_PASSWORD_QUERY');},
 	]],
 	[acknowledgement => [
+	    GREEN_GEAR_FORM => q{The new GreenGear winner appears below.  Your School's Freikometers will be updated to ring the GreenGear sound the next time they check in.},
 	    CLUB_REGISTER => q{Your school has been registered.},
 	    MERCHANT_REGISTER => q{Your business has been registered.},
 	    FAMILY_FREIKER_ADD => q{Your child has been added.},
@@ -369,6 +391,8 @@ EOF
 	    CLUB_FREIKER_PRIZE_SELECT => 'Select Prize',
 	    CLUB_FREIKER_MANUAL_RIDE_FORM => 'Give Rides',
 	    GENERAL_PRIZE_LIST => 'Possible Prizes',
+	    GREEN_GEAR_LIST => 'Green Gears',
+	    GREEN_GEAR_FORM => 'Choose Green Gear',
 	]],
 	['xhtml.title' => [
 	    FAMILY_FREIKER_RIDE_LIST =>

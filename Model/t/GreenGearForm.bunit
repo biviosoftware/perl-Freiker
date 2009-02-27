@@ -1,0 +1,50 @@
+# Copyright (c) 2009 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+FormModel();
+DateTime()->set_test_now('2/21/2009 08:00:00', req());
+my($saturday) = do('./SetupRides.PL');
+my($params) = sub {
+    my($begin, $end, $registered, $unique) = @_;
+    $begin = DateTime()->add_days($saturday, $begin);
+    $end = DateTime()->add_days($saturday, $end);
+    return {
+	'GreenGear.begin_date' => $begin,,
+	'GreenGear.end_date' => $end,
+	'GreenGear.must_be_registered' => $registered,
+	'GreenGear.must_be_unique' => $unique,
+    };
+};
+my($create) = sub {
+    my($p) = $params->(@_);
+    return [$p] => [{
+	'Model.GreenGear' => {
+	    map((($_ =~ /(\w+)$/)[0] => $p->{$_}), keys(%$p)),
+	},
+	'Model.RealmFile' => {
+	    path => '/Download/green_gear',
+	},
+    }];
+};
+commit();
+[
+    empty_case($params->(-5, -1, 1, 1)),
+    $create->(-20, -16, 1, 0),
+    empty_case($params->(-12, -8, 1, 0)),
+    $create->(-12, -8, 0, 0),
+    error_case($params->(-8, -4, 0, 0), {
+	'GreenGear.begin_date' => 'GREATER_THAN_ZERO',
+    }),
+    $create->(-20, -16, 1, 0),
+    error_case($params->(-12, -8, 0, 1), {
+	'GreenGear.begin_date' => 'EXISTS',
+    }),
+    error_case($params->(-4, -5, 1, 1), {
+	'GreenGear.begin_date' => 'MUTUALLY_EXCLUSIVE',
+    }),
+    error_case($params->(-1000, -999, 1, 1), {
+	'GreenGear.begin_date' => 'EMPTY',
+    }),
+    $create->(-3, -3, 0, 1),
+    $create->(-2, -2, 0, 1),
+    $create->(-1, -1, 0, 1),
+];

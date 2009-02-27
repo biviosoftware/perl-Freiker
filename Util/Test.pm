@@ -49,6 +49,7 @@ sub reset_freikers {
     my($rides) = [];
     my($now) = $_D->now;
     my($indexes) = [0..Freiker::Test->MAX_CHILD_INDEX];
+    $self->model('GreenGear')->cascade_delete({});
     foreach my $u (@{$_SA->sort_unique([
 	map(
 	    $fc->unsafe_load({

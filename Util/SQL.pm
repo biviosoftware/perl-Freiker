@@ -102,21 +102,86 @@ sub initialize_test_data {
     return;
 }
 
-sub internal_upgrade_db_audit_clubs {
+sub internal_upgrade_db_green_gear {
     my($self) = @_;
-    my($seen) = {};
-    $self->model('RealmUser')->do_iterate(
-	sub {
-	    my($u) = shift->get('user_id');
-	    $self->req->with_user(
-		$u, sub {$self->new_other('Freiker')->audit_clubs}
-	    ) unless $seen->{$u}++;
-	    return 1;
-	},
-	'unauth_iterate_start',
-	'user_id',
-	{role => b_use('Auth.Role')->FREIKER},
-    );
+    $self->run(<<'EOF');
+CREATE TABLE green_gear_t (
+  club_id NUMERIC(18) NOT NULL,
+  begin_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  must_be_registered NUMERIC(1) NOT NULL,
+  must_be_unique NUMERIC(1) NOT NULL,
+  user_id NUMERIC(18) NOT NULL,
+  creation_date_time DATE NOT NULL,
+  CONSTRAINT green_gear_t1 PRIMARY KEY(club_id, begin_date)
+)
+/
+CREATE INDEX green_gear_t2 ON green_gear_t (
+  club_id
+)
+/
+ALTER TABLE green_gear_t
+  ADD CONSTRAINT green_gear_t3
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/
+CREATE INDEX green_gear_t4 ON green_gear_t (
+  user_id
+)
+/
+ALTER TABLE green_gear_t
+  ADD CONSTRAINT green_gear_t5
+  FOREIGN KEY (user_id)
+  REFERENCES user_t(user_id)
+/
+CREATE INDEX green_gear_t6 ON green_gear_t (
+  end_date
+)
+/
+ALTER TABLE green_gear_t
+  ADD CONSTRAINT green_gear_t7
+  CHECK (must_be_registered BETWEEN 0 AND 1)
+/
+ALTER TABLE green_gear_t
+  ADD CONSTRAINT green_gear_t8
+  CHECK (must_be_unique BETWEEN 0 AND 1)
+/
+CREATE INDEX green_gear_t9 ON green_gear_t (
+  creation_date_time
+)
+/
+EOF
+    return;
+}
+
+sub internal_upgrade_db_freiker_distributor {
+    my($self) = @_;
+    my($req) = $self->req;
+    $req->with_realm(undef, sub {
+	my($ral) = $self->model('RealmAdminList')->load_all
+	    ->set_cursor_or_not_found(0);
+	$req->with_user(
+	    $ral->get('RealmUser.user_id'),
+	    sub {
+		$self->model('MerchantInfoForm', {
+		    'RealmOwner.display_name' => 'Freiker, Inc.',
+		    'Address.street1' => '2701 Iris Ave, Suite S',
+		    'Address.city' => 'Boulder',
+		    'Address.state' => 'CO',
+		    'Address.zip' => '803042435',
+		    'Website.url' => 'http://www.freiker.org',
+		});
+		$ral->do_rows(sub {
+	            $self->model(RealmUserAddForm => {
+			administrator => 1,
+			'RealmUser.realm_id' => $self->req(qw(Model.Merchant merchant_id)),
+			'User.user_id' => $ral->get('RealmUser.user_id'),
+		    }),
+	        });
+		return;
+	    },
+	),
+    });
     return;
 }
 

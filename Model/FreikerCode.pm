@@ -46,4 +46,13 @@ sub unsafe_get_realm_ids {
     );
 }
 
+sub user_id_to_epc {
+    # Must be in auth_realm of school
+    my($self, $user_id) = @_;
+    $self->throw_die(MODEL_NOT_FOUND => {entity => $user_id})
+	unless $self->unsafe_load_first(
+	    'modified_date_time desc', {user_id => $user_id});
+    return $self->get('epc');
+}
+
 1;
