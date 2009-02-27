@@ -26,13 +26,4 @@ sub internal_initialize {
     });
 }
 
-#BEBOP: 7.38
-sub unsafe_load_first {
-    my($self) = shift;
-    $self->iterate_start(@_);
-    my($ok) = $self->iterate_next_and_load;
-    $self->iterate_end;
-    return $ok ? $self : undef;
-}
-
 1;
