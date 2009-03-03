@@ -63,7 +63,7 @@ sub internal_xhtml_adorned_attrs {
 		   DIV_dd_menu(TaskMenu([qw(
 	               FORUM_CRM_THREAD_ROOT_LIST
 		       FORUM_CALENDAR
-		       FORUM_FILE
+                       FORUM_FILE_TREE_LIST
 		       FORUM_MAIL_THREAD_ROOT_LIST
 	               FORUM_CRM_THREAD_ROOT_LIST
 		       FORUM_MOTION_LIST
