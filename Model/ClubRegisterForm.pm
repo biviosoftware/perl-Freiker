@@ -27,10 +27,12 @@ sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
-	$self->field_decl(visible => [
-	    [qw(club_name RealmOwner.display_name)],
-	    [qw(club_size ClubSize)],
-	], {constraint => 'NOT_NULL'}),
+	visible => [
+	    $self->field_decl([
+		[qw(club_name RealmOwner.display_name)],
+		[qw(club_size ClubSize)],
+	    ], undef, 'NOT_NULL'),
+	],
     });
 }
 

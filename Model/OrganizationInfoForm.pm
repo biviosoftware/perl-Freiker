@@ -16,17 +16,17 @@ sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
-	$self->field_decl(visible => [
-	    qw(
+	visible => [
+	    $self->field_decl([qw(
 		Address.street1
 		Address.city
 		Address.state
 		Address.zip
 		Address.country
 		Website.url
-	    ),
+	    )], undef, 'NOT_NULL'),
 	    {name => 'Address.street2', constraint => 'NONE'},
-	], {constraint => 'NOT_NULL'}),
+	],
     });
 }
 
