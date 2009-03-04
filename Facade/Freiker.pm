@@ -54,7 +54,6 @@ my($_SELF) = __PACKAGE__->new({
 	['Ride.ride_date.NOT_FOUND' => q{This date was not a school day. Or, the Freikometer did not send the rides to freiker.org (yet).  The Freikometer stores the rides until it can get a network connection.  Sometimes the network is down for days.}],
 	['Ride.ride_date.DATE_RANGE' => q{This date was not a school day. Or, the Freikometer did not send the rides to freiker.org (yet).  The Freikometer stores the rides until it can get a network connection.  Sometimes the network is down for days.}],
 	['Ride.ride_date.EXISTS' => q{The Freiker was already credited for this date.  Please enter a different date.}],
-	[US_ZIP_CODE => q{The vs_fe(q{label}); must be 9-digit US Zip code.}],
 	['PrizeConformForm.Prize.name.TOO_FEW' => q{You do not have enough available rides to chose this prize}],
 	['UserLoginForm.login.OFFLINE_USER' => q{Not a registered Freiker Code.  Link('Please click on this link to register.', 'USER_CREATE');}],
 	['AdmSubstituteUserForm.login.OFFLINE_USER' => q{Freiker Code not registered.  User must register before you can act as user.}],
@@ -154,15 +153,17 @@ my($_SELF) = __PACKAGE__->new({
 	    ride_date => 'Date',
 	]],
 	['WikiView.start_page' => 'Home'],
-	['Address.zip.desc' =>
-	     q{A 9-digit US zip code is required.  Link('Look it up at the USPS.', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});},
-        ],
+	[Address => [
+	     country => 'Country Code',
+	     'country.desc' => 'Official two-letter country code (US, CA, IL, MX, etc.)',
+	     zip => 'Postal Code',
+	     'zip.desc' => q{If you live in the US, please enter your 9-digit US zip code (ZIP+4). Link('Look it up at the USPS.', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});},
+	]],
 	[ClubRegisterForm => [
 	    'club_size' => 'Number of Students',
 	    'club_size.desc' => 'Total number of students including freikers and non-freikers.',
 	    'Website.url' => 'School Website',
 	    'Website.url.desc' => 'Example: http://schools.bvsd.org/crestview/index.html',
-	    'Address.zip' => 'US ZIP+4',
 	    ok_button => 'Register school',
 	]],
 	[MerchantInfoForm => [
@@ -171,7 +172,6 @@ my($_SELF) = __PACKAGE__->new({
             ],
 	    'RealmOwner.display_name' => 'Business Name',
 	    'Website.url' => 'Business Website',
-	    'Address.zip' => 'US ZIP+4',
 	    ok_button => 'Register merchant',
 	]],
 	[Prize => [
@@ -241,7 +241,6 @@ my($_SELF) = __PACKAGE__->new({
 		q{We only send emails related to vs_site_name();.},
 	    'RealmOwner.display_name' => 'Your Name',
 	    'RealmOwner.display_name.desc' => q{Your first and last name, not your business or school's name.},
-	    'Address.zip' => 'Your ZIP+4 Code',
 	    ok_button => 'Register',
 	]],
 	[FreikerForm => [

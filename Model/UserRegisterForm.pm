@@ -21,12 +21,10 @@ sub internal_initialize {
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
         visible => [
-	    {
-		name => 'Address.zip',
-		type => 'USZipCode9',
-	    },
+	    'Address.zip',
 	],
     });
 }
+
 
 1;

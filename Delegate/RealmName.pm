@@ -12,13 +12,14 @@ sub from_display_name_and_zip {
     $n =~ s/^(?:the|an|a|saint|santa)\s+//i;
     $n =~ s/\b(co|corp|company|inc|ltd|llc)\.?$//i;
     $n =~ s/\s+.*|\W+//g;
+    $zip =~ s/[^a-z0-9]//ig;
     return lc(substr($n, 0, $proto->get_width - length($zip)) . $zip);
 }
 
 sub strip_school_classifiers {
     my($proto, $display_name) = @_;
     return join(' ',
-        grep(!/^(?:elementary|middle|junior|high|school|k-8|charter|alternative|magnet)$/i,
+        grep(!/^(?:elementary|middle|junior|high|school|k-8|charter|alternative|magnet|catholic)$/i,
             split(' ', $display_name)));
 }
 

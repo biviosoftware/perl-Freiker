@@ -8,7 +8,10 @@ submit_form({
     name => my $name = "School $z",
     number => 10,
     website => "http://school$z.org",
-    zip => $z,
+    '1.$' => "$z My Street",
+    city => 'y',
+    state => 'co',
+    post => $z,
 });
 follow_link('codes');
 my($floor) = int($z / 10000) * 10000 + 2000;

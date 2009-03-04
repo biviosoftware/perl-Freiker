@@ -1,8 +1,8 @@
-# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::MerchantInfoForm;
 use strict;
-use base 'Bivio::Biz::FormModel';
+use Bivio::Base 'Model.OrganizationInfoForm';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_RN) = Bivio::Type->get_instance('RealmName');
@@ -41,20 +41,6 @@ sub internal_initialize {
         version => 1,
 	visible => [
 	    'RealmOwner.display_name',
-#TODO: Make NOT_NULL and only require street1 and zip9
-	    map(+{
-		name => "Address.$_",
-		$_ eq 'street2' ? () : (constraint => 'NOT_NULL'),
-	    }, qw(street1 street2 city state)),
-	    {
-		name => 'Address.zip',
-		type => 'USZipCode9',
-		constraint => 'NOT_NULL',
-	    },
-	    {
-		name => 'Website.url',
-		constraint => 'NOT_NULL',
-	    },
 	],
     });
 }

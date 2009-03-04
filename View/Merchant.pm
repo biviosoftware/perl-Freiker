@@ -15,6 +15,7 @@ sub info {
 	MerchantInfoForm.Address.city
 	MerchantInfoForm.Address.state
 	MerchantInfoForm.Address.zip
+	MerchantInfoForm.Address.country
 	MerchantInfoForm.Website.url
     }]));
 }

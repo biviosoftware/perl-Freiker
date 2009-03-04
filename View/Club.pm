@@ -114,7 +114,12 @@ sub register {
 	ClubRegisterForm.club_name
 	ClubRegisterForm.club_size
 	ClubRegisterForm.Website.url
+	ClubRegisterForm.Address.street1
+	ClubRegisterForm.Address.street2
+	ClubRegisterForm.Address.city
+	ClubRegisterForm.Address.state
 	ClubRegisterForm.Address.zip
+	ClubRegisterForm.Address.country
     }]));
 }
 

@@ -7,10 +7,10 @@ my($e, $z) = register_random('merchant');
 visit_uri('/pub/register-merchant');
 submit_form({
     name => "Merchant $z",
-    '1:$' => "$z My Street",
+    '1.$' => "$z My Street",
     city => 'Boulder',
     state => 'CO',
-    zip => $z,
+    post => $z,
     web => "http://merchant$z.com",
 
 });

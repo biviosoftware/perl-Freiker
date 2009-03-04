@@ -1,8 +1,8 @@
-# Copyright (c) 2006-2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::ClubRegisterForm;
 use strict;
-use Bivio::Base 'Biz.FormModel';
+use Bivio::Base 'Model.OrganizationInfoForm';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
@@ -27,24 +27,10 @@ sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
-	visible => [
-	    {
-		name => 'club_name',
-		type => 'RealmOwner.display_name',
-		constraint => 'NOT_NULL',
-	    },
-	    {
-		name => 'Address.zip',
-		type => 'USZipCode9',
-		constraint => 'NOT_NULL',
-	    },
-	    'Website.url',
-	    {
-		name => 'club_size',
-		type => 'ClubSize',
-		constraint => 'NOT_NULL',
-	    },
-	],
+	$self->field_decl(visible => [
+	    [qw(club_name RealmOwner.display_name)],
+	    [qw(club_size ClubSize)],
+	], {constraint => 'NOT_NULL'}),
     });
 }
 

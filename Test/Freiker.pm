@@ -23,7 +23,7 @@ sub register_random {
     $self->submit_form({
 	name => "$base $z",
 	email => $e,
-	zip => $z,
+	post => $z,
     });
     $self->visit_uri($self->verify_local_mail($e) =~ /(http:.+\?.+)/m);
     $self->submit_form({
