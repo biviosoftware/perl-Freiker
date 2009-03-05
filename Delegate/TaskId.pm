@@ -244,6 +244,7 @@ sub get_delegate_info {
 	    Action.FreikometerUpload
 	    Action.FreikometerDownload->execute_redirect_next_get
 	    Action.EmptyReply
+	    want_basic_authorization=1
 	)],
 	[qw(
 	    BOT_FREIKOMETER_DOWNLOAD
@@ -251,6 +252,7 @@ sub get_delegate_info {
 	    USER
 	    ADMIN_READ
 	    Action.FreikometerDownload->execute_get
+	    want_basic_authorization=1
 	)],
 	[qw(
 	    CLUB_FREIKER_CODE_IMPORT
