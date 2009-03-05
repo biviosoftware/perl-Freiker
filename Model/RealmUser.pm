@@ -61,9 +61,9 @@ sub set_realm_for_freikometer {
 	    'RealmUser.role' => $_FREIKOMETER,
 	},
     );
-    _die($req, FORBIDDEN => 'user not a freikometer')
+    $req->throw_die(FORBIDDEN => {message => 'user not a freikometer'})
 	unless @$r;
-    _die($req, INVALID_OP => "@$r: too many realms found")
+    $req->throw_die(INVALID_OP => {message => "@$r: too many realms found"})
 	if @$r > 1;
     $req->set_realm($r->[0]);
     return;
