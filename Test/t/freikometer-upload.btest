@@ -11,7 +11,7 @@ send_request(PUT => "/fm/$date.csv", undef, <<"EOF");
 EPC,DateTime
 $epc,$date
 EOF
-test_ok(get_uri() =~ m{.*Download/test\.sh$});
+test_equals(qr{.*Download/test\.sh$}, get_uri());
 test_equals("date\n", get_content());
 home_page();
 do_logout();
