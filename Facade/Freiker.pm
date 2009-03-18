@@ -59,11 +59,11 @@ my($_SELF) = __PACKAGE__->new({
 	['AdmSubstituteUserForm.login.OFFLINE_USER' => q{Freiker Code not registered.  User must register before you can act as user.}],
 	['FreikerSelectForm.FreikerCode.freiker_code.NOT_FOUND' => q{Freiker Code is not in our database.}],
 	['FreikerSelectForm.FreikerCode.freiker_code.PERMISSION_DENIED' => q{Freiker is not at this school.}],
-	['ClubGreenGearForm.GreenGear.begin_date.GREATER_THAN_ZERO' => q{Green Gear must be after most recent Green Gear (DateTime(['Model.GreenGearList', 'GreenGear.end_date'], Date);)}],
-	['ClubGreenGearForm.GreenGear.end_date.MUTUALLY_EXCLUSIVE' => q{Last Day must not be before First}],
-	['ClubGreenGearForm.GreenGear.begin_date.EMPTY' => q{No rides found between First and Last Days}],
-	['ClubGreenGearForm.GreenGear.begin_date.EXISTS' => q{All eligible participants have already won at least once.  Uncheck the "prior winners" box to select one of these riders, or change the date range.}],
-	['ClubGreenGearForm.GreenGear.begin_date.UNSUPPORTED_TYPE' => q{None of the eligible participants is registered.  Uncheck the "must be registered" box to select one of these riders, or change the date range.}],
+	['GreenGearForm.GreenGear.begin_date.GREATER_THAN_ZERO' => q{Green Gear must be after most recent Green Gear (DateTime(['Model.GreenGearList', 'GreenGear.end_date'], Date);)}],
+	['GreenGearForm.GreenGear.end_date.MUTUALLY_EXCLUSIVE' => q{Last Day must not be before First}],
+	['GreenGearForm.GreenGear.begin_date.EMPTY' => q{No rides found between First and Last Days}],
+	['GreenGearForm.GreenGear.begin_date.EXISTS' => q{All eligible participants have already won at least once.  Uncheck the "prior winners" box to select one of these riders, or change the date range.}],
+	['GreenGearForm.GreenGear.begin_date.UNSUPPORTED_TYPE' => q{None of the eligible participants is registered.  Uncheck the "must be registered" box to select one of these riders, or change the date range.}],
     ],
     Constant => [
 	[xlink_paypal => {
