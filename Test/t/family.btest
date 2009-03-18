@@ -2,7 +2,7 @@
 # $Id$
 test_setup('Freiker');
 home_page();
-do_test_backdoor(Test => 'reset_freikers');
+do_test_backdoor(TestData => 'reset_freikers');
 login_as('parent');
 follow_link('100');
 verify_text('Partee!');

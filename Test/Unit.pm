@@ -7,7 +7,6 @@ use Bivio::Base 'TestUnit';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FC) = __PACKAGE__->use('Type.FreikerCode');
 our($AUTOLOAD);
-my($_T) = __PACKAGE__->use('ShellUtil.Test');
 
 sub AUTOLOAD {
     $Bivio::Test::Unit::AUTOLOAD = $AUTOLOAD;

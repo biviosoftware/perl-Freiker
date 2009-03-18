@@ -28,7 +28,7 @@ $prize_id = unauth_model(Prize => {name => 'bunit50'})->get('prize_id');
 	return 1;
     },
     inline_case(sub {
-       ShellUtil_Test()->create_prize_coupon('bunit50');
+       ShellUtil_TestData()->create_prize_coupon('bunit50');
        return;
     }),
     error_case({}, {

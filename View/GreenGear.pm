@@ -15,6 +15,7 @@ sub list {
 	)]),
 	body => vs_paged_list(GreenGearList => [
 	    'GreenGear.begin_date',
+	    'GreenGear.end_date',
 	    'RealmOwner.display_name',
 	    'freiker_codes',
 	    'ride_count',

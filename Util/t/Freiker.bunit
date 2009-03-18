@@ -1,7 +1,7 @@
 # Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 ShellUtil();
-shell_util(Test => ['reset_freikers']);
+shell_util(TestData => ['reset_freikers']);
 req()->set_realm_and_user(qw(parent child));
 [
     [qw(missing_rides 1234)] => sub {
@@ -10,15 +10,15 @@ req()->set_realm_and_user(qw(parent child));
 	return 1;
     },
     [qw(info 1234)] => qr{child.*bunit123456789.*parent}s,
-    [qw(rides 1237)] => [to_string(ShellUtil_Test()->child_ride_dates(3, 1))],
+    [qw(rides 1237)] => [to_string(ShellUtil_TestData()->child_ride_dates(3, 1))],
     [qw(missing_rides 1237)] => sub {
 	my(undef, $actual) = @_;
-	my($rides) = ShellUtil_Test()->child_ride_dates(3, 1);
+	my($rides) = ShellUtil_TestData()->child_ride_dates(3, 1);
 	assert_equals(
 	    [map({
 		my($x) = $_;
 		grep($x eq $_, @$rides) ? () : $x;
-	    } @{ShellUtil_Test()->all_child_ride_dates(1)})],
+	    } @{ShellUtil_TestData()->all_child_ride_dates(1)})],
 	    assert_eval($actual->[0]),
 	);
 	return 1;

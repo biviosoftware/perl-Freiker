@@ -2,7 +2,7 @@
 # $Id$
 test_setup('Freiker');
 home_page();
-do_test_backdoor(Test => 'reset_freikers');
+do_test_backdoor(TestData => 'reset_freikers');
 login_as('wheel');
 follow_link('green_gears');
 verify_text('list is empty');
@@ -16,7 +16,7 @@ do {
 my($monday) = $friday;
 $monday = $d->add_days($monday, -1)
     until $d->english_day_of_week($monday) eq 'Monday';
-verify_table('Date', [
-    ['Date', 'Tag ID'],
+verify_table('first', [
+    ['first', 'Tag ID'],
     [$d->to_string($monday), '1234'],
 ]);

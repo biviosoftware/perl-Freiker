@@ -93,7 +93,7 @@ sub initialize_test_data {
 		});
 	    });
 	}
-	$self->new_other('Test')->reset_freikers($n);
+	$self->new_other('TestData')->reset_freikers($n);
     }
     $self->use('IO.File')->do_in_dir(site => sub {
 	$self->new_other('RealmFile')

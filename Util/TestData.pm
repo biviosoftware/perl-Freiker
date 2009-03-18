@@ -1,6 +1,6 @@
 # Copyright (c) 2007-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
-package Freiker::Util::Test;
+package Freiker::Util::TestData;
 use strict;
 use Bivio::Base 'Bivio::ShellUtil';
 use Freiker::Test;

@@ -2,10 +2,10 @@
 # $Id$
 ListModel();
 require 'prize_coupon.PL';
-ShellUtil_Test()->create_prize_coupon('bunit10');
+ShellUtil_TestData()->create_prize_coupon('bunit10');
 sleep(1);
 #create_prize_coupon('bunit20', req()->set_realm('child1')->get('id'));
-ShellUtil_Test()->create_prize_coupon('bunit50');
+ShellUtil_TestData()->create_prize_coupon('bunit50');
 req()->set_realm_and_user(qw(parent parent));
 commit();
 [

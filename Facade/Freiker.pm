@@ -60,6 +60,8 @@ my($_SELF) = __PACKAGE__->new({
 	['FreikerSelectForm.FreikerCode.freiker_code.NOT_FOUND' => q{Freiker Code is not in our database.}],
 	['FreikerSelectForm.FreikerCode.freiker_code.PERMISSION_DENIED' => q{Freiker is not at this school.}],
 	['GreenGearForm.GreenGear.begin_date.GREATER_THAN_ZERO' => q{Green Gear must be after most recent Green Gear (DateTime(['Model.GreenGearList', 'GreenGear.end_date'], Date);)}],
+	[[qw(GreenGearForm.GreenGear.end_date.TOO_MANY GreenGearForm.GreenGear.begin_date.TOO_MANY)],
+	 => q{vs_fe('label'); may not be in the future.}],
 	['GreenGearForm.GreenGear.end_date.MUTUALLY_EXCLUSIVE' => q{Last Day must not be before First}],
 	['GreenGearForm.GreenGear.begin_date.EMPTY' => q{No rides found between First and Last Days}],
 	['GreenGearForm.GreenGear.begin_date.EXISTS' => q{All eligible participants have already won at least once.  Uncheck the "prior winners" box to select one of these riders, or change the date range.}],
@@ -202,7 +204,6 @@ my($_SELF) = __PACKAGE__->new({
 	    must_be_registered => 'Freiker must be registered in order to win.',
 	]],
 	[GreenGearList => [
-	    'GreenGear.begin_date' => 'Date',
 	    'RealmOwner.display_name' => 'Freiker',
 	]],
 	[AdmSubstituteUserForm => [

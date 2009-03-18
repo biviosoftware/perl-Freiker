@@ -6,7 +6,7 @@ FormModel({
 	return;
     },
 });
-shell_util(Test => ['reset_freikers']);
+shell_util(TestData => ['reset_freikers']);
 req()->set_realm_and_user(qw(bunit123456789 wheel));
 [
     empty_case({

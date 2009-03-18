@@ -3,7 +3,7 @@
 test_setup('Freiker');
 home_page();
 basic_authorization('fm_freikometer');
-do_test_backdoor(Test => '-realm fm_freikometer reset_freikometer_folders');
+do_test_backdoor(TestData => '-realm fm_freikometer reset_freikometer_folders');
 my($epc) = test_use('Freiker::Test')->EPC;
 my($date) = test_use('Type.DateTime')->local_now_as_file_name;
 basic_authorization('fm_freikometer');

@@ -55,6 +55,10 @@ sub validate {
     my($self) = @_;
     return
 	if $self->in_error;
+    foreach my $d (qw(GreenGear.begin_date GreenGear.end_date)) {
+	return $self->internal_put_error($d => 'TOO_MANY')
+	    if $_D->compare($self->get($d), $_D->now) > 0;
+    }
     my($begin, $end) = $self->get(qw(GreenGear.begin_date GreenGear.end_date));
     return $self->internal_put_error(qw(GreenGear.begin_date MUTUALLY_EXCLUSIVE))
 	if $_D->compare($begin, $end) > 0;

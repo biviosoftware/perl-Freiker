@@ -8,7 +8,7 @@ FormModel({
 	return;
     },
 });
-shell_util(Test => ['reset_freikers']);
+shell_util(TestData => ['reset_freikers']);
 $id = unauth_model(Prize => {name => 'bunit10'})->get('prize_id');
 [
     empty_case({
