@@ -4,14 +4,14 @@ test_setup('Freiker');
 home_page();
 do_test_backdoor(TestData => 'reset_freikers');
 login_as('wheel');
-follow_link('deliver_prize');
+follow_link(qw(available_prize deliver_prize));
 submit_form({
     freiker => 1234,
 });
 follow_link('bunit50');
 sleep(1);
 submit_form('deliver');
-follow_link('deliver_prize');
+follow_link(qw(available_prize deliver_prize));
 submit_form({
     freiker => 1235,
 });
@@ -23,7 +23,7 @@ submit_form({
 follow_link('bunit20');
 sleep(1);
 submit_form('deliver');
-follow_link('delivered_prizes');
+follow_link(qw(available_prize delivered_prizes));
 verify_table(Delivered => [
     [qw(Prize Freiker)],
     [qw(bunit20 child1)],
@@ -37,4 +37,3 @@ verify_table(Delivered => [
     [qw(bunit20 child1)],
     [qw(bunit50 child)],
 ]);
-
