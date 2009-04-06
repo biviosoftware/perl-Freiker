@@ -1,12 +1,17 @@
 # Copyright (c) 2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
-FormModel();
-my($today) = do('./SetupRides.PL');
-my($ok_date) = Date()->add_days($today, -3);
-Ride()->test_unauth_delete_all({
-    ride_date => $ok_date,
+my($ok_date, $today);
+FormModel({
+    setup_request => sub {
+	Ride()->test_unauth_delete_all({
+	    ride_date => $ok_date,
+	});
+	assert_equals(0, ClubRideDateList()->load_all->is_date_ok($ok_date));
+	return;
+    },
 });
-assert_equals(0, ClubRideDateList()->load_all->is_date_ok($ok_date));
+$today = do('./SetupRides.PL');
+$ok_date = Date()->add_days($today, -3);
 [
     [{
 	'Ride.ride_date' => $ok_date,
@@ -15,4 +20,14 @@ assert_equals(0, ClubRideDateList()->load_all->is_date_ok($ok_date));
 	    ride_date => $ok_date,
 	},
     }],
+    error_case({
+	'Ride.ride_date' => Date()->add_days($ok_date, -1),
+    }, {
+	'Ride.ride_date' => 'EXISTS',
+    }),
+    error_case({
+	'Ride.ride_date' => Date()->add_days($today, -1000),
+    }, {
+	'Ride.ride_date' => 'NOT_NEGATIVE',
+    }),
 ];
