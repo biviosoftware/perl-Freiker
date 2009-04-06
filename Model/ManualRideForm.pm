@@ -26,6 +26,7 @@ sub execute_ok {
 	});
 	return;
     });
+    return if $self->in_error;
     return {
 	carry_query => 1,
     };
