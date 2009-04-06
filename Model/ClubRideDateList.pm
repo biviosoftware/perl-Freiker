@@ -37,6 +37,7 @@ sub internal_initialize {
 
 sub is_date_ok {
     my($self, $date) = @_;
+    # auth_user_id must be set to a freiker (which can only be in one CLUB)
     $self->unauth_load_all({
 	auth_id => $self->get_request->map_user_realms(
 	    sub {shift->{'RealmUser.realm_id'}},
