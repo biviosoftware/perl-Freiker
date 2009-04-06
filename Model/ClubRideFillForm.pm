@@ -32,6 +32,8 @@ sub execute_ok {
 	}
 	return 1;
     });
+    return
+	if $self->in_error;
     return $self->internal_put_error('Ride.ride_date', 'GREATER_THAN_ZERO')
 	if @$end < 2;
     return $self->internal_put_error('Ride.ride_date', 'NOT_NEGATIVE')
