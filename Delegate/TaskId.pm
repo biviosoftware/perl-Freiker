@@ -382,6 +382,15 @@ sub get_delegate_info {
 	    Model.GreenGearList->execute_load_page
 	    View.GreenGear->list
 	)],
+	[qw(
+	    CLUB_RIDE_FILL_FORM
+	    543
+	    ANY_GROUP
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.ClubRideFillForm
+	    View.Club->ride_fill_form
+	    next=CLUB_RIDE_DATE_LIST
+	)],
     ]);
 }
 

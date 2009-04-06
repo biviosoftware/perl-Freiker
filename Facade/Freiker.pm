@@ -66,6 +66,9 @@ my($_SELF) = __PACKAGE__->new({
 	['GreenGearForm.GreenGear.begin_date.EMPTY' => q{No rides found between First and Last Days}],
 	['GreenGearForm.GreenGear.begin_date.EXISTS' => q{All eligible participants have already won at least once.  Uncheck the "prior winners" box to select one of these riders, or change the date range.}],
 	['GreenGearForm.GreenGear.begin_date.UNSUPPORTED_TYPE' => q{None of the eligible participants is registered.  Uncheck the "must be registered" box to select one of these riders, or change the date range.}],
+	['ClubRideFillForm.Ride.ride_date.GREATER_THAN_ZERO' => q{Date must be before two days when the Freikometer is working.}],
+	['ClubRideFillForm.Ride.ride_date.NOT_NEGATIVE' => q{Date must be after two days when the Freikometer is working.}],
+	['ClubRideFillForm.Ride.ride_date.EXISTS' => q{Freikometer was working this day.}],
     ],
     Constant => [
 	[xlink_paypal => {
@@ -128,6 +131,7 @@ my($_SELF) = __PACKAGE__->new({
 	[GENERAL_PRIZE_LIST => 'pub/prizes'],
 	[GREEN_GEAR_FORM => '?/select-green-gear'],
 	[GREEN_GEAR_LIST => '?/green-gears'],
+	[CLUB_RIDE_FILL_FORM => '?/fill-rides'],
     ],
     Text => [
 	[support_email => 'gears'],
@@ -302,6 +306,10 @@ EOF
 	[ClubPrizeConfirmForm => [
 	    ok_button => 'Deliver Prize',
 	]],
+	[ClubRideFillForm => [
+	    'prose.prologue' => 'This form is used to fill in rides for days when the Freikometer did not operate.  Rides will be added for all Freikers who rode on two days before and after the date you specified.',
+	    'Ride.ride_date' => 'Date Without Rides',
+	]],
 	[AllClubSummaryList => [
 	    'RealmOwner.display_name' => 'School',
 	    days_1 => 'Day',
@@ -323,6 +331,7 @@ EOF
 	[acknowledgement => [
 	    GREEN_GEAR_FORM => q{The new GreenGear winner appears below.  Your School's Freikometers will be updated to ring the GreenGear sound the next time they check in.},
 	    CLUB_REGISTER => q{Your school has been registered.},
+	    CLUB_RIDE_FILL_FORM => q{Filled in missing rides for when Freikometer was not working.},
 	    MERCHANT_REGISTER => q{Your business has been registered.},
 	    FAMILY_FREIKER_ADD => q{Your child has been added.},
 	    FAMILY_MANUAL_RIDE_FORM => q{The missing date has been added.},
@@ -363,6 +372,7 @@ EOF
 	    CLUB_PRIZE => q{Update Prize String(['Model.ClubPrizeList', 'Prize.name']);},
 	    CLUB_PRIZE_LIST => 'School Prizes',
 	    CLUB_FREIKER_CODE_IMPORT => 'Import Codes',
+	    CLUB_RIDE_FILL_FORM => 'Fill Rides',
 	    MERCHANT_PRIZE => q{If(['Type.FormMode', '->eq_edit'], 'Update Prize Information', 'Donate a Prize');},
 	    MERCHANT_PRIZE_LIST => 'Donated Prizes',
 	    MERCHANT_REGISTER => 'Register Your Business',
