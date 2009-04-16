@@ -64,6 +64,7 @@ sub internal_xhtml_adorned_attrs {
 	               FORUM_CRM_THREAD_ROOT_LIST
 		       FORUM_CALENDAR
                        FORUM_FILE_TREE_LIST
+		       GROUP_TASK_LOG
 		       FORUM_MAIL_THREAD_ROOT_LIST
 	               FORUM_CRM_THREAD_ROOT_LIST
 		       FORUM_MOTION_LIST
