@@ -40,6 +40,9 @@ sub merge_overrides {
 	'Bivio::Biz::Model::MailReceiveDispatchForm' => {
 	    ignore_dashes_in_recipient => 1,
 	},
+	'Bivio::Biz::Model::TaskLog' => {
+	    enable_log => 1,
+	},
  	'Bivio::SQL::PropertySupport' => {
  	    unused_classes => [],
  	},
