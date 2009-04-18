@@ -37,18 +37,6 @@ sub merge_overrides {
 		FacadeComponent => ['Freiker::FacadeComponent'],
 	    },
         }),
-	'Bivio::Biz::Model::MailReceiveDispatchForm' => {
-	    ignore_dashes_in_recipient => 1,
-	},
-	'Bivio::Biz::Model::TaskLog' => {
-	    enable_log => 1,
-	},
- 	'Bivio::SQL::PropertySupport' => {
- 	    unused_classes => [],
- 	},
-	'Bivio::Test::Language::HTTP' => {
-	    deprecated_text_patterns => 0,
-	},
         'Bivio::UI::Facade' => {
 	    default => 'Freiker',
 	    http_suffix => 'www.freiker.org',
