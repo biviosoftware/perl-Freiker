@@ -26,7 +26,14 @@ sub execute_ok {
 	});
 	return;
     });
-    return if $self->in_error;
+    return
+	if $self->in_error;
+    return {
+	carry_query => 1,
+    };
+}
+
+sub execute_cancel {
     return {
 	carry_query => 1,
     };
