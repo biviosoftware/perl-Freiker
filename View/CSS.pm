@@ -405,10 +405,6 @@ div.in_the_news p
 table.results {
   margin-top: 1em;
 }
-div.results_chart {
-  margin-top: 2em;
-  margin-left: 5em;
-}
 div.FAQ h3 {
   margin-top: 1.5em;
   margin-bottom: 0;
