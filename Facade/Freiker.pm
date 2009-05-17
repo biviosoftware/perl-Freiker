@@ -207,6 +207,9 @@ my($_SELF) = __PACKAGE__->new({
 	    must_be_unique => 'If possible, prior winners are not eligible.',
 	    must_be_registered => 'Freiker must be registered in order to win.',
 	]],
+	[GreenGearForm => [
+	    special_ring => q{Tell the Freikometer to ring specially for the winner?'},
+	]],
 	[GreenGearList => [
 	    'RealmOwner.display_name' => 'Freiker',
 	]],
