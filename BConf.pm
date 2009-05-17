@@ -25,6 +25,7 @@ sub merge_overrides {
 	      	'Bivio::Type::RealmName' => 'Freiker::Delegate::RealmName',
 	    },
 	    maps => {
+		Bivio => ['Freiker'],
 		Action => ['Freiker::Action'],
 		Facade => ['Freiker::Facade'],
 		Delegate => ['Freiker::Delegate'],
