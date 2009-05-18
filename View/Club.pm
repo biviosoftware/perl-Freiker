@@ -18,7 +18,7 @@ sub ride_date_list {
 
 sub freiker_list {
     return shift->internal_put_base_attr(
-	_tools_rides('CLUB_FREIKER_LIST'),
+	_tools_rides('CLUB_FREIKER_LIST', ['CLUB_FREIKER_LIST_CSV']),
 	body => vs_paged_list(ClubFreikerList => [
 	    'RealmOwner.display_name',
 	    'freiker_codes',
@@ -29,6 +29,19 @@ sub freiker_list {
 	    'parent_email',
 	]),
     );
+}
+
+sub freiker_list_csv {
+    my($self) = @_;
+    return shift->internal_body(CSV(ClubFreikerList => [qw(
+	RealmOwner.display_name
+	freiker_codes
+	ride_count
+	prize_debit
+	prize_credit
+	parent_display_name
+	parent_email
+    )]));
 }
 
 sub freiker_select {
@@ -151,7 +164,9 @@ sub _tools_rides {
     return _tools(shift, [qw(
 	CLUB_RIDE_FILL_FORM
 	CLUB_RIDE_DATE_LIST
-    )]);
+    ),
+        @{shift || []},
+    ]);
 }
 
 1;
