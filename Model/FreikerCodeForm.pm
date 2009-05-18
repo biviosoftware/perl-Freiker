@@ -109,6 +109,8 @@ sub _update_user {
     foreach my $x (
 	[qw(FreikerCode freiker_code)],
 	[qw(GreenGear green_gear_id)],
+	[qw(PrizeCoupon prize_id)],
+	[qw(PrizeReceipt receipt_code)],
     ) {
 	my($model, $order_by) = @$x;
 	$self->new_other($model)->do_iterate(
