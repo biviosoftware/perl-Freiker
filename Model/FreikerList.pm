@@ -16,15 +16,15 @@ sub internal_initialize {
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         order_by => [
 	    'RealmOwner.display_name',
-	],
-	other => [
 	    {
 		name => 'prize_debit',
 		type => 'Integer',
 		constraint => 'NOT_NULL',
-		select_value => '(SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id)',
+		select_value => '(SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id) AS prize_debit',
 		sort_order => 0,
 	    },
+	],
+	other => [
 	    {
 		name => 'prize_credit',
 		type => 'Integer',
