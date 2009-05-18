@@ -28,7 +28,6 @@ sub internal_initialize {
 		type => 'Integer',
 		constraint => 'NOT_NULL',
 		select_value => qq{((SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id) - COALESCE(SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id), 0)) AS prize_credit},
-		select_value => qq{((SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id)) AS prize_credit},
 		sort_order => 0,
 	    },
 
