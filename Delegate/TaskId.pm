@@ -391,6 +391,14 @@ sub get_delegate_info {
 	    View.Club->ride_fill_form
 	    next=CLUB_RIDE_DATE_LIST
 	)],
+	[qw(
+	    CLUB_FREIKER_LIST_CSV
+	    544
+	    CLUB
+	    ADMIN_READ
+	    Model.ClubFreikerList->execute_load_all
+	    View.Club->freiker_list_csv
+	)],
     ]);
 }
 
