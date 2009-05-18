@@ -16,7 +16,8 @@ sub internal_initialize {
         version => 1,
 	table_name => 'green_gear_t',
 	columns => {
-            begin_date => ['Date', 'PRIMARY_KEY'],
+	    green_gear_id => ['PrimaryId', 'PRIMARY_KEY'],
+            begin_date => ['Date', 'NOT_NULL'],
 	    end_date => ['Date', 'NOT_NULL'],
 	    must_be_registered => ['Boolean', 'NOT_NULL'],
 	    must_be_unique => ['Boolean', 'NOT_NULL'],

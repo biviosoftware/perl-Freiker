@@ -22,6 +22,7 @@ CREATE TABLE freiker_code_t (
 /
 
 CREATE TABLE green_gear_t (
+  green_gear_id NUMERIC(18) NOT NULL,
   club_id NUMERIC(18) NOT NULL,
   begin_date DATE NOT NULL,
   end_date DATE NOT NULL,
@@ -29,7 +30,7 @@ CREATE TABLE green_gear_t (
   must_be_unique NUMERIC(1) NOT NULL,
   user_id NUMERIC(18) NOT NULL,
   creation_date_time DATE NOT NULL,
-  CONSTRAINT green_gear_t1 PRIMARY KEY(club_id, begin_date)
+  CONSTRAINT green_gear_t1 PRIMARY KEY(green_gear_id)
 )
 /
 
