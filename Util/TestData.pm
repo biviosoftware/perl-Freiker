@@ -7,11 +7,11 @@ use Freiker::Test;
 use Freiker::Test::Freiker;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_D) = Bivio::Type->get_instance('Date');
-my($_FF) = Bivio::Type->get_instance('FileField');
-my($_SA) = __PACKAGE__->use('Type.StringArray');
-my($_RA) = __PACKAGE__->use('ShellUtil.RealmAdmin');
-my($_DT) = __PACKAGE__->use('Type.DateTime');
+my($_D) = b_use('Type.Date');
+my($_FF) = b_use('Type.FileField');
+my($_SA) = b_use('Type.StringArray');
+my($_RA) = b_use('ShellUtil.RealmAdmin');
+my($_DT) = b_use('Type.DateTime');
 
 sub USAGE {
     return <<'EOF';
@@ -40,6 +40,35 @@ sub child_ride_dates {
 	$as_date->($_D->add_days($now, -$_)),
 	$child_index ? $child_index : 0..99,
     )];
+}
+
+sub create_prize_coupon {
+    my($self, $prize, $child) = shift->name_args([
+	['prize', 'String'],
+	['?child', 'String', 'child'],
+    ], \@_);
+    return $self->req->with_realm(
+	Freiker::Test->SPONSOR_NAME,
+	sub {
+	    my($prize) = $self->model(Prize => {name => $prize});
+	    return $self->model('PrizeCoupon')->create({
+		realm_id => $self->model('PrizeSelectList')->get_distributor_id,
+		user_id => $_RA->to_id($child),
+		prize_id => $prize->get('prize_id'),
+		ride_count => $prize->get('ride_count'),
+	    });
+	},
+    )->get('coupon_code');
+}
+
+sub reset_all_freikers {
+    my($self) = @_;
+    foreach my $n (0..1) {
+	$self->reset_freikers($n);
+#TODO: Need this b/c Lock is set in reset, and can't have two locks on req
+	$self->commit_or_rollback;
+    }
+    return;
 }
 
 sub reset_freikers {
@@ -116,25 +145,6 @@ sub reset_freikers {
 	return;
     });
     return;
-}
-
-sub create_prize_coupon {
-    my($self, $prize, $child) = shift->name_args([
-	['prize', 'String'],
-	['?child', 'String', 'child'],
-    ], \@_);
-    return $self->req->with_realm(
-	Freiker::Test->SPONSOR_NAME,
-	sub {
-	    my($prize) = $self->model(Prize => {name => $prize});
-	    return $self->model('PrizeCoupon')->create({
-		realm_id => $self->model('PrizeSelectList')->get_distributor_id,
-		user_id => $_RA->to_id($child),
-		prize_id => $prize->get('prize_id'),
-		ride_count => $prize->get('ride_count'),
-	    });
-	},
-    )->get('coupon_code');
 }
 
 sub reset_freikometer_folders {
