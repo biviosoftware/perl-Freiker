@@ -36,6 +36,7 @@ sub form {
 	    'GreenGearForm.GreenGear.end_date',
 	    'GreenGearForm.GreenGear.must_be_registered',
 	    'GreenGearForm.GreenGear.must_be_unique',
+	    'GreenGearForm.special_ring',
 	]),
     );
 }
