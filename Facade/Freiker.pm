@@ -94,6 +94,7 @@ my($_SELF) = __PACKAGE__->new({
 	[BOT_FREIKOMETER_DOWNLOAD => '?/fm-down/*'],
 	[BOT_FREIKOMETER_UPLOAD => '/fm/*'],
 	[CLUB_FREIKER_LIST => '?/freikers'],
+	[CLUB_FREIKER_LIST_CSV => '?/freikers.csv'],
 	[CLUB_FREIKER_MANUAL_RIDE_FORM => '?/give-rides'],
 	[CLUB_PRIZE => '?/prize'],
 	[CLUB_PRIZE_LIST => '?/prizes'],
@@ -427,6 +428,7 @@ EOF
 #TODO: Remove 1/15/08
 	    GENERAL_CONTACT => 'Contact',
 	    CLUB_FREIKER_LIST => 'Freikers',
+	    CLUB_FREIKER_LIST_CSV => 'Spreadsheet',
 	    CLUB_RIDE_DATE_LIST => 'Rides',
 	    CLUB_PRIZE => 'Update prize',
 	    CLUB_PRIZE_LIST => 'Available prizes',
