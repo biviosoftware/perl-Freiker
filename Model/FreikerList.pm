@@ -20,16 +20,20 @@ sub internal_initialize {
 		name => 'prize_debit',
 		type => 'Integer',
 		constraint => 'NOT_NULL',
-		select_value => '(SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id) AS prize_debit',
+		select_value => 'COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id), 0) AS prize_debit',
 		sort_order => 0,
 	    },
-	],
-	other => [
 	    {
 		name => 'prize_credit',
 		type => 'Integer',
 		constraint => 'NOT_NULL',
+		select_value => qq{((SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id) - COALESCE(SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id), 0)) AS prize_credit},
+		select_value => qq{((SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id)) AS prize_credit},
+		sort_order => 0,
 	    },
+
+	],
+	other => [
 	    {
 		name => 'can_select_prize',
 		type => 'Boolean',
@@ -49,7 +53,6 @@ sub internal_post_load_row {
     my($self, $row) = @_;
     return 0
 	unless shift->SUPER::internal_post_load_row(@_);
-    $row->{prize_credit} = $row->{ride_count} - ($row->{prize_debit} ||= 0);
     $row->{can_select_prize}
 	= ($row->{prize_select_list}
 	    = $self->new_other($self->PRIZE_SELECT_LIST)
@@ -57,6 +60,11 @@ sub internal_post_load_row {
 		    $row->{'RealmUser.user_id'}, $row->{prize_credit})
 	)->get_result_set_size ? 1 : 0;
     return 1;
+}
+
+sub internal_pre_load {
+    my($self) = @_;
+    return shift->SUPER::internal_pre_load(@_);
 }
 
 1;
