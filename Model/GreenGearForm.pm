@@ -125,13 +125,12 @@ sub _list {
 sub _prev_begin_end {
     my($self) = @_;
     if (my $ggl = _list($self)) {
-	foreach my $f (
-	    map("GreenGear.$_", qw(must_be_registered must_be_unique)),
-	) {
-	    $self->internal_put_field($f => $ggl->get($f));
-	}
-	return _this_begin_end(
-	    $self, $ggl->get(qw(GreenGear.begin_date GreenGear.end_date)));
+	my($gg) = $ggl->get_model('GreenGear');
+	$self->internal_put_field(map(
+	    ("GreenGear.$_" => $gg->get($_)),
+	    qw(must_be_registered must_be_unique),
+	));
+	return _this_begin_end($self, $gg->get(qw(begin_date end_date)));
     }
     $self->internal_put_field(
 	'GreenGear.must_be_unique' => 1,
