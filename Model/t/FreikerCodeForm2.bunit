@@ -3,38 +3,25 @@
 my($today, $child_id, $school_id) = do('./RideList.PL');
 my($_D) = class('Type.Date');
 my($day) = [map($_D->add_days($today, -$_), 0..10)];
-my($num_rides) = _count();
-sub _fc {
+my($fc) = sub {
     return class('Freiker::Test')->FREIKER_CODE(@_);
-}
-sub _epc {
+};
+my($epc) = sub {
     return class('Freiker::Test')->EPC(@_);
-}
-sub _count {
+};
+my($count) = sub {
     return req()->with_realm(
 	$child_id,
 	sub {scalar(@{model('Ride')->map_iterate(sub {1}, 'ride_date')})},
     );
-}
-sub _add_rides {
-    my($kid, @days) = @_;
-    req()->with_realm($school_id, sub {
-	my($rif) = model('RideImportForm');
-	foreach my $d (@days) {
-            $rif->process_record({
- 	        epc => _epc($kid),
-	        datetime => $day->[$d],
-	    });
-	}
-    });
-    return;
-}
+};
+my($num_rides) = $count->();
 [
     [{
-	'FreikerCode.freiker_code' => _fc(3, 1),
+	'FreikerCode.freiker_code' => $fc->(3, 1),
 	'Club.club_id' => realm_id(Freiker::Test->SCHOOL_NAME(1)),
     }] => sub {
-	assert_equals(1, _count());
+	assert_equals(1, $count->());
 	my($found) = 0;
 	req()->with_realm(Freiker::Test->SCHOOL_NAME(0), sub {
 	    model('ClubFreikerList')->load_all->do_rows(
