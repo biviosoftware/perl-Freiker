@@ -14,11 +14,15 @@ sub internal_initialize {
 	GreenGear.end_date
 	GreenGear.creation_date_time
     ));
+    push(@{$super->{group_by}}, qw(
+	GreenGear.green_gear_id
+	GreenGear.begin_date
+	GreenGear.end_date
+	GreenGear.creation_date_time
+    ));
     return $self->merge_initialize_info($super, {
         version => 1,
         other => [
-	    'GreenGear.must_be_registered',
-	    'GreenGear.must_be_unique',
 	    [qw(RealmUser.user_id GreenGear.user_id)],
 	    [qw(RealmUser.realm_id GreenGear.club_id)],
 	],
