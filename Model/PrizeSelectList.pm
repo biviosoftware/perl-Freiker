@@ -74,7 +74,7 @@ sub internal_prepare_statement {
     my($pc) = $self->[$_IDI] = $query->get('prize_credit');
     $query->delete('prize_credit');
     $stmt->where(
-	$stmt->EQ('PrizeRideCount.realm_id', [
+	$query->unsafe_get('auth_id') ? () : $stmt->EQ('PrizeRideCount.realm_id', [
 	    $self->new_other('RealmUser')
 		->club_id_for_freiker($query->get('parent_id')),
 	]),
