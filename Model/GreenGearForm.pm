@@ -15,6 +15,7 @@ sub execute_empty {
     my($begin, $end) = _prev_begin_end($self);
     $self->internal_put_field(
 	'GreenGear.begin_date' => $begin, 'GreenGear.end_date' => $end);
+    $self->internal_put_field(special_ring => 1);
     return;
 }
 
@@ -23,17 +24,17 @@ sub execute_ok {
     my($users) = _check_count($self);
     return $self->internal_put_error(qw(GreenGear.begin_date EMPTY))
 	unless %$users;
-    return $self->internal_put_error(qw(GreenGear.begin_date EXISTS))
-	unless %{$users = _check_unique($self, $users)};
     return $self->internal_put_error(qw(GreenGear.begin_date UNSUPPORTED_TYPE))
 	unless %{$users = _check_registered($self, $users)};
+    return $self->internal_put_error(qw(GreenGear.begin_date EXISTS))
+	unless %{$users = _check_unique($self, $users)};
     my($uid) = _choose([keys(%$users)]);
     $self->create_model_properties(GreenGear => {user_id => $uid});
     b_use('ShellUtil.Freikometer')->do_all(download => {
 	filename => 'green_gear',
 	content => \($self->new_other('FreikerCode')->user_id_to_epc($uid)),
 	content_type => 'text/plain',
-    });
+    }) if $self->unsafe_get('special_ring');
     return;
 }
 
@@ -46,7 +47,9 @@ sub internal_initialize {
 	    GreenGear.end_date
 	    GreenGear.must_be_registered
 	    GreenGear.must_be_unique
-	)],
+	),
+	    $self->field_decl([[qw(special_ring Boolean)]]),
+	],
 	auth_id => 'GreenGear.club_id',
     });
 }

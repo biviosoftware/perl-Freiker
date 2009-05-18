@@ -4,7 +4,7 @@ FormModel();
 DateTime()->set_test_now('2/21/2009 08:00:00', req());
 my($saturday) = do('./SetupRides.PL');
 my($params) = sub {
-    my($begin, $end, $registered, $unique) = @_;
+    my($begin, $end, $registered, $unique, $special_ring) = @_;
     $begin = DateTime()->add_days($saturday, $begin);
     $end = DateTime()->add_days($saturday, $end);
     return {
@@ -12,25 +12,33 @@ my($params) = sub {
 	'GreenGear.end_date' => $end,
 	'GreenGear.must_be_registered' => $registered,
 	'GreenGear.must_be_unique' => $unique,
+	special_ring => defined($special_ring) ? $special_ring : 1,
     };
 };
+# b_info(GreenGear()->map_iterate(sub {shift->get_shallow_copy}, 'green_gear_id'));
 my($create) = sub {
     my($p) = $params->(@_);
     return [$p] => [{
+	'Model.GreenGearForm' => {
+	    'GreenGear.begin_date' => $p->{'GreenGear.begin_date'},
+	    'GreenGear.end_date' => $p->{'GreenGear.end_date'},
+	},
 	'Model.GreenGear' => {
-	    map((($_ =~ /(\w+)$/)[0] => $p->{$_}), keys(%$p)),
+	    map((($_ =~ /(\w+)$/)[0] => $p->{$_}), grep(!/special/, keys(%$p))),
 	},
-	'Model.RealmFile' => {
-	    path => '/Download/green_gear',
-	},
+	$p->{special_ring} ? (
+	    'Model.RealmFile' => {
+		path => '/Download/green_gear',
+	    },
+	) : (),
     }];
 };
 [
     empty_case($params->(-5, -1, 1, 1)),
     $create->(-20, -16, 1, 0),
     empty_case($params->(-12, -8, 1, 0)),
-    $create->(-12, -8, 0, 0),
-    error_case($params->(-8, -4, 0, 0), {
+    $create->(-12, -8, 0, 0, 1),
+    error_case($params->(-8, -4, 0), {
 	'GreenGear.begin_date' => 'GREATER_THAN_ZERO',
     }),
     $create->(-20, -16, 1, 0),
@@ -43,7 +51,25 @@ my($create) = sub {
     error_case($params->(-1000, -999, 1, 1), {
 	'GreenGear.begin_date' => 'EMPTY',
     }),
-    $create->(-3, -3, 0, 1),
-    $create->(-2, -2, 0, 1),
-    $create->(-1, -1, 0, 1),
+    $create->(-3, -3, 1, 1, 1),
+    $create->(-2, -2, 1, 1, 1),
+    error_case($params->(-1, -1, 1, 1, 1), {
+	'GreenGear.begin_date' => 'EXISTS',
+    }),
+    $create->(-3, -3, 1, 1),
+    inline_case(sub {
+	req()->put(super_user_id => realm_id('adm'));
+	my($club_id) = req('auth_id');
+	req()->with_realm(parent => sub {
+	    model('FreikerForm', {
+		super_user_override => 1,
+		'User.first_name' => random_string(),
+		'FreikerCode.freiker_code' => Bivio_Test()->FREIKER_CODE(6),
+		'Club.club_id' => $club_id,
+		birth_year => undef,
+		'User.gender' => Gender('MALE'),
+	    });
+	});
+	return;
+    }),
 ];
