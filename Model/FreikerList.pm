@@ -36,16 +36,18 @@ sub internal_initialize {
 		name => 'prize_debit',
 		type => 'Integer',
 		constraint => 'NOT_NULL',
-		select_value => qq{COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id AND prize_coupon_t.creation_date_time BETWEEN $d AND $d), 0) AS prize_debit},
+		select_value => qq{COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id), 0) AS prize_debit},
 		sort_order => 0,
 	    },
+# AND prize_coupon_t.creation_date_time BETWEEN $d AND $d
 	    {
 		name => 'prize_credit',
 		type => 'Integer',
 		constraint => 'NOT_NULL',
-		select_value => qq{((SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_t.ride_date BETWEEN $d AND $d) - COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id AND prize_coupon_t.creation_date_time BETWEEN $d AND $d), 0)) AS prize_credit},
+		select_value => qq{((SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_t.ride_date BETWEEN $d AND $d) - COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id), 0)) AS prize_credit},
 		sort_order => 0,
 	    },
+# AND prize_coupon_t.creation_date_time BETWEEN $d AND $d
 	    {
 		name => 'parent_display_name',
 		type => 'DisplayName',
@@ -138,7 +140,8 @@ sub internal_pre_load {
     }
     unshift(
 	@$params,
-	map(@$x{qw(begin_date date)}, 1..4),
+#	map(@$x{qw(begin_date date)}, 1..4),
+	map(@$x{qw(begin_date date)}, 1..2),
 	$self->req('auth_id'),
     );
     my($where) = shift->SUPER::internal_pre_load(@_);
