@@ -2,18 +2,14 @@
 # $Id$
 package Freiker::View::GreenGear;
 use strict;
-use Bivio::Base 'View.Base';
+use Bivio::Base 'View.Club';
 use Bivio::UI::ViewLanguageAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub list {
-    return shift->internal_put_base_attr(
-	tools => TaskMenu([qw(
-	    CLUB_FREIKER_LIST
-	    GREEN_GEAR_FORM
-	)]),
-	body => vs_paged_list(GreenGearList => [
+    return shift->internal_body_and_tools(
+	vs_paged_list(GreenGearList => [
 	    'GreenGear.begin_date',
 	    'GreenGear.end_date',
 	    'RealmOwner.display_name',
@@ -26,12 +22,8 @@ sub list {
 }
 
 sub form {
-    return shift->internal_put_base_attr(
-	tools => TaskMenu([qw(
-	    CLUB_FREIKER_LIST
-	    GREEN_GEAR_LIST
-	)]),
-	body => vs_simple_form(GreenGearForm => [
+    return shift->internal_body_and_tools(
+	vs_simple_form(GreenGearForm => [
 	    'GreenGearForm.GreenGear.begin_date',
 	    'GreenGearForm.GreenGear.end_date',
 	    'GreenGearForm.GreenGear.must_be_registered',
