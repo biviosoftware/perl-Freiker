@@ -1,4 +1,4 @@
-# Copyright (c) 2005-2008 bivio Software, Inc.  All Rights reserved.
+# Copyright (c) 2005-2009 bivio Software, Inc.  All Rights reserved.
 # $Id$
 package Freiker::Version;
 use strict;
@@ -20,8 +20,8 @@ Freiker
 
 =head1 DESCRIPTION
 
-C<Freiker> is a high-tech bicycle communting encouragement program.  The
-software supports automated ride-counting, registration, prize selection,
+C<Freiker> is a high-tech alternative transportation encouragement program.
+The software supports automated trip-counting, registration, prize selection,
 sponsorships, etc.
 
 Please visit http://www.freiker.org for more info.
@@ -29,10 +29,13 @@ Please visit http://www.freiker.org for more info.
 =head1 CHANGES
 
   $Log$
+  Revision 1.1  2008/10/14 21:48:51  nagler
+  *** empty log message ***
+
 
 =head1 COPYRIGHT
 
-Copyright (c) 2005-2008 bivio Software, Inc.  All Rights reserved.
+Copyright (c) 2005-2009 bivio Software, Inc.  All Rights reserved.
 
 =head1 VERSION
 
