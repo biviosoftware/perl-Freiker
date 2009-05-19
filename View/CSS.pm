@@ -49,6 +49,9 @@ table.header td.header_middle img {
 div.tools {
   padding-right: 1em;
 }
+div.tools .dd_menu a {
+  display: block;
+}
 ! ***** top bmenu *****
 table.header {
   margin-bottom: .5em;
