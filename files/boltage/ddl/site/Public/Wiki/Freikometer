@@ -1,14 +1,3 @@
-@div class=bread_crumbs
-					
-@a href=^Home Freiker Home
->
-^How_It_Works
->
-Freikometer
-
-@/div
-				
-				
 @h1 Freikometer
 
 @img.fr_top_right src=^freikometer.jpg
@@ -18,7 +7,7 @@ Put simply, the Freikometer is the automatic device that counts riders and uploa
 @p
 The Freikometer counts the number of times a child rides to school, then wirelessly uploads the data to the Freiker website so children can see how close they are to earning a prize.  
 @p
-It's that simple, and it sure beats using punch cards or surveys – believe us, we know from experience.  
+It's that simple, and it sure beats using punch cards or surveys -  believe us, we know from experience.  
 @p
 Some other benefits of the Freikometer
 @ul
@@ -30,7 +19,9 @@ Some other benefits of the Freikometer
 @strong Solar-powered
  -  It's solar powered so schools can put it right near the bike racks.  All we need is a wooden post to install it on.  
 @li
-*Data* - Freiker's success [^Results] is measurable due to fanatical dedication to data.  With the date provided by the Freikometer and viewable on this website, schools can measure and evaluate the effect of Freiker.
+*Data* - Freiker's success is measurable due to fanatical dedication to data (
+@a href=^Results Results
+).  With the data provided by the Freikometer and viewable on this website, schools can measure and evaluate the effect of Freiker.
 @/ul
 @h2 RFID tags
 @p

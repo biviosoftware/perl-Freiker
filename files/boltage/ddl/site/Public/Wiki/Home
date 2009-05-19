@@ -20,7 +20,7 @@
 @tr
 @td
 @strong Freiker (FREquent bIKER, rhymes with biker)
- believes that every bike ride counts as:
+ believes that every trip counts.  Biking or walking to school is:
 						  
 						  
 @ul
@@ -43,16 +43,16 @@
 @/ul
 						  
 @p
-							Kids do the pedaling, our "^Freikometer" does the counting.  
-							Rides add up throughout the school year and are redeemed for prizes at an end-of-year school party.  It's that simple.
+							Kids do the walking or riding and our "Freikometer" does the counting.  
+							Trips to school add up throughout the school year and are redeemed for prizes at an end-of-year school party.  It's that simple.
 						  
 @/p
 						  
 						  
 @p
-							Join the movement that's inspiring kids to change our schools, our communities and our world - one bike ride 
+							Join the movement that's inspiring kids to change their own health, our schools, our communities and our world - one trip to school 
 							at a time. 
-@a href=^Schools Become a Freiker today! »
+@a href=^Schools Become a Freiker today!
 						  
 @/p
 						
@@ -101,11 +101,13 @@
 @td
 					  
 @div class=rides_counted
+@a href=^Results
 @img src=^rides_counted.gif 
-@p
+@span
 @b-widget ride_count_all
-@/p
-@a href=^Results Click here to see ride totals by school
+@/span
+Click here to see ride totals by school
+@/a
 @/div
  
 					
@@ -155,16 +157,21 @@ You can help, too.
 			  
 @div class=testimonials
 				
+@h3 Breaking News
+				
+@p
+Freiker is pleased to announce that we have received a prestigious grant from the Bikes Belong Foundation through its Paul David Clark Fund.  You can read the full press release 
+@a href="http://bikesbelong.org/node/1620371" here.
+
+@p
+On March 9th, 2009 Freiker counted its *100,000th*trip!* Read the press release 
+@a href="^100K_Trips" here.
+
 @h3 Testimonials
 				
 @p
 "Our bike racks are overflowing. Everybody at Crest View loves the Freiker program and the extra encouragement 
 it provides to students to bike to school."  Ned Levine, Crest View Elementary Principal
-				
-@p
-"I call it 'the smile index,' and I can see it on their faces.  They're happy to be on their 
-bikes, and they know they're part of a movement."  Landon Hilliard, Student Transportation
-Coordinator for the Boulder Valley School District
 				
 @p
 "This is exactly the sort of program One World Two Wheels (1W2W) is proud to support. It gets 

@@ -1,13 +1,3 @@
-
-				
-@div class=bread_crumbs
-					
-@a href=^Home Freiker Home
- > Support Freiker
-				
-@/div
-				
-				
 @h1 Support Freiker
 				
 @img.fr_top_right src=^support_freiker.jpg 
@@ -19,24 +9,15 @@ Freiker  promotes healthy, sustainable behaviors that are good for children, goo
 @b-embed ^/my/donate
 				  
 @p
-      
-@em Freiker (EIN  56-2539016) 
+ 
+@em 
+Freiker (EIN  56-2539016) 
 @em is a 501(c)(3) organization, and all  donations are deductible to the extent permitted by law.
 				  
 @/p
 				
 @/form
-				
-@p Or,  if you prefer, please send a check to: 
-				
-@p
-Freiker,  Inc. 
-@br 
-				  2369 Spotswood Place 
-@br 
-				  Boulder, CO 80304-0994 
-@/p
-				
+
 @p
 Your  donation helps to: 
 @br 

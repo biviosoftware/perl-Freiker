@@ -1,16 +1,3 @@
-
-				
-@div class=bread_crumbs
-					
-@a href=^Home Freiker Home
->
-^About_Us
->
-History
-
-@/div
-				
-				
 @h1 History: Freiker's Humble Beginning				
 				
 @img.fr_top_right src=^girl1.jpg

@@ -1,21 +1,16 @@
-@div class=bread_crumbs
-					
-@a href=^Home Freiker Home
->
-^About_Us
->
-Board & Staff
-
-@/div
-				
-				
 @h1 Board & Staff
 
 @img.fr_top_right src=^staff1.jpg
 
 @h2 Executive Director:
 @p
-*Zach*Noffsinger*, an avid recreational cyclist and bike commuter, has served as our Executive Director since late 2007.  Zach was drawn to Freiker because, as a new parent, he found himself more concerned than ever about the health of our nation's children and our environment.  Zach graduated from Duke University and from Duke University School of Law.  He spent almost 10 years working in a law firm before starting his own locally-focused business law practice in the fall of 2007.
+*Tim*Carlin* has been an ardent advocate for the users of technology during his 25 years in the computer business.  Tim has worked at Apple Computer and NeXT Computer, and he co-founded Amplitude Software, where he raised over $10 million in venture capital and led Amplitude to a very successful merger with a publicly traded company.  Tim has been involved with Freiker since 2004, serving as a Board member, committed volunteer, and parent of two Freiker children.  Tim graduated from Carnegie Mellon University with a BS in Information Systems and Mathematics.
+
+@h2 Other Executive Team Members
+@p
+*Steve*Norman* brings a wide variety of business operations and marketing experience to Freiker.  In addition to serving as a founder and Chief Operating Officer at Einstein Bros. Bagels, Steve has also attended design school, worked with a number of award winning design and advertising firms, and developed real estate through a design-build company that he founded.  Steve joined Freiker in early 2009 with the goal of applying his diverse entrepreneurial business skills to help solve some of the social issues he is passionate about.  He holds a BS in Business from the University of Utah. 
+@p
+*Zach*Noffsinger* has been an attorney for ten years, and when he is not busy with Freiker or riding his bike, he continues to run a law practice in Boulder, CO.  Zach was drawn to Freiker because, as a new parent, he found himself more concerned than ever about the health of our nation's children and our environment.  He graduated from Duke University and from Duke University School of Law.  
 
 @h2 Founder and Technical Director:
 @p
@@ -27,9 +22,7 @@ Board & Staff
 @p
 *Tricia*Grafelman* (Chairperson) brings experience as a High School teacher and sports coach, community health educator and practicing professional, and entrepreneur. Tricia has written and published two textbooks on Anatomy and Physiology for use in Massage Therapy Schools.  Tricia is active in church programs, coaching and playing community sports, and she is leading the expansion of Freiker in to the schools of Longmont, Colorado.  Tricia is currently chairperson of the Freiker Board of Directors.
 @p
-*Leslie*Bohm* is a founder and current board member of the Bikes Belong Coalition, the American bicycle industry’s advocacy/lobbying organization, and; the Bikes Belong Foundation, a new 501 (c) 3 dedicated to bicycle safety and youth cycling. Leslie started and is the CEO of Catalyst Communication, a nationally recognized marketing company serving the bicycle and active outdoor sports sectors.  In the late 1990s he helped start Bicycle Colorado, the state’s bicycle advocacy organization. Currently, Leslie is also leading the effort along with the City of Boulder and the Boulder Chamber of Commerce to establish the Active Living Business Cluster of 150+ of companies and non-profits in Boulder County.
-@p
-*Tim*Carlin* has both developed and sold new products in the computer business for over 20 years.  He co-founded Amplitude Software, raising over $10 million in venture capital and eventually selling the company to a publicly traded company. Tim has held various field and corporate positions with Apple Computer, NeXT Computer, and several smaller startups.  He is currently starting another software company.
+*Leslie*Bohm* is a founder and current board member of the Bikes Belong Coalition, the American bicycle industry's advocacy/lobbying organization, and of the Bikes Belong Foundation, a new 501 (c) 3 dedicated to bicycle safety and youth cycling. Leslie started and is the CEO of Catalyst Communication, a nationally recognized marketing company serving the bicycle and active outdoor sports sectors.  In the late 1990s he helped start Bicycle Colorado, the state's bicycle advocacy organization. Currently, Leslie is also leading the effort along with the City of Boulder and the Boulder Chamber of Commerce to establish the Active Living Business Cluster of 150+ of companies and non-profits in Boulder County.
 @p
 *Vasanthan*Dasan* brings over 15 years of experience in developing new products and services in the software industry. He was recently the Chief Technologist for the Service division of Sun Microsystems, where he led the automation of services for a $5.1 billion business unit.  Prior to that, Vasanthan was with Hewlett Packard and Intergraph.  Vasa is currently the founder of software services company iSnapp LLC.  Vasanthan and his wife, Priya, have two children in elementary school and middle school. He enjoys rugby, cycling and international travel.
 @p

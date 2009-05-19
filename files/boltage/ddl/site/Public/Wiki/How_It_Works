@@ -1,13 +1,3 @@
-
-				
-@div class=bread_crumbs
-					
-@a href=^Home Freiker Home
- > How It Works
-				
-@/div
-				
-				
 @h1 How It Works
 				
 @img.fr_top_right src=^girl2.jpg
@@ -16,7 +6,7 @@
 *Freiker*  (short for *frequent*biker*
   rhymes with biker) is substantially
 				  increasing the number of children regularly bicycling to
-				  school.  Freiker uses advanced technology to count, and
+				  school.  Freiker uses advanced technology to count and
 				  provide incentives for kids who ride to school.  
 @/p
 				
@@ -32,8 +22,8 @@ The ridership numbers
 				  to this site by a ^Freikometer.
 				  The Freikometer is one secret to our success, and the other is
 				  our 
-@a href=^Prizes prizes
-.  Everybody can win a
+@a href=^Prizes prizes.
+ Everybody can win a
 				  prize.  Freiker is not a competition between children,
 				  classes, or schools.  The combination of our two "secrets"
 				  gets more kids on their bikes to school, more of the

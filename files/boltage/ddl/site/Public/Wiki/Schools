@@ -1,13 +1,3 @@
-
-				
-@div class=bread_crumbs
-					
-@a href=^Home Freiker Home
- > Schools
-				
-@/div
-				
-				
 @h1 Schools
 				
 @h3 How To Get Freiker
@@ -21,7 +11,7 @@
 @img.fr_top_right src=^schools.jpg 
 @/a
 *More*alert*kids:*
-Kids  who get regular exercise are more alert.  Our program can also help kids gain self-confidence. 
+Kids who get regular exercise are more alert.  Our program can also help kids gain self-confidence. 
 @/li
 				  
 @li
@@ -49,9 +39,9 @@ Many parents ride to school with their children. Adam, a resident of Boulder who
 @h3 Cost and Funding
 				
 @p
-				Freiker  costs $4,000 per year. This fee includes  one leased ^Freikometer, use of the website  by the schools and kids, hardware and software support and maintenance, and 500  tags. If you need more than one  Freikometer, or if you have special considerations at your school, please 
+Freiker costs $4,000 for the first year, and approximately half of that for each subsequent year. This fee includes one leased ^Freikometer, use of the website by the schools and kids, hardware and software support and maintenance, and 500 tags. If you need more than one  Freikometer, or if you have special considerations at your school, please 
 @a href=^Contact_Us contact us
-  we are very good at accommodating special needs.
+   - we are very good at accommodating special needs.
 @/p
 			
 @p This  fee does not include the following:
@@ -86,14 +76,12 @@ Many parents ride to school with their children. Adam, a resident of Boulder who
 			  
 @li
 *Volunteers* - 
-  The Freikometer significantly cuts down on  the need for volunteer involvement. But  you will still need volunteers or administrators to stand out at the  Freikometer to hand out tags, answer questions, promote the program, etc. We recommend that a Freiker volunteer be at  the Freikometer every day for the first week or two to hand out tags and tell  the kids about the program. On an  ongoing basis, having a volunteer out there one day a week to hand out the  weekly 
-@a href=^Prizes Green Gear award
- and any new tags is  usually sufficient. 
+  The Freikometer significantly cuts down on  the need for volunteer involvement. But  you will still need volunteers or administrators to stand out at the  Freikometer to hand out tags, answer questions, promote the program, etc. We recommend that a Freiker volunteer be at  the Freikometer every day for the first week or two to hand out tags and tell  the kids about the program. On an  ongoing basis, having a volunteer out there one day a week to hand new tags is  usually sufficient. 
 @/li
 			  
 @li
 *Prizes* - 
-  Each school       determines the type of prizes that it wants to offer the kids, as well as       the number of rides required to earn each level of prize. We find that iPods are extremely       effective. We saw a significant increase in ridership the first year       that iPods were offered, and that ridership level has gone up each       year. The school is also       responsible for obtaining those prizes and delivering them to kids. This can be done on an ongoing basis or       at an end-of-the-year party.
+  Each school       determines the type of prizes that it wants to offer the kids, as well as       the number of rides required to earn each level of prize. We find that iPods are extremely       effective. We saw a significant increase in ridership the first year       that iPods were offered, and that ridership level has gone up each       year. The school is also       responsible for obtaining those prizes and delivering them to kids. This can be done on an ongoing basis or at an end-of-the-year party.
 @/li
 			
 @/ul
@@ -101,9 +89,11 @@ Many parents ride to school with their children. Adam, a resident of Boulder who
 @h3 Learn More
 			
 @p
-If you want to bring  the Freiker program to your school or want to learn more details about the  program, please 
+If you want to bring  the Freiker program to your school or want to learn more details about the  program, please read 
+@a href="http://www.freiker.org/site/wiki/freiker_brochure_march_09.pdf" our brochure. 
+You can also
 @a href=^Contact_Us contact us
-. We have been running Freiker at multiple schools for several years, and  we have a lot of good tips and suggestions to share.
+ - we have been running Freiker at multiple schools for several years, and  we have a lot of good tips and suggestions to share.
 @/p
 				
 			
