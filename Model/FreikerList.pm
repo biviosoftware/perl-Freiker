@@ -131,6 +131,11 @@ sub internal_pre_load {
 	    return $v || $_D->$method();
 	})->($query->unsafe_get($which), $x->{$which});
     }
+    if (my $d = $self->new_other('RowTag')->get_value('CLUB_END_DATE')) {
+	$d = ($_D->from_literal($d))[0];
+	$x->{date} = $d
+	    if $d;
+    }
     unshift(
 	@$params,
 	map(@$x{qw(begin_date date)}, 1..4),
