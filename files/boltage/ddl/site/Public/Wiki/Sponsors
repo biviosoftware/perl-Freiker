@@ -1,10 +1,4 @@
-@div class=bread_crumbs
-					
-@a href=^Home Freiker Home
->
-^How_It_Works
->
-Sponsors
+@h1
 
 @/div
 				
