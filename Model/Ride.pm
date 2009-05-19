@@ -21,8 +21,7 @@ sub USER_ID_FIELD {
 
 sub count_all {
     my($self) = @_;
-    return $_C->execute_one_row(
-	'SELECT COUNT(*) FROM ride_t WHERE ride_upload_id IS NOT NULL')->[0];
+    return $_C->execute_one_row('SELECT COUNT(*) FROM ride_t')->[0];
 }
 
 sub create {
