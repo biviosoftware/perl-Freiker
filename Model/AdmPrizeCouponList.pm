@@ -13,6 +13,15 @@ sub PAGE_SIZE {
     return 500;
 }
 
+sub get_display_name {
+#TODO: Refactor with FreikerRideList
+    my($self) = @_;
+    return $self->get('RealmOwner.display_name')
+	. ' '
+	. $self->new_other('UserFreikerCodeList')
+        ->get_display_name($self->get('freiker_codes')->as_array);
+}
+
 sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
