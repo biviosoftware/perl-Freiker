@@ -133,6 +133,7 @@ my($_SELF) = __PACKAGE__->new({
 	[GREEN_GEAR_FORM => '?/select-green-gear'],
 	[GREEN_GEAR_LIST => '?/green-gears'],
 	[CLUB_RIDE_FILL_FORM => '?/fill-rides'],
+	[CLUB_FREIKER_PRIZE_DELETE => '?/return-prize'],
     ],
     Text => [
 	[support_email => 'gears'],
@@ -156,6 +157,7 @@ my($_SELF) = __PACKAGE__->new({
 	[freiker_codes => 'Tag ID'],
 	[parent_display_name => 'Parent'],
 	[parent_email => 'Email'],
+	[list_actions => 'Actions'],
 	[Ride => [
 	    ride_date => 'Date',
 	]],
@@ -197,6 +199,11 @@ my($_SELF) = __PACKAGE__->new({
 	    'Prize.name' => 'Prize',
 	    'RealmOwner.display_name' => 'Freiker',
 	    family_display_name => 'Parent',
+	    'list_action.CLUB_FREIKER_PRIZE_DELETE' => 'Return',
+	]],
+	[ClubPrizeDeleteForm => [
+	    'prose.prologue' => q{Return the String([qw(Model.ClubPrizeCouponList Prize.name)]); and credit String([qw(Model.ClubPrizeCouponList ->get_display_name)]); with String([qw(Model.PrizeCoupon ride_count)]); rides?},
+	    ok_button => 'Return Prize',
 	]],
 	[[qw(MerchantPrizeForm AdmPrizeForm)] => [
 	    image_file => 'Image',
@@ -292,7 +299,6 @@ EOF
 	[[qw(FreikerList ClubFreikerList)] => [
 	    'RealmOwner.display_name' => 'Freiker',
 	    empty_list_prose => 'No Freikers as yet.',
-	    list_actions => 'Actions',
 	]],
 	[PayPalForm => [
 	    amount => '$',
@@ -407,6 +413,7 @@ EOF
 	    GENERAL_PRIZE_LIST => 'Possible Prizes',
 	    GREEN_GEAR_LIST => 'Green Gears',
 	    GREEN_GEAR_FORM => 'Choose Green Gear',
+	    CLUB_FREIKER_PRIZE_DELETE => q{Return Prize for String([qw(Model.ClubPrizeCouponList ->get_display_name)]);},
 	]],
 	['xhtml.title' => [
 	    FAMILY_FREIKER_RIDE_LIST =>

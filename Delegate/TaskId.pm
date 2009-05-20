@@ -399,6 +399,15 @@ sub get_delegate_info {
 	    Model.ClubFreikerList->execute_load_all
 	    View.Club->freiker_list_csv
 	)],
+	[qw(
+	    CLUB_FREIKER_PRIZE_DELETE
+	    545
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.ClubPrizeDeleteForm
+	    View.Club->prize_delete
+	    next=CLUB_PRIZE_COUPON_LIST
+	)],
     ]);
 }
 
