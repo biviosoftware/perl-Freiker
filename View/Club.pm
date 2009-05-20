@@ -119,6 +119,12 @@ sub prize_confirm {
     );
 }
 
+sub prize_delete {
+    return shift->internal_body_and_tools(
+	vs_simple_form('ClubPrizeDeleteForm'),
+    );
+}
+
 sub prize_coupon_list {
     return shift->internal_body_and_tools(
 	vs_paged_list(ClubPrizeCouponList => [qw(
@@ -127,7 +133,22 @@ sub prize_coupon_list {
 	    family_display_name
 	    freiker_codes
 	    Prize.name
-	)]),
+	), {
+	    column_heading => String(vs_text("ClubPrizeCouponList.list_actions")),
+	    column_widget => ListActions([
+		[
+		    vs_text('ClubPrizeCouponList.list_action.CLUB_FREIKER_PRIZE_DELETE'),
+		    'CLUB_FREIKER_PRIZE_DELETE',
+		    URI({
+			task_id => 'CLUB_FREIKER_PRIZE_DELETE',
+			query => [qw(->format_query THIS_DETAIL)],
+			no_context => 1,
+		    }),
+		],
+	    ], {
+		column_data_class => 'list_actions',
+	    }),
+        }]),
     );
 }
 
