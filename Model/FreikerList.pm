@@ -36,18 +36,17 @@ sub internal_initialize {
 		name => 'prize_debit',
 		type => 'Integer',
 		constraint => 'NOT_NULL',
-		select_value => qq{COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id), 0) AS prize_debit},
+		select_value => qq{COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id AND prize_coupon_t.creation_date_time BETWEEN $d AND ($d + interval '60 days')), 0) AS prize_debit},
 		sort_order => 0,
 	    },
-# AND prize_coupon_t.creation_date_time BETWEEN $d AND $d
+
 	    {
 		name => 'prize_credit',
 		type => 'Integer',
 		constraint => 'NOT_NULL',
-		select_value => qq{((SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_t.ride_date BETWEEN $d AND $d) - COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id), 0)) AS prize_credit},
+		select_value => qq{((SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_t.ride_date BETWEEN $d AND $d) - COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id AND prize_coupon_t.creation_date_time BETWEEN $d AND ($d + interval '60 days')), 0)) AS prize_credit},
 		sort_order => 0,
 	    },
-# AND prize_coupon_t.creation_date_time BETWEEN $d AND $d
 	    {
 		name => 'parent_display_name',
 		type => 'DisplayName',
@@ -130,7 +129,7 @@ sub internal_pre_load {
     foreach my $which (sort(keys(%$x))) {
 	$x->{$which} = (sub {
 	    my($v, $method) = @_;
-	    return $v || $_D->$method();
+	    return ($_D->from_literal($v))[0] || $_D->$method();
 	})->($query->unsafe_get($which), $x->{$which});
     }
     if (my $d = $self->new_other('RowTag')->get_value('CLUB_END_DATE')) {
@@ -140,8 +139,7 @@ sub internal_pre_load {
     }
     unshift(
 	@$params,
-#	map(@$x{qw(begin_date date)}, 1..4),
-	map(@$x{qw(begin_date date)}, 1..2),
+	map(@$x{qw(begin_date date)}, 1..4),
 	$self->req('auth_id'),
     );
     my($where) = shift->SUPER::internal_pre_load(@_);
