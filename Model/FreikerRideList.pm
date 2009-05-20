@@ -7,6 +7,7 @@ use Bivio::Base 'Model.YearBaseList';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub get_display_name {
+#TODO: Refactor with AdmPrizeCouponList
     my($self) = @_;
     my($uid) = $self->get_user_id;
     return $self->new_other('RealmOwner')
