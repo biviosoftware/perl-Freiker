@@ -37,3 +37,7 @@ verify_table(Delivered => [
     [qw(bunit20 child1)],
     [qw(bunit50 child)],
 ]);
+login_as('wheel');
+follow_link('delivered');
+follow_link_in_table(qw(Delivered Prize bunit20 Actions return));
+
