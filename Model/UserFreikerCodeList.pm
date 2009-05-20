@@ -13,7 +13,10 @@ sub get_codes {
 }
 
 sub get_display_name {
-    return '(' . join(', ', @{shift->get_codes(@_)}) . ')';
+    my($self, $uid_or_codes) = @_;
+    $uid_or_codes = $self->get_codes($uid_or_codes)
+	unless ref($uid_or_codes);
+    return '(' . join(', ', @$uid_or_codes) . ')';
 }
 
 sub get_most_recent {
