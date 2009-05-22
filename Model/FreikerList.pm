@@ -20,6 +20,22 @@ sub execute_load_csv {
     return;
 }
 
+sub internal_can_select_prize {
+    my($self, $row) = @_;
+    return $row->{can_select_prize}
+	= ($row->{prize_select_list}
+	    = $self->new_other($self->PRIZE_SELECT_LIST)
+		->load_for_user_and_credit(
+		    $row->{'RealmUser.user_id'}, $row->{prize_credit})
+	)->get_result_set_size ? 1 : 0;
+}
+
+sub internal_freiker_codes {
+    my($self, $row) = @_;
+    return $_SA->new($self->new_other('UserFreikerCodeList')
+	->get_codes($row->{'RealmUser.user_id'}));
+}
+
 sub internal_initialize {
     my($self) = @_;
     my($d) = $_D->to_sql_value('?');
@@ -120,15 +136,8 @@ sub internal_post_load_row {
 	if $self->get_query->unsafe_get('fr_active')
 	&& !$row->{parent_email}
 	&& !$row->{ride_count};
-#TODO: These queries are very expensive
-    $row->{freiker_codes} = $_SA->new($self->new_other('UserFreikerCodeList')
-	->get_codes($row->{'RealmUser.user_id'}));
-    $row->{can_select_prize}
-	= ($row->{prize_select_list}
-	    = $self->new_other($self->PRIZE_SELECT_LIST)
-		->load_for_user_and_credit(
-		    $row->{'RealmUser.user_id'}, $row->{prize_credit})
-	)->get_result_set_size ? 1 : 0;
+    $row->{freiker_codes} = $self->internal_freiker_codes($row);
+    $row->{can_select_prize} = $self->internal_can_select_prize($row);
     return 1;
 }
 
