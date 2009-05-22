@@ -13,6 +13,13 @@ sub PRIZE_SELECT_LIST {
     return 'PrizeSelectList';
 }
 
+sub execute_load_csv {
+    my($proto, $req) = @_;
+    my($self) = $proto->new($req);
+    $self->load_all($self->parse_query_from_request->put(fr_active => 1));
+    return;
+}
+
 sub internal_initialize {
     my($self) = @_;
     my($d) = $_D->to_sql_value('?');
@@ -76,6 +83,7 @@ sub internal_initialize {
 		sort_order => 0,
 	    },
 	],
+	other_query_keys => ['fr_active'],
 	other => [
 	    {
 		name => 'can_select_prize',
@@ -108,6 +116,10 @@ sub internal_post_load_row {
     my($self, $row) = @_;
     return 0
 	unless shift->SUPER::internal_post_load_row(@_);
+    return 0
+	if $self->get_query->unsafe_get('fr_active')
+	&& !$row->{parent_email}
+	&& !$row->{ride_count};
 #TODO: These queries are very expensive
     $row->{freiker_codes} = $_SA->new($self->new_other('UserFreikerCodeList')
 	->get_codes($row->{'RealmUser.user_id'}));
