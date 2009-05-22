@@ -418,9 +418,9 @@ div.sponsors h2 {
   margin-bottom: 1em;
 }
 div.sponsors img {
-    margin: 30px; 
-	position: relative;
-	left: 30px;
+  margin: 30px; 
+  position: relative;
+  left: 30px;
 }
 div.wiki img.notice_right {
   float: right; 
@@ -440,7 +440,20 @@ div.wiki img.notice_right {
   display: none;
   height: 0;
 }
-
+div.fr_changemakers_outer {
+  margin-bottom: 2ex;
+}
+div.fr_changemakers_box .b_rounded_box_body {
+  background: red;
+}
+div.fr_changemakers {
+  text-align: center;
+}
+div.fr_changemakers a {
+  color: white;
+  font-weight: bold;
+  font-size: 2.5em;
+}
 EOF
 
 sub internal_site_css {

@@ -95,18 +95,18 @@ sub internal_xhtml_adorned_attrs {
 		),
 	    ])),
 	]),
-	xhtml_main_left => Or(And(
-	    IfWiki('.*', 1),
-	    Director(['->req', 'path_info'], {
-		map((qr{^/(?:@{[join('|', @$_)]})$}is
-		    => RoundedBox(_menu("$_->[0]MainLeft"), 'left_nav')),
-		    [qw(About_Us History Board_And_Staff In_The_News)],
-		    [qw(How_It_Works Freikometer Prizes Results FAQ)],
-		    [qw(Support_Freiker Volunteer Sponsors)],
-		    [qw(Parents_And_Kids)],
-		    [qw(Schools)],
-		),
-	    }, '', ''),
+	xhtml_main_left => Or(
+	    IfWiki('.*',
+		Director(['->req', 'path_info'], {
+		    map((qr{^/(?:@{[join('|', @$_)]})$}is
+			=> RoundedBox(_menu("$_->[0]MainLeft"), 'left_nav')),
+			[qw(About_Us History Board_And_Staff In_The_News)],
+			[qw(How_It_Works Freikometer Prizes Results FAQ)],
+			[qw(Support_Freiker Volunteer Sponsors)],
+			[qw(Parents_And_Kids)],
+			[qw(Schools)],
+		    ),
+		}, '', ''),
 	    ),
 	    If(Not(
 		[['->req', 'task_id'],
@@ -138,22 +138,21 @@ sub internal_xhtml_adorned_attrs {
     return @res;
 }
 
-sub xx {
-    my($proto, $args, $op) = @_;
-	#(caller(0))[0]->super_for_method($proto->my_caller);
-#    my($res) = Bivio::UI::View::ThreePartPage::internal_xhtml_adorned($proto);
-    $op->($proto);
-#    return $res;
-#    return;
-#     my($super) = [$sub->($proto, @$args)];
-#     my($my) = $op->($proto, $args, $super) || $super;
-#     return wantarray ? @$my : $my->[0];
-}
-
 sub internal_xhtml_grid3 {
     my($self, $name) = @_;
     my($w) = shift->SUPER::internal_xhtml_grid3(@_);
-    return $name eq 'main' ? RoundedBox($w, 'fr_main_rounded_box') : $w;
+    return $name eq 'main' ? Join([
+	DIV_fr_changemakers_outer(
+	    RoundedBox(DIV_fr_changemakers(
+		Link(
+		    SPAN(
+			'Help us win $5,000. Vote for Freiker at change<i>makers</i>'),
+		    'http://www.changemakers.com/en-us/node/14381/finalists',
+		),
+	    ), 'fr_changemakers_box'),
+	),
+	RoundedBox($w, 'fr_main_rounded_box'),
+    ]) : $w;
 }
 
 sub _menu {
