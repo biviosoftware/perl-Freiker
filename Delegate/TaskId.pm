@@ -396,7 +396,7 @@ sub get_delegate_info {
 	    544
 	    CLUB
 	    ADMIN_READ
-	    Model.ClubFreikerList->execute_load_all
+	    Model.ClubFreikerList->execute_load_csv
 	    View.Club->freiker_list_csv
 	)],
 	[qw(
