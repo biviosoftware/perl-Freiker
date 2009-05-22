@@ -25,5 +25,6 @@ submit_form({
     )),
 });
 follow_link('spreadsheet');
+verify_no_text(',0,');
 go_back();
 follow_link('available_prizes');
