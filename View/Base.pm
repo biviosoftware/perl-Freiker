@@ -147,7 +147,7 @@ sub internal_xhtml_grid3 {
 		Link(
 		    SPAN(
 			'Help us win $5,000. Vote for Freiker at change<i>makers</i>'),
-		    'http://www.changemakers.com/en-us/node/14381/finalists',
+		    '/go?x=http://www.changemakers.com/en-us/node/14381/finalists',
 		),
 	    ), 'fr_changemakers_box'),
 	),
