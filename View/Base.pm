@@ -142,14 +142,17 @@ sub internal_xhtml_grid3 {
     my($self, $name) = @_;
     my($w) = shift->SUPER::internal_xhtml_grid3(@_);
     return $name eq 'main' ? Join([
-	DIV_fr_changemakers_outer(
-	    RoundedBox(DIV_fr_changemakers(
-		Link(
-		    SPAN(
-			'Help us win $5,000. Vote for Freiker at change<i>makers</i>'),
-		    '/go?x=http://www.changemakers.com/en-us/node/14381/finalists',
-		),
-	    ), 'fr_changemakers_box'),
+	IfWiki('/changemakers',
+	    Simple(''),
+	    DIV_fr_changemakers_outer(
+		RoundedBox(DIV_fr_changemakers(
+		    Link(
+			SPAN(
+			    'Help us win $5,000. Vote for Freiker at change<i>makers</i>'),
+			'/bp/changemakers',
+		    ),
+		), 'fr_changemakers_box'),
+	    ),
 	),
 	RoundedBox($w, 'fr_main_rounded_box'),
     ]) : $w;
