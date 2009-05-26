@@ -31,8 +31,8 @@ sub internal_can_select_prize {
 sub internal_freiker_codes {
     my($self, $row) = @_;
     return (
-	$self->[$_IDI]->{code_list} ||= $self->new('FreikerCodeUserList')
-	    ->unauth_load_all({auth_id => $self->get_query->get('auth_id')})
+	$self->[$_IDI]->{code_list}
+	    ||= $self->new('FreikerCodeUserList')->load_all
     )->freiker_codes_for_user($row->{'RealmUser.user_id'});
 }
 
