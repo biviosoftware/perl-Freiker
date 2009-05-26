@@ -22,12 +22,11 @@ sub execute_load_csv {
 
 sub internal_can_select_prize {
     my($self, $row) = @_;
-    return $row->{can_select_prize}
-	= ($row->{prize_select_list}
-	    = $self->new_other($self->PRIZE_SELECT_LIST)
-		->load_for_user_and_credit(
-		    $row->{'RealmUser.user_id'}, $row->{prize_credit})
-	)->get_result_set_size ? 1 : 0;
+    return ($row->{prize_select_list}
+	= $self->new_other($self->PRIZE_SELECT_LIST)
+	    ->load_for_user_and_credit(
+		$row->{'RealmUser.user_id'}, $row->{prize_credit})
+    )->get_result_set_size ? 1 : 0;
 }
 
 sub internal_freiker_codes {
