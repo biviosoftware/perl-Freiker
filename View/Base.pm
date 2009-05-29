@@ -138,26 +138,6 @@ sub internal_xhtml_adorned_attrs {
     return @res;
 }
 
-sub internal_xhtml_grid3 {
-    my($self, $name) = @_;
-    my($w) = shift->SUPER::internal_xhtml_grid3(@_);
-    return $name eq 'main' ? Join([
-	IfWiki('/changemakers',
-	    Simple(''),
-	    DIV_fr_changemakers_outer(
-		RoundedBox(DIV_fr_changemakers(
-		    Link(
-			SPAN(
-			    'Help us win $5,000. Vote for Freiker at change<i>makers</i>'),
-			'/bp/changemakers',
-		    ),
-		), 'fr_changemakers_box'),
-	    ),
-	),
-	RoundedBox($w, 'fr_main_rounded_box'),
-    ]) : $w;
-}
-
 sub _menu {
     my($name) = @_;
     return WikiText('@b-menu ' . $name, {
