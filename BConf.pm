@@ -13,6 +13,9 @@ sub dev_overrides {
 sub merge_overrides {
     my($proto, $host) = @_;
     return Bivio::IO::Config->merge_list({
+	'Bivio::Biz::Model::MailReceiveDispatchForm' => {
+	    filter_spam => 1,
+	},
         $proto->merge_class_loader({
             delegates => {
 		'Bivio::Agent::HTTP::Cookie' => 'Bivio::Delegate::Cookie',
