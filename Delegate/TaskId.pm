@@ -408,6 +408,14 @@ sub get_delegate_info {
 	    View.Club->prize_delete
 	    next=CLUB_PRIZE_COUPON_LIST
 	)],
+	[qw(
+	    DERO_ZAP_UPLOAD
+	    546
+	    GENERAL
+	    ANYBODY
+	    Action.FreikometerUpload->execute_dero_zap
+	    Action.EmptyReply
+	)],
     ]);
 }
 
