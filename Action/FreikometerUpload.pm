@@ -36,6 +36,20 @@ sub execute {
     return;
 }
 
+sub execute_dero_zap {
+    my(undef, $req) = @_;
+    my($c) = $req->get_content;
+    $req->with_realm_and_user('site', undef, sub {
+	Bivio::ShellUtil->set_user_to_any_online_admin;
+        $_M->new($req, 'RealmFile')->create_or_update_with_content({
+	    user_id => $req->get('auth_user_id'),
+	    path => '/zap.dat',
+	}, $req->get_content || \(''));
+	return;
+    });
+    return;
+}
+
 sub reply_header_out {
     my(undef, $key, $value, $req) = @_;
     $req->get('r')->header_out($key, $value);
