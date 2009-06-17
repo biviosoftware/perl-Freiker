@@ -38,6 +38,7 @@ sub execute {
 
 sub execute_dero_zap {
     my(undef, $req) = @_;
+    $req->assert_test;
     my($c) = $req->get_content;
     $req->with_realm_and_user('site', undef, sub {
 	Bivio::ShellUtil->set_user_to_any_online_admin;
