@@ -1,0 +1,16 @@
+# Copyright (c) 2009 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+home_page();
+login_as('adm');
+follow_link(qw(^site$ files));
+send_request(DELETE => '/dav/site/Files/zap.dat')
+    if text_exists('zap.dat');
+do_logout();
+#basic_authorization('fm_dero_zap');
+my($expect) = 'btest=' . random_string();
+send_request(POST => "/dz", undef, $expect);
+home_page();
+login_as('adm');
+follow_link(qw(^site$ files zap.dat));
+test_equals($expect, get_content());
