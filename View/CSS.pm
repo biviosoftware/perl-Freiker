@@ -265,7 +265,7 @@ div.support_freiker {
   font-size: .9em;
   color: #FFFFFF;
   padding: .3em;
-  height=100%;
+  height: 100%;
 }
 tr.rides_support {
   vertical-align: top;
