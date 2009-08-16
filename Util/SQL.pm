@@ -149,7 +149,7 @@ sub internal_upgrade_db_need_accept_terms {
     $self->model('Email')->do_iterate(
 	sub {
 	    $self->model('RowTag')->replace_value(
-		b_debug(shift->get('realm_id')),
+		shift->get('realm_id'),
 		NEED_ACCEPT_TERMS => 1,
 	    );
 	    return 1;
