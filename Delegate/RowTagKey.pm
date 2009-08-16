@@ -12,6 +12,7 @@ sub get_delegate_info {
 	@{$proto->SUPER::get_delegate_info},
 	CLUB_SIZE => [100],
 	CLUB_END_DATE => [101],
+	NEED_ACCEPT_TERMS => [102],
     ];
 }
 
