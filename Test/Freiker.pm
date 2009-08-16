@@ -1,9 +1,10 @@
-# Copyright (c) 2005 bivio Software, Inc.  All rights reserved.
+# Copyright (c) 2005-2009 bivio Software, Inc.  All rights reserved.
 # $Id$
 package Freiker::Test::Freiker;
 use strict;
+use Bivio::Base 'TestLanguage.HTTP';
+
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-use base ('Bivio::Test::Language::HTTP');
 
 sub generate_image {
     my($self, $text) = @_;
