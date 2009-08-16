@@ -454,6 +454,10 @@ div.fr_changemakers a {
   font-weight: bold;
   font-size: 2.5em;
 }
+.center {
+  width: 100%;
+  text-align: center;
+}
 EOF
 
 sub internal_site_css {
