@@ -140,7 +140,7 @@ sub internal_xhtml_adorned_attrs {
 
 sub _menu {
     my($name) = @_;
-    return WikiText('@b-menu ' . $name, {
+    return WikiText('@b-menu value=' . $name, {
 	realm_id => vs_constant('site_realm_id'),
 	task_id => 'SITE_WIKI_VIEW',
     });
