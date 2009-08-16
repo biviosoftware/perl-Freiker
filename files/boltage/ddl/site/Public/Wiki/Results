@@ -6,7 +6,7 @@ Freiker's  success is measurable due to fanatical dedication to data. We want to
 @p
 The chart below shows  real-time results of our participating schools.   The Day column shows the number of round-trip rides for the current  school day, the Week Column shows aggregate rides for the last five school  days, and the Month column shows aggregate results for the last 20 school days.
 
-@b-embed /pub/ride-summary
+@b-embed value=/pub/ride-summary
 
 @p
 There are more charts showing results below,  but for those who prefer pictures over graphs, the following photos show the  bike racks at Burlington Elementary on a warm, sunny day *before* the  Freiker program began and on a similar day *after* the program  started.

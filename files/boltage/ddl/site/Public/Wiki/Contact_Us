@@ -15,4 +15,4 @@ Also, if your question or issue concerns one of the schools where we are running
 @/ol
 
 @div class=contact_form
-@b-embed /pub/contact
+@b-embed value=/pub/contact

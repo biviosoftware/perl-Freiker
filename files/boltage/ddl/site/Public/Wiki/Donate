@@ -5,7 +5,7 @@ source of funding is from a small company:
 Your tax-deductible donation will help us expand this successful
 program.
 
-@b-widget paypal_form
+@b-widget value=paypal_form
 
 Or, if you prefer, please send a check to:
 @blockquote.address

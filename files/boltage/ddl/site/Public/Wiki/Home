@@ -104,7 +104,7 @@
 @a href=^Results
 @img src=^rides_counted.gif 
 @span
-@b-widget ride_count_all
+@b-widget value=ride_count_all
 @/span
 Click here to see ride totals by school
 @/a

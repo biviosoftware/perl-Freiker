@@ -95,7 +95,7 @@ From time to time, we may take photographs of your child.  We may
 put your child's picture on our website, in a brochure, or other
 printed materials to show how much fun Freiker is.  If you do not
 want your child's picture published, please contact us at 
-@b-widget contact@
+@b-widget value=contact
 .
 We understand and completely respect your desire
 to maintain your family's privacy.
@@ -108,7 +108,7 @@ a
 at your school, just
 go to your bike rack on a Monday morning.  If you would like to bring
 Freiker to your school, please contact us at 
-@b-widget contact@
+@b-widget value=contact
 .
 If you are politically
 inclined, please go to school board and/or city council meetings and
@@ -128,7 +128,7 @@ It's tax-deductible!
 @h3 Feedback
 
 We encourage feedback so please contact us at 
-@b-widget contact
+@b-widget value=contact
 with your
 questions, comments, and/or suggestions.
 
