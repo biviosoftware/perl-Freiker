@@ -1,4 +1,4 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Test;
 use strict;
@@ -36,6 +36,10 @@ sub FREIKOMETER {
 
 sub MAX_CHILD_INDEX {
     return 6;
+}
+
+sub NEED_ACCEPT_TERMS {
+    return 'need_accept_terms';
 }
 
 sub PARENT {
