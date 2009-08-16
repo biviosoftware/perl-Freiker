@@ -21,6 +21,7 @@ commands
   child_ride_dates [child [as_date]] -- valid ride for the child (child(0) has many rides)
   reset_freikers [which] -- deletes and creates unregistered rides
   reset_freikometer_folders -- clears folders and sets up one download
+  reset_need_accept_terms -- sets NEED_ACCEPT_TERMS RowTag for need-accept-terms user
   reset_prizes_for_school [which] -- create bunit10, bunit20, bunit50, bunit1000
 EOF
 }
@@ -59,6 +60,25 @@ sub create_prize_coupon {
 	    });
 	},
     )->get('coupon_code');
+}
+
+sub reset_need_accept_terms {
+    my($self) = @_;
+    $self->req->with_realm(
+	Freiker::Test->NEED_ACCEPT_TERMS,
+	sub {
+	    $self->model('RowTag')->replace_value(
+		$self->req('auth_id'),
+		'NEED_ACCEPT_TERMS',
+		1,
+	    );
+	    $self->model('Address')->load->update({
+		zip => undef,
+	    });
+	    return;
+	},
+    );
+    return;
 }
 
 sub reset_all_freikers {
