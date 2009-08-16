@@ -1,0 +1,12 @@
+# Copyright (c) 2009 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+home_page();
+do_test_backdoor(TestData => 'reset_need_accept_terms');
+login_as('need_accept_terms');
+verify_text(qr{clicking on.*I accept}s);
+submit_form('accept');
+do_logout();
+login_as('need_accept_terms');
+verify_no_text(qr{clicking on.*I accept}s);
+do_test_backdoor(TestData => 'reset_need_accept_terms');
