@@ -12,7 +12,6 @@ sub create {
 	qw{
 	   UserRegisterForm.RealmOwner.display_name
 	   UserRegisterForm.Email.email
-	   -optional
 	   UserRegisterForm.Address.zip
         },
     ]));
