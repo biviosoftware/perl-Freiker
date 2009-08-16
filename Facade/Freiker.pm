@@ -135,6 +135,7 @@ my($_SELF) = __PACKAGE__->new({
 	[GREEN_GEAR_LIST => '?/green-gears'],
 	[CLUB_RIDE_FILL_FORM => '?/fill-rides'],
 	[CLUB_FREIKER_PRIZE_DELETE => '?/return-prize'],
+	[USER_ACCEPT_TERMS_FORM => 'bp/Accept_Terms'],
     ],
     Text => [
 	[support_email => 'gears'],
@@ -229,7 +230,7 @@ my($_SELF) = __PACKAGE__->new({
 	    prose => [
 		prologue => q{vs_text_as_prose('USER_CREATE');},
 		epilogue => q{vs_text_as_prose('GENERAL_USER_PASSWORD_QUERY');},
-	    ],
+            ],
 	]],
 	[Prize => [
 	    name => 'Name',
@@ -251,14 +252,24 @@ my($_SELF) = __PACKAGE__->new({
 	]],
 	[UserRegisterForm => [
 	    prose => [
-		prologue => q{In order to better serve you, we validate all email addresses.  When you click Register, we'll email a link which will you to set your password.},
-		epilogue => q{vs_text_as_prose('LOGIN');},
+		prologue => q{P('In order to better serve you, we validate all email addresses.  When you click Register, we will email a link which will you to set your password.');},
+		epilogue => <<'EOF',
+P(vs_text_as_prose('LOGIN'));
+P(Join([
+    q{By clicking on 'I accept' below you are agreeing to the },
+    Link('Terms of Service', '/bp/Terms_of_Service'),
+    ' and the ',
+    Link('Privacy Policy', '/bp/Privacy_Policy'),
+    '.',
+]));
+</p>
+EOF
 	    ],
 	    'Email.email.desc' =>
 		q{We only send emails related to vs_site_name();.},
 	    'RealmOwner.display_name' => 'Your Name',
 	    'RealmOwner.display_name.desc' => q{Your first and last name, not your business or school's name.},
-	    ok_button => 'Register',
+	    ok_button => 'I accept. Create my account.',
 	]],
 	[FreikerForm => [
 	    'User.first_name' => q{First Name},
@@ -377,6 +388,7 @@ EOF
 	[FAMILY_PRIZE_SELECT => 'Select prize'],
 	[PAYPAL_FORM => ''],
 	[title => [
+	    USER_ACCEPT_TERMS_FORM => 'Accept Terms of Service and Privace Policy',
 	    CLUB_FREIKER_LIST => 'Freikers',
 	    CLUB_RIDE_DATE_LIST => 'Rides by Date',
 	    CLUB_REGISTER => 'Register Your School',

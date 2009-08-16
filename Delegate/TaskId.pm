@@ -416,6 +416,15 @@ sub get_delegate_info {
 	    Action.FreikometerUpload->execute_dero_zap
 	    Action.EmptyReply
 	)],
+	[qw(
+	    USER_ACCEPT_TERMS_FORM
+	    547
+	    GENERAL
+	    ANY_USER
+	    Model.AcceptTermsForm
+	    Action.WikiView->bp_Accept_Terms
+	    next=MY_SITE
+	)],
     ]);
 }
 
