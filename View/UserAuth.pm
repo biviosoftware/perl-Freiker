@@ -13,6 +13,7 @@ sub create {
 	   UserRegisterForm.RealmOwner.display_name
 	   UserRegisterForm.Email.email
 	   UserRegisterForm.Address.zip
+	   UserRegisterForm.Address.country
         },
     ]));
 }
