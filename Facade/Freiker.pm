@@ -166,9 +166,9 @@ my($_SELF) = __PACKAGE__->new({
 	['WikiView.start_page' => 'Home'],
 	[Address => [
 	     country => 'Country Code',
-	     'country.desc' => 'Official two-letter country code (US, CA, IL, MX, etc.)',
+	     'country.desc' => 'Official two-letter country code (US, CA, MX, etc.)',
 	     zip => 'Postal Code',
-	     'zip.desc' => q{If you live in the US, please enter your 9-digit US zip code (ZIP+4). Link('Look it up at the USPS.', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});},
+	     'zip.desc' => q{US participants, please enter your 9-digit US zip code (ZIP+4). Link('Look it up at the USPS.', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});.  Other participants should enter their complete postal code, excluding any country prefix.},
 	]],
 	[ClubRegisterForm => [
 	    'club_size' => 'Number of Students',
@@ -252,7 +252,7 @@ my($_SELF) = __PACKAGE__->new({
 	]],
 	[UserRegisterForm => [
 	    prose => [
-		prologue => q{P('In order to better serve you, we validate all email addresses.  When you click Register, we will email a link which will you to set your password.');},
+		prologue => q{P('In order to better serve you, we validate all email addresses.  When you click Register, we will email you a link which will ask you to set your password.');},
 		epilogue => <<'EOF',
 P(vs_text_as_prose('LOGIN'));
 P(Join([
@@ -274,7 +274,6 @@ EOF
 	[FreikerForm => [
 	    'User.first_name' => q{First Name},
 	    'User.first_name.desc' => q{This is for your information only so it may be a nickname, an abbreviation, or any other identifier.},
-	    'FreikerCode.freiker_code.desc' => q{The number on your child's helmet or backpack.},
 	    'birth_year' => q{Year of Birth},
 	    'User.gender' => q{Gender},
 	    ok_button => 'Register child',
@@ -284,6 +283,13 @@ EOF
 		prologue => q{Enter the new Freiker ID from the tag on your child's helmet or backpack.  If the tag is missing from your child's helmet or backpack, or you need another tag for a new helmet or backpack, vs_wheel_contact();.},
 	    ],
 	    ok_button => 'Add tag',
+	]],
+	[[qw(FreikerCodeForm FreikerForm)] => [
+	    kilometers => 'Kilometers to School',
+	    miles => 'Miles to School',
+	    [qw(miles kilometers)] => [
+		desc => q{One-way distance from your home to this child's school.  Participants with multiple homes, calculate the distance from the home associated with the postal code above.},
+	    ],
 	]],
 	[ClubManualRideForm => [
 	    add_days => 'Number of Days',

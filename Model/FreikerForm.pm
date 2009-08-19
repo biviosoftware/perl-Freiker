@@ -1,4 +1,4 @@
-# Copyright (c) 2006-2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::FreikerForm;
 use strict;
@@ -11,6 +11,7 @@ my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 
 sub execute_empty {
     my($self) = @_;
+    shift->SUPER::execute_empty(@_);
     $self->internal_put_field('User.gender' => $_G_UNKNOWN);
     return;
 }
@@ -56,6 +57,13 @@ sub internal_initialize {
 	    [qw(FreikerCode.user_id User.user_id)],
 	],
     });
+}
+
+sub validate {
+    my($self) = @_;
+    shift->SUPER::validate(@_);
+    $self->validate_address;
+    return;
 }
 
 1;
