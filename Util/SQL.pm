@@ -43,16 +43,12 @@ sub initialize_test_data {
     foreach my $n (0..1) {
 	$req->set_realm(undef);
 	foreach my $x (qw(WHEEL SPONSOR_EMP)) {
-	    $self->model(UserRegisterForm => {
-		'RealmOwner.display_name' => Freiker::Test->$x($n),
-		'Address.zip' => Freiker::Test->ZIP($n),
-		'RealmOwner.name' => Freiker::Test->$x($n),
-		'RealmOwner.password' => $self->TEST_PASSWORD,
-		'confirm_password' => $self->TEST_PASSWORD,
-		'Email.email' => $self->format_test_email(
-		    Freiker::Test->$x($n)),
-		password_ok => 1,
-	    });
+	    _register_user(
+		$self,
+		Freiker::Test->$x($n),
+		Freiker::Test->$x($n),
+		Freiker::Test->ZIP($n),
+	    );
 	}
 	$req->with_user(Freiker::Test->WHEEL($n) => sub {
 	    $self->model(ClubRegisterForm => {
@@ -68,15 +64,12 @@ sub initialize_test_data {
 	    $self->req('auth_user')->update_password($self->TEST_PASSWORD);
 	    return;
 	});
-	$self->model(UserRegisterForm => {
-	    'RealmOwner.display_name' => 'A ' . ucfirst(Freiker::Test->PARENT($n)),
-	    'Address.zip' => Freiker::Test->ZIP($n),
-	    'RealmOwner.name' => Freiker::Test->PARENT($n),
-	    'RealmOwner.password' => $self->TEST_PASSWORD,
-	    'confirm_password' => $self->TEST_PASSWORD,
-	    'Email.email' => $self->format_test_email(Freiker::Test->PARENT($n)),
-	    password_ok => 1,
-	});
+	_register_user(
+	    $self,
+	    Freiker::Test->PARENT($n),
+	    'A ' . ucfirst(Freiker::Test->PARENT($n)),
+	    Freiker::Test->ZIP($n),
+	);
 	$req->set_realm(Freiker::Test->SCHOOL_NAME($n));
 	# COUPLING: commit is to release Model.Lock on rides (above).
 	$self->commit_or_rollback;
@@ -99,16 +92,12 @@ sub initialize_test_data {
 	$self->new_other('RealmFile')
 	    ->main(qw(-user adm -realm site import_tree));
     });
-    $self->model(UserRegisterForm => {
-	'RealmOwner.display_name' => 'Need Accept Terms',
-	'Address.zip' => Freiker::Test->ZIP,
-	'RealmOwner.name' => Freiker::Test->NEED_ACCEPT_TERMS,
-	'RealmOwner.password' => $self->TEST_PASSWORD,
-	'confirm_password' => $self->TEST_PASSWORD,
-	'Email.email' => $self->format_test_email(
-	    Freiker::Test->NEED_ACCEPT_TERMS),
-	password_ok => 1,
-    });
+    _register_user(
+	$self,
+	Freiker::Test->NEED_ACCEPT_TERMS,
+	Freiker::Test->NEED_ACCEPT_TERMS,
+	Freiker::Test->ZIP,
+    );
     $self->new_other('TestData')->reset_need_accept_terms;
     return;
 }
@@ -157,6 +146,21 @@ sub internal_upgrade_db_need_accept_terms {
 	'unauth_iterate_start',
 	'email',
     );
+    return;
+}
+
+sub _register_user {
+    my($self, $name, $display_name, $zip) = @_;
+    $self->model(UserRegisterForm => {
+	'RealmOwner.name' => $name,
+	'RealmOwner.display_name' => $display_name,
+	'Address.zip' => $zip,
+	'Address.country' => 'US',
+	'RealmOwner.password' => $self->TEST_PASSWORD,
+	'confirm_password' => $self->TEST_PASSWORD,
+	'Email.email' => $self->format_test_email($name),
+	password_ok => 1,
+    });
     return;
 }
 
