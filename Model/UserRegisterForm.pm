@@ -1,10 +1,17 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::UserRegisterForm;
 use strict;
 use Bivio::Base 'Model';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+my($_FCF) = b_use('Model.FreikerCodeForm');
+
+sub execute_empty {
+    my($self) = @_;
+    $self->internal_put_field('Address.country' => 'US');
+    return;
+}
 
 sub internal_create_models {
     my($self) = @_;
@@ -22,6 +29,10 @@ sub internal_initialize {
         version => 1,
         visible => [
 	    {
+		name => 'Address.country',
+		constraint => 'NOT_NULL',
+	    },
+	    {
 		name => 'Address.zip',
 		constraint => 'NOT_NULL',
 	    },
@@ -29,5 +40,15 @@ sub internal_initialize {
     });
 }
 
+sub validate {
+    my($self) = @_;
+    shift->SUPER::validate(@_);
+    $self->validate_address;
+    return;
+}
+
+sub validate_address {
+    return shift->delegate_method($_FCF, @_);
+}
 
 1;
