@@ -68,6 +68,8 @@ my($create) = sub {
 		'Club.club_id' => $club_id,
 		birth_year => undef,
 		'User.gender' => Gender('MALE'),
+		miles => 1,
+		'Address.zip' => Freiker::Test->ZIP,
 	    });
 	});
 	return;

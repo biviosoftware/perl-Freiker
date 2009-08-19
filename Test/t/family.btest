@@ -17,15 +17,16 @@ follow_link('register.*child');
 submit_form({
     first => 'Bobby',
     freiker => '1237',
-    school => 'bunit Elementary',
+    '^school' => 'bunit Elementary',
     birth => '1999',
     radio => 'Male',
+    miles => '33',
 });
 follow_link_in_table(qw(freiker freiker bobby action tag));
 sleep(1);
 submit_form({
     freiker => '1238',
-    school => 'bunit Elementary',
+    '^school' => 'bunit Elementary',
 });
 verify_text('Bobby (1238, 1237)');
 follow_link('missing');
@@ -42,7 +43,7 @@ follow_link('tag');
 test_deviance('already assigned');
 submit_form({
     freiker => '1238',
-    school => 'bunit Elementary',
+    '^school' => 'bunit Elementary',
 });
 test_conformance();
 do_logout();

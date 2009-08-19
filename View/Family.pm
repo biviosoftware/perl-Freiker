@@ -11,6 +11,23 @@ sub freiker_add {
     return shift->internal_body(vs_simple_form(FreikerForm => [
         'FreikerForm.User.first_name',
 	'FreikerForm.FreikerCode.freiker_code',
+	'FreikerForm.Address.zip',
+	['FreikerForm.kilometers', {
+# 	    wf_class => 'Select',
+# 	    choices => ['Model.DistanceList'],
+# 	    list_id_field => 'Club.club_id',
+#	    list_display_field => 'RealmOwner.display_name',
+#	    unknown_label => 'Select School',
+	    control => ['!', 'Model.FreikerForm', 'in_miles'],
+	}],
+	['FreikerForm.miles', {
+# 	    wf_class => 'Select',
+# 	    choices => ['Model.DistanceList'],
+# 	    list_id_field => 'Club.club_id',
+#	    list_display_field => 'RealmOwner.display_name',
+#	    unknown_label => 'Select School',
+	    control => ['Model.FreikerForm', 'in_miles'],
+	}],
         _club_id('FreikerForm'),
 	'-optional',
 	'FreikerForm.birth_year',
@@ -22,6 +39,23 @@ sub freiker_code_add {
     return shift->internal_body(vs_simple_form(FreikerCodeForm => [
 	'FreikerCodeForm.FreikerCode.freiker_code',
         _club_id('FreikerCodeForm'),
+	'FreikerCodeForm.Address.zip',
+	['FreikerCodeForm.kilometers', {
+# 	    wf_class => 'Select',
+# 	    choices => ['Model.DistanceList'],
+# 	    list_id_field => 'Club.club_id',
+#	    list_display_field => 'RealmOwner.display_name',
+#	    unknown_label => 'Select School',
+	    control => ['!', 'Model.FreikerCodeForm', 'in_miles'],
+	}],
+	['FreikerCodeForm.miles', {
+# 	    wf_class => 'Select',
+# 	    choices => ['Model.DistanceList'],
+# 	    list_id_field => 'Club.club_id',
+#	    list_display_field => 'RealmOwner.display_name',
+#	    unknown_label => 'Select School',
+	    control => ['Model.FreikerCodeForm', 'in_miles'],
+	}],
     ]));
 }
 
