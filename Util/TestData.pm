@@ -128,6 +128,8 @@ sub reset_freikers {
 		'FreikerCode.freiker_code' => $code,
 		'User.gender' => $self->use('Type.Gender')->FEMALE,
 		'birth_year' => 1999,
+		'Address.zip' => Freiker::Test->ZIP($which),
+		miles => 3,
 	    });
 	    $self->req('Model.RealmOwner')->update({name => $name});
 	    return;
@@ -156,6 +158,8 @@ sub reset_freikers {
         $self->model(FreikerCodeForm => {
 	    'Club.club_id' => $club_id,
 	    'FreikerCode.freiker_code' => $code,
+	    'Address.zip' => Freiker::Test->ZIP($which),
+	    miles => 3,
 	});
 	$self->unauth_model(FreikerCode => {
 	    freiker_code => $code,
