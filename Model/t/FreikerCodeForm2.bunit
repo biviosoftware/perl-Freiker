@@ -20,6 +20,8 @@ my($num_rides) = $count->();
     [{
 	'FreikerCode.freiker_code' => $fc->(3, 1),
 	'Club.club_id' => realm_id(Freiker::Test->SCHOOL_NAME(1)),
+	'Address.zip' => Freiker::Test->ZIP(1),
+	miles => 33,
     }] => sub {
 	assert_equals(1, $count->());
 	my($found) = 0;
