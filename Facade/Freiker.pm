@@ -160,6 +160,9 @@ my($_SELF) = __PACKAGE__->new({
 	[parent_display_name => 'Parent'],
 	[parent_email => 'Email'],
 	[list_actions => 'Actions'],
+	[[qw(GroupUserList.privileges_name RoleSelectList.display_name)] => [
+	    FREIKOMETER => 'Freikometer',
+	]],
 	[Ride => [
 	    ride_date => 'Date',
 	]],
