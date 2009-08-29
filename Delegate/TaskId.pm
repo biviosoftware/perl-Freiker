@@ -96,6 +96,7 @@ sub get_delegate_info {
 	    ADMIN_READ
 	    Model.FreikerListQueryForm
 	    Model.FreikerList->execute_load_all_with_query
+	    Action.ValidateAddress
 	    View.Family->freiker_list
 	    next=FAMILY_FREIKER_LIST
 	    MODEL_NOT_FOUND=FAMILY_FREIKER_ADD
@@ -107,7 +108,7 @@ sub get_delegate_info {
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.FreikerCodeForm
 	    View.Family->freiker_code_form
-	    next=FAMILY_FREIKER_LIST
+	    next=FAMILY_FREIKER_RIDE_LIST
 	)],
 	[qw(
 	    ADM_FREIKOMETER_LIST
