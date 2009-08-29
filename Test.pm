@@ -61,7 +61,7 @@ sub FREIKOMETER {
 }
 
 sub MAX_CHILD_INDEX {
-    return 7;
+    return 8;
 }
 
 sub MAX_CHILD_INDEX_WITH_RIDES {
@@ -70,6 +70,10 @@ sub MAX_CHILD_INDEX_WITH_RIDES {
 
 sub NEED_ACCEPT_TERMS {
     return 'need_accept_terms';
+}
+
+sub NEED_ACCEPT_TERMS_CHILD_INDEX {
+    return 8;
 }
 
 sub PARENT {
