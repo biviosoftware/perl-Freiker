@@ -22,11 +22,11 @@ sub internal_initialize {
 
 sub internal_load_rows {
     my($self) = @_;
-    return [reverse(map(
+    return [map(
 	+{distance => $_},
 	$self->get_query->unsafe_get('in_miles') ? (.5, 1, 1.5, 2, 2.5) : (1, 2),
 	3..20,
-    ))];
+    )];
 }
 
 1;

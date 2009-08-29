@@ -3,8 +3,8 @@
 ListModel();
 [
     load_all => [
-	[] => [reverse(map(+{distance => $_}, 1..20))],
+	[] => [map(+{distance => $_}, 1..20)],
 	[{in_miles => 1}]
-	    => [reverse(map(+{distance => $_}, .5, 1, 1.5, 2, 2.5, 3..20))],
+	    => [map(+{distance => $_}, .5, 1, 1.5, 2, 2.5, 3..20)],
     ],
 ];
