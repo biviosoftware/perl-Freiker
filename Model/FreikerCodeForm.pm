@@ -30,7 +30,10 @@ sub execute_ok {
     return
 	unless _validate_rides($self, $code_uid);
     _update_user($self, $code_uid);
-    return shift->SUPER::execute_ok(@_);
+    return shift->SUPER::execute_ok(@_) || {
+    	carry_query => 1,
+    };
+
 }
 
 sub internal_initialize {
