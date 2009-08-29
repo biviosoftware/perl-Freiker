@@ -111,6 +111,7 @@ my($_SELF) = __PACKAGE__->new({
 	[CLUB_FREIKER_PRIZE_CONFIRM => '?/confirm-prize'],
 	[FAMILY_FREIKER_ADD => '?/register-freiker'],
 	[FAMILY_FREIKER_CODE_ADD => '?/add-tag'],
+	[FAMILY_FREIKER_EDIT => '?/edit-freiker'],
 	[FAMILY_FREIKER_LIST => '?/freikers'],
 	[FAMILY_FREIKER_RIDE_LIST => ['?/trips', '?/rides']],
 	[FAMILY_MANUAL_RIDE_FORM => ['?/add-trip', '?/add-ride']],
@@ -372,6 +373,7 @@ EOF
 	    FAMILY_FREIKER_ADD => q{Your child has been added.},
 	    FAMILY_MANUAL_RIDE_FORM => q{The missing date has been added.},
 	    FAMILY_FREIKER_CODE_ADD => q{The new Freiker ID was added.},
+	    FAMILY_FREIKER_EDIT => q{The Freiker's info was updated.},
 	    CLUB_PRIZE => 'The required trips for the prize were updated.',
 	    CLUB_FREIKER_CODE_IMPORT => 'New codes imported successfully.',
 	    MERCHANT_PRIZE => 'Thank you for your donation or update.  Please contact vs_gears_email(); to discuss prize delivery and inventory management.',
@@ -399,6 +401,7 @@ EOF
 	[FAMILY_FREIKER_RIDE_LIST => 'Trips'],
 	[FAMILY_MANUAL_RIDE_FORM => 'Add missing trip'],
 	[FAMILY_FREIKER_CODE_ADD => 'New tag'],
+	[FAMILY_FREIKER_EDIT => 'Edit info'],
 	[FAMILY_PRIZE_SELECT => 'Select prize'],
 	[PAYPAL_FORM => ''],
 	[title => [
@@ -449,6 +452,8 @@ EOF
 		'Add Missing Trip for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    FAMILY_FREIKER_CODE_ADD =>
 		'Enter New Freiker ID for String([qw(Model.FreikerRideList ->get_display_name)]);',
+	    FAMILY_FREIKER_EDIT =>
+		'Update Info for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    CLUB_FREIKER_MANUAL_RIDE_FORM =>
 		'Give trips to String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    CLUB_FREIKER_PRIZE_SELECT => q{Select Prize for String([qw(Model.ClubFreikerList RealmOwner.display_name)]); with String([qw(Model.ClubPrizeSelectList ->get_prize_credit)]); credits},

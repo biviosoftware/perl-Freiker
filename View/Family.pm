@@ -8,16 +8,12 @@ use Bivio::UI::ViewLanguageAUTOLOAD;
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_C) = b_use('View.Club');
 
-sub freiker_add {
-    return shift->internal_body(vs_simple_form(FreikerCodeForm => [
-	_freiker_common(),
-    ]));
+sub freiker_code_form {
+    return _freiker_form(shift, 'FreikerCodeForm');
 }
 
-sub freiker_code_add {
-    return shift->internal_body(vs_simple_form(FreikerCodeForm => [
-	_freiker_common(),
-    ]));
+sub freiker_form {
+    return _freiker_form(shift, 'FreikerForm');
 }
 
 sub freiker_list {
@@ -67,7 +63,7 @@ sub freiker_list {
 			}),
 			$_ eq 'FAMILY_PRIZE_SELECT' ? ['can_select_prize'] : (),
 		    ];
-		} qw(FAMILY_FREIKER_RIDE_LIST FAMILY_MANUAL_RIDE_FORM FAMILY_FREIKER_CODE_ADD))]),
+		} qw(FAMILY_FREIKER_RIDE_LIST FAMILY_MANUAL_RIDE_FORM FAMILY_FREIKER_CODE_ADD FAMILY_FREIKER_EDIT))]),
 # FAMILY_PRIZE_COUPON_LIST
 		column_data_class => 'list_actions',
 	    },
@@ -143,37 +139,35 @@ sub prize_select {
   	 vs_prize_list(PrizeSelectList => [qw(THIS_DETAIL FAMILY_PRIZE_CONFIRM)]));
 }
 
-sub _club_id {
-    my($form) = @_;
-    return ["$form.Club.club_id" => {
-	wf_class => 'Select',
-	choices => ['Model.ClubList'],
-	list_id_field => 'Club.club_id',
-	list_display_field => 'RealmOwner.display_name',
-	unknown_label => 'Select School',
-    }];
-}
-
-sub _freiker_common {
-    return (
-	'FreikerCodeForm.FreikerCode.freiker_code',
-        _club_id('FreikerCodeForm'),
-	'FreikerCodeForm.User.first_name',
-	'FreikerCodeForm.Address.zip',
+sub _freiker_form {
+    my($self, $model) = @_;
+    return $self->internal_body(vs_simple_form($model => [
+	$model eq 'FreikerForm' ? () : (
+	    "$model.FreikerCode.freiker_code",
+	    ["$model.Club.club_id" => {
+		    wf_class => 'Select',
+		    choices => ['Model.ClubList'],
+		    list_id_field => 'Club.club_id',
+		    list_display_field => 'RealmOwner.display_name',
+		    unknown_label => 'Select School',
+	    }],
+	),
+	"$model.User.first_name",
+	"$model.Address.zip",
 	map(
-	    ["FreikerCodeForm.$_", {
-		wf_class => 'Select',
-		choices => ['Model.DistanceList'],
-		list_display_field => 'distance',
-		unknown_label => 'Select Distance',
-		row_control => [$_ eq 'kilometers' ? '!' : (), 'Model.FreikerCodeForm', 'in_miles'],
+	    ["$model.$_", {
+		wf_class => "Select",
+		choices => ["Model.DistanceList"],
+		list_display_field => "distance",
+		unknown_label => "Select Distance",
+		row_control => [$_ eq "kilometers" ? "!" : (), "Model.$model", "in_miles"],
 	    }],
 	    qw(miles kilometers),
 	),
-	'-optional',
-	'FreikerCodeForm.birth_year',
-        ['FreikerCodeForm.User.gender', {class => 'radio_grid'}],
-    );
+	"-optional",
+	"$model.birth_year",
+        ["$model.User.gender", {class => "radio_grid"}],
+    ]));
 }
 
 1;

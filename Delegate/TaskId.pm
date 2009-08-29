@@ -106,7 +106,7 @@ sub get_delegate_info {
 	    USER
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.FreikerCodeForm
-	    View.Family->freiker_add
+	    View.Family->freiker_code_form
 	    next=FAMILY_FREIKER_LIST
 	)],
 	[qw(
@@ -211,7 +211,7 @@ sub get_delegate_info {
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.FreikerRideList->execute_load_all_with_query
 	    Model.FreikerCodeForm
-	    View.Family->freiker_code_add
+	    View.Family->freiker_code_form
 	    next=FAMILY_FREIKER_RIDE_LIST
 	)],
 	[qw(
@@ -430,6 +430,16 @@ sub get_delegate_info {
 	    Model.AcceptTermsForm
 	    Action.WikiView->bp_Accept_Terms
 	    next=MY_SITE
+	)],
+	[qw(
+	    FAMILY_FREIKER_EDIT
+	    548
+	    USER
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.FreikerRideList->execute_load_all_with_query
+	    Model.FreikerForm
+	    View.Family->freiker_form
+	    next=FAMILY_FREIKER_LIST
 	)],
     ]);
 }
