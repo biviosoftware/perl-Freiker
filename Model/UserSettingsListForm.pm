@@ -16,7 +16,7 @@ sub execute_empty {
 
 sub execute_ok {
     my($self) = @_;
-    $self->update_model_properties('Address');
+    $self->create_or_update_model_properties('Address');
     return;
 }
 
