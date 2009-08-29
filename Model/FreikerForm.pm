@@ -15,8 +15,9 @@ sub execute_empty {
     my($uid) = $self->unsafe_get('FreikerCode.user_id');
     if ($uid) {
 	$self->load_from_model_properties('User');
+	my($d) = $self->get('User.birth_date');
 	$self->internal_put_field(birth_year =>
-	    $_D->get_parts($self->get('User.birth_date'), 'year'));
+	    $d ? $_D->get_parts($d, 'year') : undef);
     }
     else {
 	$self->internal_put_field('User.gender' => $_G_UNKNOWN);
