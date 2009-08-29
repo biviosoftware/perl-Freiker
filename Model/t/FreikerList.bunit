@@ -1,7 +1,6 @@
 # Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 ListModel();
-DateTime()->set_test_now('2/21/2009 08:00:00', req());
 my($today) = do('./SetupRides.PL');
 my($parent) = sub {
     return email('parent'), 'A Parent';
@@ -34,18 +33,54 @@ my($no_parent) = sub {
 	    [1237 => 1, 0, 1, 0, 1237, $no_parent->()],
 	    [1238 => 1, 0, 1, 0, 1238, $no_parent->()],
 	    [1239 => 1, 0, 1, 0, 1239, $no_parent->()],
+	    [1241 => 0, 0, 0, 0, 1241, $no_parent->()],
+	    [child => 100, 0, 100, 1, 1234, $parent->()],
+	    [child1 => 2, 0, 2, 0, '1236, 1235', $parent->()],
+	    [child6 => 0, 0, 0, 0, 1240, $parent->()],
+        ],
+	[{
+	    fr_trips => 1,
+	}] => [
+	    [1237 => 1, 0, 1, 0, 1237, $no_parent->()],
+	    [1238 => 1, 0, 1, 0, 1238, $no_parent->()],
+	    [1239 => 1, 0, 1, 0, 1239, $no_parent->()],
+	    [child => 100, 0, 100, 1, 1234, $parent->()],
+	    [child1 => 2, 0, 2, 0, '1236, 1235', $parent->()],
+        ],
+	[{
+	    fr_registered => 1,
+	}] => [
 	    [child => 100, 0, 100, 1, 1234, $parent->()],
 	    [child1 => 2, 0, 2, 0, '1236, 1235', $parent->()],
 	    [child6 => 0, 0, 0, 0, 1240, $parent->()],
         ],
 	[{
 	    date => '2/1/2009',
-	    fr_active => 1,
+	    fr_trips => 1,
 	}] => [
 	    [child => 80, 0, 80, 1, 1234, $parent->()],
-	    [child1 => 0, 0, 0, 0, '1236, 1235', $parent->()],
-	    [child6 => 0, 0, 0, 0, 1240, $parent->()],
 	],
+	[{
+	    begin_date => '1/28/2009',
+	    date => '2/1/2009',
+	    fr_trips => 1,
+	}] => [
+	    [child => 5, 0, 5, 0, 1234, $parent->()],
+	],
+	[{
+	    fr_year => 2008,
+	    fr_trips => 1,
+	}] => [
+	    [1237 => 1, 0, 1, 0, 1237, $no_parent->()],
+	    [1238 => 1, 0, 1, 0, 1238, $no_parent->()],
+	    [1239 => 1, 0, 1, 0, 1239, $no_parent->()],
+	    [child => 100, 0, 100, 1, 1234, $parent->()],
+	    [child1 => 2, 0, 2, 0, '1236, 1235', $parent->()],
+	],
+	[{
+	    fr_year => 2009,
+	    fr_trips => 1,
+	}] => [],
 	parent => [
 	    [child => 100, 0, 100, 1, 1234, $parent->()],
 	    [child1 => 2, 0, 2, 0, '1236, 1235', $parent->()],

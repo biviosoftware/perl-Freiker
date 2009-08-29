@@ -9,16 +9,42 @@ use Bivio::Test::Request;
 use Bivio::Util::RealmAdmin;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_RN) = Bivio::Type->get_instance('RealmName');
+my($_RN) = b_use('Type.RealmName');
+my($_DT) = b_use('Type.DateTime');
+my($_FEMALE) = b_use('Type.Gender')->FEMALE;
 
 sub ADM {
     return 'adm';
+}
+
+sub CA_PARENT {
+    return 'ca_parent';
+}
+
+sub CA_ZIP {
+    return 'M4B 1B3';
 }
 
 sub CHILD {
     my(undef, $index, $which) = @_;
     return _string(
 	child => undef, _number(0, undef, $which) * 10 + ($index || 0));
+}
+
+sub DEFAULT_BIRTH_YEAR {
+    return 1999;
+}
+
+sub DEFAULT_GENDER {
+    return $_FEMALE;
+}
+
+sub DEFAULT_MILES {
+    return 5;
+}
+
+sub DEFAULT_KILOMETERS {
+    return 8;
 }
 
 sub EPC {
@@ -35,7 +61,11 @@ sub FREIKOMETER {
 }
 
 sub MAX_CHILD_INDEX {
-    return 6;
+    return 7;
+}
+
+sub MAX_CHILD_INDEX_WITH_RIDES {
+    return shift->MAX_CHILD_INDEX - 1;
 }
 
 sub NEED_ACCEPT_TERMS {
@@ -72,6 +102,10 @@ sub SPONSOR_NAME {
     my($proto, $which) = @_;
     return $_RN->from_display_name_and_zip(
 	$proto->SPONSOR($which), $proto->ZIP($which));
+}
+
+sub TEST_NOW {
+    return $_DT->from_literal_or_die('2/21/2009 8:0:0');
 }
 
 sub WEBSITE {

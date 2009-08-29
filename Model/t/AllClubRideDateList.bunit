@@ -1,7 +1,6 @@
 # Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 ListModel();
-DateTime()->set_test_now('2/21/2009 08:00:00', req());
 do('./SetupRides.PL');
 req()->set_realm(undef);
 [
@@ -11,7 +10,7 @@ req()->set_realm(undef);
 		my($index) = $_;
 		map(+{
 		    'RealmOwner.display_name' => Freiker::Test->SCHOOL($_),
-		    ride_count => ($index > 1 && $index <= Freiker::Test->MAX_CHILD_INDEX)
+		    ride_count => ($index > 1 && $index <= Freiker::Test->MAX_CHILD_INDEX_WITH_RIDES)
 			? 2 : 1,
 		}, 0 .. 1),
 	    } 1 .. 60),

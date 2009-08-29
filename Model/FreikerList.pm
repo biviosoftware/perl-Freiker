@@ -5,9 +5,11 @@ use strict;
 use Bivio::Base 'Model.YearBaseList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_SA) = __PACKAGE__->use('Type.StringArray');
+my($_SA) = b_use('Type.StringArray');
 my($_D) = b_use('Type.Date');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER->as_sql_param;
+my($_YQ) = b_use('Type.YearQuery');
+my($_B) = b_use('Type.Boolean');
 
 sub PRIZE_SELECT_LIST {
     return 'PrizeSelectList';
@@ -16,7 +18,7 @@ sub PRIZE_SELECT_LIST {
 sub execute_load_csv {
     my($proto, $req) = @_;
     my($self) = $proto->new($req);
-    $self->load_all($self->parse_query_from_request->put(fr_active => 1));
+    $self->load_all($self->parse_query_from_request->put(fr_trips => 1));
     return;
 }
 
@@ -98,7 +100,7 @@ sub internal_initialize {
 		sort_order => 0,
 	    },
 	],
-	other_query_keys => ['fr_active'],
+	other_query_keys => [qw(fr_trips fr_year fr_registered)],
 	other => [
 	    {
 		name => 'can_select_prize',
@@ -130,11 +132,9 @@ sub internal_initialize {
 sub internal_post_load_row {
     my($self, $row) = @_;
     return 0
-	unless shift->SUPER::internal_post_load_row(@_);
-    return 0
-	if $self->get_query->unsafe_get('fr_active')
-	&& !$row->{parent_email}
-	&& !$row->{ride_count};
+	if !shift->SUPER::internal_post_load_row(@_)
+	|| _get_from_query($self, 'fr_trips') && !$row->{ride_count}
+	|| _get_from_query($self, 'fr_registered') && !$row->{parent_email};
     $row->{freiker_codes} = $self->internal_freiker_codes($row);
     $row->{can_select_prize} = $self->internal_can_select_prize($row);
     return 1;
@@ -143,19 +143,21 @@ sub internal_post_load_row {
 sub internal_pre_load {
     my($self, $query, $support, $params) = @_;
     my($x) = {
-	date => 'get_max',
-	begin_date => 'get_min',
+	date => $_D->get_max,
+	begin_date => $_D->get_min,
     };
-    foreach my $which (sort(keys(%$x))) {
-	$x->{$which} = (sub {
-	    my($v, $method) = @_;
-	    return ($_D->from_literal($v))[0] || $_D->$method();
-	})->($query->unsafe_get($which), $x->{$which});
+    if (my $year = _get_from_query($self, 'fr_year')) {
+	# Overlap not important, because there shouldn't be any activity
+	$x->{date} = $_D->add_days(
+	    $x->{begin_date} = $_D->from_literal_or_die("8/1/" . $year->as_int),
+	    364,
+	);
     }
-    if (my $d = $self->new_other('RowTag')->get_value('CLUB_END_DATE')) {
-	$d = ($_D->from_literal($d))[0];
-	$x->{date} = $d
-	    if $d;
+    foreach my $which (sort(keys(%$x))) {
+	next
+	    unless my $v = $query->unsafe_get($which);
+	$x->{$which} = ($_D->from_literal($v))[0]
+	    || $x->{$which};
     }
     unshift(
 	@$params,
@@ -169,6 +171,15 @@ sub internal_pre_load {
 	"realm_user_t.role = $_FREIKER",
 	$where ? $where : (),
     );
+}
+
+sub _get_from_query {
+    my($self, $which) = @_;
+    return undef
+	unless my $v = $self->ureq('Model.FreikerListQueryForm', $which)
+	|| $self->get_query->unsafe_get($which);
+    return $which eq 'fr_year' ? $_YQ->unsafe_from_any($v)
+	: ($_B->from_literal($v))[0];
 }
 
 1;

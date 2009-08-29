@@ -3,7 +3,7 @@
 ListModel();
 require 'prize_coupon.PL';
 ShellUtil_TestData()->create_prize_coupon('bunit10');
-sleep(1);
+ShellUtil_TestData()->nudge_test_now;
 #create_prize_coupon('bunit20', req()->set_realm('child1')->get('id'));
 ShellUtil_TestData()->create_prize_coupon('bunit50');
 req()->set_realm_and_user(qw(parent parent));

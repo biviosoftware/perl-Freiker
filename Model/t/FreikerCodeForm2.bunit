@@ -18,6 +18,10 @@ my($count) = sub {
 my($num_rides) = $count->();
 [
     [{
+	'User.gender' => Freiker::Test->DEFAULT_GENDER,
+	birth_year => Freiker::Test->DEFAULT_BIRTH_YEAR,
+	'User.first_name' => unauth_model('User', {user_id => $child_id})
+	    ->get('first_name'),
 	'FreikerCode.freiker_code' => $fc->(3, 1),
 	'Club.club_id' => realm_id(Freiker::Test->SCHOOL_NAME(1)),
 	'Address.zip' => Freiker::Test->ZIP(1),

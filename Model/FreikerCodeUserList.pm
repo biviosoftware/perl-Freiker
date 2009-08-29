@@ -23,31 +23,48 @@ sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
-	can_iterate => 1,
+	can_iterate => 0,
 	primary_key => ['FreikerCode.user_id'],
 	auth_id => [{
 	    name => 'FreikerCode.club_id',
 	    in_select => 0,
 	}],
 	order_by => [qw(
-            FreikerCode.user_id
+	    FreikerCode.user_id
+            FreikerCode.modified_date_time
 	)],
 	other => [
-	    {
-		name => 'FreikerCode.freiker_code',
-		in_select => 0,
-	    },
+	    'FreikerCode.freiker_code',
 	    {
 		name => 'freiker_codes',
-#BEBOP-7.80
-#		type => 'StringArray',
-		type => 'Text',
+		type => 'StringArray',
 		constraint => 'NOT_NULL',
-		in_select => 1,
-		select_value => q{group_concat(freiker_code) AS freiker_codes},
 	    },
 	],
-	group_by => ['FreikerCode.user_id'],
     });
 }
+
+
+sub internal_load_rows {
+    my($self) = @_;
+    my($prev);
+    return [map(
+	_unique($_, \$prev),
+	@{shift->SUPER::internal_load_rows(@_)},
+    )];
+}
+
+sub _unique {
+    my($curr, $prev) = @_;
+    if ($$prev
+        && $$prev->{'FreikerCode.user_id'} eq $curr->{'FreikerCode.user_id'}
+    ) {
+	$$prev->{freiker_codes} = $$prev->{freiker_codes}
+	    ->append($curr->{'FreikerCode.freiker_code'});
+	return;
+    }
+    $curr->{freiker_codes} = $_SA->new($curr->{'FreikerCode.freiker_code'});
+    return $$prev = $curr;
+}
+
 1;

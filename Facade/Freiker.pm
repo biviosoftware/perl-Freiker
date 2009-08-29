@@ -51,10 +51,10 @@ my($_SELF) = __PACKAGE__->new({
 	['ClubRegisterForm.Website.url.EXISTS' => q{This school's website is already registered.  Please try to find the "wheel" at your school.}],
 	['ClubRegisterForm.club_name.EXISTS' => q{Your school is already registered.  Please try to find the "wheel" at your school.}],
 	['email.EXISTS' => q{This email is already registered with vs_site_name();.  Link('Click here to login.', 'LOGIN', {no_context => 1});}],
-	['Ride.ride_date.NOT_FOUND' => q{This date was not a school day. Or, the Freikometer did not send the rides to freiker.org (yet).  The Freikometer stores the rides until it can get a network connection.  Sometimes the network is down for days.}],
-	['Ride.ride_date.DATE_RANGE' => q{This date was not a school day. Or, the Freikometer did not send the rides to freiker.org (yet).  The Freikometer stores the rides until it can get a network connection.  Sometimes the network is down for days.}],
+	['Ride.ride_date.NOT_FOUND' => q{This date was not a school day. Or, the Freikometer did not send the trips to freiker.org (yet).  The Freikometer stores the trips until it can get a network connection.  Sometimes the network is down for days.}],
+	['Ride.ride_date.DATE_RANGE' => q{This date was not a school day. Or, the Freikometer did not send the trips to freiker.org (yet).  The Freikometer stores the trips until it can get a network connection.  Sometimes the network is down for days.}],
 	['Ride.ride_date.EXISTS' => q{The Freiker was already credited for this date.  Please enter a different date.}],
-	['PrizeConformForm.Prize.name.TOO_FEW' => q{You do not have enough available rides to chose this prize}],
+	['PrizeConformForm.Prize.name.TOO_FEW' => q{You do not have enough available trips to chose this prize}],
 	['UserLoginForm.login.OFFLINE_USER' => q{Not a registered Freiker Code.  Link('Please click on this link to register.', 'USER_CREATE');}],
 	['AdmSubstituteUserForm.login.OFFLINE_USER' => q{Freiker Code not registered.  User must register before you can act as user.}],
 	['FreikerSelectForm.FreikerCode.freiker_code.NOT_FOUND' => q{Freiker Code is not in our database.}],
@@ -63,11 +63,11 @@ my($_SELF) = __PACKAGE__->new({
 	[[qw(GreenGearForm.GreenGear.end_date.TOO_MANY GreenGearForm.GreenGear.begin_date.TOO_MANY)],
 	 => q{vs_fe('label'); may not be in the future.}],
 	['GreenGearForm.GreenGear.end_date.MUTUALLY_EXCLUSIVE' => q{Last Day must not be before First}],
-	['GreenGearForm.GreenGear.begin_date.EMPTY' => q{No rides found between First and Last Days}],
-	['GreenGearForm.GreenGear.begin_date.EXISTS' => q{All eligible participants have already won at least once.  Uncheck the "prior winners" box to select one of these riders, or change the date range.}],
-	['GreenGearForm.GreenGear.begin_date.UNSUPPORTED_TYPE' => q{None of the eligible participants is registered.  Uncheck the "must be registered" box to select one of these riders, or change the date range.}],
+	['GreenGearForm.GreenGear.begin_date.EMPTY' => q{No trips found between First and Last Days}],
+	['GreenGearForm.GreenGear.begin_date.EXISTS' => q{All eligible participants have already won at least once.  Uncheck the "prior winners" box to select one of these freikers, or change the date range.}],
+	['GreenGearForm.GreenGear.begin_date.UNSUPPORTED_TYPE' => q{None of the eligible participants is registered.  Uncheck the "must be registered" box to select one of these freikers, or change the date range.}],
 	['ClubRideFillForm.Ride.ride_date.GREATER_THAN_ZERO' => q{Freikometer must be working for at least two days before you can enter this date.}],
-	['ClubRideFillForm.Ride.ride_date.NOT_NEGATIVE' => q{You are a new school. Please be patient.  You may not fill in rides before the Freikometer has been working.}],
+	['ClubRideFillForm.Ride.ride_date.NOT_NEGATIVE' => q{You are a new school. Please be patient.  You may not fill in trips before the Freikometer has been working.}],
 	['ClubRideFillForm.Ride.ride_date.EXISTS' => q{Freikometer was working this day.}],
     ],
     Constant => [
@@ -90,12 +90,12 @@ my($_SELF) = __PACKAGE__->new({
     Task => [
 	[MERCHANT_HOME => '?'],
 	[ADM_FREIKOMETER_LIST => 'adm/freikometers'],
-	[ALL_CLUB_SUMMARY_LIST => 'pub/ride-summary'],
+	[ALL_CLUB_SUMMARY_LIST => ['pub/trip-summary', 'pub/ride-summary']],
 	[BOT_FREIKOMETER_DOWNLOAD => '?/fm-down/*'],
 	[BOT_FREIKOMETER_UPLOAD => '/fm/*'],
 	[CLUB_FREIKER_LIST => '?/freikers'],
 	[CLUB_FREIKER_LIST_CSV => '?/freikers.csv'],
-	[CLUB_FREIKER_MANUAL_RIDE_FORM => '?/give-rides'],
+	[CLUB_FREIKER_MANUAL_RIDE_FORM => ['?/give-trips', '?/give-rides']],
 	[CLUB_PRIZE => '?/prize'],
 	[CLUB_PRIZE_LIST => '?/prizes'],
 	[CLUB_PRIZE_COUPON_LIST => '?/prize-coupons'],
@@ -104,7 +104,7 @@ my($_SELF) = __PACKAGE__->new({
 	[ADM_PRIZE_COUPON_LIST => 'adm/prize-coupons'],
 	[ADM_PRIZE => 'adm/prize'],
 	[CLUB_REGISTER => '/pub/register-school'],
-	[CLUB_RIDE_DATE_LIST => '?/ride-dates'],
+	[CLUB_RIDE_DATE_LIST => ['?/trip-dates', '?/ride-dates']],
 	[CLUB_FREIKER_CODE_IMPORT => '?/import-codes'],
 	[CLUB_FREIKER_SELECT => '?/select-freiker'],
 	[CLUB_FREIKER_PRIZE_SELECT => '?/select-prize'],
@@ -112,8 +112,8 @@ my($_SELF) = __PACKAGE__->new({
 	[FAMILY_FREIKER_ADD => '?/register-freiker'],
 	[FAMILY_FREIKER_CODE_ADD => '?/add-tag'],
 	[FAMILY_FREIKER_LIST => '?/freikers'],
-	[FAMILY_FREIKER_RIDE_LIST => '?/rides'],
-	[FAMILY_MANUAL_RIDE_FORM => '?/add-ride'],
+	[FAMILY_FREIKER_RIDE_LIST => ['?/trips', '?/rides']],
+	[FAMILY_MANUAL_RIDE_FORM => ['?/add-trip', '?/add-ride']],
 	[FAMILY_PRIZE_CONFIRM => '?/confirm-prize'],
 	[FAMILY_PRIZE_COUPON => '?/prize-coupon'],
 	[FAMILY_PRIZE_COUPON_LIST => '?/prize-coupons'],
@@ -133,7 +133,7 @@ my($_SELF) = __PACKAGE__->new({
 	[GENERAL_PRIZE_LIST => 'pub/prizes'],
 	[GREEN_GEAR_FORM => '?/select-green-gear'],
 	[GREEN_GEAR_LIST => '?/green-gears'],
-	[CLUB_RIDE_FILL_FORM => '?/fill-rides'],
+	[CLUB_RIDE_FILL_FORM => ['?/fill-trips', '?/fill-rides']],
 	[CLUB_FREIKER_PRIZE_DELETE => '?/return-prize'],
 	[USER_ACCEPT_TERMS_FORM => 'bp/Accept_Terms'],
     ],
@@ -153,7 +153,7 @@ my($_SELF) = __PACKAGE__->new({
 	[club_name => 'Official Name'],
 	[freiker_code => q{Freiker ID}],
 	[club_id => q{School}],
-	[ride_count => 'Rides'],
+	[ride_count => 'Trips'],
 	[prize_debit => 'Spent'],
 	[prize_credit => 'Credits'],
 	[freiker_codes => 'Tag ID'],
@@ -197,7 +197,7 @@ my($_SELF) = __PACKAGE__->new({
 	    modified_date_time => 'Last Updated',
 	]],
 	[[qw(PrizeRideCount Prize)] => [
-	    ride_count => 'Required Rides',
+	    ride_count => 'Required Trips',
 	]],
 	[[qw(AdmPrizeCouponList ClubPrizeCouponList)] => [
 	    'PrizeCoupon.creation_date_time' => 'Delivered',
@@ -207,7 +207,7 @@ my($_SELF) = __PACKAGE__->new({
 	    'list_action.CLUB_FREIKER_PRIZE_DELETE' => 'Return',
 	]],
 	[ClubPrizeDeleteForm => [
-	    'prose.prologue' => q{Return the String([qw(Model.ClubPrizeCouponList Prize.name)]); and credit String([qw(Model.ClubPrizeCouponList ->get_display_name)]); with String([qw(Model.PrizeCoupon ride_count)]); rides?},
+	    'prose.prologue' => q{Return the String([qw(Model.ClubPrizeCouponList Prize.name)]); and credit String([qw(Model.ClubPrizeCouponList ->get_display_name)]); with String([qw(Model.PrizeCoupon ride_count)]); trips?},
 	    ok_button => 'Return Prize',
 	]],
 	[[qw(MerchantPrizeForm AdmPrizeForm)] => [
@@ -251,7 +251,7 @@ my($_SELF) = __PACKAGE__->new({
 	    ok_button => 'Redeem',
 	]],
 	[PrizeRideCount => [
-	    ride_count => 'Ride Count',
+	    ride_count => 'Trip Count',
 	]],
 	[UserRegisterForm => [
 	    prose => [
@@ -274,7 +274,7 @@ EOF
 	    'RealmOwner.display_name.desc' => q{Your first and last name, not your business or school's name.},
 	    ok_button => 'I accept. Create my account.',
 	]],
-	[FreikerForm => [
+	[[qw(FreikerForm FreikerCodeForm)] => [
 	    'User.first_name' => q{First Name},
 	    'User.first_name.desc' => q{This is for your information only so it may be a nickname, an abbreviation, or any other identifier.},
 	    'birth_year' => q{Year of Birth},
@@ -296,16 +296,16 @@ EOF
 	]],
 	[ClubManualRideForm => [
 	    add_days => 'Number of Days',
-	    ok_button => 'Give rides',
+	    ok_button => 'Give trips',
 	]],
 	[ManualRideForm => [
 	    'Ride.ride_date' => q{Date Missing},
-	    ok_button => 'Add ride',
+	    ok_button => 'Add trip',
 	    prose => [
 		prologue => <<'EOF',
-We allow a certain number of missed rides as a courtesy to parents.
-When there are too many missed rides, this list will no longer show.
-Please enter the date of the missing ride for
+We allow a certain number of missed trips as a courtesy to parents.
+When there are too many missed trips, this list will no longer show.
+Please enter the date of the missing trip for
 String([qw(Model.FreikerRideList ->get_display_name)]);.
 EOF
 	    ],
@@ -320,6 +320,11 @@ EOF
 	[[qw(FreikerList ClubFreikerList)] => [
 	    'RealmOwner.display_name' => 'Freiker',
 	    empty_list_prose => 'No Freikers as yet.',
+	]],
+	[FreikerListQueryForm => [
+	    fr_year => 'All Years',
+	    fr_trips => 'Has Trips',
+	    fr_registered => 'Registered',
 	]],
 	[PayPalForm => [
 	    amount => '$',
@@ -338,8 +343,8 @@ EOF
 	    ok_button => 'Deliver Prize',
 	]],
 	[ClubRideFillForm => [
-	    'prose.prologue' => 'This form is used to fill in rides for days when the Freikometer did not operate.  Rides will be added for all Freikers who rode on two days before and after the date you specified.',
-	    'Ride.ride_date' => 'Date Without Rides',
+	    'prose.prologue' => 'This form is used to fill in trips for days when the Freikometer did not operate.  Trips will be added for all Freikers who rode on two days before and after the date you specified.',
+	    'Ride.ride_date' => 'Date Without Trips',
 	]],
 	[AllClubSummaryList => [
 	    'RealmOwner.display_name' => 'School',
@@ -362,12 +367,12 @@ EOF
 	[acknowledgement => [
 	    GREEN_GEAR_FORM => q{The new GreenGear winner appears below.  Your School's Freikometers will be updated to ring the GreenGear sound the next time they check in.},
 	    CLUB_REGISTER => q{Your school has been registered.},
-	    CLUB_RIDE_FILL_FORM => q{Filled in missing rides for when Freikometer was not working.},
+	    CLUB_RIDE_FILL_FORM => q{Filled in missing trips for when Freikometer was not working.},
 	    MERCHANT_REGISTER => q{Your business has been registered.},
 	    FAMILY_FREIKER_ADD => q{Your child has been added.},
 	    FAMILY_MANUAL_RIDE_FORM => q{The missing date has been added.},
 	    FAMILY_FREIKER_CODE_ADD => q{The new Freiker ID was added.},
-	    CLUB_PRIZE => 'The required rides for the prize were updated.',
+	    CLUB_PRIZE => 'The required trips for the prize were updated.',
 	    CLUB_FREIKER_CODE_IMPORT => 'New codes imported successfully.',
 	    MERCHANT_PRIZE => 'Thank you for your donation or update.  Please contact vs_gears_email(); to discuss prize delivery and inventory management.',
 	    GENERAL_USER_PASSWORD_QUERY => <<'EOF',
@@ -391,20 +396,20 @@ EOF
 	    user_create_no_context => 'Register',
 	]],
 	[FAMILY_PRIZE_COUPON_LIST => 'Prizes'],
-	[FAMILY_FREIKER_RIDE_LIST => 'Rides'],
-	[FAMILY_MANUAL_RIDE_FORM => 'Add missing ride'],
+	[FAMILY_FREIKER_RIDE_LIST => 'Trips'],
+	[FAMILY_MANUAL_RIDE_FORM => 'Add missing trip'],
 	[FAMILY_FREIKER_CODE_ADD => 'New tag'],
 	[FAMILY_PRIZE_SELECT => 'Select prize'],
 	[PAYPAL_FORM => ''],
 	[title => [
 	    USER_ACCEPT_TERMS_FORM => 'Accept Terms of Service and Privace Policy',
 	    CLUB_FREIKER_LIST => 'Freikers',
-	    CLUB_RIDE_DATE_LIST => 'Rides by Date',
+	    CLUB_RIDE_DATE_LIST => 'Trips by Date',
 	    CLUB_REGISTER => 'Register Your School',
 	    CLUB_PRIZE => q{Update Prize String(['Model.ClubPrizeList', 'Prize.name']);},
 	    CLUB_PRIZE_LIST => 'School Prizes',
 	    CLUB_FREIKER_CODE_IMPORT => 'Import Codes',
-	    CLUB_RIDE_FILL_FORM => 'Fill Rides',
+	    CLUB_RIDE_FILL_FORM => 'Fill Trips',
 	    MERCHANT_PRIZE => q{If(['Type.FormMode', '->eq_edit'], 'Update Prize Information', 'Donate a Prize');},
 	    MERCHANT_PRIZE_LIST => 'Donated Prizes',
 	    MERCHANT_REGISTER => 'Register Your Business',
@@ -426,12 +431,12 @@ EOF
 	    ADM_PRIZE => 'Update prize',
 	    USER_PASSWORD => 'Change Your Password',
 	    [qw(USER_CREATE_DONE GENERAL_USER_PASSWORD_QUERY)] => 'Check Your Mail',
-	    ALL_CLUB_SUMMARY_LIST => 'Real-time Ridership',
+	    ALL_CLUB_SUMMARY_LIST => 'Real-time Trips',
 	    MERCHANT_FILE => 'Files',
 	    CLUB_FREIKER_SELECT => 'Deliver Prize',
 	    CLUB_FREIKER_PRIZE_CONFIRM => 'Confirm Prize Selection',
 	    CLUB_FREIKER_PRIZE_SELECT => 'Select Prize',
-	    CLUB_FREIKER_MANUAL_RIDE_FORM => 'Give Rides',
+	    CLUB_FREIKER_MANUAL_RIDE_FORM => 'Give Trips',
 	    GENERAL_PRIZE_LIST => 'Possible Prizes',
 	    GREEN_GEAR_LIST => 'Green Gears',
 	    GREEN_GEAR_FORM => 'Choose Green Gear',
@@ -439,13 +444,13 @@ EOF
 	]],
 	['xhtml.title' => [
 	    FAMILY_FREIKER_RIDE_LIST =>
-		'String([qw(Model.FreikerRideList ->get_display_name)]); Rides',
+		'String([qw(Model.FreikerRideList ->get_display_name)]); Trips',
 	    FAMILY_MANUAL_RIDE_FORM =>
-		'Add Missing Ride for String([qw(Model.FreikerRideList ->get_display_name)]);',
+		'Add Missing Trip for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    FAMILY_FREIKER_CODE_ADD =>
 		'Enter New Freiker ID for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    CLUB_FREIKER_MANUAL_RIDE_FORM =>
-		'Give rides to String([qw(Model.FreikerRideList ->get_display_name)]);',
+		'Give trips to String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    CLUB_FREIKER_PRIZE_SELECT => q{Select Prize for String([qw(Model.ClubFreikerList RealmOwner.display_name)]); with String([qw(Model.ClubPrizeSelectList ->get_prize_credit)]); credits},
 	    FAMILY_PRIZE_PICKUP => 'Where to pickup your prize!',
 	]],
@@ -458,7 +463,7 @@ EOF
 	    GENERAL_CONTACT => 'Contact',
 	    CLUB_FREIKER_LIST => 'Freikers',
 	    CLUB_FREIKER_LIST_CSV => 'Spreadsheet',
-	    CLUB_RIDE_DATE_LIST => 'Rides',
+	    CLUB_RIDE_DATE_LIST => 'Trips',
 	    CLUB_PRIZE => 'Update prize',
 	    CLUB_PRIZE_LIST => 'Available prizes',
 	    CLUB_REGISTER => 'Register new school',

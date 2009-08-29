@@ -1,8 +1,8 @@
-# Copyright (c) 2006-2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Delegate::TaskId;
 use strict;
-use base 'Bivio::Delegate::TaskId';
+use Bivio::Base 'Delegate';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
@@ -15,7 +15,7 @@ sub get_delegate_info {
 	    CLUB
 	    ANYBODY
 	    Action.ClientRedirect->execute_next
-	    next=CLUB_FREIKER_LIST
+	    next=CLUB_RIDE_DATE_LIST
 	)],
 	[qw(
 	    MERCHANT_REGISTER
@@ -94,8 +94,10 @@ sub get_delegate_info {
 	    509
 	    USER
 	    ADMIN_READ
+	    Model.FreikerListQueryForm
 	    Model.FreikerList->execute_load_all_with_query
 	    View.Family->freiker_list
+	    next=FAMILY_FREIKER_LIST
 	    MODEL_NOT_FOUND=FAMILY_FREIKER_ADD
 	)],
 	[qw(
@@ -103,7 +105,7 @@ sub get_delegate_info {
 	    510
 	    USER
 	    ADMIN_READ&ADMIN_WRITE
-	    Model.FreikerForm
+	    Model.FreikerCodeForm
 	    View.Family->freiker_add
 	    next=FAMILY_FREIKER_LIST
 	)],
@@ -120,8 +122,10 @@ sub get_delegate_info {
 	    512
 	    CLUB
 	    ADMIN_READ
+	    Model.FreikerListQueryForm
 	    Model.ClubFreikerList->execute_load_page
 	    View.Club->freiker_list
+	    next=CLUB_FREIKER_LIST
 	)],
 	[qw(
 	    FAMILY_PRIZE_SELECT
@@ -396,8 +400,10 @@ sub get_delegate_info {
 	    544
 	    CLUB
 	    ADMIN_READ
+	    Model.FreikerListQueryForm
 	    Model.ClubFreikerList->execute_load_csv
 	    View.Club->freiker_list_csv
+	    next=CLUB_FREIKER_LIST_CSV
 	)],
 	[qw(
 	    CLUB_FREIKER_PRIZE_DELETE

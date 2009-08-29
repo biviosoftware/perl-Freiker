@@ -33,21 +33,28 @@ String([['->get_by_regexp', 'Model.\w+RegisterForm'], 'Email.email']); is the em
 You will use this address to login along with the password you
 will set when you click on the above link.
 
+Thanks for registering.  Every Trip Counts!TM
+
+Freiker, Inc.
+Link('SITE_ROOT');
+
 Freiker, Inc. (EIN 56-2539016) is a tax-exempt organization under Section
 501(c)3 of the Internal Revenue Code. Your donation is tax deductible to the
 full extent of the law.  Just $10 will help:
+Freiker, Inc. (EIN 56-2539016) is a tax-exempt organization under
+Section 501(c)(3) of the Internal Revenue Code. Your donation is tax
+deductible to the full extent of the law - Link('/site/donate');
 
-Link('/site/donate');
-
-Thanks for riding,
-Zach Noffsinger
-Executive Director
-Freiker, Inc.
-
-Every ride counts! (tm)
 EOF
     );
     return;
+}
+
+sub internal_settings_form_extra_fields {
+    return [qw(
+        UserSettingsListForm.Address.zip
+        UserSettingsListForm.Address.country
+    )];
 }
 
 1;

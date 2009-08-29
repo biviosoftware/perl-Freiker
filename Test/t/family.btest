@@ -1,9 +1,8 @@
 # Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 test_setup('Freiker');
-home_page();
-do_test_backdoor(TestData => 'reset_freikers');
 login_as('parent');
+select_test_now();
 follow_link('100');
 verify_text('Partee!');
 go_back();
@@ -13,17 +12,18 @@ follow_link_in_table(qw(freiker freiker child6 action missing));
 go_back();
 follow_link_in_table(qw(freiker freiker child6 action tag));
 go_back();
-follow_link('register.*child');
+follow_link('register_child');
+verify_no_text(qr{kilometers to school}i);
 submit_form({
     first => 'Bobby',
     freiker => '1237',
     '^school' => 'bunit Elementary',
     birth => '1999',
     radio => 'Male',
-    miles => '33',
+    miles => '20',
 });
 follow_link_in_table(qw(freiker freiker bobby action tag));
-sleep(1);
+nudge_test_now();
 submit_form({
     freiker => '1238',
     '^school' => 'bunit Elementary',
@@ -31,12 +31,13 @@ submit_form({
 verify_text('Bobby (1238, 1237)');
 follow_link('missing');
 my($d) = test_use('Type.Date');
+my($now) = get_test_now_as_date();
 submit_form({
-    date => $d->now_as_string,
+    date => $now,
 });
 verify_table(Date => [
     ['Date'],
-    map([$d->to_string($d->add_days($d->now, 0))],
+    map([$d->to_string($d->add_days($now, 0))],
 	0, -3, -4,),
 ]);
 follow_link('tag');
@@ -53,3 +54,8 @@ verify_text('Bobby (1238, 1237)');
 do_logout();
 test_deviance(qr{not.*registered.*please.*click}i);
 login_as('1239');
+test_conformance();
+login_as('ca_parent');
+follow_link('register.*child');
+verify_text(qr{kilometers to school:}i);
+verify_no_text(qr{miles to school}i);

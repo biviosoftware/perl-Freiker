@@ -62,6 +62,12 @@ sub create_prize_coupon {
     )->get('coupon_code');
 }
 
+sub nudge_test_now {
+    my($self) = @_;
+    $_DT->set_test_now($_DT->add_seconds($_DT->now, 1), $self->req);
+    return;
+}
+
 sub reset_need_accept_terms {
     my($self) = @_;
     $self->req->with_realm(
@@ -93,6 +99,7 @@ sub reset_all_freikers {
 
 sub reset_freikers {
     my($self, $which, $club_id, $req) = _setup_school(@_);
+    $_DT->set_test_now(Freiker::Test->TEST_NOW, $self->req);
     $self->reset_prizes_for_school($which);
     my($fc) = $self->model('FreikerCode');
     my($rides) = [];
@@ -118,27 +125,16 @@ sub reset_freikers {
 	my($epc) = Freiker::Test->EPC($index, $which);
 	$fc->create_from_epc_and_code($epc, $code);
 	$req->with_realm(Freiker::Test->PARENT($which), sub {
-	    # COUPLING: FreikerForm checks FreikerRideList
+	    # COUPLING: FreikerCodeForm checks FreikerRideList
 	    $self->model('FreikerRideList')->delete_from_request;
-	    $self->model(FreikerForm => {
-		'User.first_name' =>
-		    my $name = Freiker::Test->CHILD($index, $which),
-		'Club.club_id' => $club_id,
-		'FreikerCode.club_id' => $club_id,
-		'FreikerCode.freiker_code' => $code,
-		'User.gender' => $self->use('Type.Gender')->FEMALE,
-		'birth_year' => 1999,
-		'Address.zip' => Freiker::Test->ZIP($which),
-		miles => 3,
-	    });
-	    $self->req('Model.RealmOwner')->update({name => $name});
+	    _freiker_form($self, $which, $index, $club_id, $code);
 	    return;
-	}) if $index <= 1 || $index == Freiker::Test->MAX_CHILD_INDEX;
+	}) if $index <= 1 || $index == Freiker::Test->MAX_CHILD_INDEX_WITH_RIDES;
 	push(
 	    @$rides,
 	    map(+{epc => $epc, datetime => $_},
 		@{$self->child_ride_dates($index)}),
-	);
+	) unless $index >= Freiker::Test->MAX_CHILD_INDEX_WITH_RIDES;
     }
     $req->with_user(Freiker::Test->FREIKOMETER($which), sub {
 	my($rif) = $self->model('RideImportForm');
@@ -150,17 +146,13 @@ sub reset_freikers {
 #TODO: put in coupons not redeemed
     $req->with_realm(Freiker::Test->PARENT($which), sub {
 	my($code) = Freiker::Test->FREIKER_CODE(2, $which);
+	my($index) = 1;
         $self->model(FreikerRideList => {
 	    parent_id => $self->unauth_model(RealmOwner => {
-		name => Freiker::Test->CHILD(1, $which),
+		name => Freiker::Test->CHILD($index, $which),
 	    })->get('realm_id'),
 	});
-        $self->model(FreikerCodeForm => {
-	    'Club.club_id' => $club_id,
-	    'FreikerCode.freiker_code' => $code,
-	    'Address.zip' => Freiker::Test->ZIP($which),
-	    miles => 3,
-	});
+	_freiker_form($self, $which, $index, $club_id, $code);
 	$self->unauth_model(FreikerCode => {
 	    freiker_code => $code,
 	})->update({
@@ -232,7 +224,7 @@ sub reset_prizes_for_school {
 		'unauth_iterate_start',
 		'prize_id',
 	    );
-	    my($available) = $self->use('Type.PrizeStatus')->AVAILABLE;
+	    my($available) = b_use('Type.PrizeStatus')->AVAILABLE;
 	    my($school) = Freiker::Test->SCHOOL_BASE($which);
 	    foreach my $i (10, 20, 50, 99, 1000) {
 		my($f) = $self->model('AdmPrizeForm');
@@ -257,6 +249,23 @@ sub reset_prizes_for_school {
 	    }
 	});
     });
+    return;
+}
+
+sub _freiker_form {
+    my($self, $which, $index, $club_id, $code) = @_;
+    $self->model(FreikerCodeForm => {
+	'User.first_name' =>
+	    my $name = Freiker::Test->CHILD($index, $which),
+	'Club.club_id' => $club_id,
+	'FreikerCode.club_id' => $club_id,
+	'FreikerCode.freiker_code' => $code,
+	'User.gender' => Freiker::Test->DEFAULT_GENDER,
+	birth_year => Freiker::Test->DEFAULT_BIRTH_YEAR,
+	'Address.zip' => Freiker::Test->ZIP($which),
+	miles => Freiker::Test->DEFAULT_MILES,
+    });
+    $self->req('Model.RealmOwner')->update({name => $name});
     return;
 }
 

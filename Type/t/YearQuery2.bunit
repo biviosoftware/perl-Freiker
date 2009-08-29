@@ -1,0 +1,9 @@
+# Copyright (c) 2009 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+b_use('Type.DateTime')->set_test_now('8/2/2009 0:0:0', req());
+Type();
+[
+    get_max => [
+	[] => [class()->Y2009],
+    ],
+];

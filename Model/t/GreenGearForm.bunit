@@ -1,7 +1,6 @@
 # Copyright (c) 2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 FormModel();
-DateTime()->set_test_now('2/21/2009 08:00:00', req());
 my($saturday) = do('./SetupRides.PL');
 my($params) = sub {
     my($begin, $end, $registered, $unique, $special_ring) = @_;
@@ -61,7 +60,7 @@ my($create) = sub {
 	req()->put(super_user_id => realm_id('adm'));
 	my($club_id) = req('auth_id');
 	req()->with_realm(parent => sub {
-	    model('FreikerForm', {
+	    model('FreikerCodeForm', {
 		super_user_override => 1,
 		'User.first_name' => random_string(),
 		'FreikerCode.freiker_code' => Bivio_Test()->FREIKER_CODE(6),

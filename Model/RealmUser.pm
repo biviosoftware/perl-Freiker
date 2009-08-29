@@ -3,12 +3,14 @@
 package Freiker::Model::RealmUser;
 use strict;
 use Bivio::Base 'Model';
+b_use('IO.Trace');
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FREIKER) = __PACKAGE__->use('Auth.Role')->FREIKER;
 my($_FREIKOMETER) = $_FREIKER->FREIKOMETER;
 my($_CLUB) = __PACKAGE__->use('Auth.RealmType')->CLUB;
 my($_USER) = $_CLUB->USER;
+our($_TRACE);
 
 sub club_id_for_freiker {
     return _club_id(user_id => @_);
@@ -27,13 +29,15 @@ sub create_freiker {
 }
 
 sub create_freiker_unless_exists {
-    my($self, $user_id) = @_;
+    my($self, $user_id, $realm_id) = @_;
     my($v) = {
 	user_id => $user_id,
 	role => $_FREIKER,
-	realm_id => $self->req('auth_id'),
+	realm_id => $realm_id,
     };
-    return $self->unauth_load($v) ? () : $self->create($v);
+    return $self->create($v)
+	unless $self->unauth_load($v);
+    return $self;
 }
 
 sub is_registered_freiker {

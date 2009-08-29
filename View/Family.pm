@@ -1,4 +1,4 @@
-# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::View::Family;
 use strict;
@@ -6,61 +6,23 @@ use Bivio::Base 'View.Base';
 use Bivio::UI::ViewLanguageAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+my($_C) = b_use('View.Club');
 
 sub freiker_add {
-    return shift->internal_body(vs_simple_form(FreikerForm => [
-        'FreikerForm.User.first_name',
-	'FreikerForm.FreikerCode.freiker_code',
-	'FreikerForm.Address.zip',
-	['FreikerForm.kilometers', {
-# 	    wf_class => 'Select',
-# 	    choices => ['Model.DistanceList'],
-# 	    list_id_field => 'Club.club_id',
-#	    list_display_field => 'RealmOwner.display_name',
-#	    unknown_label => 'Select School',
-	    control => ['!', 'Model.FreikerForm', 'in_miles'],
-	}],
-	['FreikerForm.miles', {
-# 	    wf_class => 'Select',
-# 	    choices => ['Model.DistanceList'],
-# 	    list_id_field => 'Club.club_id',
-#	    list_display_field => 'RealmOwner.display_name',
-#	    unknown_label => 'Select School',
-	    control => ['Model.FreikerForm', 'in_miles'],
-	}],
-        _club_id('FreikerForm'),
-	'-optional',
-	'FreikerForm.birth_year',
-        ['FreikerForm.User.gender', {class => 'radio_grid'}],
+    return shift->internal_body(vs_simple_form(FreikerCodeForm => [
+	_freiker_common(),
     ]));
 }
 
 sub freiker_code_add {
     return shift->internal_body(vs_simple_form(FreikerCodeForm => [
-	'FreikerCodeForm.FreikerCode.freiker_code',
-        _club_id('FreikerCodeForm'),
-	'FreikerCodeForm.Address.zip',
-	['FreikerCodeForm.kilometers', {
-# 	    wf_class => 'Select',
-# 	    choices => ['Model.DistanceList'],
-# 	    list_id_field => 'Club.club_id',
-#	    list_display_field => 'RealmOwner.display_name',
-#	    unknown_label => 'Select School',
-	    control => ['!', 'Model.FreikerCodeForm', 'in_miles'],
-	}],
-	['FreikerCodeForm.miles', {
-# 	    wf_class => 'Select',
-# 	    choices => ['Model.DistanceList'],
-# 	    list_id_field => 'Club.club_id',
-#	    list_display_field => 'RealmOwner.display_name',
-#	    unknown_label => 'Select School',
-	    control => ['Model.FreikerCodeForm', 'in_miles'],
-	}],
+	_freiker_common(),
     ]));
 }
 
 sub freiker_list {
     return shift->internal_put_base_attr(
+	$_C->internal_freiker_list_selector([qw(fr_year)]),
 	tools => TaskMenu([qw(
             USER_PASSWORD
 	    FAMILY_FREIKER_ADD
@@ -73,18 +35,6 @@ sub freiker_list {
 		},
 	    }],
 	    'freiker_codes',
-# 	    [ride_count => {
-# 		wf_list_link => {
-# 		    task => 'FAMILY_FREIKER_RIDE_LIST',
-# 		    query => 'THIS_CHILD_LIST',
-# 		},
-# 	    }],
-# 	    [prize_debit => {
-# 		wf_list_link => {
-# 		    task => 'FAMILY_FREIKER_RIDE_LIST',
-# 		    query => 'THIS_CHILD_LIST',
-# 		},
-# 	    }],
 	    ['prize_credit', => {
 		column_widget => If(
 		    ['can_select_prize'],
@@ -202,6 +152,28 @@ sub _club_id {
 	list_display_field => 'RealmOwner.display_name',
 	unknown_label => 'Select School',
     }];
+}
+
+sub _freiker_common {
+    return (
+	'FreikerCodeForm.FreikerCode.freiker_code',
+        _club_id('FreikerCodeForm'),
+	'FreikerCodeForm.User.first_name',
+	'FreikerCodeForm.Address.zip',
+	map(
+	    ["FreikerCodeForm.$_", {
+		wf_class => 'Select',
+		choices => ['Model.DistanceList'],
+		list_display_field => 'distance',
+		unknown_label => 'Select Distance',
+		row_control => [$_ eq 'kilometers' ? '!' : (), 'Model.FreikerCodeForm', 'in_miles'],
+	    }],
+	    qw(miles kilometers),
+	),
+	'-optional',
+	'FreikerCodeForm.birth_year',
+        ['FreikerCodeForm.User.gender', {class => 'radio_grid'}],
+    );
 }
 
 1;

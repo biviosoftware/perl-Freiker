@@ -15,6 +15,26 @@ sub generate_image {
     return $file;
 }
 
+sub get_test_now_as_date {
+    my($self) = @_;
+    return b_use('Type.Date')->from_datetime(b_use('Freiker.Test')->TEST_NOW);
+}
+
+sub handle_setup {
+    my($self) = @_;
+    shift->SUPER::handle_setup(@_);
+    $self->home_page;
+    $self->do_test_backdoor(TestData => 'reset_freikers');
+    return;
+}
+
+sub nudge_test_now {
+    my($self) = @_;
+    $self->save_excursion(
+	sub {$self->do_test_backdoor(TestData => 'nudge_test_now')});
+    return;
+}
+
 sub register_random {
     my($self, $base) = @_;
     $self->home_page;
@@ -32,6 +52,14 @@ sub register_random {
 	enter => 'password',
     });
     return ($e, $z);
+}
+
+sub select_test_now {
+    my($self) = @_;
+    $self->submit_form(refresh => {
+	_anon => '2008 - 2009',
+    });
+    return;
 }
 
 1;

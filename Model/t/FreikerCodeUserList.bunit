@@ -8,6 +8,6 @@ do('./SetupRides.PL');
     ],
     freiker_codes_for_user => [
 	realm_id('child') => [StringArray('1234')],
-	realm_id('child1') => [StringArray('1235,1236')],
+	realm_id('child1') => [StringArray('1236,1235')],
     ],
 ];

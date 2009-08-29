@@ -1,4 +1,4 @@
-# Copyright (c) 2007-2008 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::View::Club;
 use strict;
@@ -16,7 +16,9 @@ sub ride_date_list {
 }
 
 sub freiker_list {
-    return shift->internal_body_and_tools(
+    my($self) = @_;
+    $self->internal_put_base_attr($self->internal_freiker_list_selector);
+    return $self->internal_body_and_tools(
 	vs_paged_list(ClubFreikerList => [
 	    'RealmOwner.display_name',
 	    'freiker_codes',
@@ -91,6 +93,36 @@ sub internal_body_and_tools {
 	    ]),
 	    XLink('back_to_top'),
 	),
+    );
+}
+
+sub internal_freiker_list_selector {
+    my(undef, $fields) = @_;
+    $fields ||= [qw(fr_year fr_trips fr_registered)];
+    my($f) = b_use('Model.FreikerListQueryForm');
+    return (
+	selector => Join([
+	    Form($f->simple_package_name, Join([
+		map(
+		    (
+			$_ eq 'fr_year' ? Select({
+			    %{$f->get_select_attrs($_)},
+			    class => 'element',
+			    auto_submit => 1,
+			}) : Checkbox({
+			    field => $_,
+			    auto_submit => 1,
+			}),
+			' ',
+		    ),
+		    @$fields,
+		),
+		ScriptOnly({
+		    widget => Simple(''),
+		    alt_widget => FormButton('ok_button')->put(label => 'Refresh'),
+		}),
+	    ])),
+	]),
     );
 }
 

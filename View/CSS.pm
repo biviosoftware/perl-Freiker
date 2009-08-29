@@ -39,7 +39,7 @@ table.header td.header_middle {
   vertical-align: bottom;
   padding: .5em;
   width:100%;
-  background-image: url<(>'/bp/every_ride_counts.jpg');
+  background-image: url<(>'/bp/every_trip_counts.gif');
   background-repeat: no-repeat;
   background-position: 50% 15%;
 }

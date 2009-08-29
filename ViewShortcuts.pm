@@ -39,7 +39,7 @@ sub vs_prize_list {
 			If(['->has_keys', 'PrizeRideCount.ride_count'],
 			   ['PrizeRideCount.ride_count'],
 			   ['Prize.ride_count'])),
-		    ' rides ',
+		    ' trips ',
 		    SPAN_desc(WikiText(['Prize.description'])),
 		]),
 		$uri_args ? ['->format_uri', @$uri_args]

@@ -43,12 +43,8 @@ sub internal_initialize {
 sub validate {
     my($self) = @_;
     shift->SUPER::validate(@_);
-    $self->validate_address;
+    $_FCF->validate_address($self);
     return;
-}
-
-sub validate_address {
-    return shift->delegate_method($_FCF, @_);
 }
 
 1;

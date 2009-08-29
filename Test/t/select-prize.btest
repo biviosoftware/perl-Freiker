@@ -1,27 +1,25 @@
-# Copyright (c) 2008 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2008-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 test_setup('Freiker');
-home_page();
-do_test_backdoor(TestData => 'reset_freikers');
 login_as('wheel');
 follow_link(qw(available_prize deliver_prize));
 submit_form({
     freiker => 1234,
 });
 follow_link('bunit50');
-sleep(1);
+nudge_test_now();
 submit_form('deliver');
 follow_link(qw(available_prize deliver_prize));
 submit_form({
     freiker => 1235,
 });
 verify_text('This list is empty');
-follow_link('give_rides');
+follow_link('give_trips');
 submit_form({
     num => 20,
 });
 follow_link('bunit20');
-sleep(1);
+nudge_test_now();
 submit_form('deliver');
 follow_link(qw(available_prize delivered_prizes));
 verify_table(Delivered => [

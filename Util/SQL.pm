@@ -99,6 +99,13 @@ sub initialize_test_data {
 	Freiker::Test->ZIP,
     );
     $self->new_other('TestData')->reset_need_accept_terms;
+    _register_user(
+	$self,
+	Freiker::Test->CA_PARENT,
+	'CA Parent',
+	Freiker::Test->CA_ZIP,
+	'CA',
+    );
     return;
 }
 
@@ -150,12 +157,12 @@ sub internal_upgrade_db_need_accept_terms {
 }
 
 sub _register_user {
-    my($self, $name, $display_name, $zip) = @_;
+    my($self, $name, $display_name, $zip, $country) = @_;
     $self->model(UserRegisterForm => {
 	'RealmOwner.name' => $name,
 	'RealmOwner.display_name' => $display_name,
 	'Address.zip' => $zip,
-	'Address.country' => 'US',
+	'Address.country' => $country || 'US',
 	'RealmOwner.password' => $self->TEST_PASSWORD,
 	'confirm_password' => $self->TEST_PASSWORD,
 	'Email.email' => $self->format_test_email($name),
