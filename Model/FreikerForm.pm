@@ -24,7 +24,8 @@ sub execute_empty {
     }
     my($m) = $self->new_other('Address');
     $self->load_from_model_properties($m)
-	if $m->unauth_load({realm_id => $uid || $self->req('auth_id')});
+	if $uid && $m->unauth_load({realm_id => $uid})
+	|| $m->unauth_load({realm_id => $self->req('auth_id')});
     if (my $km = $m->unsafe_get('street2')) {
 	$self->internal_put_field(
 	    kilometers => $km,
@@ -45,9 +46,7 @@ sub execute_ok {
     $u->get_model('RealmOwner')->update({
 	display_name => $u->get('first_name'),
     });
-    return {
-	carry_query => 1,
-    };
+    return;
 }
 
 sub internal_initialize {
@@ -87,9 +86,7 @@ sub internal_pre_execute {
     if (my $frl = $self->ureq('Model.FreikerRideList')) {
 	$self->internal_put_field('FreikerCode.user_id' => $frl->get_user_id);
     }
-    my($country) = $self->new_other('Address')
-	->unauth_load_or_die({realm_id => $self->req('auth_id')})
-	->get('country');
+    my($country) = $self->new_other('Address')->load->get('country');
     $self->internal_put_field(
 	'Address.country' => $country,
 	in_miles => _is_us($country),
