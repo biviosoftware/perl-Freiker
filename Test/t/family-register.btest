@@ -18,6 +18,14 @@ submit_form({
 });
 follow_link('your_family');
 follow_link('register_child');
+test_deviance(qr{ID is already assigned});
+submit_form({
+    first => 'Bruce',
+    freiker => 1234,
+    '^school' => 'bunit Elementary',
+    kilometers => 17,
+});
+test_conformance();
 submit_form({
     first => 'Bruce',
     freiker => 1237,
