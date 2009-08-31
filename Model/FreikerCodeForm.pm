@@ -31,7 +31,9 @@ sub execute_ok {
 	unless _validate_rides($self, $code_uid);
     _update_user($self, $code_uid);
     return shift->SUPER::execute_ok(@_) || {
-    	carry_query => 1,
+    	query => {
+	    'ListQuery.parent_id' => $self->get('FreikerCode.user_id'),
+	},
     };
 
 }
