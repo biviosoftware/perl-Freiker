@@ -83,9 +83,9 @@ sub internal_initialize {
 sub internal_pre_execute {
     my($self) = @_;
     shift->SUPER::internal_pre_execute(@_);
-    if (my $frl = $self->ureq('Model.FreikerRideList')) {
-	$self->internal_put_field('FreikerCode.user_id' => $frl->get_user_id);
-    }
+    my($frl) = $self->ureq('Model.FreikerRideList');
+    $self->internal_put_field(
+	'FreikerCode.user_id' => $frl && $frl->get_user_id);
     my($country) = $self->new_other('Address')->load->get('country');
     $self->internal_put_field(
 	'Address.country' => $country,
