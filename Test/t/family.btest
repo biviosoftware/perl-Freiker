@@ -22,6 +22,7 @@ submit_form({
     radio => 'Male',
     miles => '20',
 });
+follow_link('Your family');
 follow_link_in_table(qw(freiker freiker bobby action tag));
 nudge_test_now();
 submit_form({

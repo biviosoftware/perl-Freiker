@@ -24,6 +24,7 @@ submit_form({
     '^school' => 'bunit Elementary',
     kilometers => 17,
 });
+follow_link('Your family');
 follow_link('edit_info');
 submit_form({
     first => 'Milton',
