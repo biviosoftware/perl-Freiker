@@ -34,7 +34,7 @@ sub child_ride_dates {
     my($self, $child_index, $as_date) = @_;
     $child_index ||= 0;
     return []
-	if $child_index == Freiker::Test->MAX_CHILD_INDEX;
+	if $child_index > Freiker::Test->MAX_CHILD_INDEX_WITH_RIDES;
     my($now) = $_D->now;
     $as_date = $as_date ? sub {$_D->to_string(shift)} : sub {shift};
     return [map(
@@ -78,8 +78,13 @@ sub reset_need_accept_terms {
 		'NEED_ACCEPT_TERMS',
 		1,
 	    );
-	    $self->model('Address')->load->update({
-		zip => undef,
+	    my($addr) = $self->model('Address', {})->update({zip => undef});
+	    $self->model('FreikerList')->do_iterate(sub {
+	        $addr->unauth_delete({
+		    realm_id => shift->get('RealmUser.user_id'),
+		    location => $addr->DEFAULT_LOCATION,
+		});
+		return 1;
 	    });
 	    return;
 	},
@@ -129,12 +134,18 @@ sub reset_freikers {
 	    $self->model('FreikerRideList')->delete_from_request;
 	    _freiker_form($self, $which, $index, $club_id, $code);
 	    return;
-	}) if $index <= 1 || $index == Freiker::Test->MAX_CHILD_INDEX_WITH_RIDES;
+	}) if $index <= 1 || $index == Freiker::Test->CHILD_WITHOUT_RIDES;
+	$req->with_realm(Freiker::Test->NEED_ACCEPT_TERMS, sub {
+	    # COUPLING: FreikerCodeForm checks FreikerRideList
+	    $self->model('FreikerRideList')->delete_from_request;
+	    _freiker_form($self, $which, $index, $club_id, $code);
+	    return;
+	}) if $index == Freiker::Test->NEED_ACCEPT_TERMS_CHILD_INDEX;
 	push(
 	    @$rides,
 	    map(+{epc => $epc, datetime => $_},
 		@{$self->child_ride_dates($index)}),
-	) unless $index >= Freiker::Test->MAX_CHILD_INDEX_WITH_RIDES;
+	) if $index <= Freiker::Test->MAX_CHILD_INDEX_WITH_RIDES;
     }
     $req->with_user(Freiker::Test->FREIKOMETER($which), sub {
 	my($rif) = $self->model('RideImportForm');
