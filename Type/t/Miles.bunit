@@ -3,7 +3,7 @@
 Type();
 [
     get_min => '0.3',
-    get_max => '61.4',
+    get_max => '61.5',
     from_literal => [
         '' => [undef],
 	1 => '1.0',

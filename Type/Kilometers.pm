@@ -16,7 +16,7 @@ sub can_be_zero {
 
 sub from_miles {
     my($proto, $miles) = @_;
-    return $proto->round($miles / 0.62);
+    return $proto->round($miles * 1.609344);
 }
 
 sub get_decimals {
@@ -41,7 +41,7 @@ sub get_width {
 
 sub to_miles {
     my($proto, $km) = @_;
-    return $proto->round($km * 0.62);
+    return $proto->round($km / 1.609344);
 }
 
 1;
