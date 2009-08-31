@@ -8,16 +8,6 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_DEFAULT) = _init(__PACKAGE__);
 
-#BEBOP 8.15
-sub compile {
-    my($proto) = shift;
-    my($year) = $_D->now_as_year;
-    my($start, $end) = map($_ < 100 ? $year + $_ : $_, @_);
-    return Bivio::Type::Enum::compile($proto, [
-	map(("Y$_" => [$_, $proto->compile_short_desc($_)]), $start .. $end),
-    ]);
-}
-
 sub compile_short_desc {
     my($proto, $year) = @_;
     return "$year - " . ($year + 1);
