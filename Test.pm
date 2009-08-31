@@ -40,11 +40,11 @@ sub DEFAULT_GENDER {
 }
 
 sub DEFAULT_MILES {
-    return 5;
+    return '5.0';
 }
 
 sub DEFAULT_KILOMETERS {
-    return 8;
+    return '8.0';
 }
 
 sub EPC {
@@ -65,7 +65,11 @@ sub MAX_CHILD_INDEX {
 }
 
 sub MAX_CHILD_INDEX_WITH_RIDES {
-    return shift->MAX_CHILD_INDEX - 1;
+    return shift->MAX_CHILD_INDEX - 3;
+}
+
+sub CHILD_WITHOUT_RIDES {
+    return shift->MAX_CHILD_INDEX_WITH_RIDES + 1;
 }
 
 sub NEED_ACCEPT_TERMS {
@@ -73,7 +77,7 @@ sub NEED_ACCEPT_TERMS {
 }
 
 sub NEED_ACCEPT_TERMS_CHILD_INDEX {
-    return 8;
+    return shift->CHILD_WITHOUT_RIDES + 1;
 }
 
 sub PARENT {
