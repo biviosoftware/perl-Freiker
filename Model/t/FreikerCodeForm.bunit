@@ -36,66 +36,66 @@ my($other) = {
 	->get('first_name'),
 };
 [
-#     empty_case({
-# 	'FreikerCode.freiker_code' => undef,
-# 	'Club.club_id' => $school_id,
-# 	'Address.zip' => Freiker::Test->ZIP,
-# 	miles => Freiker::Test->DEFAULT_MILES,
-# 	kilometers => Freiker::Test->DEFAULT_KILOMETERS,
-#     }),
-#     [{
-# 	%$other,
-# 	'FreikerCode.freiker_code' => $fc->(3),
-# 	'Club.club_id' => $school_id,
-# 	miles => '1.5',
-# 	'Address.zip' => Freiker::Test->ZIP,
-#     }] => [{
-# 	'Model.FreikerCodeForm' => {
-# 	    'FreikerCode.freiker_code' => sub {
-# 		assert_equals($num_rides + 1, $count->());
-# 		return $fc->(3),
-# 	    },
-# 	    miles => '1.5',
-# 	    'Address.zip' => Freiker::Test->ZIP,
-# 	},
-# 	'Model.Address' => {
-# 	    street2 => '2.4',
-# 	    zip => Freiker::Test->ZIP,
-# 	},
-#     }],
-#     empty_case({
-# 	'FreikerCode.freiker_code' => undef,
-# 	'Club.club_id' => $school_id,
-# 	'Address.zip' => Freiker::Test->ZIP,
-# 	kilometers => '2.4',
-# 	miles => '1.5',
-#     }),
-#     error_case({
-# 	%$other,
-# 	'FreikerCode.freiker_code' => $fc->(0),
-# 	'Club.club_id' => $school_id,
-# 	miles => 1.5,
-# 	'Address.zip' => Freiker::Test->ZIP,
-#     } => {
-# 	'FreikerCode.freiker_code' => 'EXISTS',
-#     }),
-#     inline_case(sub {
-#         $add_rides->(1, 4..5);
-# 	$add_rides->(4, 4..5);
-# 	return;
-#     }),
-#     error_case({
-# 	%$other,
-# 	'FreikerCode.freiker_code' => $fc->(4),
-# 	'Club.club_id' => $school_id,
-# 	super_user_override => 1,
-# 	miles => 1.5,
-# 	'Address.zip' => Freiker::Test->ZIP,
-#     } => {
-# 	'FreikerCode.freiker_code'
-# 	    => 'MUTUALLY_EXCLUSIVE: '
-# 	    . join(', ', map($_D->to_string($day->[$_]), reverse(4..5))),
-#     }),
+    empty_case({
+	'FreikerCode.freiker_code' => undef,
+	'Club.club_id' => $school_id,
+	'Address.zip' => Freiker::Test->ZIP,
+	miles => Freiker::Test->DEFAULT_MILES,
+	kilometers => Freiker::Test->DEFAULT_KILOMETERS,
+    }),
+    [{
+	%$other,
+	'FreikerCode.freiker_code' => $fc->(3),
+	'Club.club_id' => $school_id,
+	miles => '1.5',
+	'Address.zip' => Freiker::Test->ZIP,
+    }] => [{
+	'Model.FreikerCodeForm' => {
+	    'FreikerCode.freiker_code' => sub {
+		assert_equals($num_rides + 1, $count->());
+		return $fc->(3),
+	    },
+	    miles => '1.5',
+	    'Address.zip' => Freiker::Test->ZIP,
+	},
+	'Model.Address' => {
+	    street2 => '2.4',
+	    zip => Freiker::Test->ZIP,
+	},
+    }],
+    empty_case({
+	'FreikerCode.freiker_code' => undef,
+	'Club.club_id' => $school_id,
+	'Address.zip' => Freiker::Test->ZIP,
+	kilometers => '2.4',
+	miles => '1.5',
+    }),
+    error_case({
+	%$other,
+	'FreikerCode.freiker_code' => $fc->(0),
+	'Club.club_id' => $school_id,
+	miles => 1.5,
+	'Address.zip' => Freiker::Test->ZIP,
+    } => {
+	'FreikerCode.freiker_code' => 'EXISTS',
+    }),
+    inline_case(sub {
+        $add_rides->(1, 4..5);
+	$add_rides->(4, 4..5);
+	return;
+    }),
+    error_case({
+	%$other,
+	'FreikerCode.freiker_code' => $fc->(4),
+	'Club.club_id' => $school_id,
+	super_user_override => 1,
+	miles => 1.5,
+	'Address.zip' => Freiker::Test->ZIP,
+    } => {
+	'FreikerCode.freiker_code'
+	    => 'MUTUALLY_EXCLUSIVE: '
+	    . join(', ', map($_D->to_string($day->[$_]), reverse(4..5))),
+    }),
     inline_case(sub {
         $add_rides->(1, 4..5);
 	$add_rides->(4, 4..5);
