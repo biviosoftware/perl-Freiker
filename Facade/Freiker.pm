@@ -276,24 +276,22 @@ EOF
 	    ok_button => 'I accept. Create my account.',
 	]],
 	[[qw(FreikerForm FreikerCodeForm)] => [
+	    prose => [
+		prologue => q{Enter the new Freiker ID from the tag on your child's helmet or backpack.  If the tag is missing from your child's helmet or backpack, or you need another tag for a new helmet or backpack, vs_wheel_contact();.},
+	    ],
 	    'User.first_name' => q{First Name},
 	    'User.first_name.desc' => q{This is for your information only so it may be a nickname, an abbreviation, or any other identifier.},
 	    'birth_year' => q{Year of Birth},
 	    'User.gender' => q{Gender},
-	    ok_button => 'Register child',
-	]],
-	[FreikerCodeForm => [
-	    prose => [
-		prologue => q{Enter the new Freiker ID from the tag on your child's helmet or backpack.  If the tag is missing from your child's helmet or backpack, or you need another tag for a new helmet or backpack, vs_wheel_contact();.},
-	    ],
-	    ok_button => 'Add tag',
-	]],
-	[[qw(FreikerCodeForm FreikerForm)] => [
 	    kilometers => 'Kilometers to School',
 	    miles => 'Miles to School',
 	    [qw(miles kilometers)] => [
 		desc => q{One-way distance from your home to this child's school.  Participants with multiple homes, calculate the distance from the home associated with the postal code above.},
 	    ],
+	    ok_button => q{If([qw(Model.FreikerCodeForm FreikerCode.user_id)], 'Add tag', 'Register child');},
+	]],
+	[FreikerForm => [
+	    ok_button => 'Update Info',
 	]],
 	[ClubManualRideForm => [
 	    add_days => 'Number of Days',
@@ -366,6 +364,7 @@ EOF
 	    GENERAL_USER_PASSWORD_QUERY => q{Forgot your password? Link('Click here to get a new one.', 'GENERAL_USER_PASSWORD_QUERY');},
 	]],
 	[acknowledgement => [
+	    update_address => q{Please update the information below.  We need to make sure your information is current.},
 	    GREEN_GEAR_FORM => q{The new GreenGear winner appears below.  Your School's Freikometers will be updated to ring the GreenGear sound the next time they check in.},
 	    CLUB_REGISTER => q{Your school has been registered.},
 	    CLUB_RIDE_FILL_FORM => q{Filled in missing trips for when Freikometer was not working.},
