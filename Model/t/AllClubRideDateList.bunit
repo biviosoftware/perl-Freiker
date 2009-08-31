@@ -7,13 +7,13 @@ req()->set_realm(undef);
     load_all => [
 	[] => [
 	    map({
-		my($index) = $_;
+		my($day_offset) = $_;
 		map(+{
 		    'RealmOwner.display_name' => Freiker::Test->SCHOOL($_),
-		    ride_count => ($index > 1 && $index <= Freiker::Test->MAX_CHILD_INDEX_WITH_RIDES)
+		    ride_count => ($day_offset > 0 && $day_offset <= Freiker::Test->MAX_CHILD_INDEX_WITH_RIDES)
 			? 2 : 1,
 		}, 0 .. 1),
-	    } 1 .. 60),
+	    } 0 .. 59),
 	],
     ],
 ];
