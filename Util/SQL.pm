@@ -87,11 +87,6 @@ sub initialize_test_data {
 	    });
 	}
     }
-    $self->new_other('TestData')->reset_all_freikers;
-    $self->use('IO.File')->do_in_dir(site => sub {
-	$self->new_other('RealmFile')
-	    ->main(qw(-user adm -realm site import_tree));
-    });
     _register_user(
 	$self,
 	Freiker::Test->NEED_ACCEPT_TERMS,
@@ -106,6 +101,11 @@ sub initialize_test_data {
 	Freiker::Test->CA_ZIP,
 	'CA',
     );
+    $self->new_other('TestData')->reset_all_freikers;
+    $self->use('IO.File')->do_in_dir(site => sub {
+	$self->new_other('RealmFile')
+	    ->main(qw(-user adm -realm site import_tree));
+    });
     return;
 }
 
