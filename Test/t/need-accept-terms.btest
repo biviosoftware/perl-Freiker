@@ -8,4 +8,24 @@ submit_form('accept');
 do_logout();
 login_as('need_accept_terms');
 verify_no_text(qr{clicking on.*I accept}s);
+submit_form({
+    postal => '123456789',
+    country => 'US',
+});
+verify_form({
+    postal => '123456789',
+});
+submit_form({
+    first => my $name1 = 'A' . random_string(),
+    miles => 3,
+});
+submit_form({
+    first => my $name2 = 'B' . random_string(),
+    miles => 3,
+});
+verify_table(Freiker => [
+    ['Freiker'],
+    [$name1],
+    [$name2],
+]);
 do_test_backdoor(TestData => 'reset_need_accept_terms');
