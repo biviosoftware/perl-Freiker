@@ -31,7 +31,7 @@ sub freiker_list {
 	[
 	    {
 		task_id => 'CLUB_FREIKER_LIST_CSV',
-		query => [\&_csv_query],
+		query => [qw(Model.FreikerListQueryForm ->get_current_query_for_list)],
 	    },
 	],
     );
@@ -225,14 +225,6 @@ sub ride_fill_form {
 	    'ClubRideFillForm.Ride.ride_date',
 	]),
     );
-}
-
-sub _csv_query {
-    my($req) = shift->req;
-    my($q) = $req->get('Model.ClubFreikerList')->get_query;
-    return {
-	map($q->get($_) ? ("ListQuery.$_" => $q->get($_)) : (), qw(begin_date date)),
-    };
 }
 
 1;

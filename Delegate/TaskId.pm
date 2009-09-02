@@ -402,7 +402,7 @@ sub get_delegate_info {
 	    CLUB
 	    ADMIN_READ
 	    Model.FreikerListQueryForm
-	    Model.ClubFreikerList->execute_load_csv
+	    Model.ClubFreikerList->execute_load_all
 	    View.Club->freiker_list_csv
 	    next=CLUB_FREIKER_LIST_CSV
 	)],
