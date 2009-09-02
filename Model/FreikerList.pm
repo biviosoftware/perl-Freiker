@@ -15,13 +15,6 @@ sub PRIZE_SELECT_LIST {
     return 'PrizeSelectList';
 }
 
-sub execute_load_csv {
-    my($proto, $req) = @_;
-    my($self) = $proto->new($req);
-    $self->load_all($self->parse_query_from_request->put(fr_trips => 1));
-    return;
-}
-
 sub internal_can_select_prize {
     my($self, $row) = @_;
     return ($row->{prize_select_list}
