@@ -66,7 +66,6 @@ my($_SELF) = __PACKAGE__->new({
 	['GreenGearForm.GreenGear.begin_date.EMPTY' => q{No trips found between First and Last Days}],
 	['GreenGearForm.GreenGear.begin_date.EXISTS' => q{All eligible participants have already won at least once.  Uncheck the "prior winners" box to select one of these freikers, or change the date range.}],
 	['GreenGearForm.GreenGear.begin_date.UNSUPPORTED_TYPE' => q{None of the eligible participants is registered.  Uncheck the "must be registered" box to select one of these freikers, or change the date range.}],
-	['ClubRideFillForm.Ride.ride_date.GREATER_THAN_ZERO' => q{Freikometer must be working for at least two days before you can enter this date.}],
 	['ClubRideFillForm.Ride.ride_date.NOT_NEGATIVE' => q{You are a new school. Please be patient.  You may not fill in trips before the Freikometer has been working.}],
 	['ClubRideFillForm.Ride.ride_date.EXISTS' => q{Freikometer was working this day.}],
     ],

@@ -11,8 +11,6 @@ sub execute_ok {
     my($self) = @_;
     my($add) = $self->get('Ride.ride_date');
     my($before) = 0;
-    my($after) = 0;
-    my($begin);
     my($end) = [];
     $self->new_other('ClubRideDateList')->do_iterate(sub {
         my($d) = shift->get('Ride.ride_date');
@@ -21,29 +19,21 @@ sub execute_ok {
 	    $self->internal_put_error('Ride.ride_date', 'EXISTS');
 	    return 0;
 	}
-	if ($delta < 0) {
-	    if (++$before >= 2) {
-		$begin = $d;
-		return 0;
-	    }
-	}
-	else {
-	    unshift(@$end, $d);
-	}
+	return 0
+	    if $delta < 0 && ++$before >= 2;
+	unshift(@$end, $d);
 	return 1;
     });
     return
 	if $self->in_error;
-    return $self->internal_put_error('Ride.ride_date', 'GREATER_THAN_ZERO')
-	if @$end < 2;
     return $self->internal_put_error('Ride.ride_date', 'NOT_NEGATIVE')
-	if $before < 2;
+	if $before < 1;
     foreach my $u (@{
 	$self->new_other('FreikerNearDateList')->map_iterate(
 	    sub {shift->get('Ride.user_id')},
 	    {
-		begin_date => $begin,
-		end_date => $end->[1],
+		begin_date => $end->[0],
+		end_date => $end->[$#$end],
 	    },
 	)
     }) {
