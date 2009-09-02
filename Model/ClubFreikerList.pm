@@ -8,7 +8,7 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_IDI) = __PACKAGE__->instance_data_index;
 
 sub LOAD_ALL_SIZE {
-    return 10_000;
+    return 100_000;
 }
 
 sub NOT_FOUND_IF_EMPTY {
