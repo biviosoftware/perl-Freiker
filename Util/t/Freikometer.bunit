@@ -1,6 +1,7 @@
 # Copyright (c) 2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 ShellUtil();
+shell_util(TestData => ['reset_freikers']);
 [
     [qw(-realm fm_freikometer download_playlist)] => sub {
 	assert_equals(
@@ -9,7 +10,7 @@ ShellUtil();
   '0000000000ABCDEF000004D2' => 'default',
   '0000000000ABCDEF000004D3' => 'default',
   '0000000000ABCDEF000004D4' => 'default',
-  '0000000000ABCDEF000004D5' => 'default',
+  '0000000000ABCDEF000004D5' => 'unregistered',
   '0000000000ABCDEF000004D6' => 'unregistered',
   '0000000000ABCDEF000004D7' => 'unregistered',
   '0000000000ABCDEF000004D8' => 'default',
