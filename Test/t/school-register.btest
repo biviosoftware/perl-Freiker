@@ -24,7 +24,5 @@ submit_form({
 	map(sprintf("%s,%d\n", $epcs->[$_], $codes->[$_]), 0 .. $#$codes),
     )),
 });
-follow_link('spreadsheet');
-verify_no_text(',0,');
-go_back();
+verify_text($codes->[0]);
 follow_link('available_prizes');
