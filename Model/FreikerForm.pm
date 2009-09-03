@@ -86,7 +86,9 @@ sub internal_pre_execute {
     my($frl) = $self->ureq('Model.FreikerRideList');
     $self->internal_put_field(
 	'FreikerCode.user_id' => $frl && $frl->get_user_id);
-    my($country) = $self->new_other('Address')->load->get('country');
+    my($m) = $self->new_other('Address');
+    # Prior to adding CA, US users didn't necessarily have addresses
+    my($country) = $m->unsafe_load ? $m->get('country') : 'US';
     $self->internal_put_field(
 	'Address.country' => $country,
 	in_miles => _is_us($country),

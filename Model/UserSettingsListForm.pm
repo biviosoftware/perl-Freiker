@@ -10,7 +10,9 @@ my($_DEFAULT_LOCATION) = b_use('Model.Address')->DEFAULT_LOCATION;
 
 sub execute_empty {
     my($self) = @_;
-    $self->load_from_model_properties('Address');
+    my($m) = $self->new_other('Address');
+    $self->load_from_model_properties($m)
+	if $m->unsafe_load;
     return shift->SUPER::execute_empty(@_);
 }
 
