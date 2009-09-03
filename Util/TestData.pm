@@ -78,7 +78,8 @@ sub reset_need_accept_terms {
 		'NEED_ACCEPT_TERMS',
 		1,
 	    );
-	    my($addr) = $self->model('Address', {})->update({zip => undef});
+	    my($addr) = $self->model('Address');
+	    $addr->delete({location => $addr->DEFAULT_LOCATION});
 	    $self->model('FreikerList')->do_iterate(sub {
 	        $addr->unauth_delete({
 		    realm_id => shift->get('RealmUser.user_id'),
