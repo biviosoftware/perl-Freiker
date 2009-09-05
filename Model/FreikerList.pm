@@ -10,6 +10,19 @@ my($_D) = b_use('Type.Date');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER->as_sql_param;
 my($_YQ) = b_use('Type.YearQuery');
 my($_B) = b_use('Type.Boolean');
+my($_DATE) = $_D->to_sql_value('?');
+my($_PARENT_EMAIL) = <<"EOF";
+(SELECT e.email
+    FROM realm_owner_t ro, realm_user_t ru, email_t e
+    WHERE ro.realm_type = @{[b_use('Auth.RealmType')->USER->as_sql_param]}
+    AND ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
+    AND e.location = @{[b_use('Model.Email')->DEFAULT_LOCATION->as_sql_param]}
+    AND ru.realm_id = ro.realm_id
+    AND realm_user_t.user_id = ru.user_id
+    AND e.realm_id = ro.realm_id
+)
+EOF
+my($_RIDE_COUNT) = "(SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_date BETWEEN $_DATE AND $_DATE)";
 
 sub PRIZE_SELECT_LIST {
     return 'PrizeSelectList';
@@ -32,7 +45,6 @@ sub internal_freiker_codes {
 
 sub internal_initialize {
     my($self) = @_;
-    my($d) = $_D->to_sql_value('?');
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
 	can_iterate => 1,
@@ -46,14 +58,14 @@ sub internal_initialize {
 		name => 'ride_count',
 		type => 'Integer',
 		constraint => 'NOT_NULL',
-		select_value => qq{(SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_date BETWEEN $d AND $d) AS ride_count},
+		select_value => qq{$_RIDE_COUNT AS ride_count},
 		sort_order => 0,
 	    },
 	    {
 		name => 'prize_debit',
 		type => 'Integer',
 		constraint => 'NOT_NULL',
-		select_value => qq{COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id AND prize_coupon_t.creation_date_time BETWEEN $d AND ($d + interval '60 days')), 0) AS prize_debit},
+		select_value => qq{COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id AND prize_coupon_t.creation_date_time BETWEEN $_DATE AND ($_DATE + interval '60 days')), 0) AS prize_debit},
 		sort_order => 0,
 	    },
 
@@ -61,7 +73,7 @@ sub internal_initialize {
 		name => 'prize_credit',
 		type => 'Integer',
 		constraint => 'NOT_NULL',
-		select_value => qq{((SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_t.ride_date BETWEEN $d AND $d) - COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id AND prize_coupon_t.creation_date_time BETWEEN $d AND ($d + interval '60 days')), 0)) AS prize_credit},
+		select_value => qq{((SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_t.ride_date BETWEEN $_DATE AND $_DATE) - COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id AND prize_coupon_t.creation_date_time BETWEEN $_DATE AND ($_DATE + interval '60 days')), 0)) AS prize_credit},
 		sort_order => 0,
 	    },
 	    {
@@ -81,15 +93,7 @@ sub internal_initialize {
 		name => 'parent_email',
 		type => 'Email',
 		constraint => 'NONE',
-		select_value => "(SELECT e.email
-                    FROM realm_owner_t ro, realm_user_t ru, email_t e
-                    WHERE ro.realm_type = @{[b_use('Auth.RealmType')->USER->as_sql_param]}
-                    AND ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
-                    AND e.location = @{[b_use('Model.Email')->DEFAULT_LOCATION->as_sql_param]}
-                    AND ru.realm_id = ro.realm_id
-                    AND realm_user_t.user_id = ru.user_id
-                    AND e.realm_id = ro.realm_id
-                ) AS parent_email",
+		select_value => "$_PARENT_EMAIL AS parent_email",
 		sort_order => 0,
 	    },
 	],
@@ -124,10 +128,6 @@ sub internal_initialize {
 
 sub internal_post_load_row {
     my($self, $row) = @_;
-    return 0
-	if !shift->SUPER::internal_post_load_row(@_)
-	|| _get_from_query($self, 'fr_trips') && !$row->{ride_count}
-	|| _get_from_query($self, 'fr_registered') && !$row->{parent_email};
     $row->{freiker_codes} = $self->internal_freiker_codes($row);
     $row->{can_select_prize} = $self->internal_can_select_prize($row);
     return 1;
@@ -162,6 +162,14 @@ sub internal_pre_load {
 	' AND ',
         'realm_user_t.realm_id = ?',
 	"realm_user_t.role = $_FREIKER",
+	_get_from_query($self, 'fr_registered') ? "$_PARENT_EMAIL IS NOT NULL"
+	    : (),
+	sub {
+	    return
+		unless _get_from_query($self, 'fr_trips');
+	    push(@$params, @$x{qw(begin_date date)});
+	    return "$_RIDE_COUNT > 0";
+	}->(),
 	$where ? $where : (),
     );
 }
