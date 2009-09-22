@@ -59,7 +59,7 @@ my($_SELF) = __PACKAGE__->new({
 	['AdmSubstituteUserForm.login.OFFLINE_USER' => q{Freiker Code not registered.  User must register before you can act as user.}],
 	['FreikerSelectForm.FreikerCode.freiker_code.NOT_FOUND' => q{Freiker Code is not in our database.}],
 	['FreikerSelectForm.FreikerCode.freiker_code.PERMISSION_DENIED' => q{Freiker is not at this school.}],
-	['GreenGearForm.GreenGear.begin_date.GREATER_THAN_ZERO' => q{Green Gear must be after most recent Green Gear (DateTime(['Model.GreenGearList', 'GreenGear.end_date'], Date);)}],
+	['GreenGearForm.GreenGear.begin_date.GREATER_THAN_ZERO' => q{Green Gear must be after most recent Green Gear (DateTime(['Model.GreenGearList', 'GreenGear.end_date']);)'],
 	[[qw(GreenGearForm.GreenGear.end_date.TOO_MANY GreenGearForm.GreenGear.begin_date.TOO_MANY)],
 	 => q{vs_fe('label'); may not be in the future.}],
 	['GreenGearForm.GreenGear.end_date.MUTUALLY_EXCLUSIVE' => q{Last Day must not be before First}],
