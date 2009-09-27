@@ -22,3 +22,16 @@ verify_text('1235');
 follow_link('spreadsheet');
 verify_text('1235');
 verify_text('1237');
+login_as('adm');
+follow_link(qw(bunit123456789 roster add_member));
+my($name) = random_string();
+submit_form({
+    email => generate_local_email('wheel_' . $name),
+    name => $name,
+});
+follow_link_in_table(qw(last last), $name, privileges => 'member');
+submit_form({
+    access_level => 'admin',
+    mail => 1,
+});
+
