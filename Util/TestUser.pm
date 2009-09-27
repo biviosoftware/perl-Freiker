@@ -6,11 +6,11 @@ use Bivio::Base 'ShellUtil';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
-sub init_adm {
-    my($self) = @_;
-    shift->SUPER::init_adm(@_);
+sub create {
+    my($self) = shift;
+    my($res) = $self->SUPER::create(@_);
     $self->req->with_realm(
-	$self->ADM,
+	$res,
 	sub {
 	    $self->model('Address')->create({
 		zip => Freiker::Test->ZIP,
@@ -19,7 +19,7 @@ sub init_adm {
 	    return;
 	},
     );
-    return;
+    return $res;
 }
 
 1;
