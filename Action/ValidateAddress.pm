@@ -5,18 +5,27 @@ use strict;
 use Bivio::Base 'Biz.Action';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_MA) = b_use('Model.Address');
+my($_M) = b_use('Biz.Model');
 my($_AA) = b_use('Action.Acknowledgement');
 
 sub execute {
     my($proto, $req) = @_;
-    my($addr) = $_MA->new($req);
+    my($addr) = $_M->new($req, 'Address');
     return {
 	task_id => 'USER_SETTINGS_FORM',
 	query => $_AA->save_label('update_address', $req, {}),
-    } unless $addr->unsafe_load && $addr->get('zip') && $addr->get('country');
+    } unless $addr->unauth_load({realm_id => $req->get('auth_user_id')})
+	&& $addr->get('zip') && $addr->get('country');
     my($uid);
-    $req->get('Model.FreikerList')->do_rows(sub {
+    $req->get_or_default(
+	'Model.FreikerList',
+	sub {
+	    return $req->with_realm(
+		$req->get('auth_user_id'),
+		sub {$_M->new($req, 'FreikerList')->load_all},
+	    );
+	},
+    )->do_rows(sub {
         my($it) = @_;
 	return 1
 	    if $addr->unauth_load({realm_id => $it->get('RealmUser.user_id')})
