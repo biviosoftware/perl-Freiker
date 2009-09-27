@@ -1,11 +1,12 @@
-# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 test_setup('Freiker');
 login_as('parent');
 select_test_now();
-follow_link('100');
-verify_text('Partee!');
-go_back();
+#TODO: Prize selection removed
+#follow_link('100');
+#verify_text('Partee!');
+#go_back();
 follow_link('child6');
 go_back();
 follow_link_in_table(qw(freiker freiker child6 action missing));
