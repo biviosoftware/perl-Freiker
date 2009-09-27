@@ -43,7 +43,9 @@ sub internal_initialize {
 sub validate {
     my($self) = @_;
     shift->SUPER::validate(@_);
-    $_FCF->validate_address($self);
+    $_FCF->validate_address($self)
+	if $self->unsafe_get('Address.zip')
+	&& $self->unsafe_get('Address.country');
     return;
 }
 
