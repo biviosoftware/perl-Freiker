@@ -32,23 +32,27 @@ sub freiker_list {
 	    }],
 	    'freiker_codes',
 	    ['prize_credit', => {
-		column_widget => If(
-		    ['can_select_prize'],
-		    Link(
-			String(['prize_credit']),
-			URI({
-			    task_id => 'FAMILY_PRIZE_PICKUP',
-			    query => [qw(->format_query THIS_DETAIL)],
-			    no_context => 1,
-		        }),
-		    ),
-		    String(['prize_credit']),
-		    {column_data_class => If(
-			['can_select_prize'],
-			'select_prize',
-			'amount_cell',
-		    )},
+		column_widget => String(
+		    ['prize_credit'],
+		    {column_data_class => 'amount_cell'},
 		),
+# 		column_widget => If(
+# 		    ['can_select_prize'],
+# 		    Link(
+# 			String(['prize_credit']),
+# 			URI({
+# 			    task_id => 'FAMILY_PRIZE_PICKUP',
+# 			    query => [qw(->format_query THIS_DETAIL)],
+# 			    no_context => 1,
+# 		        }),
+# 		    ),
+# 		    String(['prize_credit']),
+# 		    {column_data_class => If(
+# 			['can_select_prize'],
+# 			'select_prize',
+# 			'amount_cell',
+# 		    )},
+#		),
 	    }],
 	    {
 		column_heading => String(vs_text("FreikerList.list_actions")),
