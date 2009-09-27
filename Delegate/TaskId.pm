@@ -123,6 +123,7 @@ sub get_delegate_info {
 	    512
 	    CLUB
 	    ADMIN_READ
+	    Action.ValidateAddress
 	    Model.FreikerListQueryForm
 	    Model.ClubFreikerList->execute_load_page
 	    View.Club->freiker_list
