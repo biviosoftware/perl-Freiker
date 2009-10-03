@@ -87,7 +87,7 @@ sub internal_xhtml_adorned_attrs {
 		    ' ',
 		    vs_text_as_prose('site_copyright'),
 		])),
-		SPAN_tagline('Every Ride Counts!&trade;'),
+		SPAN_tagline('Every Trip Counts!&trade;'),
 		Link(
 		    'Software by bivio',
 		    'http://www.bivio.biz',
