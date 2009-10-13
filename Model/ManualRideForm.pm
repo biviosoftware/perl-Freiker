@@ -49,11 +49,14 @@ sub internal_initialize {
     });
 }
 
-sub validate {
+sub internal_pre_execute {
     my($self) = @_;
-    return $self->internal_put_error('Ride.ride_date' => 'NOT_FOUND')
-	if $self->req('Model.FreikerRideList')->get_result_set_size == 0;
-    return;
+    # SECURITY: Ensure user can access this Freiker
+    $self->new_other('FreikerList')->load_this({
+	this =>
+	    [$self->req('Model.FreikerRideList')->get_query->get('parent_id')],
+    });
+    return shift->SUPER::internal_pre_execute(@_);
 }
 
 1;
