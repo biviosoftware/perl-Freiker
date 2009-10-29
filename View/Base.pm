@@ -61,15 +61,14 @@ sub internal_xhtml_adorned_attrs {
 	       DropDown(
 		   String('more'),
 		   DIV_dd_menu(TaskMenu([qw(
-	               FORUM_CRM_THREAD_ROOT_LIST
 		       FORUM_CALENDAR
                        FORUM_FILE_TREE_LIST
 		       GROUP_TASK_LOG
 		       FORUM_MAIL_THREAD_ROOT_LIST
-	               FORUM_TUPLE_USE_LIST
-	               FORUM_CRM_THREAD_ROOT_LIST
 		       FORUM_MOTION_LIST
 		       GROUP_USER_LIST
+	               FORUM_TUPLE_USE_LIST
+	               FORUM_CRM_THREAD_ROOT_LIST
 		   )]), {id => 'more_drop_down'}),
 	     ),
 	   ),
