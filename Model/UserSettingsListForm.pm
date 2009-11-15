@@ -19,7 +19,7 @@ sub execute_empty {
 sub execute_ok {
     my($self) = @_;
     $self->create_or_update_model_properties('Address');
-    return;
+    return shift->SUPER::execute_ok(@_);
 }
 
 sub internal_initialize {
