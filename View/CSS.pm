@@ -20,7 +20,9 @@ body {
 }
 
 ! ***** dock styles *****
-table.dock span.want_sep, table.dock a.want_sep {
+table.dock div.want_sep,
+table.dock span.want_sep,
+table.dock a.want_sep {
   background-image: none;
   border-left: white solid 1px;
 }
@@ -166,7 +168,8 @@ div.left_nav div.bmenu span {
   display: block;
   padding: .75em 0;
 }
-div.left_nav div.bmenu span.want_sep {
+div.left_nav div.bmenu span.want_sep,
+div.left_nav div.bmenu div.want_sep {
   border-top: white solid 1px;
 }
 div.left_nav div.bmenu a {
