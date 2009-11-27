@@ -106,6 +106,7 @@ table.main .main_left {
 table.main .main_middle {
   vertical-align:top;
   padding-left: 1.5em;
+  padding-bottom: 1ex;
 }
 ^/bp/Home table.main .main_middle {
   padding-left: 0;
