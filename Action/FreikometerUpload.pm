@@ -11,6 +11,7 @@ my($_D) = b_use('Type.Date');
 my($_RF) = b_use('Action.RealmFile');
 my($_L) = b_use('IO.Log');
 my($_M) = b_use('Biz.Model');
+my($_CSV) = b_use('ShellUtil.CSV');
 
 sub execute {
     my($proto, $req) = @_;
@@ -37,17 +38,45 @@ sub execute {
 }
 
 sub execute_dero_zap {
-    my(undef, $req) = @_;
+    my($proto, $req) = @_;
     $req->assert_test;
-    my($c) = $req->get_content;
-    $req->with_realm_and_user('site', undef, sub {
-	Bivio::ShellUtil->set_user_to_any_online_admin;
-        $_M->new($req, 'RealmFile')->create_or_update_with_content({
-	    user_id => $req->get('auth_user_id'),
-	    path => '/zap.dat',
-	}, $req->get_content || \(''));
-	return;
-    });
+
+    my($q) = Bivio::HTML->parse_www_form_urlencoded(${$req->get_content});
+#TODO: error handling to validate the form
+    my($realm) = _realm_name_from($q->{StationId});
+    my($pi) = $_DT->local_now_as_file_name;
+    $_L->write(
+	File::Spec->catfile($realm, $pi . '-log'),
+	$req->get_content,
+	$req,
+    );
+    return
+        unless my $rowcount = b_debug($q->{bikeEventCount});
+    my($rows) = [
+        [qw(epc datetime)],
+        map([$q->{"RfidNum$_"}, $q->{"BikeDateTime$_"}], 1..$rowcount),
+    ];
+    my($data) = b_use('IO.Ref')->to_string($rows);
+    $_L->write(
+	File::Spec->catfile($realm, $pi . '-tags'),
+	$data,
+	$req,
+    );
+    my($r) = b_use('Model.Ride')->new($req);
+    my($m) = $r->new_other('RideImportForm');
+    my($count) = 1;
+    shift(@$rows);
+    foreach my $item (@$rows) {
+        $m->process_record({epc => $item->[0], datetime => $item->[1]},
+                           $count++);
+        b_info([$item, $m->get_errors]);
+        return if $m->in_error;
+    }
+    $req->set_realm($realm);
+b_info($realm);
+    $req->put(path_info => "/upload/$pi");
+    $req->put(content => $data);
+    $_RF->execute_put($req);
     return;
 }
 
@@ -55,6 +84,13 @@ sub reply_header_out {
     my(undef, $key, $value, $req) = @_;
     $req->get('r')->header_out($key, $value);
     return;
+}
+
+sub _realm_name_from {
+    my($stationid) = @_;
+#TODO: create Type.DeroZapStationId
+    $stationid =~ s/://g;
+    return 'dz_' . lc($stationid);
 }
 
 1;

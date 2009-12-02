@@ -24,12 +24,12 @@ sub execute_ok {
 }
 
 sub process_record {
-    my($self, $row, $count) = @_;
+    my($self, $row, $count) = b_debug(@_);
     my($fields) = $self->[$_IDI] ||= _init_fields($self);
-    my($v) = {
+    my($v) = b_debug({
 	ride_date => $_D->from_datetime($row->{datetime}),
 	user_id => _user_id($self, $row->{epc}, $count) || return,
-    };
+    });
     my($r) = $self->new_other('Ride');
     if ($r->unauth_load($v)) {
 	return if $r->get('ride_upload_id');
