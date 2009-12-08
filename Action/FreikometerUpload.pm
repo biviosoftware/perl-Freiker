@@ -30,7 +30,7 @@ sub execute {
     $_M->new($req, 'RideImportForm')->process_content
         if $pi =~ /\.csv$/;
     $req->set_realm($req->get('auth_user'));
-    $req->put(path_info => "/upload/$pi");
+    $req->put(path_info => "/upload/@{[_ym()]}/$pi");
     $_RF->execute_put($req);
     $proto->reply_header_out(
 	'X-FreikometerUpload', length(${$req->get_content}), $req);
@@ -39,26 +39,23 @@ sub execute {
 
 sub execute_dero_zap {
     my($proto, $req) = @_;
-    $req->assert_test;
-
     my($q) = Bivio::HTML->parse_www_form_urlencoded(${$req->get_content});
-#TODO: error handling to validate the form
     my($realm) = _realm_name_from($q->{StationId});
     my($pi) = $_DT->local_now_as_file_name;
     $_L->write(
-	File::Spec->catfile($realm, $pi . '-log'),
+	File::Spec->catfile($realm, $pi . '.txt'),
 	$req->get_content,
 	$req,
     );
     return
-        unless my $rowcount = b_debug($q->{bikeEventCount});
+        unless my $rowcount = $q->{bikeEventCount};
     my($rows) = [
         [qw(epc datetime)],
         map([$q->{"RfidNum$_"}, $q->{"BikeDateTime$_"}], 1..$rowcount),
     ];
     my($data) = b_use('IO.Ref')->to_string($rows);
     $_L->write(
-	File::Spec->catfile($realm, $pi . '-tags'),
+	File::Spec->catfile($realm, $pi . '.csv'),
 	$data,
 	$req,
     );
@@ -69,14 +66,13 @@ sub execute_dero_zap {
     foreach my $item (@$rows) {
         $m->process_record({epc => $item->[0], datetime => $item->[1]},
                            $count++);
-        b_info([$item, $m->get_errors]);
         return if $m->in_error;
     }
-    $req->set_realm($realm);
-b_info($realm);
-    $req->put(path_info => "/upload/$pi");
-    $req->put(content => $data);
-    $_RF->execute_put($req);
+    $req->with_realm($realm, sub {
+	$req->put(path_info => "/upload/$pi");
+	$req->put(content => $data);
+	$_RF->execute_put($req);
+    });
     return;
 }
 
@@ -91,6 +87,10 @@ sub _realm_name_from {
 #TODO: create Type.DeroZapStationId
     $stationid =~ s/://g;
     return 'dz_' . lc($stationid);
+}
+
+sub _ym {
+    return join('', $_DT->get_parts($_DT->now, qw(year month)));
 }
 
 1;
