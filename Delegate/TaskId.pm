@@ -374,7 +374,7 @@ sub get_delegate_info {
 	[qw(
 	    GREEN_GEAR_FORM
 	    541
-	    ANY_GROUP
+	    ANY_OWNER
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.GreenGearForm
 	    View.GreenGear->form
@@ -383,7 +383,7 @@ sub get_delegate_info {
 	[qw(
 	    GREEN_GEAR_LIST
 	    542
-	    ANY_GROUP
+	    ANY_OWNER
 	    ADMIN_READ
 	    Model.GreenGearList->execute_load_page
 	    View.GreenGear->list
@@ -391,7 +391,7 @@ sub get_delegate_info {
 	[qw(
 	    CLUB_RIDE_FILL_FORM
 	    543
-	    ANY_GROUP
+	    ANY_OWNER
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.ClubRideFillForm
 	    View.Club->ride_fill_form
