@@ -311,6 +311,7 @@ EOF
 	[AdmFreikometerList => [
 	    'RealmOwner.name' => 'Freikometer',
 	    'RealmFile.modified_date_time' => 'Last Upload',
+	    'list_action.FORUM_FILE_TREE_LIST' => 'Files',
 	]],
 	[separator => [
 	    optional => 'Optional information used for statistical purposes',
