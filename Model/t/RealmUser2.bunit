@@ -19,6 +19,6 @@ options({
 	sub {
 	    req()->set_realm('bunit123456789');
 	    return [];
-	} => 'fm_freikometer',
+	} => 'dz_zap',
     ],
 ];

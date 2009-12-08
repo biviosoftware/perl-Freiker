@@ -5,6 +5,8 @@ do('./SetupRides.PL');
 [
     load_all => [
 	[] => [{
+	    'RealmOwner.name' => 'dz_zap',
+	}, {
 	    'RealmOwner.name' => 'fm_freikometer',
 	}],
     ],

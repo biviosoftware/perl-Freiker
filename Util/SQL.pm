@@ -57,11 +57,18 @@ sub initialize_test_data {
 		'Website.url' => Freiker::Test->WEBSITE($n),
 		club_size => 32,
 	    });
-	    $req->set_realm(Freiker::Test->SCHOOL_NAME($n));
-
-	    $self->new_other('Freikometer')->create(
-		Freiker::Test->FREIKOMETER($n));
-	    $self->req('auth_user')->update_password($self->TEST_PASSWORD);
+	    foreach my $x (
+		[qw(create FREIKOMETER)],
+		[qw(create_zap ZAP ZAP_ETHERNET)],
+	    ) {
+		my($method, $name, $display_name) = @$x;
+		$req->set_realm(Freiker::Test->SCHOOL_NAME($n));
+		$self->new_other('Freikometer')->$method(
+		    Freiker::Test->$name($n),
+		    $display_name ? Freiker::Test->$display_name($n) : (),
+		);
+		$self->req('auth_user')->update_password($self->TEST_PASSWORD);
+	    }
 	    return;
 	});
 	_register_user(
@@ -109,6 +116,17 @@ sub initialize_test_data {
     return;
 }
 
+sub internal_upgrade_db_feature_group_admin {
+    my($self) = @_;
+    foreach my $rt (qw(CLUB MERCHANT)) {
+	$self->add_permissions_to_realm_type(
+	    b_use('Auth.RealmType')->$rt(),
+	    ['FEATURE_GROUP_ADMIN'],
+	);
+    }
+    return shift->SUPER::internal_upgrade_db_feature_group_admin(@_);
+}
+
 sub internal_upgrade_db_freiker_distributor {
     my($self) = @_;
     my($req) = $self->req;
@@ -136,6 +154,18 @@ sub internal_upgrade_db_freiker_distributor {
 		return;
 	    },
 	),
+    });
+    return;
+}
+
+sub internal_upgrade_db_freikometer_members {
+    my($self) = @_;
+    $self->new_other('Freikometer')->do_all(sub {
+	$self->new_other('RealmRole')->edit_categories('+feature_file');
+	$self->new_other('RealmRole')->edit(qw(MEMBER -DATA_WRITE));
+	$self->new_other('RealmRole')->do_super_users(
+	    sub {$self->new_other('Freikometer')->join_user_as_member},
+	);
     });
     return;
 }

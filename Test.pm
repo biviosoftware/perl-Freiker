@@ -124,6 +124,14 @@ sub WHEEL {
     return _string('wheel', @_);
 }
 
+sub ZAP {
+    return _string(dz_zap => @_);
+}
+
+sub ZAP_ETHERNET {
+    return 'aa:bb:cc:dd:ee:0' . _number(0 => @_);
+}
+
 sub ZIP {
     return _number(123456789, @_);
 }
