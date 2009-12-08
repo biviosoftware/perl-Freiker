@@ -14,6 +14,22 @@ sub freikometer_list {
 	    ['RealmFile.modified_date_time', {
 		mode => 'DATE_TIME',
 	    }],
+	    {
+		column_heading => String(vs_text('AdmFreikometerList.list_actions')),
+		column_widget => ListActions([
+		    [
+			vs_text("AdmFreikometerList.list_action.FORUM_FILE_TREE_LIST"),
+			'FORUM_FILE_TREE_LIST',
+			URI({
+			    task_id => 'FORUM_FILE_TREE_LIST',
+			    realm => ['RealmOwner.name'],
+			}),
+			undef,
+			['RealmOwner.name'],
+		    ],
+		]),
+		column_data_class => 'list_actions',
+	    },
 	]),
     );
 
