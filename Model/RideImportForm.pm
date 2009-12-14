@@ -6,9 +6,9 @@ use Bivio::Base 'Model.CSVImportForm';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_IDI) = __PACKAGE__->instance_data_index;
-my($_D) = __PACKAGE__->use('Type.Date');
-my($_EPC) = __PACKAGE__->use('Type.EPC');
-my($_T) = __PACKAGE__->use('Type.Time');
+my($_D) = b_use('Type.Date');
+my($_T) = b_use('Type.Time');
+my($_A) = b_use('IO.Alert');
 
 sub COLUMNS {
     return [
@@ -55,9 +55,11 @@ sub _init_fields {
 sub _user_id {
     my($self, $epc, $count) = @_;
     my($fields) = $self->[$_IDI];
-    return $self->internal_source_error($count, $epc . ': EPC not found')
-	unless my $l = $fields->{fcl}->find_row_by_epc($epc);
-    return $l->get('FreikerCode.user_id');
+    my($l) = $fields->{fcl}->find_row_by_epc($epc);
+    return $l->get('FreikerCode.user_id')
+	if $l;
+    $_A->warn_exactly_once($epc, ': not found; ', $self->req('auth_user'));
+    return;
 }
 
 1;
