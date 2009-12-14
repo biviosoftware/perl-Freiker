@@ -1,0 +1,48 @@
+# Copyright (c) 2009 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+home_page();
+do_test_backdoor(TestData => '-realm dz_zap reset_freikometer_folders');
+do_test_backdoor(TestData => 'reset_freikers');
+my($now) = Type_DateTime()->now;
+my($today) = Type_Date()->to_file_name(Type_Date()->local_today);
+my($unix_now) = Type_DateTime()->to_unix($now);
+my($bike_event_count) = Freiker_Test()->MAX_CHILD_INDEX * 2;
+my($values) = {
+    StationId => Freiker::Test->ZAP_ETHERNET,
+    statusEventCount => 1,
+    BatteryVoltage0 => 1,
+    ChassisTemp0 => 2,
+    EventCode0 => 3,
+    RfidStatus0 => 4,
+    SolarOutput0 => 5,
+    FirmwareVersion0 => 6,
+    Uptime0 => random_integer(1_000_000),
+    bikeEventCount => $bike_event_count,
+    map((
+	"BikeDateTime$_" => $unix_now + $_,
+	"RfidNum$_" => Freiker_Test()->EPC($_),
+    ), 0 .. $bike_event_count - 1),
+};
+send_request(POST => '/dz', undef, [%$values]);
+login_as('adm');
+follow_link_in_table(qw(freikometer freikometer dz_zap action files));
+follow_link(
+    'upload',
+    $today =~ /^(\d{6})/,
+    "$today.csv",
+);
+verify_text(Freiker_Test()->EPC);
+go_back();
+follow_link("$today-status.pl");
+my($actual) = Bivio_Die()->eval_or_die(get_content());
+test_equals($values->{bikeEventCount}, $actual->{bikeeventcount});
+test_equals($values->{FirmwareVersion0}, $actual->{firmwareversion0});
+go_back();
+follow_link('bunit123456789');
+verify_table(Date => [
+    [qw(Date Trips)],
+    # GMT
+    [Type_Date()->to_string(Type_Date()->now),
+     Freiker_Test()->MAX_CHILD_INDEX],
+]);
