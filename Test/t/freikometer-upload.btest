@@ -3,6 +3,7 @@
 test_setup('Freiker');
 home_page();
 do_test_backdoor(TestData => '-realm fm_freikometer reset_freikometer_folders');
+do_test_backdoor(TestData => 'reset_freikers');
 my($epc) = test_use('Freiker::Test')->EPC;
 my($date) = test_use('Type.DateTime')->local_now_as_file_name;
 basic_authorization('fm_freikometer');
@@ -15,10 +16,6 @@ test_equals("date\n", get_content());
 home_page();
 do_logout();
 login_as('adm');
-verify_table(Freikometer => [
-    ['Freikometer', 'Last Upload'],
-    [qr{^fm_freikometer$}, qr{\Q@{[test_use('Type.Date')->now_as_string]}\E}],
-]);
 follow_link_in_table(qw(freikometer freikometer fm_freikometer action files));
 follow_link(
     'upload',
@@ -26,3 +23,10 @@ follow_link(
     "$date.csv",
 );
 test_equals($content, get_content());
+go_back();
+follow_link('bunit123456789');
+verify_table(Date => [
+    [qw(Date Trips)],
+    [Type_Date()->to_string(Type_Date()->local_today), 1],
+]);
+
