@@ -417,11 +417,11 @@ sub get_delegate_info {
 	    next=CLUB_PRIZE_COUPON_LIST
 	)],
 	[qw(
-	    DERO_ZAP_UPLOAD
+	    ZAP_UPLOAD
 	    546
 	    GENERAL
 	    ANYBODY
-	    Action.FreikometerUpload->execute_dero_zap
+	    Action.FreikometerUpload->execute_zap
 	    Action.EmptyReply
 	)],
 	[qw(
