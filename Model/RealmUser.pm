@@ -1,16 +1,14 @@
-# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2009 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::RealmUser;
 use strict;
 use Bivio::Base 'Model';
-b_use('IO.Trace');
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_FREIKER) = __PACKAGE__->use('Auth.Role')->FREIKER;
+my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 my($_FREIKOMETER) = $_FREIKER->FREIKOMETER;
-my($_CLUB) = __PACKAGE__->use('Auth.RealmType')->CLUB;
+my($_CLUB) = b_use('Auth.RealmType')->CLUB;
 my($_USER) = $_CLUB->USER;
-our($_TRACE);
 
 sub club_id_for_freiker {
     return _club_id(user_id => @_);
@@ -53,6 +51,21 @@ sub set_freikometer_for_realm {
 	    ->get('RealmOwner.realm_id'),
     );
     return;
+}
+
+sub set_realm_for_zap {
+    my($self, $ethernet) = @_;
+    my($req) = $self->req;
+    my($ro) = $self->new_other('RealmOwner');
+    $req->throw_die(FORBIDDEN => {
+	message => 'zap not found',
+	entity => $ethernet,
+    }) unless $ro->unauth_load({
+	display_name => $ethernet,
+	realm_type => $_USER,
+    });
+    $self->req->set_user($ro);
+    return $self->set_realm_for_freikometer;
 }
 
 sub set_realm_for_freikometer {
