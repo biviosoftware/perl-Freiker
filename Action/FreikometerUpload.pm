@@ -8,10 +8,14 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_DT) = b_use('Type.DateTime');
 my($_FP) = b_use('Type.FilePath');
 my($_D) = b_use('Type.Date');
-my($_RF) = b_use('Action.RealmFile');
 my($_L) = b_use('IO.Log');
 my($_M) = b_use('Biz.Model');
-my($_CSV) = b_use('ShellUtil.CSV');
+my($_MA) = b_use('Type.MACAddress');
+my($_BEC) = b_use('Type.BikeEventCount');
+my($_EPC) = b_use('Type.EPC');
+my($_R) = b_use('IO.Ref');
+my($_BDT) = b_use('Type.BikeDateTime');
+my($_NULL) = b_use('Bivio.TypeError')->NULL;
 
 sub execute {
     my($proto, $req) = @_;
@@ -19,60 +23,30 @@ sub execute {
 	unless $req->is_http_method('put');
     $_M->new($req, 'RealmUser')->set_realm_for_freikometer;
     my($pi) = $_FP->get_clean_tail($req->get('path_info'));
-    $_L->write_compressed(
-	File::Spec->catfile(
-	    $req->get('auth_user')->get('name'),
-	    $_DT->local_now_as_file_name . '-' . $pi,
-	),
-	$req->get_content,
-	$req,
-    );
+    _log($pi, $req);
     $_M->new($req, 'RideImportForm')->process_content
         if $pi =~ /\.csv$/;
-    $req->set_realm($req->get('auth_user'));
-    $req->put(path_info => "/upload/@{[_ym()]}/$pi");
-    $_RF->execute_put($req);
+    _realm_file($pi, $req->get_content, $req);
     $proto->reply_header_out(
 	'X-FreikometerUpload', length(${$req->get_content}), $req);
     return;
 }
 
-sub execute_dero_zap {
+sub execute_zap {
     my($proto, $req) = @_;
-    my($q) = Bivio::HTML->parse_www_form_urlencoded(${$req->get_content});
-    my($realm) = _realm_name_from($q->{StationId});
-    my($pi) = $_DT->local_now_as_file_name;
-    $_L->write(
-	File::Spec->catfile($realm, $pi . '.txt'),
-	$req->get_content,
-	$req,
-    );
     return
-        unless my $rowcount = $q->{bikeEventCount};
-    my($rows) = [
-        [qw(epc datetime)],
-        map([$q->{"RfidNum$_"}, $q->{"BikeDateTime$_"}], 1..$rowcount),
-    ];
-    my($data) = b_use('IO.Ref')->to_string($rows);
-    $_L->write(
-	File::Spec->catfile($realm, $pi . '.csv'),
-	$data,
+	unless $req->is_http_method('post');
+    my($form) = $req->get_form;
+    $form = {map((lc($_) => $form->{$_}), keys(%$form))};
+    $_M->new($req, 'RealmUser')
+	->set_realm_for_zap(_zap_value('StationId', $_MA, $form, $req));
+    _log('zap.txt', $req);
+    _zap_rides(_zap_value('bikeEventCount', $_BEC, $form, $req), $form, $req);
+    _realm_file(
+	$_D->to_file_name($_D->local_today) . '-status.pl',
+	$_R->to_string($form),
 	$req,
     );
-    my($r) = b_use('Model.Ride')->new($req);
-    my($m) = $r->new_other('RideImportForm');
-    my($count) = 1;
-    shift(@$rows);
-    foreach my $item (@$rows) {
-        $m->process_record({epc => $item->[0], datetime => $item->[1]},
-                           $count++);
-        return if $m->in_error;
-    }
-    $req->with_realm($realm, sub {
-	$req->put(path_info => "/upload/$pi");
-	$req->put(content => $data);
-	$_RF->execute_put($req);
-    });
     return;
 }
 
@@ -82,15 +56,76 @@ sub reply_header_out {
     return;
 }
 
-sub _realm_name_from {
-    my($stationid) = @_;
-#TODO: create Type.DeroZapStationId
-    $stationid =~ s/://g;
-    return 'dz_' . lc($stationid);
+sub _log {
+    my($path_info, $req) = @_;
+    $_L->write_compressed(
+	File::Spec->catfile(
+	    $req->get('auth_user')->get('name'),
+	    $_DT->local_now_as_file_name . '-' . $path_info,
+	),
+	$req->get_content,
+	$req,
+    );
+    return;
+}
+
+sub _realm_file {
+    my($path_info, $content, $req) = @_;
+    $req->set_realm($req->get('auth_user'));
+    my($rf) = $_M->new($req, 'RealmFile');
+    $rf->create_or_update_with_content(
+	{path => $rf->parse_path("/Upload/@{[_ym()]}/$path_info")},
+	$content,
+    );
+    return;
 }
 
 sub _ym {
-    return join('', $_DT->get_parts($_DT->now, qw(year month)));
+    return join('', $_D->get_parts($_D->local_today, qw(year month)));
+}
+
+sub _zap_die {
+    my($entity, $msg, $form, $req) = @_;
+    $req->throw_die(CORRUPT_FORM => {
+	entity => $entity,
+	message => $msg,
+	form => $form,
+    });
+    # DOES NOT RETURN
+}
+
+sub _zap_rides {
+    my($bec, $form, $req) = @_;
+    return
+	unless $bec > 0;
+    my($rif) = $_M->new($req, 'RideImportForm');
+    my($csv) = "EPC,DateTime\n";
+    foreach my $i (0 .. $bec - 1) {
+	my($bdt) = _zap_value("BikeDateTime$i", $_BDT, $form, $req);
+	delete($form->{"bikedatetime$i"});
+	my($rn) = _zap_value("RfidNum$i", $_EPC, $form, $req);
+	delete($form->{"rfidnum$i"});
+	$csv .= "$rn," . $_DT->to_file_name($bdt) . "\n";
+    }
+    $rif->process_content(\$csv);
+    _realm_file(
+	$_D->to_file_name($_D->local_today) . '.csv',
+	\$csv,
+	$req,
+    );
+    return;
+}
+
+sub _zap_value {
+    my($key, $type, $form, $req) = @_;
+    my($v, $err) = $type->from_literal($form->{lc($key)});
+    _zap_die(
+	$form->{lc($key)},
+	"invalid $key: " . ($err || $_NULL)->get_name,
+	$form,
+	$req,
+    ) unless defined($v);
+    return $v;
 }
 
 1;
