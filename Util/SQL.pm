@@ -166,6 +166,7 @@ sub internal_upgrade_db_freikometer_members {
 	$self->new_other('RealmRole')->do_super_users(
 	    sub {$self->new_other('Freikometer')->join_user_as_member},
 	);
+	return;
     });
     return;
 }
