@@ -5,19 +5,23 @@ shell_util(TestData => ['reset_freikers']);
 [
     [qw(-realm fm_freikometer download_playlist)] => sub {
 	assert_equals(
-	    <<'EOF',
-{
-  '0000000000ABCDEF000004D2' => 'default',
-  '0000000000ABCDEF000004D3' => 'default',
-  '0000000000ABCDEF000004D4' => 'default',
-  '0000000000ABCDEF000004D5' => 'unregistered',
-  '0000000000ABCDEF000004D6' => 'unregistered',
-  '0000000000ABCDEF000004D7' => 'unregistered',
-  '0000000000ABCDEF000004D8' => 'default',
-  '0000000000ABCDEF000004D9' => 'default',
-  '0000000000ABCDEF000004DA' => 'unregistered'
-}
-EOF
+	    "{\n"
+	    . join(
+		",\n",
+		map(
+		    q{  '} . Freiker_Test()->EPC($_->[0]) . "' => '$_->[1]'",
+		    [qw(0 default)],
+		    [qw(1 default)],
+		    [qw(2 default)],
+		    [qw(3 unregistered)],
+		    [qw(4 unregistered)],
+		    [qw(5 unregistered)],
+		    [qw(6 default)],
+		    [qw(7 default)],
+		    [qw(8 unregistered)],
+		),
+	    )
+	    . "\n}\n",
 	    unauth_model('RealmFile', {
 		realm_id => realm_id('fm_freikometer'),
 		path => '/Download/playlist.pl',

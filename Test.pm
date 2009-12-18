@@ -48,7 +48,7 @@ sub DEFAULT_KILOMETERS {
 }
 
 sub EPC {
-    return sprintf('%016X%08X', 0xABCDEF, shift->FREIKER_CODE(@_));
+    return sprintf('%s%08X', '465245494B455201', shift->FREIKER_CODE(@_));
 }
 
 sub FREIKER_CODE {
