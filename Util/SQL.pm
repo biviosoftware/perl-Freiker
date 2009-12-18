@@ -188,11 +188,6 @@ sub internal_upgrade_db_need_accept_terms {
 
 sub internal_upgrade_db_ride_club_id {
     my($self) = @_;
-    b_use('Bivio.Die')->catch_quietly(sub {$self->run(<<'EOF')});
-ALTER TABLE ride_t
-    DROP COLUMN club_id
-/
-EOF
     $self->run(<<'EOF');
 ALTER TABLE ride_t
     ADD COLUMN club_id NUMERIC(18)
