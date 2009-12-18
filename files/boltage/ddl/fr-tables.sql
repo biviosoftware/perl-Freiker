@@ -86,6 +86,7 @@ CREATE TABLE prize_ride_count_t (
 
 CREATE TABLE ride_t (
   user_id NUMERIC(18) NOT NULL,
+  club_id NUMERIC(18) NOT NULL,
   ride_date DATE NOT NULL,
   ride_time DATE NOT NULL,
   ride_upload_id NUMERIC(18),

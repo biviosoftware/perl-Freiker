@@ -13,14 +13,17 @@ sub execute_ok {
     my($frl) = $req->get('Model.FreikerRideList');
     my($d) = $self->get('Ride.ride_date');
     $req->with_user($frl->get_user_id, sub {
+	my($crl) = $self->new_other('ClubRideDateList');
 	return $self->internal_put_error('Ride.ride_date' => 'DATE_RANGE')
-	    unless $self->new_other('ClubRideDateList')->is_date_ok($d);
+	    unless $crl->is_date_ok($d);
+	my($cid) = $crl->get_query->get('auth_id');
         $req->with_realm($req->get('auth_user_id'), sub {
 	    $self->new_other('Lock')->acquire_unless_exists;
 	    return $self->internal_put_error('Ride.ride_date' => 'EXISTS')
 		if $frl->find_row_by_date($d);
 	    $self->new_other('Ride')->create({
 		user_id => $req->get('auth_id'),
+		club_id => $cid,
 		ride_date => $d,
 	    });
 	});

@@ -7,7 +7,7 @@ use Bivio::Test::Language::HTTP;
 use Freiker::Test;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_DT) = Bivio::Type->get_instance('DateTime');
+my($_DT) = b_use('Type.DateTime');
 
 sub ddl_files {
     return shift->SUPER::ddl_files(['bOP', 'fr']);
@@ -109,7 +109,7 @@ sub initialize_test_data {
 	'CA',
     );
     $self->new_other('TestData')->reset_all_freikers;
-    $self->use('IO.File')->do_in_dir(site => sub {
+    b_use('IO.File')->do_in_dir(site => sub {
 	$self->new_other('RealmFile')
 	    ->main(qw(-user adm -realm site import_tree));
     });
@@ -183,6 +183,65 @@ sub internal_upgrade_db_need_accept_terms {
 	'unauth_iterate_start',
 	'email',
     );
+    return;
+}
+
+sub internal_upgrade_db_ride_club_id {
+    my($self) = @_;
+    b_use('Bivio.Die')->catch_quietly(sub {$self->run(<<'EOF')});
+ALTER TABLE ride_t
+    DROP COLUMN club_id
+/
+EOF
+    $self->run(<<'EOF');
+ALTER TABLE ride_t
+    ADD COLUMN club_id NUMERIC(18)
+/
+EOF
+    my($map) = {@{$self->model('RealmOwner')->map_iterate(
+	sub {
+	    my($cid) = shift->get('realm_id');
+	    return
+		if b_use('Auth.Realm')->is_default_id($cid); 
+	    return $self->req->with_realm(
+		$cid,
+		sub {
+		    return @{$self->model('RealmUserList')->map_iterate(
+			sub {shift->get('RealmUser.user_id') => $cid},
+			{roles => [b_use('Auth.Role')->FREIKER]},
+		    )};
+		},
+	    );
+	},
+	'unauth_iterate_start',
+	'realm_id',
+	{realm_type => b_use('Auth.RealmType')->CLUB},
+    )}};
+    $self->model('Ride')->do_iterate(
+	sub {
+	    my($it) = @_;
+	    $it->update({
+		club_id => $map->{$it->get('user_id')} || b_die($it->get_shallow_copy),
+	    });
+	    return 1;
+	},
+	'unauth_iterate_start',
+	'user_id',
+    );
+    $self->run(<<'EOF');
+ALTER TABLE ride_t
+    ALTER COLUMN club_id SET NOT NULL
+/
+CREATE INDEX ride_t7 ON ride_t (
+  club_id
+)
+/
+ALTER TABLE ride_t
+  ADD CONSTRAINT ride_t8
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/
+EOF
     return;
 }
 

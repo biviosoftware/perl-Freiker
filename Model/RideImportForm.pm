@@ -40,6 +40,7 @@ sub process_record {
 	ride_time => $_T->from_datetime($row->{datetime}),
 	ride_upload_id => $fields->{ride_upload_id} ||=
 	    $self->new_other('RideUpload')->create({})->get('ride_upload_id'),
+	club_id => $self->req('auth_id'),
     });
     return;
 }

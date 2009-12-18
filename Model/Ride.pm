@@ -37,6 +37,7 @@ sub internal_initialize {
 	table_name => 'ride_t',
 	columns => {
 	    user_id => ['User.user_id', 'PRIMARY_KEY'],
+	    club_id => ['Club.club_id', 'NOT_NULL'],
             ride_date => ['Date', 'PRIMARY_KEY'],
 	    ride_time => ['Time', 'NOT_NULL'],
 	    ride_upload_id => ['RideUpload.ride_upload_id', 'NONE'],

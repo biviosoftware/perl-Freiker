@@ -40,6 +40,7 @@ sub execute_ok {
 	$self->new_other('Ride')->create({
 	    user_id => $u,
 	    ride_date => $add,
+	    club_id => $self->req('auth_id'),
 	});
     }
     return;

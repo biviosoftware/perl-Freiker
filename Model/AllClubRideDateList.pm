@@ -17,7 +17,7 @@ sub internal_initialize {
         group_by => ['RealmOwner.name', 'RealmOwner.display_name'],
 	other => [
 	    [{
-		name => 'RideUpload.club_id',
+		name => 'Ride.club_id',
 		in_select => 0,
 	    }, 'RealmOwner.realm_id'],
 	    'RealmOwner.display_name',

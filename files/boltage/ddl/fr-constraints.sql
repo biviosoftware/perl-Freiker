@@ -251,6 +251,15 @@ CREATE INDEX ride_t6 ON ride_t (
   ride_upload_id
 )
 /
+CREATE INDEX ride_t7 ON ride_t (
+  club_id
+)
+/
+ALTER TABLE ride_t
+  ADD CONSTRAINT ride_t8
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/
 
 --
 -- ride_upload_t
