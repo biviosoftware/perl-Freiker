@@ -77,12 +77,12 @@ my($_SELF) = __PACKAGE__->new({
 	    task_id => 'SITE_ADMIN_USER_LIST',
 	    realm => 'site-admin',
 	}],
-	[my_site_redirect_map => [
+	[my_site_redirect_map => sub {[
 	    [qw(GENERAL ADMINISTRATOR ADM_FREIKOMETER_LIST)],
 	    [qw(MERCHANT ADMINISTRATOR MERCHANT_PRIZE_REDEEM)],
 	    [qw(CLUB ADMINISTRATOR CLUB_FREIKER_LIST)],
 	    [qw(USER ADMINISTRATOR FAMILY_FREIKER_LIST)],
-	]],
+	]}],
 	[ThreePartPage_want_SearchForm => 0],
 	[ThreePartPage_want_ForumDropDown => 1],
     ],
@@ -159,6 +159,8 @@ my($_SELF) = __PACKAGE__->new({
 	[freiker_codes => 'Tag ID'],
 	[parent_display_name => 'Parent'],
 	[parent_email => 'Email'],
+	[kilometers => 'Kilometers'],
+	[miles => 'Miles'],
 	[list_actions => 'Actions'],
 	[[qw(GroupUserList.privileges_name RoleSelectList.display_name)] => [
 	    FREIKOMETER => 'Freikometer',
