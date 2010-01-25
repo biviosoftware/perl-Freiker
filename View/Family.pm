@@ -160,11 +160,7 @@ sub _freiker_form {
 	"$model.Address.zip",
 	map(
 	    ["$model.$_", {
-		wf_class => "Select",
-		choices => ["Model.DistanceList"],
-		list_display_field => "distance",
-		unknown_label => "Select Distance",
-		row_control => [$_ eq "kilometers" ? "!" : (), "Model.$model", "in_miles"],
+		row_control => [$_ eq 'kilometers' ? '!' : (), "Model.$model", 'in_miles'],
 	    }],
 	    qw(miles kilometers),
 	),
