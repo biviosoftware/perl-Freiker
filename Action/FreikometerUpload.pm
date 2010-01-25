@@ -1,4 +1,4 @@
-# Copyright (c) 2006 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2010 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Action::FreikometerUpload;
 use strict;
@@ -81,7 +81,10 @@ sub _realm_file {
 }
 
 sub _ym {
-    return join('', $_D->get_parts($_D->local_today, qw(year month)));
+    return sprintf(
+	'%04d%02d',
+	$_D->get_parts($_D->local_today, qw(year month)),
+    );
 }
 
 sub _zap_die {
