@@ -5,7 +5,7 @@ my($e, $z) = register_random('family');
 login_as($e);
 follow_link('register_child');
 verify_form({
-    miles => 'Select Distance',
+    miles => '',
 });
 follow_link('settings');
 verify_form({
