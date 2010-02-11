@@ -18,6 +18,7 @@ sub internal_initialize {
 	],
 	other => [
 	    ['RealmUser.role', ['FREIKOMETER']],
+#TODO: need a max time on upload recursively
 	    ['RealmFile.path_lc', [
 		$self->get_instance('FreikometerUploadList')->FOLDER_LC]],
 	],

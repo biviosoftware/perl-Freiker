@@ -6,6 +6,8 @@ use Bivio::Base 'Biz.ListModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
+#TODO: not the same as  select ride_date, count(user_id) from ride_t where club_id = 100002 group \
+## by ride_date order by ride_date desc; does not work with Fill Trips');
 sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
