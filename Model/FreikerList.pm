@@ -5,18 +5,20 @@ use strict;
 use Bivio::Base 'Model.YearBaseList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+my($_U) = b_use('Model.User');
 my($_SA) = b_use('Type.StringArray');
 my($_D) = b_use('Type.Date');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER->as_sql_param;
 my($_YQ) = b_use('Type.YearQuery');
 my($_B) = b_use('Type.Boolean');
 my($_DATE) = $_D->to_sql_value('?');
+my($_LOCATION) = b_use('Model.Address')->DEFAULT_LOCATION;
 my($_PARENT_EMAIL) = <<"EOF";
 (SELECT e.email
     FROM realm_owner_t ro, realm_user_t ru, email_t e
     WHERE ro.realm_type = @{[b_use('Auth.RealmType')->USER->as_sql_param]}
     AND ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
-    AND e.location = @{[b_use('Model.Email')->DEFAULT_LOCATION->as_sql_param]}
+    AND e.location = @{[$_LOCATION->as_sql_param]}
     AND ru.realm_id = ro.realm_id
     AND realm_user_t.user_id = ru.user_id
     AND e.realm_id = ro.realm_id
@@ -54,6 +56,18 @@ sub internal_initialize {
 	],
 	order_by => [
 	    'RealmOwner.display_name',
+# 	    {
+# 		name => "parent_display_name_sort",
+# 		type => 'DisplayName',
+# 		constraint => 'NONE',
+# 		select_value => "(SELECT u.last_name_sort || '!!!' || u.first_name_sort || '!!!' || u.middle_name_sort
+#                     FROM realm_user_t ru, user_t u
+#                     WHERE ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
+#                     AND ru.realm_id = u.user_id
+#                     AND realm_user_t.user_id = ru.user_id
+#                 ) AS parent_display_name_sort",
+# 		sort_order => 0,
+# 	    },
 	    {
 		name => 'ride_count',
 		type => 'Integer',
@@ -99,6 +113,28 @@ sub internal_initialize {
 	],
 	other_query_keys => [qw(fr_trips fr_year fr_registered)],
 	other => [
+# 	    map(+{
+# 		name => "parent_${_}_name",
+# 		type => 'Name',
+# 		constraint => 'NONE',
+# 		select_value => "(SELECT u.${_}_name
+#                     FROM realm_user_t ru, user_t u
+#                     WHERE ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
+#                     AND ru.realm_id = u.user_id
+#                     AND realm_user_t.user_id = ru.user_id
+#                 ) AS parent_${_}_name",
+# 	    }, qw(last first middle)),
+# 	    {
+# 		name => "parent_display_name",
+# 		type => 'DisplayName',
+# 		constraint => 'NONE',
+# 		select_value => "(SELECT u.last_name || '!!!' || u.first_name || '!!!' || u.middle_name
+#                     FROM realm_user_t ru, user_t u
+#                     WHERE ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
+#                     AND ru.realm_id = u.user_id
+#                     AND realm_user_t.user_id = ru.user_id
+#                 ) AS parent_display_name",
+# 	    },
 	    {
 		name => 'can_select_prize',
 		type => 'Boolean',
@@ -118,11 +154,38 @@ sub internal_initialize {
 		type => 'StringArray',
 		constraint => 'NOT_NULL',
 	    },
+	    $self->field_decl([qw(
+		Address.realm_id
+		Address.location
+	    )], {in_select => 0}),
+# 	    'User.gender',
+# 	    'User.birth_date',
+# 	    'Address.street2',
+# 	    'Address.country',
+# 	    {
+# 		name => 'birth_year',
+# 		type => 'Year',
+# 		constraint => 'NONE',
+# 	    },
+# 	    ['RealmUser.user_id', 'Address.realm_id'],
 	],
 #TODO: Need to integrate internal_pre_load with auth_id.  For now, internal_prepare_statement
 #      is handling auth_id.
 #	auth_id => 'RealmUser.realm_id',
-	group_by => [qw(RealmUser.user_id RealmOwner.display_name RealmUser.realm_id)],
+	group_by => [qw(
+	    RealmUser.user_id
+	    RealmOwner.display_name
+	    RealmUser.realm_id
+	    Address.street2
+	    Address.country
+        )],
+	from => <<"EOF",
+            FROM realm_owner_t,
+	    realm_user_t LEFT JOIN address_t ON (
+	        address_t.location = @{[$_LOCATION->as_sql_param]}
+		AND address_t.realm_id = realm_user_t.user_id
+	    )
+EOF
     });
 }
 
@@ -130,6 +193,11 @@ sub internal_post_load_row {
     my($self, $row) = @_;
     $row->{freiker_codes} = $self->internal_freiker_codes($row);
     $row->{can_select_prize} = $self->internal_can_select_prize($row);
+#     $row->{parent_display_name} = $_U->concat_last_first_middle(
+# 	split(/!!!/, $row->{parent_display_name} || ''),
+#     );
+#     $row->{birth_year} = $row->{'User.birth_date'}
+# 	&& $_D->get_parts($row->{'User.birth_date'}, 'year');
     return 1;
 }
 
@@ -152,6 +220,7 @@ sub internal_pre_load {
 	$x->{$which} = ($_D->from_literal($v))[0]
 	    || $x->{$which};
     }
+b_info($params);
     unshift(
 	@$params,
 	map(@$x{qw(begin_date date)}, 1..4),
