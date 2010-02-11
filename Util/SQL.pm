@@ -25,12 +25,6 @@ sub initialize_db {
 sub init_realm_role {
     return shift->call_super_before(\@_, sub {
         my($self) = @_;
-	my($rr) = $self->new_other('RealmRole');
-	foreach my $realm (qw(general user club)) {
-	    $self->set_realm_and_user($realm, 'user');
-	    $rr->edit(ADMINISTRATOR => '+RIDE_WRITE');
-	    $rr->edit(FREIKOMETER => qw(+USER +RIDE_WRITE));
-	}
 	$self->new_other('RealmRole')->copy_all(forum => 'merchant');
         return;
     });
