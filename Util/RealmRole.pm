@@ -8,6 +8,7 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub make_super_user {
     my($self) = @_;
+    $self->initialize_fully;
     $self->new_other('Freikometer')->do_all(
 	sub {$self->new_other('Freikometer')->join_user_as_member},
     );
@@ -16,6 +17,7 @@ sub make_super_user {
 
 sub unmake_super_user {
     my($self) = @_;
+    $self->initialize_fully;
     $self->new_other('Freikometer')->do_all(
 	sub {$self->new_other('RealmAdmin')->leave_user},
     );
