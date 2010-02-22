@@ -25,9 +25,17 @@ my($_PARENT_EMAIL) = <<"EOF";
 )
 EOF
 my($_RIDE_COUNT) = "(SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_date BETWEEN $_DATE AND $_DATE)";
+my($_K) = b_use('Type.Kilometers');
+my($_IDI) = __PACKAGE__->instance_data_index;
 
 sub PRIZE_SELECT_LIST {
     return 'PrizeSelectList';
+}
+
+#TODO: refactor to share code with FreikerForm
+sub in_miles {
+    my($self) = @_;
+    return ($self->[$_IDI] ||= {in_miles => _in_miles($self)})->{in_miles};
 }
 
 sub internal_can_select_prize {
@@ -43,7 +51,7 @@ sub internal_freiker_codes {
     my($self, $row) = @_;
     return $_SA->new($self->new_other('UserFreikerCodeList')
 	->get_codes($row->{'RealmUser.user_id'}));
-}
+} 
 
 sub internal_initialize {
     my($self) = @_;
@@ -52,22 +60,22 @@ sub internal_initialize {
 	can_iterate => 1,
 	want_page_count => 0,
 	primary_key => [
-	    [qw(RealmUser.user_id RealmOwner.realm_id)],
+	    [qw(RealmUser.user_id RealmOwner.realm_id User.user_id)],
 	],
 	order_by => [
 	    'RealmOwner.display_name',
-# 	    {
-# 		name => "parent_display_name_sort",
-# 		type => 'DisplayName',
-# 		constraint => 'NONE',
-# 		select_value => "(SELECT u.last_name_sort || '!!!' || u.first_name_sort || '!!!' || u.middle_name_sort
-#                     FROM realm_user_t ru, user_t u
-#                     WHERE ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
-#                     AND ru.realm_id = u.user_id
-#                     AND realm_user_t.user_id = ru.user_id
-#                 ) AS parent_display_name_sort",
-# 		sort_order => 0,
-# 	    },
+ 	    {
+ 		name => "parent_display_name_sort",
+ 		type => 'DisplayName',
+ 		constraint => 'NONE',
+ 		select_value => "(SELECT COALESCE(u.last_name,'') || '!!!' || COALESCE(u.first_name,'') || '!!!' || COALESCE(u.middle_name,'')
+                     FROM realm_user_t ru, user_t u
+                     WHERE ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
+                     AND ru.realm_id = u.user_id
+                     AND realm_user_t.user_id = ru.user_id
+                 ) AS parent_display_name_sort",
+ 		sort_order => 0,
+ 	    },
 	    {
 		name => 'ride_count',
 		type => 'Integer',
@@ -91,50 +99,43 @@ sub internal_initialize {
 		sort_order => 0,
 	    },
 	    {
-		name => 'parent_display_name',
-		type => 'DisplayName',
-		constraint => 'NONE',
-		select_value => "(SELECT ro.display_name
-                    FROM realm_owner_t ro, realm_user_t ru
-                    WHERE ro.realm_type = @{[b_use('Auth.RealmType')->USER->as_sql_param]}
-                    AND ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
-                    AND ru.realm_id = ro.realm_id
-                    AND realm_user_t.user_id = ru.user_id
-                ) AS parent_display_name",
-		sort_order => 0,
-	    },
-	    {
 		name => 'parent_email',
 		type => 'Email',
 		constraint => 'NONE',
 		select_value => "$_PARENT_EMAIL AS parent_email",
 		sort_order => 0,
 	    },
+	    'Address.street2',
+	    'Address.zip',
+	    'User.first_name',
+	    'User.gender',
+	    'User.birth_date',
+
 	],
 	other_query_keys => [qw(fr_trips fr_year fr_registered)],
 	other => [
-# 	    map(+{
-# 		name => "parent_${_}_name",
-# 		type => 'Name',
-# 		constraint => 'NONE',
-# 		select_value => "(SELECT u.${_}_name
-#                     FROM realm_user_t ru, user_t u
-#                     WHERE ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
-#                     AND ru.realm_id = u.user_id
-#                     AND realm_user_t.user_id = ru.user_id
-#                 ) AS parent_${_}_name",
-# 	    }, qw(last first middle)),
-# 	    {
-# 		name => "parent_display_name",
-# 		type => 'DisplayName',
-# 		constraint => 'NONE',
-# 		select_value => "(SELECT u.last_name || '!!!' || u.first_name || '!!!' || u.middle_name
-#                     FROM realm_user_t ru, user_t u
-#                     WHERE ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
-#                     AND ru.realm_id = u.user_id
-#                     AND realm_user_t.user_id = ru.user_id
-#                 ) AS parent_display_name",
-# 	    },
+ 	    map(+{
+ 		name => "parent_${_}_name",
+ 		type => 'Name',
+ 		constraint => 'NONE',
+ 		select_value => "(SELECT COALESCE(u.${_}_name,'')
+                     FROM realm_user_t ru, user_t u
+                     WHERE ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
+                     AND ru.realm_id = u.user_id
+                     AND realm_user_t.user_id = ru.user_id
+                 ) AS parent_${_}_name",
+ 	    }, qw(last first middle)),
+ 	    {
+ 		name => "parent_display_name",
+ 		type => 'DisplayName',
+ 		constraint => 'NONE',
+ 		select_value => "(SELECT COALESCE(u.last_name,'') || '!!!' || COALESCE(u.first_name,'') || '!!!' || COALESCE(u.middle_name,'')
+                     FROM realm_user_t ru, user_t u
+                     WHERE ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
+                     AND ru.realm_id = u.user_id
+                     AND realm_user_t.user_id = ru.user_id
+                 ) AS parent_display_name",
+ 	    },
 	    {
 		name => 'can_select_prize',
 		type => 'Boolean',
@@ -154,20 +155,17 @@ sub internal_initialize {
 		type => 'StringArray',
 		constraint => 'NOT_NULL',
 	    },
+ 	    {
+ 		name => 'birth_year',
+ 		type => 'Year',
+ 		constraint => 'NONE',
+ 	    },
+# 	    ['RealmUser.user_id', 'Address.realm_id'],
 	    $self->field_decl([qw(
 		Address.realm_id
 		Address.location
+                User.user_id
 	    )], {in_select => 0}),
-# 	    'User.gender',
-# 	    'User.birth_date',
-# 	    'Address.street2',
-# 	    'Address.country',
-# 	    {
-# 		name => 'birth_year',
-# 		type => 'Year',
-# 		constraint => 'NONE',
-# 	    },
-# 	    ['RealmUser.user_id', 'Address.realm_id'],
 	],
 #TODO: Need to integrate internal_pre_load with auth_id.  For now, internal_prepare_statement
 #      is handling auth_id.
@@ -178,10 +176,16 @@ sub internal_initialize {
 	    RealmUser.realm_id
 	    Address.street2
 	    Address.country
+            Address.zip
+            User.first_name
+            User.middle_name
+            User.last_name
+            User.gender
+            User.birth_date
         )],
 	from => <<"EOF",
-            FROM realm_owner_t,
-	    realm_user_t LEFT JOIN address_t ON (
+            FROM @{[join(',', @{$self->internal_initialize_from_tables})]},
+            realm_user_t LEFT JOIN address_t ON (
 	        address_t.location = @{[$_LOCATION->as_sql_param]}
 		AND address_t.realm_id = realm_user_t.user_id
 	    )
@@ -189,15 +193,23 @@ EOF
     });
 }
 
+sub internal_initialize_from_tables {
+    return [qw(realm_owner_t user_t)];
+}
+
 sub internal_post_load_row {
     my($self, $row) = @_;
     $row->{freiker_codes} = $self->internal_freiker_codes($row);
     $row->{can_select_prize} = $self->internal_can_select_prize($row);
-#     $row->{parent_display_name} = $_U->concat_last_first_middle(
-# 	split(/!!!/, $row->{parent_display_name} || ''),
-#     );
-#     $row->{birth_year} = $row->{'User.birth_date'}
-# 	&& $_D->get_parts($row->{'User.birth_date'}, 'year');
+    $row->{parent_display_name_sort} = $_U->concat_last_first_middle(
+ 	split(/!!!/, $row->{parent_display_name} || ''),
+    );
+    $row->{birth_year} = $row->{'User.birth_date'}
+ 	&& $_D->get_parts($row->{'User.birth_date'}, 'year');
+    $row->{'Address.street2'} = $_K->to_miles($row->{'Address.street2'})
+       if $row->{'Address.street2'} && $self->in_miles;
+    $row->{'User.gender'} = undef
+       if $row->{'User.gender'} && $row->{'User.gender'}->eq_unknown ;
     return 1;
 }
 
@@ -220,7 +232,6 @@ sub internal_pre_load {
 	$x->{$which} = ($_D->from_literal($v))[0]
 	    || $x->{$which};
     }
-b_info($params);
     unshift(
 	@$params,
 	map(@$x{qw(begin_date date)}, 1..4),
@@ -250,6 +261,21 @@ sub _get_from_query {
 	|| $self->get_query->unsafe_get($which);
     return $which eq 'fr_year' ? $_YQ->unsafe_from_any($v)
 	: ($_B->from_literal($v))[0];
+}
+
+sub _in_miles {
+    my($self) = @_;
+    return 1
+	unless $self->ureq('auth_user');
+    return _is_us(
+	$self->new_other('Address')->load_for_auth_user
+	->get('country'),
+    );
+}
+
+#TODO: Copied from FreikerForm
+sub _is_us {
+    return (shift || '') eq 'US' ? 1 : 0;
 }
 
 1;
