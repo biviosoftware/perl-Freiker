@@ -26,7 +26,7 @@ my($no_parent) = sub {
 		sub {
 		    return [map(
 			ref($_) ? $_->as_literal : $_,
-			shift->get(qw(RealmOwner.display_name ride_count prize_debit prize_credit can_select_prize freiker_codes parent_email parent_display_name)),
+			shift->get(qw(RealmOwner.display_name ride_count prize_debit prize_credit can_select_prize freiker_codes parent_email parent_display_name_sort)),
 		    )];
 		},
 	    );
