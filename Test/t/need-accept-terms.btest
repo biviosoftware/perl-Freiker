@@ -28,4 +28,3 @@ verify_table(Freiker => [
     [$name1],
     [$name2],
 ]);
-do_test_backdoor(TestData => 'reset_need_accept_terms');
