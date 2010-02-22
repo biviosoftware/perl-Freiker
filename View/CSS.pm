@@ -111,6 +111,12 @@ table.main .main_middle {
 ^/bp/Home table.main .main_middle {
   padding-left: 0;
 }
+.main_top .tools a {
+  padding: 0 1ex;
+}
+.main_top .want_sep {
+  border-left:1pt solid black;
+}
 
 ! ***** footer *****
 table.footer {
