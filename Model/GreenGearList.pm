@@ -5,6 +5,7 @@ use strict;
 use Bivio::Base 'Model.ClubFreikerList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+my($_LOCATION) = b_use('Model.Address')->DEFAULT_LOCATION;
 
 sub internal_initialize {
     my($self) = @_;
@@ -27,6 +28,10 @@ sub internal_initialize {
 	    [qw(RealmUser.realm_id GreenGear.club_id)],
 	],
     });
+}
+
+sub internal_initialize_from_tables {
+    return [@{shift->SUPER::internal_initialize_from_tables(@_)}, 'green_gear_t'];
 }
 
 1;
