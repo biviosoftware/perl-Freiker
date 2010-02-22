@@ -13,6 +13,7 @@ follow_link_in_table(qw(freiker freiker child6 action missing));
 go_back();
 follow_link_in_table(qw(freiker freiker child6 action tag));
 go_back();
+go_back();
 follow_link('register_child');
 verify_no_text(qr{kilometers to school}i);
 submit_form({
