@@ -70,8 +70,9 @@ sub nudge_test_now {
 
 sub reset_need_accept_terms {
     my($self) = @_;
-    $self->req->with_realm(
+    $self->req->with_realm_and_user(
 	Freiker::Test->NEED_ACCEPT_TERMS,
+	undef,
 	sub {
 	    $self->model('RowTag')->replace_value(
 		$self->req('auth_id'),
