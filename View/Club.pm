@@ -25,8 +25,20 @@ sub freiker_list {
 	    'ride_count',
 	    'prize_debit',
 	    'prize_credit',
-	    'parent_display_name',
+	    'parent_display_name_sort',
+#	    'parent_first_name',
+#	    'parent_middle_name',
+#	    'parent_last_name',
 	    'parent_email',
+            ['Address.street2', {
+		column_heading => If(
+		    ['->in_miles'],
+		    vs_text('miles'),
+		    vs_text('kilometers'),
+	        ),
+	    }],
+            'User.gender',
+	    'birth_year',
 	]),
 	[
 	    {
@@ -45,9 +57,22 @@ sub freiker_list_csv {
 	ride_count
 	prize_debit
 	prize_credit
-	parent_display_name
-	parent_email
+	parent_first_name
+        parent_middle_name
+        parent_last_name
+	parent_email),
+        ['Address.street2', {
+	    column_heading => If(
+		['Model.ClubFreikerList', '->in_miles'],
+		vs_text('miles'),
+		vs_text('kilometers'),
+	       ),
+	}], qw(
+        Address.zip
+        User.gender
+        birth_year
     )]));
+
 }
 
 sub freiker_select {
