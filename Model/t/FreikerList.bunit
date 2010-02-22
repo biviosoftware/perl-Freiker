@@ -3,7 +3,7 @@
 ListModel();
 my($today) = do('./SetupRides.PL');
 my($parent) = sub {
-    return email('parent'), 'A Parent';
+    return email('parent'), 'Parent, A';
 };
 my($need_accept_terms) = sub {
     return email('need_accept_terms'), 'need_accept_terms';
