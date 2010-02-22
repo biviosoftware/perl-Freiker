@@ -113,17 +113,18 @@ sub download_playlist {
 	    return $req->with_user($req->get('auth_id'), sub {
                 $self->model('RealmUser')->set_realm_for_freikometer;
 		my($ring) = {@{
-		    $self->model('ClubFreikerList')->map_iterate(
-			sub {
-			    my($it) = @_;
-			    return (
-				$it->get('RealmUser.user_id'),
-				$it->get('parent_display_name')
-				    ? 'default' : 'unregistered',
-			    );
-			},
-		    ),
-		}};
+		    $req->with_user(undef, sub {
+			return $self->model('ClubFreikerList')->map_iterate(
+			    sub {
+				my($it) = @_;
+				return (
+				    $it->get('RealmUser.user_id'),
+				    $it->get('parent_display_name')
+					? 'default' : 'unregistered',
+				);
+			    },
+			);
+		    })}};
 		return +{
 		    filename => 'playlist.pl',
 		    content_type => 'text/plain',
