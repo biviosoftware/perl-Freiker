@@ -9,6 +9,7 @@ my($_U) = b_use('Model.User');
 my($_SA) = b_use('Type.StringArray');
 my($_D) = b_use('Type.Date');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER->as_sql_param;
+my($_USER) = b_use('Auth.Role')->USER->as_sql_param;
 my($_YQ) = b_use('Type.YearQuery');
 my($_B) = b_use('Type.Boolean');
 my($_DATE) = $_D->to_sql_value('?');
@@ -17,7 +18,7 @@ my($_PARENT_EMAIL) = <<"EOF";
 (SELECT e.email
     FROM realm_owner_t ro, realm_user_t ru, email_t e
     WHERE ro.realm_type = @{[b_use('Auth.RealmType')->USER->as_sql_param]}
-    AND ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
+    AND ru.role = $_FREIKER
     AND e.location = @{[$_LOCATION->as_sql_param]}
     AND ru.realm_id = ro.realm_id
     AND realm_user_t.user_id = ru.user_id
@@ -70,7 +71,7 @@ sub internal_initialize {
  		constraint => 'NONE',
  		select_value => "(SELECT COALESCE(u.last_name,'') || '!!!' || COALESCE(u.first_name,'') || '!!!' || COALESCE(u.middle_name,'')
                      FROM realm_user_t ru, user_t u
-                     WHERE ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
+                     WHERE ru.role = $_FREIKER
                      AND ru.realm_id = u.user_id
                      AND realm_user_t.user_id = ru.user_id
                  ) AS parent_display_name_sort",
@@ -120,10 +121,10 @@ sub internal_initialize {
  		constraint => 'NONE',
  		select_value => "(SELECT COALESCE(u.${_}_name,'')
                      FROM realm_user_t ru, user_t u
-                     WHERE ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
+                     WHERE ru.role = $_FREIKER
                      AND ru.realm_id = u.user_id
                      AND realm_user_t.user_id = ru.user_id
-                 ) AS parent_${_}_name",
+                ) AS parent_${_}_name",
  	    }, qw(last first middle)),
  	    {
  		name => "parent_display_name",
@@ -131,11 +132,25 @@ sub internal_initialize {
  		constraint => 'NONE',
  		select_value => "(SELECT COALESCE(u.last_name,'') || '!!!' || COALESCE(u.first_name,'') || '!!!' || COALESCE(u.middle_name,'')
                      FROM realm_user_t ru, user_t u
-                     WHERE ru.role = @{[b_use('Auth.Role')->FREIKER->as_sql_param]}
+                     WHERE ru.role = $_FREIKER
                      AND ru.realm_id = u.user_id
                      AND realm_user_t.user_id = ru.user_id
                  ) AS parent_display_name",
  	    },
+	    {
+		name => "parent_zip",
+		type => 'Name',
+		constraint => 'NONE',
+		select_value => "(SELECT a.zip
+                     FROM realm_user_t ru, address_t a, realm_owner_t ro
+                     WHERE ru.role = $_FREIKER
+                     AND ru.realm_id = a.realm_id
+                     AND a.location = @{[$_LOCATION->as_sql_param]}
+                     AND realm_user_t.user_id = ru.user_id
+                     AND ru.realm_id = ro.realm_id
+                     AND ro.realm_type = $_USER
+                 ) AS parent_zip",
+	    },
 	    {
 		name => 'can_select_prize',
 		type => 'Boolean',
