@@ -60,6 +60,7 @@ sub freiker_list_csv {
 	parent_first_name
         parent_middle_name
         parent_last_name
+        parent_zip
 	parent_email),
         ['Address.street2', {
 	    column_heading => If(
