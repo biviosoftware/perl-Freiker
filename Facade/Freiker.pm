@@ -162,6 +162,7 @@ my($_SELF) = __PACKAGE__->new({
 	[parent_last_name => 'Parent Last Name'],
 	[parent_middle_name => 'Parent Middle Name'],
 	[parent_first_name => 'Parent First Name'],
+	[parent_zip => 'Parent Zip'],
 	[parent_email => 'Email'],
 	[kilometers => 'Kilometers'],
 	['Address.street2' => 'Distance'],
