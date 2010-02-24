@@ -35,6 +35,8 @@ verify_text('Bobby (1238, 1237)');
 follow_link('missing');
 my($d) = test_use('Type.Date');
 my($now) = get_test_now_as_date();
+submit_form('cancel');
+go_back();
 submit_form({
     date => $now,
 });
