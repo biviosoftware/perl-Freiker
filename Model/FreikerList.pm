@@ -175,16 +175,11 @@ sub internal_initialize {
  		type => 'Year',
  		constraint => 'NONE',
  	    },
-# 	    ['RealmUser.user_id', 'Address.realm_id'],
 	    $self->field_decl([qw(
 		Address.realm_id
 		Address.location
-                User.user_id
 	    )], {in_select => 0}),
 	],
-#TODO: Need to integrate internal_pre_load with auth_id.  For now, internal_prepare_statement
-#      is handling auth_id.
-#	auth_id => 'RealmUser.realm_id',
 	group_by => [qw(
 	    RealmUser.user_id
 	    RealmOwner.display_name
