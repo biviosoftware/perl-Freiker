@@ -40,16 +40,17 @@ sub create_realm {
 	realm_id => $cid,
     });
     $self->new_other('RowTag')->replace_value($cid, CLUB_SIZE => $club_size);
-    foreach my $u (@{$self->new_other('RealmAdminList')->map_iterate(
+    foreach my $uid (@{$self->new_other('RealmAdminList')->map_iterate(
 	sub {shift->get('RealmUser.user_id')},
 	'unauth_iterate_start',
 	{auth_id =>  $_GENERAL},
     )}) {
-	$self->new_other('RealmUser')->create({
-	    user_id => $u,
-	    role => $_ADMIN,
-	    realm_id => $cid,
-	}) unless $u eq $req->get('auth_user_id');
+	$self->new_other('RealmUserAddForm')->process({
+	    'RealmUser.realm_id' => $cid,
+	    'User.user_id' => $uid,
+	    administrator => 1,
+	    file_writer => 1,
+	});
     }
     $self->new_other('AdmPrizeList')->do_iterate(sub {
         $self->new_other('PrizeRideCount')->create({
@@ -59,6 +60,10 @@ sub create_realm {
 	return 1;
     });
     return $self;
+}
+
+sub internal_create_realm_administrator_id {
+    return undef;
 }
 
 sub _die {
