@@ -110,6 +110,32 @@ sub initialize_test_data {
     return;
 }
 
+sub internal_upgrade_db_club_admin {
+    my($self) = @_;
+    foreach my $uid (@{
+	$self->model('RealmAdminList')->map_iterate(
+	    sub {shift->get('RealmUser.user_id')},
+	    'unauth_iterate_start',
+	    {auth_id => b_use('Auth.Realm')->get_general->get('id')},
+        ),
+    }) {
+	$self->model('Club')->do_iterate(
+	    sub {
+		$self->model('RealmUserAddForm', {
+		    'RealmUser.realm_id' => shift->get('club_id'),
+		    'User.user_id' => $uid,
+		    administrator => 1,
+		    file_writer => 1,
+		});
+		return;
+	    },
+	    'unauth_iterate_start',
+	    'club_id',
+	);
+    }
+    return;
+}
+
 sub internal_upgrade_db_feature_group_admin {
     my($self) = @_;
     foreach my $rt (qw(CLUB MERCHANT)) {
