@@ -12,7 +12,8 @@ sub execute_ok {
     my($req) = $self->get_request;
     my($frl) = $req->get('Model.FreikerRideList');
     my($d) = $self->get('Ride.ride_date');
-    $req->with_user($frl->get_user_id, sub {
+    my($freiker_id) = $frl->get_user_id;
+    $req->with_user($freiker_id, sub {
 	my($crl) = $self->new_other('ClubRideDateList');
 	return $self->internal_put_error('Ride.ride_date' => 'DATE_RANGE')
 	    unless $crl->is_date_ok($d);
@@ -22,7 +23,7 @@ sub execute_ok {
 	    return $self->internal_put_error('Ride.ride_date' => 'EXISTS')
 		if $frl->find_row_by_date($d);
 	    $self->new_other('Ride')->create({
-		user_id => $req->get('auth_id'),
+		user_id => $freiker_id,
 		club_id => $cid,
 		ride_date => $d,
 	    });
