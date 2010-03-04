@@ -14,4 +14,11 @@ sub get_delegate_info {
     ];
 }
 
+sub internal_category_role_group_map {
+    my($info) = shift->SUPER::internal_category_role_group_map(@_);
+    push(@{$info->{all_users}}, 'FREIKER');
+    push(@{$info->{all_members}}, 'FREIKOMETER');
+    return $info;
+}
+
 1;
