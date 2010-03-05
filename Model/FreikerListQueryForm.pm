@@ -16,6 +16,8 @@ sub internal_query_fields {
 	[qw(fr_registered Boolean)],
 	[qw(fr_trips TripsQuery)],
 	[qw(fr_year YearQuery)],
+        [qw(fr_begin Date)],
+        [qw(fr_end Date)],
     ];
 }
 
