@@ -251,7 +251,8 @@ sub reset_prizes_for_school {
 		    'Prize.prize_status' =>
 			$i == 99 ? $available->UNAPPROVED : $available,
 		    image_file => $_FF->from_disk(
-			$_FT::Freiker->generate_image("prize$i"),
+			b_use('Freiker::Test::Freiker')
+                            ->generate_image("prize$i"),
 		    ),
 		});
 		$req->with_realm($club_id, sub {
