@@ -64,7 +64,9 @@ sub set_realm_for_zap {
 	display_name => $ethernet,
 	realm_type => $_USER,
     });
-    $self->req->set_user($ro);
+    my($ulf) = $ro->new_other('UserLoginForm');
+    $ulf->disable_assert_cookie;
+    $ulf->process({realm_owner => $ro});
     return $self->set_realm_for_freikometer;
 }
 
