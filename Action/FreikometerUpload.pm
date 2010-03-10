@@ -39,7 +39,9 @@ sub execute_zap {
     my($form) = $req->get_form;
     $form = {map((lc($_) => $form->{$_}), keys(%$form))};
     $_M->new($req, 'RealmUser')
-	->set_realm_for_zap(_zap_value('StationId', $_MA, $form, $req));
+	->set_realm_for_zap(
+	    _zap_value('StationId', $_MA, $form, $req) || return,
+    );
     _log('zap.txt', $req);
     _zap_rides(_zap_value('bikeEventCount', $_BEC, $form, $req), $form, $req);
     _realm_file(
@@ -87,14 +89,10 @@ sub _ym {
     );
 }
 
-sub _zap_die {
+sub _zap_warn {
     my($entity, $msg, $form, $req) = @_;
-    $req->throw_die(CORRUPT_FORM => {
-	entity => $entity,
-	message => $msg,
-	form => $form,
-    });
-    # DOES NOT RETURN
+    b_warn($entity, ': ', $msg, ' ', $form);
+    return;
 }
 
 sub _zap_rides {
@@ -108,6 +106,8 @@ sub _zap_rides {
 	delete($form->{"bikedatetime$i"});
 	my($rn) = _zap_value("RfidNum$i", $_EPC, $form, $req);
 	delete($form->{"rfidnum$i"});
+	next
+	    unless $rn & $bdt;
 	$csv .= "$rn," . $_DT->to_file_name($bdt) . "\n";
     }
     $rif->process_content(\$csv);
@@ -122,7 +122,7 @@ sub _zap_rides {
 sub _zap_value {
     my($key, $type, $form, $req) = @_;
     my($v, $err) = $type->from_literal($form->{lc($key)});
-    _zap_die(
+    return zap_warn(
 	$form->{lc($key)},
 	"invalid $key: " . ($err || $_NULL)->get_name,
 	$form,
