@@ -28,7 +28,7 @@ sub get_max {
 }
 
 sub get_min {
-    return 0.5;
+    return 0.1;
 }
 
 sub get_precision {
