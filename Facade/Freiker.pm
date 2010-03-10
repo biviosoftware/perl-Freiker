@@ -1,4 +1,4 @@
-# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2010 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Facade::Freiker;
 use strict;
@@ -165,7 +165,6 @@ my($_SELF) = __PACKAGE__->new({
 	[parent_zip => 'Parent Zip'],
 	[parent_email => 'Email'],
 	[kilometers => 'Kilometers'],
-	['Address.street2' => 'Distance'],
 	[miles => 'Miles'],
 	['User.gender' => 'Gender'],
 	['birth_year' => q{Year of Birth}],
@@ -328,6 +327,7 @@ EOF
 	    optional => 'Optional information used for statistical purposes',
 	]],
 	[[qw(FreikerList ClubFreikerList)] => [
+	    'Address.street2' => 'Distance',
 	    'RealmOwner.display_name' => 'Freiker',
 	    empty_list_prose => 'No Freikers as yet.',
 	]],
