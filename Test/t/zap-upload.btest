@@ -23,6 +23,14 @@ my($values) = {
 	"BikeDateTime$_" => $unix_now + $_,
 	"RfidNum$_" => Freiker_Test()->EPC($_),
     ), 0 .. $bike_event_count - 1),
+    map((
+	"BikeDateTime$_" => $_,
+	"RfidNum$_" => Freiker_Test()->EPC($_),
+    ), $bike_event_count, $bike_event_count + 3),
+    map((
+	"BikeDateTime$_" => $unix_now + $_,
+	"RfidNum$_" => 'invalid epc',
+    ), $bike_event_count + 4, $bike_event_count + 7),
 };
 send_request(POST => '/dz', undef, [%$values]);
 login_as('adm');
