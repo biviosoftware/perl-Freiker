@@ -65,8 +65,10 @@ sub set_realm_for_zap {
 	realm_type => $_USER,
     });
     my($ulf) = $ro->new_other('UserLoginForm');
-    $ulf->disable_assert_cookie;
-    $ulf->process({realm_owner => $ro});
+    $ulf->process({
+	realm_owner => $ro,
+	disable_assert_cookie => 1,
+    });
     return $self->set_realm_for_freikometer;
 }
 
