@@ -18,7 +18,7 @@ sub freiker_form {
 
 sub freiker_list {
     return shift->internal_put_base_attr(
-	$_C->internal_freiker_list_selector([qw(fr_year)]),
+	$_C->internal_freiker_list_selector([qw(fr_begin fr_end)]),
 	tools => TaskMenu([qw(
             USER_PASSWORD
 	    FAMILY_FREIKER_ADD

@@ -124,18 +124,34 @@ sub internal_body_and_tools {
 
 sub internal_freiker_list_selector {
     my(undef, $fields) = @_;
-    $fields ||= [qw(fr_year fr_trips fr_registered)];
+    $fields ||= [qw(fr_begin fr_end fr_trips fr_registered)];
     my($f) = b_use('Model.FreikerListQueryForm');
     return (
 	selector => Join([
 	    Form($f->simple_package_name, Join([
+                FormErrorList(),
 		map(
 		    (
 			$_ eq 'fr_year' ? Select({
 			    %{$f->get_select_attrs($_)},
 			    class => 'element',
 			    auto_submit => 1,
-			}) : Checkbox({
+			})
+                        : $_ eq 'fr_begin' ? (FormFieldLabel({
+                            label => 'Dates: ',
+                            field => $_,
+                        }), DateField({
+                            form_model => [$f->package_name],
+                            field =>  $_,
+                        }))
+                        : $_ eq 'fr_end' ? (FormFieldLabel({
+                            label => ' To: ',
+                            field => $_,
+                        }), DateField({
+                            form_model => [$f->package_name],
+                            field =>  $_,
+                        }))
+                        : Checkbox({
 			    field => $_,
 			    auto_submit => 1,
 			}),

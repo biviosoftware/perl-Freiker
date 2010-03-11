@@ -40,6 +40,7 @@ sub merge_overrides {
 		Type => ['Freiker::Type'],
 		View => ['Freiker::View'],
 		FacadeComponent => ['Freiker::FacadeComponent'],
+		XHTMLWidget => ['Freiker::XHTMLWidget'],
 	    },
         }),
         'Bivio::UI::Facade' => {
