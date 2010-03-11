@@ -32,6 +32,7 @@ my($values) = {
 	"RfidNum$_" => 'invalid epc',
     ), $bike_event_count + 4, $bike_event_count + 7),
 };
+clear_cookies();
 send_request(POST => '/dz', undef, [%$values]);
 login_as('adm');
 follow_link_in_table(qw(freikometer freikometer dz_zap action files));
