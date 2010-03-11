@@ -18,7 +18,7 @@ my($values) = {
     SolarOutput0 => 5,
     FirmwareVersion0 => 6,
     Uptime0 => random_integer(1_000_000),
-    bikeEventCount => $bike_event_count,
+    bikeEventCount => $bike_event_count + 8,
     map((
 	"BikeDateTime$_" => $unix_now + $_,
 	"RfidNum$_" => Freiker_Test()->EPC($_),

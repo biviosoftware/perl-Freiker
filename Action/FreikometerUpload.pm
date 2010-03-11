@@ -122,7 +122,7 @@ sub _zap_rides {
 sub _zap_value {
     my($key, $type, $form, $req) = @_;
     my($v, $err) = $type->from_literal($form->{lc($key)});
-    return zap_warn(
+    return _zap_warn(
 	$form->{lc($key)},
 	"invalid $key: " . ($err || $_NULL)->get_name,
 	$form,
