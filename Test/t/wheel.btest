@@ -3,8 +3,8 @@
 test_setup('Freiker');
 login_as('wheel');
 submit_form({
-    'Dates:' => '9/1/2008',
-    'To:' => '5/10/2009',
+    dates => '8/1/2008',
+    to => '7/30/2009',
     registered => 1,
 });
 verify_no_text('1237');
@@ -14,8 +14,8 @@ verify_text('1235');
 verify_no_text('1237');
 go_back();
 submit_form({
-    'Dates:' => '9/1/2008',
-    'To:' => '5/10/2009',
+    dates => '8/1/2008',
+    to => '7/30/2009',
     registered => 0,
 });
 verify_text('1237');

@@ -2,7 +2,10 @@
 # $Id$
 test_setup('Freiker');
 login_as('parent');
-select_test_now();
+submit_form({
+    dates => '8/1/2008',
+    to => '7/30/2009',
+});
 #TODO: Prize selection removed
 #follow_link('100');
 #verify_text('Partee!');

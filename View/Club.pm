@@ -138,14 +138,14 @@ sub internal_freiker_list_selector {
 			    auto_submit => 1,
 			})
                         : $_ eq 'fr_begin' ? (FormFieldLabel({
-                            label => 'Dates: ',
+                            label => SPAN_label('Dates: '),
                             field => $_,
                         }), DateField({
                             form_model => [$f->package_name],
                             field =>  $_,
                         }))
                         : $_ eq 'fr_end' ? (FormFieldLabel({
-                            label => ' To: ',
+                            label => SPAN_label(' To: '),
                             field => $_,
                         }), DateField({
                             form_model => [$f->package_name],
