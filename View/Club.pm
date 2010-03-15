@@ -135,34 +135,35 @@ sub internal_freiker_list_selector {
 			$_ eq 'fr_year' ? Select({
 			    %{$f->get_select_attrs($_)},
 			    class => 'element',
-			    auto_submit => 1,
 			})
                         : $_ eq 'fr_begin' ? (FormFieldLabel({
                             label => SPAN_label('Dates: '),
                             field => $_,
-                        }), DateField({
+                        }),
+			DateField({
                             form_model => [$f->package_name],
+			    event_handler => DateYearHandler(),
                             field =>  $_,
                         }))
-                        : $_ eq 'fr_end' ? (FormFieldLabel({
-                            label => SPAN_label(' To: '),
-                            field => $_,
-                        }), DateField({
-                            form_model => [$f->package_name],
-                            field =>  $_,
-                        }))
+                        : $_ eq 'fr_end' ? (
+			    FormFieldLabel({
+				label => SPAN_label(' To: '),
+				field => $_,
+			    }),
+			    DateField({
+				form_model => [$f->package_name],
+				field =>  $_,
+				event_handler => DateYearHandler(),
+			    }),
+			)
                         : Checkbox({
 			    field => $_,
-			    auto_submit => 1,
 			}),
 			' ',
 		    ),
 		    @$fields,
 		),
-		ScriptOnly({
-		    widget => Simple(''),
-		    alt_widget => FormButton('ok_button')->put(label => 'Refresh'),
-		}),
+		FormButton('ok_button')->put(label => 'Refresh')
 	    ])),
 	]),
     );
