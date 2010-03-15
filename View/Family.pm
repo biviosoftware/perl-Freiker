@@ -62,7 +62,9 @@ sub freiker_list {
 			$_,
 			URI({
 			    task_id => $_,
-			    query => [qw(->format_query THIS_CHILD_LIST)],
+			    query => {
+				'ListQuery.parent_id' => ['RealmUser.user_id'],
+			    },
 			    no_context => 1,
 			}),
 			$_ eq 'FAMILY_PRIZE_SELECT' ? ['can_select_prize'] : (),
@@ -84,10 +86,11 @@ sub freiker_ride_list {
 		query => {
 		    'ListQuery.parent_id' => [[qw(Model.FreikerRideList ->get_query)], 'parent_id'],
 		},
-	    }, qw(FAMILY_MANUAL_RIDE_FORM FAMILY_FREIKER_CODE_ADD)),
+	    }, qw(FAMILY_MANUAL_RIDE_FORM)),
 	    {
 		task_id => 'FAMILY_FREIKER_LIST',
 		label => 'back_to_family',
+		query => undef,
 	    },
 	]),
 	body => vs_paged_list(FreikerRideList => [
