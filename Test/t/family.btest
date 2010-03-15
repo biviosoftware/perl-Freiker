@@ -45,10 +45,18 @@ submit_form({
 });
 verify_table(Date => [
     ['Date'],
-    map([$d->to_string($d->add_days($now, 0))],
-	0, -3, -4,),
+    map([$d->to_string($d->add_days($now, $_))],
+	0, -3, -4),
 ]);
 follow_link('Your Family');
+submit_form(refresh => {
+    dates => $d->to_string($d->add_days($now, -3)),
+    to => $d->to_string($d->add_days($now, 0)),
+});
+verify_table(Freiker => [
+    [qw(Freiker Credits)],
+    [qw(Bobby 2)],
+]);
 follow_link_in_table(qw(freiker freiker bobby action tag));
 test_deviance('already assigned');
 submit_form({
