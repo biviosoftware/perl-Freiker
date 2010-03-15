@@ -230,21 +230,11 @@ sub internal_pre_load {
 	date => $_D->get_max,
 	begin_date => $_D->get_min,
     };
-    my($fr_begin, $fr_end);
-    if (my $year = _get_from_query($self, 'fr_year')) {
-	# Overlap not important, because there shouldn't be any activity
-	$x->{date} = $_D->add_days(
-	    $x->{begin_date} = $_D->from_literal_or_die("8/1/" . $year->as_int),
-	    364,
-	);
+    if (my $fr_begin = _get_from_query($self, 'fr_begin')) {
+	$x->{begin_date} = $fr_begin;
     }
-    elsif (($fr_begin = _get_from_query($self, 'fr_begin')),
-           ($fr_end = _get_from_query($self, 'fr_end')),
-           $fr_begin || $fr_end) {
-        $x->{begin_date} = $fr_begin
-            if $fr_begin;
-        $x->{date} = $fr_end
-            if $fr_end;
+    if (my $fr_end = _get_from_query($self, 'fr_end')) {
+	$x->{date} = $fr_end;
     }
     foreach my $which (sort(keys(%$x))) {
 	next
@@ -280,7 +270,7 @@ sub _get_from_query {
 	unless my $v = $self->ureq('Model.FreikerListQueryForm', $which)
 	|| $self->get_query->unsafe_get($which);
     return $which eq 'fr_year' ? $_YQ->unsafe_from_any($v)
-	: grep(/^$which$/, qw(fr_begin fr_end)) ? ($_D->from_literal($v))[0]
+	: $which =~ /^fr_(?:begin|end)/ ? ($_D->from_literal($v))[0]
         : ($_B->from_literal($v))[0];
 }
 
