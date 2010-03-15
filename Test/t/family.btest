@@ -48,7 +48,8 @@ verify_table(Date => [
     map([$d->to_string($d->add_days($now, 0))],
 	0, -3, -4,),
 ]);
-follow_link('tag');
+follow_link('Your Family');
+follow_link_in_table(qw(freiker freiker bobby action tag));
 test_deviance('already assigned');
 submit_form({
     freiker => '1238',
