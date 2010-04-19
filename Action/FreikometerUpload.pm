@@ -107,7 +107,7 @@ sub _zap_rides {
 	my($rn) = _zap_value("RfidNum$i", $_EPC, $form, $req);
 	delete($form->{"rfidnum$i"});
 	next
-	    unless $rn & $bdt;
+	    unless $rn && $bdt;
 	$csv .= "$rn," . $_DT->to_file_name($bdt) . "\n";
     }
     $rif->process_content(\$csv);
