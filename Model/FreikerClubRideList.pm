@@ -11,8 +11,7 @@ sub internal_initialize {
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
         other => [
-	    [qw(Ride.ride_upload_id RideUpload.ride_upload_id)],
-	    [qw(RealmUser.realm_id RideUpload.club_id)],
+	    [qw(RealmUser.realm_id Ride.club_id)],
 	],
     });
 }
