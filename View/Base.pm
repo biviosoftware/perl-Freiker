@@ -60,7 +60,7 @@ sub internal_xhtml_adorned_attrs {
 	    If([['->req'], '->can_user_execute_task', 'FORUM_FILE_CHANGE'],
 	       DropDown(
 		   String('more'),
-		   DIV_dd_menu(TaskMenu([qw(
+		   TaskMenu([qw(
 		       FORUM_CALENDAR
                        FORUM_FILE_TREE_LIST
 		       GROUP_TASK_LOG
@@ -69,7 +69,7 @@ sub internal_xhtml_adorned_attrs {
 		       GROUP_USER_LIST
 	               FORUM_TUPLE_USE_LIST
 	               FORUM_CRM_THREAD_ROOT_LIST
-		   )]), {id => 'more_drop_down'}),
+		   )]),
 	     ),
 	   ),
 	]),

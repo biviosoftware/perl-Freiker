@@ -20,10 +20,6 @@ my($_SELF) = __PACKAGE__->new({
 	[[qw(err warn empty_list_border)] => 0xcc0000],
 	[[qw(left_nav_a_hover main_left_text a_img_border prizes_background)] => 0xFFFFFF],
 	[select_prize => 0xffcf06],
-	[dd_menu => 0x33aa33],
-	[[qw(dock dd_menu_selected dd_menu_background)] => 0xffffff],
-	[dd_menu_border => 0x888888],
-	[dd_menu_selected_background => 0x888888],
     ],
     Font => [
 	[a_link => 'normal'],
