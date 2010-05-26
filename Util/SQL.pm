@@ -261,6 +261,12 @@ EOF
     return;
 }
 
+sub internal_upgrade_db_site_zap_realm {
+    my($self) = @_;
+    $self->new_other('SiteForum')->init_site_zap_realm;
+    return;
+}
+
 sub _register_user {
     my($self, $name, $display_name, $zip, $country) = @_;
     $self->model(UserRegisterForm => {
