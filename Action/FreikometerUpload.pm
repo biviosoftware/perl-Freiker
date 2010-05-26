@@ -16,6 +16,9 @@ my($_EPC) = b_use('Type.EPC');
 my($_R) = b_use('IO.Ref');
 my($_BDT) = b_use('Type.BikeDateTime');
 my($_NULL) = b_use('Bivio.TypeError')->NULL;
+my($_DIE) = b_use('Bivio.Die');
+my($_V) = b_use('UI.View');
+my($_A) = b_use('IO.Alert');
 
 sub execute {
     my($proto, $req) = @_;
@@ -38,17 +41,35 @@ sub execute_zap {
 	unless $req->is_http_method('post');
     my($form) = $req->get_form;
     $form = {map((lc($_) => $form->{$_}), keys(%$form))};
-    $_M->new($req, 'RealmUser')
-	->set_realm_for_zap(
-	    _zap_value('StationId', $_MA, $form, $req) || return,
-    );
-    _log('zap.txt', $req);
-    _zap_rides(_zap_value('bikeEventCount', $_BEC, $form, $req), $form, $req);
-    _realm_file(
-	$_D->to_file_name($_D->local_today) . '-status.pl',
-	$_R->to_string($form),
-	$req,
-    );
+    my($err) = [];
+    my($die) = $_DIE->catch_quietly(sub {
+	$_M->new($req, 'RealmUser')
+	    ->set_realm_for_zap(
+		_zap_value('StationId', $_MA, $form, $req, $err) || return,
+	);
+	_log('zap.txt', $req);
+	_zap_rides(
+	    _zap_value('bikeEventCount', $_BEC, $form, $req, $err),
+	    $form,
+	    $req,
+	    $err,
+	);
+	_realm_file(
+	    $_D->to_file_name($_D->local_today) . '-status.pl',
+	    $_R->to_string($form),
+	    $req,
+	);
+    });
+    unshift(@$err, $die->as_string)
+	if $die;
+    return
+	unless @$err;
+    $proto->new({
+	station_id => $form->{stationid} || '',
+	form => ${$_R->to_string($form)},
+	errors => join("\n", @$err),
+    })->put_on_request($req);
+    $_V->execute('General->zap_error_mail', $req);
     return;
 }
 
@@ -90,21 +111,21 @@ sub _ym {
 }
 
 sub _zap_warn {
-    my($entity, $msg, $form, $req) = @_;
-    b_warn($entity, ': ', $msg, ' ', $form);
+    my($entity, $msg, $form, $req, $err) = @_;
+    push(@$err, $_A->format_args($entity, ': ', $msg, ' ', $form));
     return;
 }
 
 sub _zap_rides {
-    my($bec, $form, $req) = @_;
+    my($bec, $form, $req, $err) = @_;
     return
 	unless $bec > 0;
     my($rif) = $_M->new($req, 'RideImportForm');
     my($csv) = "EPC,DateTime\n";
     foreach my $i (0 .. $bec - 1) {
-	my($bdt) = _zap_value("BikeDateTime$i", $_BDT, $form, $req);
+	my($bdt) = _zap_value("BikeDateTime$i", $_BDT, $form, $req, $err);
 	delete($form->{"bikedatetime$i"});
-	my($rn) = _zap_value("RfidNum$i", $_EPC, $form, $req);
+	my($rn) = _zap_value("RfidNum$i", $_EPC, $form, $req, $err);
 	delete($form->{"rfidnum$i"});
 	next
 	    unless $rn && $bdt;
@@ -120,13 +141,14 @@ sub _zap_rides {
 }
 
 sub _zap_value {
-    my($key, $type, $form, $req) = @_;
-    my($v, $err) = $type->from_literal($form->{lc($key)});
+    my($key, $type, $form, $req, $err) = @_;
+    my($v, $e) = $type->from_literal($form->{lc($key)});
     return _zap_warn(
 	$form->{lc($key)},
-	"invalid $key: " . ($err || $_NULL)->get_name,
+	"invalid $key: " . ($e || $_NULL)->get_name,
 	$form,
 	$req,
+	$err,
     ) unless defined($v);
     return $v;
 }
