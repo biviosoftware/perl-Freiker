@@ -21,22 +21,23 @@ body {
 
 ! ***** dock styles *****
 .dock .b_task_menu li {
-  border-left: 1px solid white;
-}
-.dock .b_task_menu li.b_first,
-.dock .b_task_menu .b_task_menu li {
-  border-left: 0;
+  border-color: white;
 }
 .dock .b_task_menu a {
   color: white;
-}
-.dock .b_dd_menu {
-  border-color: #777;
 }
 .dock .b_dd_menu a {
   color: #33aa33;
   font-weight: normal;
   font-size: 100%;
+}
+.tools .b_dd_menu li a {
+  display: block;
+  padding: 0 0.2em;
+}
+.b_dd_menu a:hover,
+.tools .b_dd_menu a:hover {
+  color: white;
 }
 
 ! ***** header styles *****
