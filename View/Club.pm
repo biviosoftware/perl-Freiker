@@ -100,6 +100,7 @@ sub internal_body_and_tools {
 		@{$extra || []},
 		DropDown(
 		    String('Wheel Tools'),
+		    DIV_dd_menu(
 			TaskMenu([
 			    'CLUB_PRIZE_LIST',
 			    'GREEN_GEAR_FORM',
@@ -110,7 +111,10 @@ sub internal_body_and_tools {
 			    'GREEN_GEAR_LIST',
 			    'CLUB_FREIKER_CODE_IMPORT',
 			    'CLUB_RIDE_DATE_LIST',
-			]),
+			], {class => 'no-match'}),
+#TODO: need generate unique id, because tool shows up twice for rendering
+			{id => 'wheel_tools_drop_down'},
+		    ),
 		),
 	    ]),
 	    XLink('back_to_top'),
