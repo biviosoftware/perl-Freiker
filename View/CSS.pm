@@ -20,24 +20,11 @@ body {
 }
 
 ! ***** dock styles *****
-.dock .b_task_menu li {
-  border-color: white;
-}
-.dock .b_task_menu a {
-  color: white;
-}
-.dock .b_dd_menu a {
-  color: #33aa33;
-  font-weight: normal;
-  font-size: 100%;
-}
-.tools .b_dd_menu li a {
-  display: block;
-  padding: 0 0.2em;
-}
-.b_dd_menu a:hover,
-.tools .b_dd_menu a:hover {
-  color: white;
+table.dock div.want_sep,
+table.dock span.want_sep,
+table.dock a.want_sep {
+  background-image: none;
+  border-left: white solid 1px;
 }
 
 ! ***** header styles *****
@@ -61,18 +48,8 @@ table.header td.header_middle {
 table.header td.header_middle img {
   padding-bottom: 1em;
 }
-div.main_top div.tools .b_task_menu li {
-  text-align: left;
-}
-.tools .b_dd_menu {
-  border-color: #777;
-}
-.tools .b_task_menu a {
-  font-size: 90%;
-  color: #33aa33;
-}
-.tools .b_dd_menu li {
-  display: block;
+div.tools {
+  padding-right: 1em;
 }
 div.tools .dd_menu a {
   display: block;
@@ -84,25 +61,27 @@ table.header {
 table.header td.header_middle .b_rounded_box_body {
   background:#FFE401;
 }
-table.header td.header_middle .b_task_menu {
+table.header td.header_middle div.bmenu {
   text-align: center;
   margin: 0;
   padding: .6em 0;
 }
-table.header td.header_middle .b_task_menu li {
+table.header td.header_middle div.bmenu span {
   padding: 1em .5em;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.2em;
   font-weight: bold;
-  border: 0;
 }
-table.header td.header_middle .b_task_menu li a {
+table.header td.header_middle div.bmenu span a {
   font-weight: bold;
+}
+table.header td.header_middle span a {
   color: #7A0913;
   text-decoration: none;
 }
-table.header td.header_middle .b_task_menu li a:hover {
+table.header td.header_middle span a:hover {
   color: #45B00C;
+  text-decoration: none;
 }
 
 ! ***** white main oval *****
@@ -147,19 +126,18 @@ table.footer {
 td.footer_left, td.footer_right {
   width: 0;
 }
-table.footer .b_task_menu {
+table.footer div.bmenu {
   text-align:center;
   margin-bottom: .3em;
 }
-table.footer tr td .b_task_menu li {
+table.footer tr td div.bmenu span {
    padding: 0 1em;
-   border-color: white;
 }
-table.footer .b_task_menu a {
+table.footer div.bmenu a {
   color: #FFFFFF;
-  text-decoration:none;
+  text-decoration:none;http://localhost:8888/site/wiki/Home
 }
-table.footer .b_task_menu a:hover {
+table.footer div.bmenu a:hover {
   color: #FCF67C;
 }
 table.footer div.legal {
@@ -185,7 +163,7 @@ div.left_nav {
 div.left_nav span.b_rounded_box_body {
   background: #3815EB
 }
-div.left_nav .b_task_menu {
+div.left_nav div.bmenu {
   background-color: #3815EB;
   padding: 0;
   text-align: center;
@@ -193,20 +171,19 @@ div.left_nav .b_task_menu {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.1em;
 }
-div.left_nav .b_task_menu li {
+div.left_nav div.bmenu span {
   display: block;
   padding: .75em 0;
-  border-top: 1px solid white;
-  border-left: 0;
 }
-div.left_nav .b_task_menu li.b_first {
-  border-top: 0;
+div.left_nav div.bmenu span.want_sep,
+div.left_nav div.bmenu div.want_sep {
+  border-top: white solid 1px;
 }
-div.left_nav .b_task_menu a {
+div.left_nav div.bmenu a {
   color:#FFFFFF;
   font-weight: bold;
 }
-div.left_nav .b_task_menu li.b_selected a {
+div.left_nav div.bmenu span.selected a {
   color: yellow;
 }
 
