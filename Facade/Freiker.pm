@@ -20,6 +20,10 @@ my($_SELF) = __PACKAGE__->new({
 	[[qw(err warn empty_list_border)] => 0xcc0000],
 	[[qw(left_nav_a_hover main_left_text a_img_border prizes_background)] => 0xFFFFFF],
 	[select_prize => 0xffcf06],
+	[dd_menu => 0x33aa33],
+	[[qw(dock dd_menu_selected dd_menu_background)] => 0xffffff],
+	[dd_menu_border => 0x888888],
+	[dd_menu_selected_background => 0x888888],
     ],
     Font => [
 	[a_link => 'normal'],
@@ -30,7 +34,7 @@ my($_SELF) = __PACKAGE__->new({
 	[footer => []],
 	[[qw(topic nav)] => [qw(140% bold)]],
 	[left_nav_a_hover => []],
-	[dock => [qw(120% bold nowrap)]],
+	[dock => [qw(140% bold nowrap)]],
 	[prize_name => 'bold'],
 	[footer_tag_line => [qw(100% bold)]],
 	[select_prize => [qw(bold underline)]],
@@ -73,7 +77,6 @@ my($_SELF) = __PACKAGE__->new({
 	    task_id => 'SITE_ADMIN_USER_LIST',
 	    realm => 'site-admin',
 	}],
-	[site_zap_realm => 'site-zap'],
 	[my_site_redirect_map => sub {[
 	    [qw(GENERAL ADMINISTRATOR ADM_FREIKOMETER_LIST)],
 	    [qw(MERCHANT ADMINISTRATOR MERCHANT_PRIZE_REDEEM)],
