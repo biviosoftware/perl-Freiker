@@ -77,6 +77,7 @@ my($_SELF) = __PACKAGE__->new({
 	    task_id => 'SITE_ADMIN_USER_LIST',
 	    realm => 'site-admin',
 	}],
+	[site_zap_realm => 'site-zap'],
 	[my_site_redirect_map => sub {[
 	    [qw(GENERAL ADMINISTRATOR ADM_FREIKOMETER_LIST)],
 	    [qw(MERCHANT ADMINISTRATOR MERCHANT_PRIZE_REDEEM)],
