@@ -139,8 +139,8 @@ my($_SELF) = __PACKAGE__->new({
 	[USER_ACCEPT_TERMS_FORM => 'bp/Accept_Terms'],
     ],
     Text => [
-	[support_email => 'gears'],
-	[contact_email => 'gears'],
+	[support_email => 'info@boltage.org'],
+	[contact_email => 'info@boltage.org'],
 #TODO:	    [support_phone => '(800) 555-1212'],
 	[site_name => q{Boltage}],
 	[site_copyright => q{KidCommute, Inc.}],
