@@ -1,23 +1,12 @@
-# Copyright (c) 2006-2007 bivio Software, Inc.  All rights reserved.
+# Copyright (c) 2006-2010 bivio Software, Inc.  All rights reserved.
 # $Id$
 package Freiker::ViewShortcuts;
 use strict;
-use Bivio::Base 'Bivio::UI::XHTML::ViewShortcuts';
+use Bivio::Base 'UIXHTML.ViewShortcuts';
 use Bivio::UI::ViewLanguageAUTOLOAD;
 
-sub vs_email {
-    my(undef, $name, $host) = @_;
-    return SPAN_email(
-	Join([
-	    $name || die('name must be supplied'),
-	    Image('at'),
-	    $host || ['Bivio::UI::Facade', 'mail_host'],
-	]),
-    );
-}
-
 sub vs_gears_email {
-    return shift->vs_email('gears');
+    return String([['->req'], '->format_email', shift->vs_text('support_email')]);
 }
 
 sub vs_prize_list {
