@@ -131,6 +131,8 @@ sub _zap_rides {
 	    unless $rn && $bdt;
 	$csv .= "$rn," . $_DT->to_file_name($bdt) . "\n";
     }
+    return
+	unless $csv =~ /\n.*\n/s;
     $rif->process_content(\$csv);
     _realm_file(
 	$_D->to_file_name($_D->local_today) . '.csv',
