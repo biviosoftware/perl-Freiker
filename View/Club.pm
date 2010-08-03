@@ -163,7 +163,8 @@ sub internal_freiker_list_selector {
 		    ),
 		    @$fields,
 		),
-		FormButton('ok_button')->put(label => 'Refresh')
+		FormButton('ok_button')->put(label => vs_text(
+		    $f->simple_package_name, 'ok_button')),
 	    ])),
 	]),
     );

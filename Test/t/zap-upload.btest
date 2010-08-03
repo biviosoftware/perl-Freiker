@@ -36,7 +36,7 @@ clear_cookies();
 send_request(POST => '/dz', undef, [%$values]);
 verify_local_mail('adm', qr{^Subject: .*@{[Freiker::Test->ZAP_ETHERNET]}}m);
 login_as('adm');
-follow_link_in_table(qw(freikometer freikometer dz_zap action files));
+follow_link_in_table(qw(dero_zap dero_zap dz_zap action files));
 follow_link(
     'upload',
     $today =~ /^(\d{6})/,

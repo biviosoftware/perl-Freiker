@@ -122,7 +122,7 @@ You may pick up your SPAN_strong(String(['Prize.name']));
 provided by
 Link(String(['RealmOwner.display_name']), ['Website.url']);
 from Monday to Friday between SPAN_strong('3 and 5 p.m.'); at the
-Freiker office
+Boltage office
 Link('2701 Iris Ave, Suite S, Boulder, CO 80304', 'http://maps.google.com/maps?q=2701+Iris+Ave,80304&ie=UTF8&ll=40.040314,-105.260181&spn=0.009709,0.023432&t=h&z=16&layer=c&cbll=40.036463,-105.260175&panoid=mLiTS7ISR2m8BMaAI9h-TA&cbp=1,352.7279533426744,,0,5');.
 Our door is SPAN_strong('up stairs'); on the very south side of the building.
 </p>

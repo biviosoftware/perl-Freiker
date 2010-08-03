@@ -23,8 +23,8 @@ submit_form({
     first => my $name2 = 'B' . random_string(),
     miles => 3,
 });
-verify_table(Freiker => [
-    ['Freiker'],
+verify_table(Participant => [
+    ['Participant'],
     [$name1],
     [$name2],
 ]);

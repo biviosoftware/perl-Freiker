@@ -4,8 +4,8 @@ test_setup('Freiker');
 home_page();
 submit_form({
     # the form isn't parsing so well
-    password => 'adm',
-    _anon => 'password',
+    email => 'adm',
+    password => 'password',
 });
 die() if get_content() =~ /missing cookies/i;
 

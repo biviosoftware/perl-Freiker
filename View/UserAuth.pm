@@ -35,13 +35,13 @@ will set when you click on the above link.
 
 Thanks for registering.  Every Trip Counts!TM
 
-Freiker, Inc.
+KidCommute, Inc.
 Link('SITE_ROOT');
 
-Freiker, Inc. (EIN 56-2539016) is a tax-exempt organization under Section
+KidCommute, Inc. (EIN 56-2539016) is a tax-exempt organization under Section
 501(c)3 of the Internal Revenue Code. Your donation is tax deductible to the
 full extent of the law.  Just $10 will help:
-Freiker, Inc. (EIN 56-2539016) is a tax-exempt organization under
+KidCommute, Inc. (EIN 56-2539016) is a tax-exempt organization under
 Section 501(c)(3) of the Internal Revenue Code. Your donation is tax
 deductible to the full extent of the law - Link('/site/donate');
 

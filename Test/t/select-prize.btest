@@ -4,14 +4,14 @@ test_setup('Freiker');
 login_as('wheel');
 follow_link(qw(available_prize deliver_prize));
 submit_form({
-    freiker => 1234,
+    boltage => 1234,
 });
 follow_link('bunit50');
 nudge_test_now();
 submit_form('deliver');
 follow_link(qw(available_prize deliver_prize));
 submit_form({
-    freiker => 1235,
+    boltage => 1235,
 });
 verify_text('This list is empty');
 follow_link('give_trips');
@@ -23,7 +23,7 @@ nudge_test_now();
 submit_form('deliver');
 follow_link(qw(available_prize delivered_prizes));
 verify_table(Delivered => [
-    [qw(Prize Freiker)],
+    [qw(Prize Participant)],
     [qw(bunit20 child1)],
     [qw(bunit50 child)],
 ]);
@@ -31,7 +31,7 @@ do_logout();
 login_as('adm');
 follow_link('all_delivered_prizes');
 verify_table(Delivered => [
-    [qw(Prize Freiker)],
+    [qw(Prize Participant)],
     [qw(bunit20 child1)],
     [qw(bunit50 child)],
 ]);
@@ -41,6 +41,6 @@ follow_link_in_table(qw(Delivered Prize bunit20 Actions return));
 submit_form('return');
 test_deviance(qr{bunit20.*not found});
 verify_table(Delivered => [
-    [qw(Prize Freiker)],
+    [qw(Prize Participant)],
     [qw(bunit20 child1)],
 ]);

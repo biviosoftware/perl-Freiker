@@ -16,7 +16,7 @@ test_equals("date\n", get_content());
 home_page();
 do_logout();
 login_as('adm');
-follow_link_in_table(qw(freikometer freikometer fm_freikometer action files));
+follow_link_in_table(qw(dero_zap dero_zap fm_freikometer action files));
 follow_link(
     'upload',
     test_use('Type.Date')->local_now_as_file_name =~ /^(\d{6})/,
