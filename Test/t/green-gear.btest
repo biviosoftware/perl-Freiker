@@ -18,6 +18,6 @@ submit_form({
     last => $friday,
 });
 verify_table('first', [
-    ['first', 'Tag ID'],
+    ['first', 'zaptag'],
     [$d->to_string($monday), '1234'],
 ]);

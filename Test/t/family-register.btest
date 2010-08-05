@@ -3,7 +3,7 @@
 test_setup('Freiker');
 my($e, $z) = register_random('family');
 login_as($e);
-follow_link('register_participant');
+follow_link('register_kid');
 verify_form({
     miles => '',
 });
@@ -17,27 +17,27 @@ submit_form({
     country => 'CA',
 });
 follow_link('your_family');
-follow_link('register_participant');
-test_deviance(qr{ID is already assigned});
+follow_link('register_kid');
+test_deviance(qr{is already assigned});
 submit_form({
     first => 'Bruce',
-    boltage => 1234,
+    zaptag => 1234,
     '^school' => 'bunit Elementary',
     kilometers => 17,
 });
 test_conformance();
 submit_form({
     first => 'Bruce',
-    boltage => 1237,
+    zaptag => 1237,
     '^school' => 'bunit Elementary',
     kilometers => 17,
 });
-follow_link('Your Family');
+follow_link('your_family');
 follow_link('edit_info');
 submit_form({
     first => 'Milton',
 });
-verify_table(Participant => [
-    ['Participant'],
+verify_table(Kid => [
+    ['Kid'],
     ['Milton'],
 ]);

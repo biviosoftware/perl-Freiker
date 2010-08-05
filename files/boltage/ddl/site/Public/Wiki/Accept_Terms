@@ -1,0 +1,16 @@
+@h1 Terms of Service and Privacy Policy
+@p.b_prose
+We have introduced new ^Terms_of_Service and our
+^Privacy_Policy.   You will need to agree to them in order to
+access your account.
+@p.b_prose
+By clicking on 'I accept' below you are agreeing to the 
+@a href=/bp/Terms_of_Service Terms of Service
+and the ^Privacy_Policy.
+
+@form action=/bp/Accept_Terms method=POST
+@div.center
+@input type=hidden name=v value=1
+@input type=submit name=accept value="I accept."
+@/div
+@/form
