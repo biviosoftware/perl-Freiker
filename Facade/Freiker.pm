@@ -13,31 +13,27 @@ my($_SELF) = __PACKAGE__->new({
     http_host => 'my.boltage.org',
     mail_host => 'my.boltage.org',
     Color => [
-	[footer_border_top => 0x0],
-	[[qw(a_link left_login_background notice h3 prize_img_border nav left_nav_background)] => 0x33aa33],
-	[[qw(acknowledgement_border a_hover a_hover_img_border)] => 0x41d941],
-	[[qw(title topic footer_border_top footer_tag_line)] => 0x666666],
+	[fr_footer => 0x0],
+	[[qw(
+	    a_link
+	    acknowledgement_border
+	    title
+	    fr_body
+	)] => 0x444444],
+	[a_hover => 0x888888],
 	[[qw(err warn empty_list_border)] => 0xcc0000],
-	[[qw(left_nav_a_hover main_left_text a_img_border prizes_background)] => 0xFFFFFF],
+	# green
+	[[qw(fr_header_background fr_footer_background)] => 0xccdd22],
+	[fr_main_center_border => 0x33ccff],
 	[select_prize => 0xffcf06],
-	[dd_menu => 0x33aa33],
-	[[qw(dock dd_menu_selected dd_menu_background)] => 0xffffff],
-	[dd_menu_border => 0x888888],
-	[dd_menu_selected_background => 0x888888],
     ],
     Font => [
 	[a_link => 'normal'],
 	[a_hover => 'underline'],
-	[body => ['family=Arial', 'small']],
+	[fr_body => 'family=Arial, Helvetica, sans-serif'],
 	[highlight => 'bold'],
-	[pending_upload => ['italic', 'uppercase']],
-	[footer => []],
-	[[qw(topic nav)] => [qw(140% bold)]],
-	[left_nav_a_hover => []],
-	[dock => [qw(140% bold nowrap)]],
-	[prize_name => 'bold'],
-	[footer_tag_line => [qw(100% bold)]],
 	[select_prize => [qw(bold underline)]],
+	[fr_footer => [qw(size=9pt bold italic uppercase nowrap)]],
     ],
     FormError => [
 	[NUMBER => 'Please enter a number'],

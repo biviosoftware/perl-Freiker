@@ -26,124 +26,59 @@ sub internal_xhtml_adorned_attrs {
 	    Prose(vs_text(
 		[sub {"xhtml.title.$_[1]"}, ['task_id', '->get_name']])),
 	]),
-	wiki_widget_contact => Link(
-	    String('our contact form'),
-	    'GENERAL_CONTACT',
-	),
-	wiki_widget_ride_count_all => String(
-	    [[sub {$_R->count_all}], 'HTMLFormat.Amount', 0, 0, 0],
-	),
-	wiki_widget_paypal_form => DIV_donate(
-		AuxiliaryForm(PayPalForm => Join([
-		SPAN_money('$'),
-		FormField('PayPalForm.amount', {class => 'money'}),
-		FormButton('ok_button'),
-	    ])),
-	),
-# #TODO: Add Your Family * Schools * Merchants * Admin
 	xhtml_dock_left => TaskMenu([
+	    'FAMILY_FREIKER_LIST',
 	    RealmDropDown('club'),
-	    RealmDropDown('merchant'),
+#	    RealmDropDown('merchant'),
 	    SiteAdminDropDown([
 		'ADM_FREIKOMETER_LIST',
 		'ADM_PRIZE_LIST',
 		'ADM_PRIZE_COUPON_LIST',
 		'CLUB_REGISTER',
-		'MERCHANT_REGISTER',
+#		'MERCHANT_REGISTER',
 		{
 		    realm => 'site-contact',
 		    task_id => 'FORUM_CRM_THREAD_ROOT_LIST',
 		},
 	    ]),
-	    'FORUM_BLOG_LIST',
-	    'FORUM_WIKI_VIEW',
+#	    'FORUM_BLOG_LIST',
+#	    'FORUM_WIKI_VIEW',
 	    If([['->req'], '->can_user_execute_task', 'FORUM_FILE_CHANGE'],
 	       DropDown(
 		   String('more'),
 		   DIV_dd_menu(TaskMenu([qw(
-		       FORUM_CALENDAR
                        FORUM_FILE_TREE_LIST
 		       GROUP_TASK_LOG
-		       FORUM_MAIL_THREAD_ROOT_LIST
-		       FORUM_MOTION_LIST
 		       GROUP_USER_LIST
-	               FORUM_TUPLE_USE_LIST
 	               FORUM_CRM_THREAD_ROOT_LIST
 		   )]), {id => 'more_drop_down'}),
 	     ),
 	   ),
 	]),
-    );
-    view_unsafe_put(
-	xhtml_header_middle => RoundedBox(_menu('HeaderMiddle')),
-	xhtml_footer_left => '',
-	xhtml_footer_right => '',
-	xhtml_footer_middle => Join([
-	    _menu('FooterMiddle'),
-	    DIV_legal(Join([
-		SPAN_copyright(Join([
-		    '&copy; ',
-		    $_DT->now_as_year,
-		    ' ',
-		    vs_text_as_prose('site_copyright'),
-		])),
-		SPAN_tagline('Every Trip Counts!&trade;'),
-		Link(
-		    'Software by bivio',
-		    'http://www.bivio.biz',
-		    {class => 'software_by_bivio'},
-		),
-	    ])),
-	]),
-	xhtml_main_left => Or(
-	    IfWiki('.*',
-		Director(['->req', 'path_info'], {
-		    map((qr{^/(?:@{[join('|', @$_)]})$}is
-			=> RoundedBox(_menu("$_->[0]MainLeft"), 'left_nav')),
-			[qw(About_Us History Board_And_Staff In_The_News)],
-			[qw(How_It_Works Freikometer Prizes Results FAQ)],
-			[qw(Support_Freiker Volunteer Sponsors)],
-			[qw(Parents_And_Kids)],
-			[qw(Schools)],
-		    ),
-		}, '', ''),
+	xhtml_header_left => undef,
+	xhtml_header_right => vs_header_su_link(
+	    Link(
+		Image('logo'),
+		URI({
+		    task_id => 'CLIENT_REDIRECT',
+		    path_info => 'http://www.boltage.org',
+		}),
 	    ),
-	    If(Not(
-		[['->req', 'task_id'],
-		 '->equals_by_name', 'user_create', 'login']),
-	       If(['auth_user_id'],
-		  RoundedBox(_menu('HomeMainLeft'), 'left_nav'),
-		  RoundedBox(
-		      AuxiliaryForm(ContextlessUserLoginForm => Join([
-			  map((
-			      DIV_label(String(vs_text("ContextlessUserLoginForm.$_"))),
-			      FormField("ContextlessUserLoginForm.$_", {size => 15}),
-			  ), qw(login RealmOwner.password)),
-			  StandardSubmit('ok_button'),
-			  Link('Not Registered?', 'USER_CREATE', {
-			      class => 'label',
-			  }),
-		      ]), {
-			  action => URI({
-			      task_id => 'LOGIN',
-			      no_context => 1,
-			  }),
-		      }),
-		      'login',
-		  ),
-	      ),
-	   ),
-        ),
+	),
+	map(
+	    ("xhtml_footer_$_->[0]" => Link(
+		$_->[1],
+		URI({
+		    task_id => 'CLIENT_REDIRECT',
+		    path_info => 'http://www.facebook.com/pages/Boltage/10150154921405078?ref=ts',
+		}),
+	    )),
+	    [left => Simple(q{Boltage&nbsp;&gt;&nbsp;&nbsp;&nbsp;Let's make it a way of life})],
+	    [center => Simple('Find us on FaceBook')],
+	    [right => Image('social_fb')],
+	),
     );
     return @res;
-}
-
-sub _menu {
-    my($name) = @_;
-    return WikiText('@b-menu value=' . $name, {
-	realm_id => vs_constant('site_realm_id'),
-	task_id => 'SITE_WIKI_VIEW',
-    });
 }
 
 1;

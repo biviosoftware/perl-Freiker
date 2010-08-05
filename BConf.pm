@@ -7,7 +7,21 @@ use base 'Bivio::BConf';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub dev_overrides {
-    return {};
+    my(undef, undef, $host, undef, $http_port) = @_;
+    return {
+        'Bivio::Ext::DBI' => {
+            derozap_global => {
+                connection => 'Bivio::SQL::Connection::MySQL',
+                database => 'derozap_global',
+                user => 'nagler',
+                password => 'nagler',
+            },
+        },
+	'Bivio::Test::Language::HTTP' => {
+#	    home_page_uri => "http://$host:$http_port/my-site",
+	    server_startup_timeout => 60,
+	},
+    };
 }
 
 sub merge_overrides {
@@ -15,6 +29,9 @@ sub merge_overrides {
     return Bivio::IO::Config->merge_list({
 	'Bivio::Biz::Model::MailReceiveDispatchForm' => {
 	    filter_spam => 1,
+	},
+	'Bivio::UI::View::ThreePartPage' => {
+	    center_replaces_middle => 1,
 	},
         $proto->merge_class_loader({
             delegates => {
@@ -61,7 +78,7 @@ sub merge_overrides {
 	},
     },
     $proto->default_merge_overrides({
-	version => 9,
+	version => 10,
 	root => 'Freiker',
 	prefix => 'fr',
 	owner => 'Freiker, Inc.',
