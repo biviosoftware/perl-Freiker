@@ -70,7 +70,10 @@ sub internal_xhtml_adorned_attrs {
 		$_->[1],
 		URI({
 		    task_id => 'CLIENT_REDIRECT',
-		    path_info => 'http://www.facebook.com/pages/Boltage/10150154921405078?ref=ts',
+		    query => {
+			b_use('Action.ClientRedirect')->QUERY_TAG
+			    => 'http://www.facebook.com/pages/Boltage/10150154921405078?ref=ts',
+		    },
 		}),
 	    )),
 	    [left => Simple(q{Boltage&nbsp;&gt;&nbsp;&nbsp;&nbsp;Let's make it a way of life})],
