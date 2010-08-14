@@ -167,7 +167,7 @@ sub reboot {
 
 sub _create {
     my($self, $prefix, $name, $display_name) = @_;
-    my($req) = $self->req;
+    my($req) = $self->initialize_fully;
     $self->usage_error('name must begin with ${prefix}_')
 	unless $name =~ /^${prefix}_\w+$/;
     $self->usage_error('you must set a club with -realm')
