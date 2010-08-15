@@ -59,10 +59,9 @@ sub internal_xhtml_adorned_attrs {
 	xhtml_header_right => vs_header_su_link(
 	    Link(
 		Image('logo'),
-		URI({
-		    task_id => 'CLIENT_REDIRECT',
-		    path_info => 'http://www.boltage.org',
-		}),
+		URI(b_use('Action.ClientRedirect')
+		    ->uri_parameters(
+			'http://www.boltage.org', 'task_id')),
 	    ),
 	),
 	map(
