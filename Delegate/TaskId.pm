@@ -9,6 +9,11 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 sub get_delegate_info {
     my($proto) = @_;
     return $proto->merge_task_info(@{$proto->standard_components}, [
+	{
+	    name => 'LOGOUT',
+	    next => b_use('Action.ClientRedirect')
+		->uri_parameters('http://www.boltage.org'),
+	},
 	[qw(
 	    CLUB_HOME
 	    7
