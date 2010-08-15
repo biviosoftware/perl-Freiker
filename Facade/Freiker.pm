@@ -47,8 +47,8 @@ my($_SELF) = __PACKAGE__->new({
 	['ClubRegisterForm.Website.url.EXISTS' => q{This school's website is already registered.  Please try to find the volunteer at your school.}],
 	['ClubRegisterForm.club_name.EXISTS' => q{Your school is already registered.  Please try to find the volunteer at your school.}],
 	['email.EXISTS' => q{This email is already registered with vs_site_name();.  Link('Click here to login.', 'LOGIN', {no_context => 1});}],
-	['Ride.ride_date.NOT_FOUND' => q{This date was not a school day. Or, the Dero ZAP did not send the trips to boltage.org (yet).  The Dero ZAP stores the trips until it can get a network connection.  Sometimes the network is down for days.}],
-	['Ride.ride_date.DATE_RANGE' => q{This date was not a school day. Or, the Dero ZAP did not send the trips to boltage.org (yet).  The Dero ZAP stores the trips until it can get a network connection.  Sometimes the network is down for days.}],
+	['Ride.ride_date.NOT_FOUND' => q{This date was not a school day. Or, the ZAP did not send the trips to boltage.org (yet).  The ZAP stores the trips until it can get a network connection.  Sometimes the network is down for days.}],
+	['Ride.ride_date.DATE_RANGE' => q{This date was not a school day. Or, the ZAP did not send the trips to boltage.org (yet).  The ZAP stores the trips until it can get a network connection.  Sometimes the network is down for days.}],
 	['Ride.ride_date.EXISTS' => q{The kid was already credited for this date.  Please enter a different date.}],
 	['PrizeConformForm.Prize.name.TOO_FEW' => q{You do not have enough available trips to chose this prize}],
 	['UserLoginForm.login.OFFLINE_USER' => q{Not a registered Boltage Code.  Link('Please click on this link to register.', 'USER_CREATE');}],
@@ -62,8 +62,8 @@ my($_SELF) = __PACKAGE__->new({
 	['GreenGearForm.GreenGear.begin_date.EMPTY' => q{No trips found between First and Last Days}],
 	['GreenGearForm.GreenGear.begin_date.EXISTS' => q{All eligible kids have already won at least once.  Uncheck the "prior winners" box to select one of these kids, or change the date range.}],
 	['GreenGearForm.GreenGear.begin_date.UNSUPPORTED_TYPE' => q{None of the eligible kids is registered.  Uncheck the "must be registered" box to select one of these kids, or change the date range.}],
-	['ClubRideFillForm.Ride.ride_date.NOT_NEGATIVE' => q{You are a new school. Please be patient.  You may not fill in trips before the Dero ZAP has been working.}],
-	['ClubRideFillForm.Ride.ride_date.EXISTS' => q{Dero ZAP was working this day.}],
+	['ClubRideFillForm.Ride.ride_date.NOT_NEGATIVE' => q{You are a new school. Please be patient.  You may not fill in trips before the ZAP has been working.}],
+	['ClubRideFillForm.Ride.ride_date.EXISTS' => q{ZAP was working this day.}],
     ],
     Constant => [
 	[xlink_paypal => {
@@ -85,7 +85,7 @@ my($_SELF) = __PACKAGE__->new({
     ],
     Task => [
 	[MERCHANT_HOME => '?'],
-	[ADM_FREIKOMETER_LIST => ['adm/dero-zaps', 'adm/freikometers']],
+	[ADM_FREIKOMETER_LIST => ['adm/zaps', 'adm/freikometers']],
 	[ALL_CLUB_SUMMARY_LIST => ['pub/trip-summary', 'pub/ride-summary']],
 	[BOT_FREIKOMETER_DOWNLOAD => '?/fm-down/*'],
 	[BOT_FREIKOMETER_UPLOAD => '/fm/*'],
@@ -167,7 +167,7 @@ my($_SELF) = __PACKAGE__->new({
 	['User.birth_date' => 'Birthday'],
 	[list_actions => 'Actions'],
 	[[qw(GroupUserList.privileges_name RoleSelectList.display_name)] => [
-	    FREIKOMETER => 'Dero ZAP',
+	    FREIKOMETER => 'ZAP',
 	]],
 	[Ride => [
 	    ride_date => 'Date',
@@ -227,7 +227,7 @@ my($_SELF) = __PACKAGE__->new({
 	    must_be_registered => 'Kid must be registered in order to win.',
 	]],
 	[GreenGearForm => [
-	    special_ring => q{Tell the Dero ZAP to ring specially for the winner?'},
+	    special_ring => q{Tell the ZAP to ring specially for the winner?'},
 	]],
 	[GreenGearList => [
 	    'RealmOwner.display_name' => 'Kid',
@@ -282,7 +282,7 @@ EOF
 	]],
 	[[qw(FreikerForm FreikerCodeForm)] => [
 	    prose => [
-		prologue => q{Enter the new Kid ID from the ZapTag on your kid's helmet or backpack.  If the ZapTag is missing from your kid's helmet or backpack, or you need another ZapTag for a new helmet or backpack, vs_wheel_contact();.},
+		prologue => q{Enter the new Kid ID from the ZapTag on your kid's backpack.  If the ZapTag is missing from your kid's backpack, or you need another ZapTag for a new backpack, vs_wheel_contact();.},
 	    ],
 	    'User.first_name' => q{First Name},
 	    'User.first_name.desc' => q{This is for your information only so it may be a nickname, an abbreviation, or any other identifier.},
@@ -315,7 +315,7 @@ EOF
 	    ],
 	]],
 	[AdmFreikometerList => [
-	    'RealmOwner.name' => 'Dero ZAP',
+	    'RealmOwner.name' => 'ZAP',
 	    'RealmFile.modified_date_time' => 'Last Upload',
 	    'list_action.FORUM_FILE_TREE_LIST' => 'Files',
 	]],
@@ -350,7 +350,7 @@ EOF
 	    ok_button => 'Deliver Prize',
 	]],
 	[ClubRideFillForm => [
-	    'prose.prologue' => 'This form is used to fill in trips for days when the Dero ZAP did not operate.  Trips will be added for all Kids who rode on two days before and after the date you specified.',
+	    'prose.prologue' => 'This form is used to fill in trips for days when the ZAP did not operate.  Trips will be added for all Kids who rode on two days before and after the date you specified.',
 	    'Ride.ride_date' => 'Date Without Trips',
 	]],
 	[AllClubSummaryList => [
@@ -373,9 +373,9 @@ EOF
 	]],
 	[acknowledgement => [
 	    update_address => q{Please update the information below.  We need to make sure your information is current.},
-	    GREEN_GEAR_FORM => q{The new GreenGear winner appears below.  Your School's Dero ZAPs will be updated to ring the GreenGear sound the next time they check in.},
+	    GREEN_GEAR_FORM => q{The new GreenGear winner appears below.  Your School's ZAPs will be updated to ring the GreenGear sound the next time they check in.},
 	    CLUB_REGISTER => q{Your school has been registered.},
-	    CLUB_RIDE_FILL_FORM => q{Filled in missing trips for when Dero ZAP was not working.},
+	    CLUB_RIDE_FILL_FORM => q{Filled in missing trips for when ZAP was not working.},
 	    MERCHANT_REGISTER => q{Your business has been registered.},
 	    FAMILY_FREIKER_ADD => q{Your kid has been added.},
 	    FAMILY_MANUAL_RIDE_FORM => q{The missing date has been added.},
@@ -434,7 +434,7 @@ EOF
 	    USER_CREATE => 'Please Register',
 	    LOGIN => 'Please Login',
 	    ADM_SUBSTITUTE_USER => 'Act as User',
-	    ADM_FREIKOMETER_LIST => 'Dero ZAPs',
+	    ADM_FREIKOMETER_LIST => 'ZAPs',
 	    ADM_PRIZE_LIST => 'All Prizes',
 	    ADM_PRIZE_COUPON_LIST => 'All Delivered Prizes',
 	    CLUB_PRIZE_COUPON_LIST => 'Delivered Prizes',
