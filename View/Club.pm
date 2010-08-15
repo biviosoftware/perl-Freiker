@@ -88,37 +88,23 @@ sub internal_body_and_tools {
     my($proto, $body, $extra) = @_;
     return shift->internal_put_base_attr(
 	body => $body,
-	tools => If(
-	    [sub {
-		 my($req) = shift->req;
-		 my($k) = __PACKAGE__. '.wheel_tools_drop_down';
-		 my($ok) = !$req->unsafe_get($k);
-		 $req->put($k => 1);
-		 return $ok;
-	    }],
-	    TaskMenu([
-		@{$extra || []},
-		DropDown(
-		    String('Wheel Tools'),
-		    DIV_dd_menu(
-			TaskMenu([
-			    'CLUB_PRIZE_LIST',
-			    'GREEN_GEAR_FORM',
-			    'CLUB_FREIKER_SELECT',
-			    'CLUB_PRIZE_COUPON_LIST',
-			    'CLUB_RIDE_FILL_FORM',
-			    'CLUB_FREIKER_LIST',
-			    'GREEN_GEAR_LIST',
-			    'CLUB_FREIKER_CODE_IMPORT',
-			    'CLUB_RIDE_DATE_LIST',
-			], {class => 'no-match'}),
-#TODO: need generate unique id, because tool shows up twice for rendering
-			{id => 'wheel_tools_drop_down'},
-		    ),
-		),
-	    ]),
-	    XLink('back_to_top'),
-	),
+	tools => TaskMenu([
+	    @{$extra || []},
+	    qw(
+		CLUB_PRIZE_LIST
+		GREEN_GEAR_FORM
+		CLUB_FREIKER_SELECT
+		CLUB_PRIZE_COUPON_LIST
+		CLUB_RIDE_FILL_FORM
+		CLUB_FREIKER_LIST
+		GREEN_GEAR_LIST
+		CLUB_FREIKER_CODE_IMPORT
+		CLUB_RIDE_DATE_LIST
+	    ),
+	], {
+	    want_more_threshold => 2,
+	    want_sorting => 1,
+	}),
     );
 }
 
