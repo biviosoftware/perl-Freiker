@@ -8,6 +8,10 @@ use Bivio::Base 'Bivio::UI::View::CSS';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 my($_SITE) = <<'EOF';
+#BEBOP-9.61
+.tools div.want_sep {
+  CSS('menu_want_sep');
+}
 body {
   Font('fr_body');
 }
