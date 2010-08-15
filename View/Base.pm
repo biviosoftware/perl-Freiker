@@ -26,9 +26,16 @@ sub internal_xhtml_adorned_attrs {
 	    Prose(vs_text(
 		[sub {"xhtml.title.$_[1]"}, ['task_id', '->get_name']])),
 	]),
+	xhtml_dock_right => JoinMenu([
+	    RealmDropDown('club'),
+	    ForumDropDown(),
+	    HelpWiki(),
+	    UserSettingsForm(),
+	    UserState(),
+	]),
 	xhtml_dock_left => TaskMenu([
 	    'FAMILY_FREIKER_LIST',
-	    RealmDropDown('club'),
+	    'CLUB_FREIKER_LIST',
 #	    RealmDropDown('merchant'),
 	    SiteAdminDropDown([
 		'ADM_FREIKOMETER_LIST',
