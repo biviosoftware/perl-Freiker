@@ -71,6 +71,7 @@ sub internal_xhtml_adorned_attrs {
 			'http://www.boltage.org', 'task_id')),
 	    ),
 	),
+	xhtml_footer_left => DIV(q{Boltage&nbsp;&gt;&nbsp;&nbsp;&nbsp;Let's make it a way of life}),
 	map(
 	    ("xhtml_footer_$_->[0]" => Link(
 		$_->[1],
@@ -82,7 +83,6 @@ sub internal_xhtml_adorned_attrs {
 		    },
 		}),
 	    )),
-	    [left => Simple(q{Boltage&nbsp;&gt;&nbsp;&nbsp;&nbsp;Let's make it a way of life})],
 	    [center => Simple('Find us on FaceBook')],
 	    [right => Image('social_fb')],
 	),

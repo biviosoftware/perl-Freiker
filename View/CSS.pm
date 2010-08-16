@@ -54,13 +54,14 @@ table.footer td.footer_right {
   margin: auto 5em;
 }
 table.footer td.footer_left a,
+table.footer td.footer_left div,
 table.footer td.footer_center a,
 table.footer td.footer_right a {
   display: block;
   vertical-align: bottom;
   Font('fr_footer');
 }
-table.footer td.footer_left a {
+table.footer td.footer_left div {
   padding-left: 5em;
 }
 table.footer td.footer_center {
