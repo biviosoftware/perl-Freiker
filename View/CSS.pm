@@ -8,10 +8,42 @@ use Bivio::Base 'Bivio::UI::View::CSS';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 my($_SITE) = <<'EOF';
-#BEBOP-9.61
+!BEBOP-9.61 BEGIN
 .tools div.want_sep {
   CSS('menu_want_sep');
 }
+.tools div.dd_menu a,
+div.dd_menu a,
+.tools div.dd_menu a.want_sep,
+div.dd_menu a.want_sep {
+  background: none;
+  margin-left: 0;
+  padding: 0 .2em;
+  border-left: none;
+}
+.tools div.dd_menu a,
+div.dd_menu a {
+  display: block;
+  padding: 0 .2em;
+  Font('dd_menu');
+  Color('dd_menu-background');
+  text-decoration: none;
+  text-align: left;
+  font-weight: normal;
+}
+div.dd_visible {
+  visibility: visible;
+}
+div.dd_hidden {
+  visibility: hidden;
+}
+.tools div.dd_menu a:hover,
+div.dd_menu a:hover {
+  Color('dd_menu_selected-background');
+  Color('dd_menu_selected');
+  text-decoration: none;
+}
+!BEBOP-9.61 END
 body {
   Font('fr_body');
 }
