@@ -29,6 +29,10 @@ my($_RIDE_COUNT) = "(SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_us
 my($_K) = b_use('Type.Kilometers');
 my($_IDI) = __PACKAGE__->instance_data_index;
 
+sub NOT_FOUND_IF_EMPTY {
+    return 1;
+}
+
 sub PRIZE_SELECT_LIST {
     return 'PrizeSelectList';
 }
