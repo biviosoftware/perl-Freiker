@@ -7,6 +7,7 @@ use Bivio::Base 'Biz.Action';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_M) = b_use('Biz.Model');
 my($_AA) = b_use('Action.Acknowledgement');
+my($_D) = b_use('Bivio.Die');
 
 sub execute {
     my($proto, $req) = @_;
@@ -17,22 +18,28 @@ sub execute {
     } unless $addr->unauth_load({realm_id => $req->get('auth_user_id')})
 	&& $addr->get('zip') && $addr->get('country');
     my($uid);
-    $req->get_or_default(
+    my($list) = $req->get_or_default(
 	'Model.FreikerList',
 	sub {
 	    return $req->with_realm(
 		$req->get('auth_user_id'),
-		sub {$_M->new($req, 'FreikerList')->load_all},
+		sub {
+		    return $_D->eval(sub {$_M->new($req, 'FreikerList')->load_all});
+		},
 	    );
 	},
-    )->do_rows(sub {
-        my($it) = @_;
-	return 1
-	    if $addr->unauth_load({realm_id => $it->get('RealmUser.user_id')})
-	    && $addr->get('street2');
-	$uid = $it->get('RealmUser.user_id');
-	return 0;
-    })->reset_cursor;
+    );
+    $list->do_rows(
+	sub {
+	    my($it) = @_;
+	    return 1
+		if $addr->unauth_load({realm_id => $it->get('RealmUser.user_id')})
+		&& $addr->get('street2');
+	    $uid = $it->get('RealmUser.user_id');
+	    return 0;
+	})
+	->reset_cursor
+	if $list;
     return {
 	task_id => 'FAMILY_FREIKER_EDIT',
 	query => $_AA->save_label('update_address', $req, {
