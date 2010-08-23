@@ -23,12 +23,7 @@ sub freiker_list {
 	    'RealmOwner.display_name',
 	    'freiker_codes',
 	    'ride_count',
-	    'prize_debit',
-	    'prize_credit',
 	    'parent_display_name_sort',
-#	    'parent_first_name',
-#	    'parent_middle_name',
-#	    'parent_last_name',
 	    'parent_email',
             ['Address.street2', {
 		column_heading => If(
@@ -55,8 +50,6 @@ sub freiker_list_csv {
 	RealmOwner.display_name
 	freiker_codes
 	ride_count
-	prize_debit
-	prize_credit
 	parent_first_name
         parent_middle_name
         parent_last_name
@@ -91,10 +84,7 @@ sub internal_body_and_tools {
 	tools => TaskMenu([
 	    @{$extra || []},
 	    qw(
-		CLUB_PRIZE_LIST
 		GREEN_GEAR_FORM
-		CLUB_FREIKER_SELECT
-		CLUB_PRIZE_COUPON_LIST
 		CLUB_RIDE_FILL_FORM
 		CLUB_FREIKER_LIST
 		GREEN_GEAR_LIST
