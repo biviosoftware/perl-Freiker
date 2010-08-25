@@ -5,10 +5,7 @@ use strict;
 use Bivio::Base 'Model.RealmBase';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_D) = __PACKAGE__->use('Type.Date');
-my($_DT) = __PACKAGE__->use('Type.DateTime');
-my($_EPC) = __PACKAGE__->use('Type.EPC');
-my($_NO_TIME) = __PACKAGE__->use('Type.Time')->time_from_parts(0, 0, 0);
+my($_NO_TIME) = b_use('Type.Time')->time_from_parts(0, 0, 0);
 my($_C) = b_use('SQL.Connection');
 
 sub REALM_ID_FIELD {
