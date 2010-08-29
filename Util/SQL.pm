@@ -191,6 +191,74 @@ sub internal_upgrade_db_freikometer_members {
     return;
 }
 
+sub internal_upgrade_db_munroe_seward {
+    my($self) = @_;
+    my($users) = do('./mapped-users.pl') || b_die("mapped-users.pl: $!");
+    my($req) = $self->initialize_fully;
+    my($email) = $self->model('Email');
+    my($schools) = {map(
+	($_ => $self->unauth_realm_id($_)),
+	qw(seward554061331 munroe802192730),
+    )};
+    my($unknown) = b_use('Type.Gender')->UNKNOWN;
+    $req->with_realm_and_user(undef, undef, sub {
+	foreach my $u (sort({$a->{school} cmp $b->{school}} @$users)) {
+	    b_info($u->{last_name}, ' ', $u->{school});
+	    my($sid) = $schools->{$u->{school}};
+	    my($uid);
+	    $req->set_realm(
+		!$u->{email} ? $sid
+		    : ($uid = $email->unauth_load({email => $u->{email}})
+		    ? $email->get('realm_id')
+		    : $self->new_other('RealmAdmin')->create_user($u->{email})),
+	    );
+	    $req->set_user($uid);
+	    foreach my $rfid (@{$u->{rfids}}) {
+		$self->model('FreikerCodeForm')->process({
+		    map(
+			("User.${_}_name" => $u->{"${_}_name"}),
+			qw(first middle last),
+		    ),
+		    'Club.club_id' => $sid,
+		    'FreikerCode.freiker_code' => $rfid->{freiker_code} || b_die($u),
+		    birth_year => undef,
+		    miles => $u->{distance} || 0,
+		    'User.gender' => $unknown,
+		    'Address.zip' => $u->{zipPlus4} || undef,
+		});
+	    }
+	}
+	$self->internal_upgrade_db_munroe_seward_rides;
+	return;
+    });
+    return;
+}
+
+sub internal_upgrade_db_munroe_seward_rides {
+    my($self) = @_;
+    my($req) = $self->initialize_fully;
+    my($rides) = do('./rides.pl') || b_die("rides.pl: $!");
+    $req->with_realm_and_user(undef, undef, sub {
+	foreach my $zap (sort(keys(%$rides))) {
+	    b_info($zap);
+	    $req->set_user($zap);
+	    $self->model('RealmUser')->set_realm_for_freikometer;
+	    my($dates) = $rides->{$zap};
+	    foreach my $date (sort(keys(%$dates))) {
+		b_info($date);
+		my($rif) = $self->model('RideImportForm');
+		foreach my $ride (@{$dates->{$date}}) {
+		    $rif->process_record($ride);
+		}
+	    }
+	    # Needed for lock release
+	    $self->commit_or_rollback;
+	}
+	return;
+    });
+    return;
+}
+
 sub internal_upgrade_db_need_accept_terms {
     my($self) = @_;
     $self->model('Email')->do_iterate(
