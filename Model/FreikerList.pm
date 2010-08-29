@@ -95,7 +95,6 @@ sub internal_initialize {
 		select_value => qq{COALESCE((SELECT SUM(ride_count) FROM prize_coupon_t WHERE prize_coupon_t.user_id = realm_user_t.user_id AND prize_coupon_t.creation_date_time BETWEEN $_DATE AND ($_DATE + interval '60 days')), 0) AS prize_debit},
 		sort_order => 0,
 	    },
-
 	    {
 		name => 'prize_credit',
 		type => 'Integer',
