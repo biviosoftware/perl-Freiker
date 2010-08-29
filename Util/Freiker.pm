@@ -136,20 +136,21 @@ sub info {
 
 sub missing_rides {
     my($self, $user_id, $club_id, $family_id) = _args(@_);
-    my($req) = $self->get_request;
-    my($dates) = {@{
-	$self->unauth_model('ClubRideDateList', {auth_id => $club_id})
-	    ->map_rows(sub {shift->get('Ride.ride_date') => 1}),
-    }};
-    $req->with_realm(
+    my($dates);
+    $self->req->with_realm(
 	$club_id,
 	sub {
+	    $dates = {@{
+		$self->model('ClubRideDateList', {})
+		    ->map_rows(sub {shift->get('Ride.ride_date') => 1}),
+	    }};
 	    $self->model('FreikerRideList', {
 		parent_id => $user_id,
 	    })->do_rows(sub {
 		delete($dates->{shift->get('Ride.ride_date')});
 		return 1;
 	    });
+	    return;
 	},
     );
     return [map(
@@ -160,10 +161,12 @@ sub missing_rides {
 
 sub rides {
     my($self, $user_id, $club_id, $family_id) = _args(@_);
-    return $self->unauth_model(FreikerRideList => {
-	parent_id => $user_id,
-	auth_id => $club_id,
-    })->map_rows(sub {$_D->to_string(shift->get('Ride.ride_date'))});
+    return $self->req->with_realm($club_id, sub {
+	return $self->model(
+	    'FreikerRideList',
+	    {parent_id => $user_id},
+	)->map_rows(sub {$_D->to_string(shift->get('Ride.ride_date'))});
+    });
 }
 
 sub _args {

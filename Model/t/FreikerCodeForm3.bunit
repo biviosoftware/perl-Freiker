@@ -2,16 +2,9 @@
 # $Id$
 my($child_id);
 FormModel({
-    setup_request => sub {
-	model(FreikerRideList => {
-	    parent_id => $child_id,
-	    auth_id => req('auth_id'),
-	});
-	return;
-    },
+    comparator => 'nested_contains',
 });
 shell_util(TestData => ['reset_all_freikers']);
-$child_id = realm_id(Freiker::Test->CHILD(1));
 req()->set_realm(qw(ca_parent));
 my($other) = {
     'User.gender' => Freiker::Test->DEFAULT_GENDER,
@@ -29,7 +22,18 @@ my($other) = {
 	'Model.Address' => {
 	    street2 => '8.0',
 	},
+	'Model.RealmUser' => {
+	    user_id => sub {$child_id = shift},
+	},
     }],
+    req_state({
+	'Model.FreikerRideList' => sub {
+	    model(FreikerRideList => {
+		parent_id => $child_id,
+		auth_id => req('auth_id'),
+	    });
+	},
+    }),
     empty_case({
 	'FreikerCode.freiker_code' => undef,,
 	'Club.club_id' => realm_id(Freiker::Test->SCHOOL_NAME),
@@ -38,12 +42,12 @@ my($other) = {
 	miles => '5.0',
     }),
     error_case({
-	%$other,
-	'FreikerCode.freiker_code' => Freiker_Test()->FREIKER_CODE(4),
-	'Club.club_id' => realm_id(Freiker::Test->SCHOOL_NAME),
-	'Address.zip' => Freiker::Test->CA_ZIP,
-	miles => 33,
+    	%$other,
+    	'FreikerCode.freiker_code' => Freiker_Test()->FREIKER_CODE(4),
+    	'Club.club_id' => realm_id(Freiker::Test->SCHOOL_NAME),
+    	'Address.zip' => Freiker::Test->CA_ZIP,
+    	miles => 33,
     }, {
-	kilometers => 'NULL',
+    	kilometers => 'NULL',
     }),
 ];
