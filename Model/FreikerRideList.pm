@@ -1,13 +1,14 @@
-# Copyright (c) 2006-2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2010 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::FreikerRideList;
 use strict;
 use Bivio::Base 'Model.YearBaseList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+my($_D) = b_use('Bivio.Die');
+my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 
 sub get_display_name {
-#TODO: Refactor with AdmPrizeCouponList
     my($self) = @_;
     my($uid) = $self->get_user_id;
     return $self->new_other('RealmOwner')
@@ -31,6 +32,18 @@ sub internal_initialize {
 	auth_id => ['RealmUser.realm_id'],
 	other => ['Ride.ride_upload_id'],
     });
+}
+
+sub internal_prepare_statement {
+    my($self) = @_;
+    $_D->throw(MODEL_NOT_FOUND => {
+	entity => $self->get_user_id,
+	message => 'not a member of this school or family',
+    }) unless $self->new_other('RealmUser')->unsafe_load({
+	user_id => $self->get_user_id,
+	role => $_FREIKER,
+    });
+    return shift->SUPER::internal_prepare_statement(@_);
 }
 
 1;
