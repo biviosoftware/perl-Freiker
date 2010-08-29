@@ -37,6 +37,54 @@ sub vs_freiker_list_actions {
     };
 }
 
+sub vs_freiker_list_selector {
+    my($proto, $fields) = @_;
+    $fields ||= [qw(fr_begin fr_end fr_trips fr_registered)];
+    my($f) = b_use('Model.FreikerListQueryForm');
+    return (
+	selector => Join([
+	    Form($f->simple_package_name, Join([
+                FormErrorList(),
+		map(
+		    (
+			$_ eq 'fr_year' ? Select({
+			    %{$f->get_select_attrs($_)},
+			    class => 'element',
+			})
+                        : $_ eq 'fr_begin' ? (FormFieldLabel({
+                            label => SPAN_label('Dates: '),
+                            field => $_,
+                        }),
+			DateField({
+                            form_model => [$f->package_name],
+			    event_handler => DateYearHandler(),
+                            field =>  $_,
+                        }))
+                        : $_ eq 'fr_end' ? (
+			    FormFieldLabel({
+				label => SPAN_label(' To: '),
+				field => $_,
+			    }),
+			    DateField({
+				form_model => [$f->package_name],
+				field =>  $_,
+				event_handler => DateYearHandler(),
+			    }),
+			)
+                        : Checkbox({
+			    field => $_,
+			}),
+			' ',
+		    ),
+		    @$fields,
+		),
+		FormButton('ok_button')->put(label => $proto->vs_text(
+		    $f->simple_package_name, 'ok_button')),
+	    ])),
+	]),
+    );
+}
+
 sub vs_gears_email {
     return String([['->req'], '->format_email', shift->vs_text('support_email')]);
 }
