@@ -39,13 +39,12 @@ sub execute_ok {
     my($self) = @_;
     my($req) = $self->get_request;
     _update_address($self);
-    $self->internal_put_field('User.birth_date' =>
-        $_D->date_from_parts(1, 1, $self->get('birth_year')));
-    my($u) = $self->get_model('User')
+    if (my $by = $self->unsafe_get('birth_year')) {
+	$self->internal_put_field(
+	    'User.birth_date' => $_D->date_from_parts(1, 1, $by));
+    }
+    $self->get_model('User')
 	->update($self->get_model_properties('User'));
-    $u->get_model('RealmOwner')->update({
-	display_name => $u->get('first_name'),
-    });
     return;
 }
 
@@ -71,9 +70,14 @@ sub internal_initialize {
 	    'User.gender',
 	],
 	other => [
+	    $self->field_decl(
+		[
+		    [qw(in_miles Boolean)],
+		    'User.last_name',
+		],
+	    ),
 	    'User.birth_date',
 	    [qw(FreikerCode.user_id User.user_id)],
-	    $self->field_decl([[qw(in_miles Boolean)]]),
 	    'Address.country',
 	    'Address.street2',
 	],
