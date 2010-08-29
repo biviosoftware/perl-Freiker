@@ -5,6 +5,38 @@ use strict;
 use Bivio::Base 'UIXHTML.ViewShortcuts';
 use Bivio::UI::ViewLanguageAUTOLOAD;
 
+sub vs_freiker_list_actions {
+    my($proto, $which, $model) = @_;
+    return {
+	column_heading => String($proto->vs_text("$model.list_actions")),
+	column_data_class => 'list_actions',
+	column_widget => ListActions([
+	    map(
+		[
+		    $proto->vs_text("$model.list_action.$_"),
+		    $_,
+		    URI({
+			task_id => $_,
+			query => {
+			    'ListQuery.parent_id' => ['RealmUser.user_id'],
+			},
+			no_context => 1,
+		    }),
+		],
+		map(
+		    "${which}_$_",
+		    qw(
+			FREIKER_RIDE_LIST
+			MANUAL_RIDE_FORM
+			FREIKER_CODE_ADD
+			FREIKER_EDIT
+		    ),
+		),
+	    ),
+	]),
+    };
+}
+
 sub vs_gears_email {
     return String([['->req'], '->format_email', shift->vs_text('support_email')]);
 }
@@ -39,11 +71,6 @@ sub vs_prize_list {
 	class => 'prizes list',
 	show_headings => 0,
     });
-}
-
-sub vs_prose {
-    my(undef, $prose) = @_;
-    return DIV_prose(Prose($prose));
 }
 
 sub vs_wheel_contact {
