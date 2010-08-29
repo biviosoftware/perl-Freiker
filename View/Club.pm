@@ -34,6 +34,7 @@ sub freiker_list {
 	    }],
             'User.gender',
 	    'birth_year',
+	    vs_freiker_list_actions(qw(CLUB ClubFreikerList)),
 	]),
 	[
 	    {
@@ -84,12 +85,13 @@ sub internal_body_and_tools {
 	tools => TaskMenu([
 	    @{$extra || []},
 	    qw(
-		GREEN_GEAR_FORM
-		CLUB_RIDE_FILL_FORM
-		CLUB_FREIKER_LIST
-		GREEN_GEAR_LIST
+		CLUB_FREIKER_ADD
 		CLUB_FREIKER_CODE_IMPORT
+		CLUB_FREIKER_LIST
 		CLUB_RIDE_DATE_LIST
+		CLUB_RIDE_FILL_FORM
+		GREEN_GEAR_FORM
+		GREEN_GEAR_LIST
 	    ),
 	], {
 	    want_more_threshold => 2,
