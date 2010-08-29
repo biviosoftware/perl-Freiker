@@ -16,7 +16,7 @@ sub execute_empty {
 	$self->internal_put_field(
 	    'Club.club_id' => $self->new_other('RealmUser')
 		->club_id_for_freiker($uid),
-	);
+	) if $self->get('allow_club_id');
     }
     return shift->SUPER::execute_empty(@_);
 }
@@ -53,6 +53,9 @@ sub internal_initialize {
 		constraint => 'NONE',
 	    },
 	],
+	other => [
+	    $self->field_decl([[qw(allow_club_id Boolean)]]),
+	],
     });
 }
 
@@ -60,7 +63,17 @@ sub internal_pre_execute {
     my($self) = @_;
     shift->SUPER::internal_pre_execute(@_);
     $self->new_other('ClubList')->load_all;
+    $self->internal_put_field(allow_club_id => $self->req(qw(auth_realm type))->eq_user);
+    $self->internal_put_field('Club.club_id' => $self->req('auth_id'))
+	unless $self->get('allow_club_id');
     return;
+}
+
+sub validate {
+    my($self) = @_;
+    $self->internal_clear_error('Club.club_id')
+	unless $self->get('allow_club_id');
+    return shift->SUPER::validate(@_);
 }
 
 sub _delete_rides {
@@ -103,9 +116,10 @@ sub _super_user_override {
 sub _update_user {
     my($self, $code_uid) = @_;
     my($curr_uid) = $self->get('FreikerCode.user_id');
-    $self->new_other('RealmUser')
-	->create_freiker_unless_exists($curr_uid, $self->get('Club.club_id'))
-	->create_freiker_unless_exists($curr_uid, $self->req('auth_id'));
+    my($ru) = $self->new_other('RealmUser')
+	->create_freiker_unless_exists($curr_uid, $self->get('Club.club_id'));
+    $ru->create_freiker_unless_exists($curr_uid, $self->req('auth_id'))
+	if $self->req(qw(auth_realm type))->eq_user;
     return
 	if $curr_uid eq $code_uid;
     _iterate_rides($self, $code_uid, sub {
@@ -141,11 +155,13 @@ sub _update_user {
 
 sub _validate_club {
     my($self) = @_;
-    my($l) = $self->req('Model.ClubList');
-    return $self->internal_put_error('Club.club_id' => 'NULL')
-	if $l->EMPTY_KEY_VALUE eq $self->get('Club.club_id');
-    return $self->internal_put_error('Club.club_id' => 'NOT_FOUND')
-	unless $l->find_row_by_id($self->get('Club.club_id'));
+    if ($self->get('allow_club_id')) {
+	my($l) = $self->req('Model.ClubList');
+	return $self->internal_put_error('Club.club_id' => 'NULL')
+	    if $l->EMPTY_KEY_VALUE eq $self->get('Club.club_id');
+	return $self->internal_put_error('Club.club_id' => 'NOT_FOUND')
+	    unless $l->find_row_by_id($self->get('Club.club_id'));
+    }
     $self->internal_put_field(
 	'FreikerCode.club_id' => $self->get('Club.club_id'));
     return $self->internal_put_error('FreikerCode.freiker_code' => 'NOT_FOUND')
