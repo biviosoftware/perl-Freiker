@@ -14,6 +14,7 @@ sub internal_initialize {
         primary_key => [[qw(RealmOwner.realm_id RealmUser.user_id RealmFile.realm_id)]],
 	order_by => [
 	    'RealmOwner.name',
+	    'RealmOwner.display_name',
 	    'RealmFile.modified_date_time',
 	],
 	other => [
