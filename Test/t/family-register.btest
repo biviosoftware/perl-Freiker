@@ -3,7 +3,6 @@
 test_setup('Freiker');
 my($e, $z) = register_random('family');
 login_as($e);
-follow_link('register_kid');
 verify_form({
     miles => '',
 });
@@ -17,7 +16,6 @@ submit_form({
     country => 'CA',
 });
 follow_link('your_family');
-follow_link('register_kid');
 test_deviance(qr{is already assigned});
 submit_form({
     first => 'Bruce',
@@ -41,3 +39,12 @@ verify_table(Kid => [
     ['Kid'],
     ['Milton'],
 ]);
+follow_link(qw(your_family register_kid));
+submit_form({
+    first => 'Larry',
+    zaptag => 1238,
+    '^school' => 'bunit Elementary',
+    kilometers => 3,
+});
+verify_text('Larry');
+
