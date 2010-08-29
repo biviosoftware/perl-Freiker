@@ -13,6 +13,7 @@ sub internal_initialize {
 	can_iterate => 1,
 	date => 'Ride.ride_date',
 	primary_key => ['Ride.ride_date'],
+	want_page_count => 0,
         order_by => [
 	    'Ride.ride_date',
 	    {
