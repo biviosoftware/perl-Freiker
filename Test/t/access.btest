@@ -1,0 +1,22 @@
+# Copyright (c) 2010 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+login_as('parent1');
+my($uris) = [map(
+    {
+	follow_link_in_table(qw(kid kid child10 action), $_);
+	my($x) = get_uri();
+	$x =~ s{/parent1/}{/wheel/} || die($x);
+	go_back();
+	$x;
+    }
+    qw(trips missing tag info),
+)];
+foreach my $user (qw(wheel adm parent)) {
+    login_as($user);
+    test_deviance(qr{not.found|forbidden}i);
+    foreach my $uri (@$uris) {
+	visit_uri($uri);
+    }
+    test_conformance();
+}
