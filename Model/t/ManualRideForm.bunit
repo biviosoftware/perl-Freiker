@@ -9,6 +9,4 @@ my($today) = do('./RideList.PL');
 	    ride_date => $today,
 	},
     }],
-    req_state({realm => 'adm'}),
-    [] => MODEL_NOT_FOUND(),
 ];
