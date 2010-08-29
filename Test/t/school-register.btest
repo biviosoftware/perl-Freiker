@@ -25,4 +25,4 @@ submit_form({
     )),
 });
 verify_text($codes->[0]);
-follow_link('available_prizes');
+
