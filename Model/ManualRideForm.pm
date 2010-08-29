@@ -56,10 +56,7 @@ sub internal_initialize {
 sub internal_pre_execute {
     my($self) = @_;
     # SECURITY: Ensure user can access this Freiker
-    $self->new_other('FreikerList')->load_this({
-	this =>
-	    [$self->req('Model.FreikerRideList')->get_query->get('parent_id')],
-    });
+    $self->req('Model.FreikerRideList')->get_query->get('parent_id'),
     return shift->SUPER::internal_pre_execute(@_);
 }
 
