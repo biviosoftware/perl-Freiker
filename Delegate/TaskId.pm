@@ -11,8 +11,9 @@ sub get_delegate_info {
     return $proto->merge_task_info(@{$proto->standard_components}, [
 	{
 	    name => 'LOGOUT',
-	    next => b_use('Action.ClientRedirect')
-		->uri_parameters('http://www.boltage.org'),
+	    next => b_use('Agent.Request')->is_production
+		? b_use('Action.ClientRedirect')->uri_parameters('http://www.boltage.org')
+		: 'SITE_ROOT',
 	},
 	[qw(
 	    CLUB_HOME
@@ -112,7 +113,7 @@ sub get_delegate_info {
 	    USER
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.FreikerCodeForm
-	    View.Family->freiker_code_form
+	    View.Freiker->code_form
 	    next=FAMILY_FREIKER_RIDE_LIST
 	)],
 	[qw(
@@ -199,7 +200,7 @@ sub get_delegate_info {
 	    USER
 	    ADMIN_READ
 	    Model.FreikerRideList->execute_load_page
-	    View.Family->freiker_ride_list
+	    View.Freiker->ride_list
 	)],
 	[qw(
 	    FAMILY_MANUAL_RIDE_FORM
@@ -208,7 +209,7 @@ sub get_delegate_info {
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.FreikerRideList->execute_load_all_with_query
 	    Model.ManualRideForm
-	    View.Family->manual_ride_form
+	    View.Freiker->manual_ride_form
 	    next=FAMILY_FREIKER_RIDE_LIST
 	)],
 	[qw(
@@ -218,7 +219,7 @@ sub get_delegate_info {
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.FreikerRideList->execute_load_all_with_query
 	    Model.FreikerCodeForm
-	    View.Family->freiker_code_form
+	    View.Freiker->code_form
 	    next=FAMILY_FREIKER_RIDE_LIST
 	)],
 	[qw(
@@ -445,8 +446,55 @@ sub get_delegate_info {
 	    ADMIN_READ&ADMIN_WRITE
 	    Model.FreikerRideList->execute_load_all_with_query
 	    Model.FreikerForm
-	    View.Family->freiker_form
+	    View.Freiker->form
 	    next=FAMILY_FREIKER_LIST
+	)],
+	[qw(
+	    CLUB_FREIKER_ADD
+	    549
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.FreikerCodeForm
+	    View.Freiker->code_form
+	    next=CLUB_FREIKER_RIDE_LIST
+	)],
+	[qw(
+	    CLUB_FREIKER_EDIT
+	    550
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.FreikerRideList->execute_load_all_with_query
+	    Model.FreikerForm
+	    View.Freiker->form
+	    next=CLUB_FREIKER_LIST
+	)],
+	[qw(
+	    CLUB_FREIKER_RIDE_LIST
+	    551
+	    CLUB
+	    ADMIN_READ
+	    Model.FreikerRideList->execute_load_page
+	    View.Freiker->ride_list
+	)],
+	[qw(
+	    CLUB_MANUAL_RIDE_FORM
+	    552
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.FreikerRideList->execute_load_all_with_query
+	    Model.ManualRideForm
+	    View.Freiker->manual_ride_form
+	    next=CLUB_FREIKER_RIDE_LIST
+	)],
+	[qw(
+	    CLUB_FREIKER_CODE_ADD
+	    553
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.FreikerRideList->execute_load_all_with_query
+	    Model.FreikerCodeForm
+	    View.Freiker->code_form
+	    next=CLUB_FREIKER_RIDE_LIST
 	)],
     ]);
 }

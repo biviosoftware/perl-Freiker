@@ -105,6 +105,11 @@ my($_SELF) = __PACKAGE__->new({
 	[CLUB_FREIKER_SELECT => '?/select-kid'],
 	[CLUB_FREIKER_PRIZE_SELECT => '?/select-prize'],
 	[CLUB_FREIKER_PRIZE_CONFIRM => '?/confirm-prize'],
+	[CLUB_FREIKER_ADD => '?/register-kid'],
+	[CLUB_FREIKER_CODE_ADD => '?/add-tag'],
+	[CLUB_FREIKER_EDIT => '?/edit-kid'],
+	[CLUB_FREIKER_RIDE_LIST => ['?/trips', '?/rides']],
+	[CLUB_MANUAL_RIDE_FORM => ['?/add-trip', '?/add-ride']],
 	[FAMILY_FREIKER_ADD => '?/register-kid'],
 	[FAMILY_FREIKER_CODE_ADD => '?/add-tag'],
 	[FAMILY_FREIKER_EDIT => '?/edit-kid'],
@@ -282,7 +287,7 @@ EOF
 	]],
 	[[qw(FreikerForm FreikerCodeForm)] => [
 	    prose => [
-		prologue => q{Enter the new Kid ID from the ZapTag on your kid's backpack.  If the ZapTag is missing from your kid's backpack, or you need another ZapTag for a new backpack, vs_wheel_contact();.},
+		prologue => q{Enter the new Boltage Code from the ZapTag on your kid's backpack.  If the ZapTag is missing from your kid's backpack, or you need another ZapTag for a new backpack, vs_wheel_contact();.},
 	    ],
 	    'User.first_name' => q{First Name},
 	    'User.first_name.desc' => q{This is for your information only so it may be a nickname, an abbreviation, or any other identifier.},
@@ -316,6 +321,7 @@ EOF
 	]],
 	[AdmFreikometerList => [
 	    'RealmOwner.name' => 'ZAP',
+	    'RealmOwner.display_name' => 'MAC',
 	    'RealmFile.modified_date_time' => 'Last Upload',
 	    'list_action.FORUM_FILE_TREE_LIST' => 'Files',
 	]],
@@ -377,10 +383,15 @@ EOF
 	    CLUB_REGISTER => q{Your school has been registered.},
 	    CLUB_RIDE_FILL_FORM => q{Filled in missing trips for when ZAP was not working.},
 	    MERCHANT_REGISTER => q{Your business has been registered.},
-	    FAMILY_FREIKER_ADD => q{Your kid has been added.},
-	    FAMILY_MANUAL_RIDE_FORM => q{The missing date has been added.},
-	    FAMILY_FREIKER_CODE_ADD => q{The new Kid ID was added.},
-	    FAMILY_FREIKER_EDIT => q{The Kid's info was updated.},
+	    [qw(FAMILY_FREIKER_ADD CLUB_FREIKER_ADD)]
+		=> q{The kid has been added.},
+	    [qw(FAMILY_MANUAL_RIDE_FORM CLUB_MANUAL_RIDE_FORM)]
+		=> q{The missing date has been added.},
+	    [qw(FAMILY_FREIKER_CODE_ADD CLUB_FREIKER_CODE_ADD)]
+		=> q{The new Boltage Code was added.},
+	    [qw(FAMILY_FREIKER_EDIT CLUB_FREIKER_EDIT)]
+		=> q{The kid's info was updated.},
+
 	    CLUB_PRIZE => 'The required trips for the prize were updated.',
 	    CLUB_FREIKER_CODE_IMPORT => 'New codes imported successfully.',
 	    MERCHANT_PRIZE => 'Thank you for your donation or update.  Please contact vs_gears_email(); to discuss prize delivery and inventory management.',
@@ -405,10 +416,10 @@ EOF
 	    user_create_no_context => 'Register',
 	]],
 	[FAMILY_PRIZE_COUPON_LIST => 'Prizes'],
-	[FAMILY_FREIKER_RIDE_LIST => 'Trips'],
-	[FAMILY_MANUAL_RIDE_FORM => 'Add missing trip'],
-	[FAMILY_FREIKER_CODE_ADD => 'New ZapTag'],
-	[FAMILY_FREIKER_EDIT => 'Edit info'],
+	[[qw(FAMILY_FREIKER_RIDE_LIST CLUB_FREIKER_RIDE_LIST)] => 'Trips'],
+	[[qw(FAMILY_MANUAL_RIDE_FORM CLUB_MANUAL_RIDE_FORM)] => 'Add missing trip'],
+	[[qw(FAMILY_FREIKER_CODE_ADD CLUB_FREIKER_CODE_ADD)] => 'New ZapTag'],
+	[[qw(FAMILY_FREIKER_EDIT CLUB_FREIKER_EDIT)] => 'Edit info'],
 	[FAMILY_PRIZE_SELECT => 'Select prize'],
 	[PAYPAL_FORM => ''],
 	[title => [
@@ -430,7 +441,8 @@ EOF
 	    FAMILY_PRIZE_COUPON_LIST => q{Past Prizes},
 	    FAMILY_PRIZE_SELECT => q{Congratulations! Choose a Prize! You have String([qw(Model.PrizeSelectList ->get_prize_credit)]); credits.},
 	    FAMILY_FREIKER_ADD => 'Register Your Kid',
-	    FAMILY_FREIKER_LIST => "Your Kids",
+	    CLUB_FREIKER_ADD => 'Register a Kid',
+	    FAMILY_FREIKER_LIST => 'Your Kids',
 	    USER_CREATE => 'Please Register',
 	    LOGIN => 'Please Login',
 	    ADM_SUBSTITUTE_USER => 'Act as User',
@@ -453,14 +465,14 @@ EOF
 	    CLUB_FREIKER_PRIZE_DELETE => q{Return Prize for String([qw(Model.ClubPrizeCouponList ->get_display_name)]);},
 	]],
 	['xhtml.title' => [
-	    FAMILY_FREIKER_RIDE_LIST =>
-		'String([qw(Model.FreikerRideList ->get_display_name)]); Trips',
-	    FAMILY_MANUAL_RIDE_FORM =>
-		'Add Missing Trip for String([qw(Model.FreikerRideList ->get_display_name)]);',
-	    FAMILY_FREIKER_CODE_ADD =>
-		'Enter New Freiker ID for String([qw(Model.FreikerRideList ->get_display_name)]);',
-	    FAMILY_FREIKER_EDIT =>
-		'Update Info for String([qw(Model.FreikerRideList ->get_display_name)]);',
+	    [qw(FAMILY_FREIKER_RIDE_LIST CLUB_FREIKER_RIDE_LIST)]
+		=> 'String([qw(Model.FreikerRideList ->get_display_name)]); Trips',
+	    [qw(FAMILY_MANUAL_RIDE_FORM CLUB_MANUAL_RIDE_FORM)]
+		=> 'Add Missing Trip for String([qw(Model.FreikerRideList ->get_display_name)]);',
+	    [qw(FAMILY_FREIKER_CODE_ADD CLUB_FREIKER_CODE_ADD)]
+		=> 'Enter New Boltage Code for String([qw(Model.FreikerRideList ->get_display_name)]);',
+	    [qw(FAMILY_FREIKER_EDIT CLUB_FREIKER_EDIT)]
+		=> 'Update Info for String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    CLUB_FREIKER_MANUAL_RIDE_FORM =>
 		'Give trips to String([qw(Model.FreikerRideList ->get_display_name)]);',
 	    CLUB_FREIKER_PRIZE_SELECT => q{Select Prize for String([qw(Model.ClubFreikerList RealmOwner.display_name)]); with String([qw(Model.ClubPrizeSelectList ->get_prize_credit)]); credits},
@@ -479,7 +491,7 @@ EOF
 	    CLUB_PRIZE => 'Update prize',
 	    CLUB_PRIZE_LIST => 'Available prizes',
 	    CLUB_REGISTER => 'Register new school',
-	    FAMILY_FREIKER_ADD => 'Register kid',
+	    [qw(FAMILY_FREIKER_ADD CLUB_FREIKER_ADD)] => 'Register kid',
 	    FAMILY_FREIKER_LIST => 'Your family',
 	    FAMILY_PRIZE_COUPON_LIST => 'Past prizes',
 	    FAMILY_PRIZE_SELECT => 'Choose prize',
@@ -493,7 +505,7 @@ EOF
 	    USER_CREATE => 'Register',
 	    USER_PASSWORD => 'Account',
 	    back_to_family => 'Your family',
-	    back_to_school => 'School',
+	    back_to_club => 'Kids',
 	]],
     ],
 });
