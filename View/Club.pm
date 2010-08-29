@@ -1,4 +1,4 @@
-# Copyright (c) 2007-2009 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2010 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::View::Club;
 use strict;
@@ -6,6 +6,7 @@ use Bivio::Base 'View.Base';
 use Bivio::UI::ViewLanguageAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+
 sub ride_date_list {
     return shift->internal_body_and_tools(
 	vs_paged_list(ClubRideDateList => [
@@ -17,7 +18,7 @@ sub ride_date_list {
 
 sub freiker_list {
     my($self) = @_;
-    $self->internal_put_base_attr($self->internal_freiker_list_selector);
+    $self->internal_put_base_attr(vs_freiker_list_selector());
     return $self->internal_body_and_tools(
 	vs_paged_list(ClubFreikerList => [
 	    'RealmOwner.display_name',
@@ -97,54 +98,6 @@ sub internal_body_and_tools {
 	    want_more_threshold => 2,
 	    want_sorting => 1,
 	}),
-    );
-}
-
-sub internal_freiker_list_selector {
-    my(undef, $fields) = @_;
-    $fields ||= [qw(fr_begin fr_end fr_trips fr_registered)];
-    my($f) = b_use('Model.FreikerListQueryForm');
-    return (
-	selector => Join([
-	    Form($f->simple_package_name, Join([
-                FormErrorList(),
-		map(
-		    (
-			$_ eq 'fr_year' ? Select({
-			    %{$f->get_select_attrs($_)},
-			    class => 'element',
-			})
-                        : $_ eq 'fr_begin' ? (FormFieldLabel({
-                            label => SPAN_label('Dates: '),
-                            field => $_,
-                        }),
-			DateField({
-                            form_model => [$f->package_name],
-			    event_handler => DateYearHandler(),
-                            field =>  $_,
-                        }))
-                        : $_ eq 'fr_end' ? (
-			    FormFieldLabel({
-				label => SPAN_label(' To: '),
-				field => $_,
-			    }),
-			    DateField({
-				form_model => [$f->package_name],
-				field =>  $_,
-				event_handler => DateYearHandler(),
-			    }),
-			)
-                        : Checkbox({
-			    field => $_,
-			}),
-			' ',
-		    ),
-		    @$fields,
-		),
-		FormButton('ok_button')->put(label => vs_text(
-		    $f->simple_package_name, 'ok_button')),
-	    ])),
-	]),
     );
 }
 
