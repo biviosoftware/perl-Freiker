@@ -8,6 +8,10 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_NO_TIME) = b_use('Type.Time')->time_from_parts(0, 0, 0);
 my($_C) = b_use('SQL.Connection');
 
+sub NO_TIME {
+    return $_NO_TIME;
+}
+
 sub REALM_ID_FIELD {
     return 'user_id';
 }
