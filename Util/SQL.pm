@@ -224,7 +224,7 @@ sub internal_upgrade_db_munroe_seward {
 		    birth_year => undef,
 		    miles => $u->{distance} || 0,
 		    'User.gender' => $unknown,
-		    'Address.zip' => $u->{zipPlus4} || undef,
+		    'Address.zip' => $u->{zip} || undef,
 		});
 	    }
 	}
