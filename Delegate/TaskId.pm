@@ -115,6 +115,7 @@ sub get_delegate_info {
 	    Model.FreikerCodeForm
 	    View.Freiker->code_form
 	    next=FAMILY_FREIKER_RIDE_LIST
+	    cancel=FAMILY_FREIKER_LIST
 	)],
 	[qw(
 	    ADM_FREIKOMETER_LIST
@@ -457,6 +458,7 @@ sub get_delegate_info {
 	    Model.FreikerCodeForm
 	    View.Freiker->code_form
 	    next=CLUB_FREIKER_RIDE_LIST
+	    cancel=CLUB_FREIKER_LIST
 	)],
 	[qw(
 	    CLUB_FREIKER_EDIT
