@@ -290,7 +290,6 @@ EOF
 		prologue => q{Enter the new Boltage Code from the ZapTag on your kid's backpack.  If the ZapTag is missing from your kid's backpack, or you need another ZapTag for a new backpack, vs_wheel_contact();.},
 	    ],
 	    'User.first_name' => q{First Name},
-	    'User.first_name.desc' => q{This is for your information only so it may be a nickname, an abbreviation, or any other identifier.},
 	    'birth_year' => q{Year of Birth},
 	    'User.gender' => q{Gender},
 	    kilometers => 'Kilometers to School',
