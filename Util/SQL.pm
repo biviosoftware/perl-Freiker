@@ -1,4 +1,4 @@
-# Copyright (c) 2005-2009 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2005-2010 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Util::SQL;
 use strict;
@@ -202,8 +202,14 @@ sub internal_upgrade_db_munroe_seward {
     )};
     my($unknown) = b_use('Type.Gender')->UNKNOWN;
     $req->with_realm_and_user(undef, undef, sub {
-	foreach my $u (sort({$a->{school} cmp $b->{school}} @$users)) {
-	    b_info($u->{last_name}, ' ', $u->{school});
+	foreach my $u (
+	    sort({
+		$a->{school} cmp $b->{school}
+	        || $a->{last_name} cmp $b->{last_name}
+		|| $a->{first_name} cmp $b->{first_name}
+	    } @$users),
+	) {
+	    b_info($u->{first_name}, ' ', $u->{last_name}, ' ', $u->{school});
 	    my($sid) = $schools->{$u->{school}};
 	    my($uid);
 	    $req->set_realm(
@@ -213,8 +219,13 @@ sub internal_upgrade_db_munroe_seward {
 		    : $self->new_other('RealmAdmin')->create_user($u->{email})),
 	    );
 	    $req->set_user($uid);
+	    my($fid);
 	    foreach my $rfid (@{$u->{rfids}}) {
-		$self->model('FreikerCodeForm')->process({
+		my($fcf) = $self->model('FreikerCodeForm');
+#TODO: This should work, but it doesn't (gets not a member of realm in FreikerRideList)
+#		$self->model('FreikerRideList')->load_all({parent_id => $fid})
+#		    if $fid;
+		$fcf->process({
 		    map(
 			("User.${_}_name" => $u->{"${_}_name"}),
 			qw(first middle last),
@@ -223,9 +234,11 @@ sub internal_upgrade_db_munroe_seward {
 		    'FreikerCode.freiker_code' => $rfid->{freiker_code} || b_die($u),
 		    birth_year => undef,
 		    miles => $u->{distance} || 0,
+		    kilometers => undef,
 		    'User.gender' => $unknown,
 		    'Address.zip' => $u->{zip} || undef,
 		});
+		$fid = $fcf->get('FreikerCode.user_id');
 	    }
 	}
 	$self->internal_upgrade_db_munroe_seward_rides;
