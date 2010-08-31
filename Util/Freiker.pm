@@ -45,12 +45,13 @@ sub audit_clubs {
 	    });
 	    my($switch_date) = $rides->get_result_set_size
 		? $rides->set_cursor_or_die(0)->get('Ride.ride_date')
-		: $ru->get('modified_date_time');
+		: $ru->get('creation_date_time');
+
 	    my($new_uid) = ($self->model('User')->create_realm({
 		%{$user_values},
-		first_name => "$display (" . $_D->to_string($switch_date) . ')',
+		first_name => $display,
+		last_name => '(' . $_D->to_string($switch_date) . ')',
 		middle_name => '',
-		last_name => '',
 	    }, {}))[0]->get('user_id');
 	    my($v) = $ru->get_shallow_copy;
 	    $ru->delete;
@@ -60,7 +61,7 @@ sub audit_clubs {
 		realm_id => $fid,
 		user_id => $new_uid,
 		role => $_FREIKER,
-	    });
+	    }) if $fid;
 	    $self->model('RealmDAG')->create({
 		parent_id => $old_uid,
 		child_id => $new_uid,
