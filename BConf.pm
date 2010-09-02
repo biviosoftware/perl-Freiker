@@ -81,7 +81,7 @@ sub merge_overrides {
 	version => 10,
 	root => 'Freiker',
 	prefix => 'fr',
-	owner => 'Freiker, Inc.',
+	owner => 'bivio Software, Inc.',
     }));
 }
 
