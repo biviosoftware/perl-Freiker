@@ -36,20 +36,14 @@ sub internal_xhtml_adorned_attrs {
 	xhtml_dock_left => TaskMenu([
 	    'FAMILY_FREIKER_LIST',
 	    'CLUB_FREIKER_LIST',
-#	    RealmDropDown('merchant'),
 	    SiteAdminDropDown([
 		'ADM_FREIKOMETER_LIST',
-		'ADM_PRIZE_LIST',
-		'ADM_PRIZE_COUPON_LIST',
 		'CLUB_REGISTER',
-#		'MERCHANT_REGISTER',
 		{
 		    realm => 'site-contact',
 		    task_id => 'FORUM_CRM_THREAD_ROOT_LIST',
 		},
 	    ]),
-#	    'FORUM_BLOG_LIST',
-#	    'FORUM_WIKI_VIEW',
 	    If([['->req'], '->can_user_execute_task', 'FORUM_FILE_CHANGE'],
 	       DropDown(
 		   String('more'),
