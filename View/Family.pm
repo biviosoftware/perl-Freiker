@@ -11,7 +11,6 @@ sub freiker_list {
     return shift->internal_put_base_attr(
 	vs_freiker_list_selector([qw(fr_begin fr_end)]),
 	tools => TaskMenu([qw(
-            USER_PASSWORD
 	    FAMILY_FREIKER_ADD
 	)]),
 	body => vs_list(FreikerList => [
