@@ -11,8 +11,10 @@ sub get_delegate_info {
     return $proto->merge_task_info(@{$proto->standard_components}, [
 	{
 	    name => 'LOGOUT',
-	    next => b_use('Action.ClientRedirect')
-		->uri_parameters('http://www.boltage.org'),
+	    next => b_use('IO.Config')->is_production
+		? b_use('Action.ClientRedirect')
+		    ->uri_parameters('http://www.boltage.org')
+		: 'SITE_ROOT',
 	},
 	[qw(
 	    CLUB_HOME
