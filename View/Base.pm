@@ -65,23 +65,61 @@ sub internal_xhtml_adorned_attrs {
 			'http://www.boltage.org', 'task_id')),
 	    ),
 	),
-	xhtml_footer_left => DIV(q{Boltage&nbsp;&gt;&nbsp;&nbsp;&nbsp;Let's make it a way of life}),
-	map(
-	    ("xhtml_footer_$_->[0]" => Link(
-		$_->[1],
-		URI({
-		    task_id => 'CLIENT_REDIRECT',
-		    query => {
-			b_use('Action.ClientRedirect')->QUERY_TAG
-			    => 'http://www.facebook.com/pages/Boltage/10150154921405078?ref=ts',
-		    },
-		}),
-	    )),
-	    [center => Simple('Find us on FaceBook')],
-	    [right => Image('social_fb')],
-	),
+	xhtml_footer_left => undef,
+	xhtml_footer_right => undef,
+	xhtml_footer_center => Join([
+	    _footer_bar(),
+	    _footer_legal(),
+	]),
     );
     return @res;
+}
+
+sub _footer_bar {
+    return Grid(
+	[[
+	    DIV(
+		q{Boltage&nbsp;&gt;&nbsp;&nbsp;&nbsp;Let's make it a way of life},
+		{cell_class => 'footer_bar_left'},
+	    ),
+	    map(
+		Link(
+		    $_->[1],
+		    URI({
+			task_id => 'CLIENT_REDIRECT',
+			query => {
+			    b_use('Action.ClientRedirect')->QUERY_TAG
+				=> 'http://www.facebook.com/pages/Boltage/10150154921405078?ref=ts',
+			},
+		    }),
+		    {cell_class => "footer_bar_$_->[0]"},
+		),
+		[center => Simple('Find us on FaceBook')],
+		[right => Image('social_fb')],
+	    ),
+	]],
+	{class => 'footer_bar'},
+    );
+}
+
+sub _footer_legal {
+    return DIV_footer_legal(
+	Join([
+	    '&copy; 2010 KidCommute, Inc.',
+	    map({
+		(my $text = $_) =~ s/_/ /g;
+		(
+		    '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
+		    Link($text,
+			 URI({
+			     task_id => 'SITE_WIKI_VIEW',
+			     path_info => $_,
+			 }),
+		    ),
+		);
+	    } qw(Privacy_Policy Terms_of_Service)),
+	]),
+    );
 }
 
 1;

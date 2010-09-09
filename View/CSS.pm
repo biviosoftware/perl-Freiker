@@ -51,6 +51,7 @@ table.dock,
 table.header,
 table.main,
 table.footer {
+  border: none;
   width: 849px;
   margin: auto;
 }
@@ -70,42 +71,49 @@ table.main {
 td.header_right .logo_su a {
   margin-right: 30px;
 }
-table.footer {
+table.footer_bar {
+  width: 100%;
   border: none;
   margin-top: 1ex;
   Color('fr_footer-background');
 }
-table.footer td.footer_left {
+td.footer_bar_left {
   width: 50%;
 }
-table.footer td.footer_left,
-table.footer td.footer_center,
-table.footer td.footer_right {
+td.footer_bar_left,
+td.footer_bar_center,
+td.footer_bar_right {
   height: 4em;
   vertical-align: middle;
   margin: auto 5em;
 }
-table.footer td.footer_left a,
-table.footer td.footer_left div,
-table.footer td.footer_center a,
-table.footer td.footer_right a {
+td.footer_bar_left a,
+td.footer_bar_left div,
+td.footer_bar_center a,
+td.footer_bar_right a {
   display: block;
   vertical-align: bottom;
   Font('fr_footer');
 }
-table.footer td.footer_left div {
+td.footer_bar_left div {
   padding-left: 5em;
 }
-table.footer td.footer_center {
+td.footer_bar_center {
   text-align: right;
   width: 40%;
 }
-table.footer td.footer_center a {
+td.footer_bar_center a {
   text-align: right;
   text-decoration: underline;
 }
-table.footer td.footer_right {
+td.footer_bar_right {
   padding-left: .5em;
+}
+div.footer_legal {
+  padding-top: 2ex;
+}
+div.footer_legal a {
+  text-decoration: underline;
 }
 EOF
 
