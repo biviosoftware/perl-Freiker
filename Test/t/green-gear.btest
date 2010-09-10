@@ -2,7 +2,7 @@
 # $Id$
 test_setup('Freiker');
 login_as('wheel');
-follow_link('green_gears');
+follow_link('weekly_winners');
 verify_text('list is empty');
 follow_link('choose');
 my($d) = test_use('Type.Date');
