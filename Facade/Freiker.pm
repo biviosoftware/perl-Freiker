@@ -231,9 +231,6 @@ my($_SELF) = __PACKAGE__->new({
 	    must_be_unique => 'If possible, prior winners are not eligible.',
 	    must_be_registered => 'Kid must be registered in order to win.',
 	]],
-	[GreenGearForm => [
-	    special_ring => q{Tell the ZAP to ring specially for the winner?'},
-	]],
 	[GreenGearList => [
 	    'RealmOwner.display_name' => 'Kid',
 	]],
