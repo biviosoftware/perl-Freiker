@@ -1,4 +1,4 @@
-# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2010 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::UserRegisterForm;
 use strict;
@@ -28,8 +28,11 @@ sub internal_initialize {
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
         visible => [
+	    'Address.street1',
+	    'Address.street2',
+	    'Address.city',
+	    'Address.state',
 	    $self->field_decl(
-#TODO: need to add street, etc.
 		[qw(Address.zip Address.country)],
 		{constraint => 'NOT_NULL'},
 	    ),
