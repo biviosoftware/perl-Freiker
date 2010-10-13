@@ -33,29 +33,6 @@ sub internal_xhtml_adorned_attrs {
 	    UserSettingsForm(),
 	    UserState(),
 	]),
-	xhtml_dock_left => TaskMenu([
-	    'FAMILY_FREIKER_LIST',
-	    'CLUB_FREIKER_LIST',
-	    SiteAdminDropDown([
-		'ADM_FREIKOMETER_LIST',
-		'CLUB_REGISTER',
-		{
-		    realm => 'site-contact',
-		    task_id => 'FORUM_CRM_THREAD_ROOT_LIST',
-		},
-	    ]),
-	    If([['->req'], '->can_user_execute_task', 'FORUM_FILE_CHANGE'],
-	       DropDown(
-		   String('more'),
-		   DIV_dd_menu(TaskMenu([qw(
-                       FORUM_FILE_TREE_LIST
-		       GROUP_TASK_LOG
-		       GROUP_USER_LIST
-	               FORUM_CRM_THREAD_ROOT_LIST
-		   )]), {id => 'more_drop_down'}),
-	     ),
-	   ),
-	]),
 	xhtml_header_left => undef,
 	xhtml_header_right => vs_header_su_link(
 	    Link(
