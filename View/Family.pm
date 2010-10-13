@@ -14,11 +14,12 @@ sub freiker_list {
 	    FAMILY_FREIKER_ADD
 	)]),
 	body => vs_list(FreikerList => [
-	    ['RealmOwner.display_name' => {
+	    ['User.first_name' => {
 		wf_list_link => {
 		    task => 'FAMILY_FREIKER_RIDE_LIST',
 		    query => 'THIS_CHILD_LIST',
 		},
+		column_order_by => ['User.first_name_sort'],
 	    }],
 	    'freiker_codes',
 	    'ride_count',
