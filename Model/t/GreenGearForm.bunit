@@ -3,7 +3,7 @@
 FormModel();
 my($saturday) = do('./SetupRides.PL');
 my($params) = sub {
-    my($begin, $end, $registered, $unique, $special_ring) = @_;
+    my($begin, $end, $registered, $unique) = @_;
     $begin = DateTime()->add_days($saturday, $begin);
     $end = DateTime()->add_days($saturday, $end);
     return {
@@ -11,7 +11,6 @@ my($params) = sub {
 	'GreenGear.end_date' => $end,
 	'GreenGear.must_be_registered' => $registered,
 	'GreenGear.must_be_unique' => $unique,
-	special_ring => defined($special_ring) ? $special_ring : 1,
     };
 };
 # b_info(GreenGear()->map_iterate(sub {shift->get_shallow_copy}, 'green_gear_id'));
@@ -23,13 +22,8 @@ my($create) = sub {
 	    'GreenGear.end_date' => $p->{'GreenGear.end_date'},
 	},
 	'Model.GreenGear' => {
-	    map((($_ =~ /(\w+)$/)[0] => $p->{$_}), grep(!/special/, keys(%$p))),
+	    map((($_ =~ /(\w+)$/)[0] => $p->{$_}), keys(%$p)),
 	},
-	$p->{special_ring} ? (
-	    'Model.RealmFile' => {
-		path => '/Download/green_gear',
-	    },
-	) : (),
     }];
 };
 [
