@@ -32,7 +32,7 @@ sub get_min {
 }
 
 sub get_precision {
-    return 3;
+    return 4;
 }
 
 sub get_width {
