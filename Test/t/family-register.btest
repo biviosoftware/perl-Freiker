@@ -19,14 +19,16 @@ follow_link('your_family');
 test_deviance(qr{is already assigned});
 submit_form({
     first => 'Bruce',
-    zaptag => 1234,
+    '^zaptag' => 1234,
     '^school' => 'bunit Elementary',
     kilometers => 17,
 });
 test_conformance();
 submit_form({
     first => 'Bruce',
-    zaptag => 1237,
+    middle => 'A',
+    last => my $last = random_string(),
+    '^zaptag' => 1237,
     '^school' => 'bunit Elementary',
     kilometers => 17,
 });
@@ -42,9 +44,12 @@ verify_table(Kid => [
 follow_link(qw(your_family register_kid));
 submit_form({
     first => 'Larry',
-    zaptag => 1238,
+    '^zaptag' => 1238,
     '^school' => 'bunit Elementary',
     kilometers => 3,
 });
 verify_text('Larry');
+login_as('wheel');
+follow_link_in_table('kid', 'kid', "$last, Milton A", 'action', 'info');
+
 
