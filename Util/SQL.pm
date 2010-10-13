@@ -8,6 +8,7 @@ use Freiker::Test;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_DT) = b_use('Type.DateTime');
+my($_T);
 
 sub ddl_files {
     return shift->SUPER::ddl_files(['bOP', 'fr']);
@@ -17,7 +18,7 @@ sub initialize_db {
     return shift->call_super_before(\@_, sub {
         my($self) = @_;
 	$self->new_other('SiteForum')->init;
-	$self->internal_upgrade_db_freiker_distributor;
+	_freiker_distributor($self);
         return;
     });
 }
@@ -32,122 +33,75 @@ sub init_realm_role {
 
 sub initialize_test_data {
     my($self) = @_;
-    my($req) = $self->get_request;
-    $self->new_other('TestUser')->init;
-    foreach my $n (0..1) {
-	$req->set_realm(undef);
-	foreach my $x (qw(WHEEL SPONSOR_EMP)) {
-	    _register_user(
-		$self,
-		Freiker::Test->$x($n),
-		Freiker::Test->$x($n),
-		Freiker::Test->ZIP($n),
-	    );
-	}
-	$req->with_user(Freiker::Test->WHEEL($n) => sub {
-	    $self->model(ClubRegisterForm => {
-		club_name => Freiker::Test->SCHOOL($n),
-		'Address.zip' => Freiker::Test->ZIP($n),
-		'Website.url' => Freiker::Test->WEBSITE($n),
-		club_size => 32,
-	    });
-	    foreach my $x (
-		[qw(create FREIKOMETER)],
-		[qw(create_zap ZAP ZAP_ETHERNET)],
-	    ) {
-		my($method, $name, $display_name) = @$x;
-		$req->set_realm(Freiker::Test->SCHOOL_NAME($n));
-		$self->new_other('Freikometer')->$method(
-		    Freiker::Test->$name($n),
-		    $display_name ? Freiker::Test->$display_name($n) : (),
-		);
-		$self->req('auth_user')->update_password($self->TEST_PASSWORD);
-	    }
-	    return;
-	});
-	_register_user(
-	    $self,
-	    Freiker::Test->PARENT($n),
-	    'A ' . ucfirst(Freiker::Test->PARENT($n)),
-	    Freiker::Test->ZIP($n),
-	);
-	$req->set_realm(Freiker::Test->SCHOOL_NAME($n));
-	# COUPLING: commit is to release Model.Lock on rides (above).
-	$self->commit_or_rollback;
-	foreach my $x (qw(SPONSOR)) {
-	    my($e) = $x . '_EMP';
-	    $req->with_user(Freiker::Test->$e($n) => sub {
-		$self->model(MerchantInfoForm => {
-		    'RealmOwner.display_name' => Freiker::Test->$x($n),
-		    'Address.zip' => Freiker::Test->ZIP($n),
-		    'Website.url' => Freiker::Test->WEBSITE($n),
-		    'Address.street1' => '123 Anywhere',
-		    'Address.city' => 'Boulder',
-		    'Address.state' => 'CO',
-		});
-	    });
-	}
-    }
-    _register_user(
-	$self,
-	Freiker::Test->NEED_ACCEPT_TERMS,
-	Freiker::Test->NEED_ACCEPT_TERMS,
-	Freiker::Test->ZIP,
-    );
-    $self->new_other('TestData')->reset_need_accept_terms;
-    _register_user(
-	$self,
-	Freiker::Test->CA_PARENT,
-	'CA Parent',
-	Freiker::Test->CA_ZIP,
-	'CA',
-    );
-    $self->new_other('TestData')->reset_all_freikers;
-    b_use('IO.File')->do_in_dir(site => sub {
-	$self->new_other('RealmFile')
-	    ->main(qw(-user adm -realm site import_tree));
-    });
-    return;
-}
+    return $self->new_other('TestData')->initialize_db;
+}    
 
-sub internal_upgrade_db_club_admin {
+sub internal_upgrade_db_freiker_info {
     my($self) = @_;
-    foreach my $uid (@{
-	$self->model('RealmAdminList')->map_iterate(
-	    sub {shift->get('RealmUser.user_id')},
-	    'unauth_iterate_start',
-	    {auth_id => b_use('Auth.Realm')->get_general->get('id')},
-        ),
-    }) {
-	$self->model('Club')->do_iterate(
+    $self->initialize_fully;
+    $self->model('User')
+	->do_iterate(
 	    sub {
-		$self->model('RealmUserAddForm', {
-		    'RealmUser.realm_id' => shift->get('club_id'),
-		    'User.user_id' => $uid,
-		    administrator => 1,
-		    file_writer => 1,
-		});
-		return;
+		my($it) = @_;
+		my($v) = {realm_id => $it->get('user_id')};
+		my($addr) = $it->new_other('Address');
+		$addr->create($v)
+		    unless $addr->unauth_load($v);
+		return 1;
 	    },
 	    'unauth_iterate_start',
-	    'club_id',
+	    'user_id',
 	);
-    }
+    b_use('Biz.ListModel')->new_anonymous({
+	primary_key => [
+	    [qw(Address.realm_id RealmUser.user_id)],
+	],
+	other => [
+	    [
+		{
+		    name => 'RealmUser.role',
+		    in_select => 0,
+		},
+		[b_use('Auth.Role')->FREIKER],
+	    ],
+	    {
+		name => 'RealmUser.realm_id',
+		in_select => 0,
+	    },
+	    {
+		name => 'Address.location',
+		in_select => 0,
+	    },
+	],
+	group_by => [
+	    'Address.realm_id',
+	    'Address.street2',
+	],
+    })->do_iterate(
+	sub {
+	    my($it) = @_;
+	    my($fi) = $it->new_other('FreikerInfo');
+	    my($uid) = $it->get('Address.realm_id');
+	    return 1
+		if $fi->unauth_load({user_id => $uid});
+	    $fi->create({
+		    user_id => $uid,
+		    distance_kilometers => $it->get('Address.street2'),
+		})
+		->new_other('Address')
+		->unauth_load_or_die({
+		    realm_id => $uid,
+		})
+		->update({
+		    street2 => undef,
+		});
+	    return 1;
+	},
+    );
     return;
 }
 
-sub internal_upgrade_db_feature_group_admin {
-    my($self) = @_;
-    foreach my $rt (qw(CLUB MERCHANT)) {
-	$self->add_permissions_to_realm_type(
-	    b_use('Auth.RealmType')->$rt(),
-	    ['FEATURE_GROUP_ADMIN'],
-	);
-    }
-    return shift->SUPER::internal_upgrade_db_feature_group_admin(@_);
-}
-
-sub internal_upgrade_db_freiker_distributor {
+sub _freiker_distributor {
     my($self) = @_;
     my($req) = $self->req;
     $req->with_realm(undef, sub {
@@ -174,191 +128,6 @@ sub internal_upgrade_db_freiker_distributor {
 		return;
 	    },
 	),
-    });
-    return;
-}
-
-sub internal_upgrade_db_freikometer_members {
-    my($self) = @_;
-    $self->new_other('Freikometer')->do_all(sub {
-	$self->new_other('RealmRole')->edit_categories('+feature_file');
-	$self->new_other('RealmRole')->edit(qw(MEMBER -DATA_WRITE));
-	$self->new_other('RealmRole')->do_super_users(
-	    sub {$self->new_other('Freikometer')->join_user_as_member},
-	);
-	return;
-    });
-    return;
-}
-
-sub internal_upgrade_db_munroe_seward {
-    my($self) = @_;
-    my($users) = do('./mapped-users.pl') || b_die("mapped-users.pl: $!");
-    my($req) = $self->initialize_fully;
-    my($email) = $self->model('Email');
-    my($schools) = {map(
-	($_ => $self->unauth_realm_id($_)),
-	qw(seward554061331 munroe802192730),
-    )};
-    my($unknown) = b_use('Type.Gender')->UNKNOWN;
-    $req->with_realm_and_user(undef, undef, sub {
-	foreach my $u (
-	    sort({
-		$a->{school} cmp $b->{school}
-	        || $a->{last_name} cmp $b->{last_name}
-		|| $a->{first_name} cmp $b->{first_name}
-	    } @$users),
-	) {
-	    b_info($u->{first_name}, ' ', $u->{last_name}, ' ', $u->{school});
-	    my($sid) = $schools->{$u->{school}};
-	    my($uid);
-	    $req->set_realm(
-		!$u->{email} ? $sid
-		    : ($uid = $email->unauth_load({email => $u->{email}})
-		    ? $email->get('realm_id')
-		    : $self->new_other('RealmAdmin')->create_user($u->{email})),
-	    );
-	    $req->set_user($uid);
-	    my($fid);
-	    foreach my $rfid (@{$u->{rfids}}) {
-		my($fcf) = $self->model('FreikerCodeForm');
-#TODO: This should work, but it doesn't (gets not a member of realm in FreikerRideList)
-#		$self->model('FreikerRideList')->load_all({parent_id => $fid})
-#		    if $fid;
-		$fcf->process({
-		    map(
-			("User.${_}_name" => $u->{"${_}_name"}),
-			qw(first middle last),
-		    ),
-		    'Club.club_id' => $sid,
-		    'FreikerCode.freiker_code' => $rfid->{freiker_code} || b_die($u),
-		    birth_year => undef,
-		    miles => $u->{distance} || 0,
-		    kilometers => undef,
-		    'User.gender' => $unknown,
-		    'Address.zip' => $u->{zip} || undef,
-		});
-		$fid = $fcf->get('FreikerCode.user_id');
-	    }
-	}
-	$self->internal_upgrade_db_munroe_seward_rides;
-	return;
-    });
-    return;
-}
-
-sub internal_upgrade_db_munroe_seward_rides {
-    my($self) = @_;
-    my($req) = $self->initialize_fully;
-    my($rides) = do('./rides.pl') || b_die("rides.pl: $!");
-    $req->with_realm_and_user(undef, undef, sub {
-	foreach my $zap (sort(keys(%$rides))) {
-	    b_info($zap);
-	    $req->set_user($zap);
-	    $self->model('RealmUser')->set_realm_for_freikometer;
-	    my($dates) = $rides->{$zap};
-	    foreach my $date (sort(keys(%$dates))) {
-		b_info($date);
-		my($rif) = $self->model('RideImportForm');
-		foreach my $ride (@{$dates->{$date}}) {
-		    $rif->process_record($ride);
-		}
-	    }
-	    # Needed for lock release
-	    $self->commit_or_rollback;
-	}
-	return;
-    });
-    return;
-}
-
-sub internal_upgrade_db_need_accept_terms {
-    my($self) = @_;
-    $self->model('Email')->do_iterate(
-	sub {
-	    $self->model('RowTag')->replace_value(
-		shift->get('realm_id'),
-		NEED_ACCEPT_TERMS => 1,
-	    );
-	    return 1;
-	},
-	'unauth_iterate_start',
-	'email',
-    );
-    return;
-}
-
-sub internal_upgrade_db_ride_club_id {
-    my($self) = @_;
-    $self->run(<<'EOF');
-ALTER TABLE ride_t
-    ADD COLUMN club_id NUMERIC(18)
-/
-EOF
-    my($map) = {@{$self->model('RealmOwner')->map_iterate(
-	sub {
-	    my($cid) = shift->get('realm_id');
-	    return
-		if b_use('Auth.Realm')->is_default_id($cid); 
-	    return $self->req->with_realm(
-		$cid,
-		sub {
-		    return @{$self->model('RealmUserList')->map_iterate(
-			sub {shift->get('RealmUser.user_id') => $cid},
-			{roles => [b_use('Auth.Role')->FREIKER]},
-		    )};
-		},
-	    );
-	},
-	'unauth_iterate_start',
-	'realm_id',
-	{realm_type => b_use('Auth.RealmType')->CLUB},
-    )}};
-    $self->model('Ride')->do_iterate(
-	sub {
-	    my($it) = @_;
-	    $it->update({
-		club_id => $map->{$it->get('user_id')} || b_die($it->get_shallow_copy),
-	    });
-	    return 1;
-	},
-	'unauth_iterate_start',
-	'user_id',
-    );
-    $self->run(<<'EOF');
-ALTER TABLE ride_t
-    ALTER COLUMN club_id SET NOT NULL
-/
-CREATE INDEX ride_t7 ON ride_t (
-  club_id
-)
-/
-ALTER TABLE ride_t
-  ADD CONSTRAINT ride_t8
-  FOREIGN KEY (club_id)
-  REFERENCES club_t(club_id)
-/
-EOF
-    return;
-}
-
-sub internal_upgrade_db_site_zap_realm {
-    my($self) = @_;
-    $self->new_other('SiteForum')->init_site_zap_realm;
-    return;
-}
-
-sub _register_user {
-    my($self, $name, $display_name, $zip, $country) = @_;
-    $self->model(UserRegisterForm => {
-	'RealmOwner.name' => $name,
-	'RealmOwner.display_name' => $display_name,
-	'Address.zip' => $zip,
-	'Address.country' => $country || 'US',
-	'RealmOwner.password' => $self->TEST_PASSWORD,
-	'confirm_password' => $self->TEST_PASSWORD,
-	'Email.email' => $self->format_test_email($name),
-	password_ok => 1,
     });
     return;
 }
