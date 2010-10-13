@@ -1,4 +1,4 @@
-# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2010 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::User;
 use strict;
@@ -10,9 +10,14 @@ sub create_freiker {
     my($self, $values_or_code) = @_;
     $values_or_code = {first_name => $values_or_code}
 	unless ref($values_or_code) eq 'HASH';
-    return $self->new_other('RealmUser')->create_freiker(
-	($self->create_realm($values_or_code, {}))[0]->get('user_id'),
-    )->get('user_id');
+    my($uid) = ($self->create_realm($values_or_code, {}))[0]->get('user_id');
+    $self->new_other('RealmUser')
+	->create_freiker($uid)
+	->new_other('FreikerInfo')
+	->create({user_id => $uid})
+	->new_other('Address')
+	->create({realm_id => $uid});
+    return $uid;
 }
 
 sub unauth_delete_realm {
