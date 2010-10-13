@@ -12,7 +12,8 @@ my($_FF) = b_use('Type.FileField');
 my($_SA) = b_use('Type.StringArray');
 my($_RA) = b_use('ShellUtil.RealmAdmin');
 my($_DT) = b_use('Type.DateTime');
-my($_FT) = b_use('Freiker::Test');
+my($_T) = b_use('Bivio.Test');
+my($_TU) = b_use('ShellUtil.TestUser');
 
 sub USAGE {
     return <<'EOF';
@@ -35,7 +36,7 @@ sub child_ride_dates {
     my($self, $child_index, $as_date) = @_;
     $child_index ||= 0;
     return []
-	if $child_index > $_FT->MAX_CHILD_INDEX_WITH_RIDES;
+	if $child_index > $_T->MAX_CHILD_INDEX_WITH_RIDES;
     my($now) = $_D->now;
     $as_date = $as_date ? sub {$_D->to_string(shift)} : sub {shift};
     return [map(
@@ -50,7 +51,7 @@ sub create_prize_coupon {
 	['?child', 'String', 'child'],
     ], \@_);
     return $self->req->with_realm(
-	$_FT->SPONSOR_NAME,
+	$_T->SPONSOR_NAME,
 	sub {
 	    my($prize) = $self->model(Prize => {name => $prize});
 	    return $self->model('PrizeCoupon')->create({
@@ -63,6 +64,88 @@ sub create_prize_coupon {
     )->get('coupon_code');
 }
 
+sub initialize_db {
+    my($self) = @_;
+    my($req) = $self->req;
+    $_T = b_use('Bivio.Test');
+    $self->new_other('TestUser')->init;
+    foreach my $n (0..1) {
+	$req->set_realm(undef);
+	foreach my $x (qw(WHEEL SPONSOR_EMP)) {
+	    _register_user(
+		$self,
+		$_T->$x($n),
+		$_T->$x($n),
+		$_T->ZIP($n),
+	    );
+	}
+	$req->with_user($_T->WHEEL($n) => sub {
+	    $self->model(ClubRegisterForm => {
+		club_name => $_T->SCHOOL($n),
+		'Address.zip' => $_T->ZIP($n),
+		'Address.country' => $_T->COUNTRY,
+		'Website.url' => $_T->WEBSITE($n),
+		club_size => 32,
+	    });
+	    foreach my $x (
+		[qw(create FREIKOMETER)],
+		[qw(create_zap ZAP ZAP_ETHERNET)],
+	    ) {
+		my($method, $name, $display_name) = @$x;
+		$req->set_realm($_T->SCHOOL_NAME($n));
+		$self->new_other('Freikometer')->$method(
+		    $_T->$name($n),
+		    $display_name ? $_T->$display_name($n) : (),
+		);
+		$self->req('auth_user')->update_password($_TU->DEFAULT_PASSWORD);
+	    }
+	    return;
+	});
+	_register_user(
+	    $self,
+	    $_T->PARENT($n),
+	    'A ' . ucfirst($_T->PARENT($n)),
+	    $_T->ZIP($n),
+	);
+	$req->set_realm($_T->SCHOOL_NAME($n));
+	# COUPLING: commit is to release Model.Lock on rides (above).
+	$self->commit_or_rollback;
+	foreach my $x (qw(SPONSOR)) {
+	    my($e) = $x . '_EMP';
+	    $req->with_user($_T->$e($n) => sub {
+		$self->model(MerchantInfoForm => {
+		    'RealmOwner.display_name' => $_T->$x($n),
+		    'Address.zip' => $_T->ZIP($n),
+		    'Website.url' => $_T->WEBSITE($n),
+		    'Address.street1' => '123 Anywhere',
+		    'Address.city' => 'Boulder',
+		    'Address.state' => 'CO',
+		});
+	    });
+	}
+    }
+    _register_user(
+	$self,
+	$_T->NEED_ACCEPT_TERMS,
+	$_T->NEED_ACCEPT_TERMS,
+	$_T->ZIP,
+    );
+    $self->new_other('TestData')->reset_need_accept_terms;
+    _register_user(
+	$self,
+	$_T->CA_PARENT,
+	'CA Parent',
+	$_T->CA_ZIP,
+	'CA',
+    );
+    $self->new_other('TestData')->reset_all_freikers;
+    b_use('IO.File')->do_in_dir(site => sub {
+	$self->new_other('RealmFile')
+	    ->main(qw(-user adm -realm site import_tree));
+    });
+    return;
+}
+
 sub nudge_test_now {
     my($self) = @_;
     $_DT->set_test_now($_DT->add_seconds($_DT->now, 1), $self->req);
@@ -72,7 +155,7 @@ sub nudge_test_now {
 sub reset_need_accept_terms {
     my($self) = @_;
     $self->req->with_realm_and_user(
-	$_FT->NEED_ACCEPT_TERMS,
+	$_T->NEED_ACCEPT_TERMS,
 	undef,
 	sub {
 	    $self->model('RowTag')->replace_value(
@@ -81,13 +164,19 @@ sub reset_need_accept_terms {
 		1,
 	    );
 	    my($addr) = $self->model('Address');
-	    $addr->delete({location => $addr->DEFAULT_LOCATION});
+	    $addr->load->update({zip => undef});
 	    $self->model('FreikerList')->do_iterate(sub {
-	        $addr->unauth_delete({
-		    realm_id => shift->get('RealmUser.user_id'),
-		    location => $addr->DEFAULT_LOCATION,
-		});
-		return 1;
+	    	return $self->req->with_realm(
+	    	    shift->get('RealmUser.user_id'),
+	    	    sub {
+	    		$self->model('Address')
+	    		    ->load
+	    		    ->update({zip => undef});
+	    		$self->model('FreikerInfo')
+	    		    ->load
+	    		    ->update({distance_kilometers => undef});
+	    		return 1;
+	    	});
 	    });
 	    return;
 	},
@@ -107,17 +196,26 @@ sub reset_all_freikers {
 
 sub reset_freikers {
     my($self, $which, $club_id, $req) = _setup_school(@_);
-    $_DT->set_test_now($_FT->TEST_NOW, $self->req);
+    $_DT->set_test_now($_T->TEST_NOW, $self->req);
     $self->reset_prizes_for_school($which);
     my($fc) = $self->model('FreikerCode');
     my($rides) = [];
     my($now) = $_D->now;
-    my($indexes) = [0..$_FT->MAX_CHILD_INDEX];
+    my($indexes) = [0..$_T->MAX_CHILD_INDEX];
     $self->model('GreenGear')->cascade_delete({});
+    $self->model('SchoolClass')->do_iterate(
+	sub {
+	    shift->cascade_delete;
+	    return 1;
+	},
+	'unauth_iterate_start',
+	{club_id => $club_id},
+    );
+    $self->model('SchoolYear')->test_unauth_delete_all({club_id => $club_id});
     foreach my $u (@{$_SA->sort_unique([
 	map(
 	    $fc->unsafe_load({
-		freiker_code => $_FT->FREIKER_CODE($_, $which),
+		freiker_code => $_T->FREIKER_CODE($_, $which),
 	    }) ? ($fc->get('user_id'), $fc->delete)[0] : (),
 	    @$indexes,
 	),
@@ -128,29 +226,44 @@ sub reset_freikers {
 	});
     }
     $req->set_realm($club_id);
+    my($scid);
+    if ($which == 0) {
+	$self->model('SchoolClassListForm')
+	    ->process({
+		'RealmOwner.display_name_0' => $_T->TEACHER(0),
+		'SchoolClass.school_grade_0' => $_T->SCHOOL_GRADE(0),
+	    });
+	$scid = $self->req('Model.SchoolClass', 'school_class_id');
+    }
     foreach my $index (@$indexes) {
-	my($code) = $_FT->FREIKER_CODE($index, $which);
-	my($epc) = $_FT->EPC($index, $which);
+	my($code) = $_T->FREIKER_CODE($index, $which);
+	my($epc) = $_T->EPC($index, $which);
 	$fc->create_from_epc_and_code($epc, $code);
-	$req->with_realm($_FT->PARENT($which), sub {
+	$req->with_realm($_T->PARENT($which), sub {
+	    # COUPLING: FreikerCodeForm checks FreikerRideList
+	    $self->model('FreikerRideList')->delete_from_request;
+	    _freiker_form($self, $which, $index, $club_id, $code);
+	    $self->model('RealmUser')
+		->create_freiker_unless_exists(
+		    $self->req(qw(Model.FreikerInfo user_id)),
+		    $scid,
+		)
+	        if $scid && $index == 0;
+	    return;
+	}) if $index <= 1 || $index == $_T->CHILD_WITHOUT_RIDES;
+	$req->with_realm($_T->NEED_ACCEPT_TERMS, sub {
 	    # COUPLING: FreikerCodeForm checks FreikerRideList
 	    $self->model('FreikerRideList')->delete_from_request;
 	    _freiker_form($self, $which, $index, $club_id, $code);
 	    return;
-	}) if $index <= 1 || $index == $_FT->CHILD_WITHOUT_RIDES;
-	$req->with_realm($_FT->NEED_ACCEPT_TERMS, sub {
-	    # COUPLING: FreikerCodeForm checks FreikerRideList
-	    $self->model('FreikerRideList')->delete_from_request;
-	    _freiker_form($self, $which, $index, $club_id, $code);
-	    return;
-	}) if $index == $_FT->NEED_ACCEPT_TERMS_CHILD_INDEX;
+	}) if $index == $_T->NEED_ACCEPT_TERMS_CHILD_INDEX;
 	push(
 	    @$rides,
 	    map(+{epc => $epc, datetime => $_},
 		@{$self->child_ride_dates($index)}),
-	) if $index <= $_FT->MAX_CHILD_INDEX_WITH_RIDES;
+	) if $index <= $_T->MAX_CHILD_INDEX_WITH_RIDES;
     }
-    $req->with_user($_FT->FREIKOMETER($which), sub {
+    $req->with_user($_T->FREIKOMETER($which), sub {
 	my($rif) = $self->model('RideImportForm');
 	foreach my $r (@$rides) {
 	    $rif->process_record($r);
@@ -158,12 +271,12 @@ sub reset_freikers {
 	return;
     });
 #TODO: put in coupons not redeemed
-    $req->with_realm($_FT->PARENT($which), sub {
-	my($code) = $_FT->FREIKER_CODE(2, $which);
+    $req->with_realm($_T->PARENT($which), sub {
+	my($code) = $_T->FREIKER_CODE(2, $which);
 	my($index) = 1;
         $self->model(FreikerRideList => {
 	    parent_id => $self->unauth_model(RealmOwner => {
-		name => $_FT->CHILD($index, $which),
+		name => $_T->CHILD($index, $which),
 	    })->get('realm_id'),
 	});
 	_freiker_form($self, $which, $index, $club_id, $code);
@@ -188,8 +301,8 @@ sub reset_freikometer_folders {
     )) {
 	$self->model('RealmFile')->unauth_delete_deep({path => $p});
     }
-    $req->with_realm($_FT->FREIKOMETER, sub {
-        $self->req->with_user($_FT->FREIKOMETER, sub {
+    $req->with_realm($_T->FREIKOMETER, sub {
+        $self->req->with_user($_T->FREIKOMETER, sub {
 	    $self->new_other('Freikometer')->download({
 		filename => 'test.sh',
 		content_type => 'application/x-sh',
@@ -204,8 +317,8 @@ sub reset_freikometer_playlist {
     my($self) = @_;
     my($req) = $self->req;
     $req->assert_test;
-    $req->with_realm($_FT->FREIKOMETER, sub {
-        $self->with_user($_FT->FREIKOMETER, sub {
+    $req->with_realm($_T->FREIKOMETER, sub {
+        $self->with_user($_T->FREIKOMETER, sub {
 	    $self->new_other('Freikometer')->download({
 		filename => 'playlist.pl',
 		content_type => 'text/plain',
@@ -218,8 +331,8 @@ sub reset_freikometer_playlist {
 
 sub reset_prizes_for_school {
     my($self, $which, $club_id, $req) = _setup_school(@_);
-    $req->with_user($_FT->ADM, sub {
-	$req->with_realm($_FT->SPONSOR_NAME($which), sub {
+    $req->with_user($_T->ADM, sub {
+	$req->with_realm($_T->SPONSOR_NAME($which), sub {
 	    $self->model('Prize')->do_iterate(
 		sub {
 		    my($prize) = @_;
@@ -239,7 +352,7 @@ sub reset_prizes_for_school {
 		'prize_id',
 	    );
 	    my($available) = b_use('Type.PrizeStatus')->AVAILABLE;
-	    my($school) = $_FT->SCHOOL_BASE($which);
+	    my($school) = $_T->SCHOOL_BASE($which);
 	    foreach my $i (10, 20, 50, 99, 1000) {
 		my($f) = $self->model('AdmPrizeForm');
 		$f->process({
@@ -271,24 +384,40 @@ sub _freiker_form {
     my($self, $which, $index, $club_id, $code) = @_;
     $self->model(FreikerCodeForm => {
 	'User.first_name' =>
-	    my $name = $_FT->CHILD($index, $which),
+	    my $name = $_T->CHILD($index, $which),
 	'Club.club_id' => $club_id,
 	'FreikerCode.club_id' => $club_id,
 	'FreikerCode.freiker_code' => $code,
-	'User.gender' => $_FT->DEFAULT_GENDER,
-	birth_year => $_FT->DEFAULT_BIRTH_YEAR,
-	'Address.zip' => $_FT->ZIP($which),
-	miles => $_FT->DEFAULT_MILES,
+	'User.gender' => $_T->DEFAULT_GENDER,
+	birth_year => $_T->DEFAULT_BIRTH_YEAR,
+	'Address.zip' => $_T->ZIP($which),
+	'Address.country' => $_T->COUNTRY,
+	miles => $_T->DEFAULT_MILES,
     });
     $self->req('Model.RealmOwner')->update({name => $name});
     return;
 }
 
+sub _register_user {
+    my($self, $name, $display_name, $zip, $country) = @_;
+    $self->model(UserRegisterForm => {
+	'RealmOwner.name' => $name,
+	'RealmOwner.display_name' => $display_name,
+	'Address.zip' => $zip,
+	'Address.country' => $country || $_T->COUNTRY,
+	'RealmOwner.password' => $_TU->DEFAULT_PASSWORD,
+	'confirm_password' => $_TU->DEFAULT_PASSWORD,
+	'Email.email' => $_TU->format_email($name),
+	password_ok => 1,
+    });
+    return;
+}
+    
 sub _setup_school {
     my($self, $which) = @_;
     $which ||= 0;
     my($req) = $self->req;
-    $req->set_realm($_FT->SCHOOL_NAME($which));
+    $req->set_realm($_T->SCHOOL_NAME($which));
     return ($self, $which, $req->get('auth_id'), $req);
 }
 
