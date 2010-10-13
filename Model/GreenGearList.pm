@@ -30,8 +30,4 @@ sub internal_initialize {
     });
 }
 
-sub internal_initialize_from_tables {
-    return [@{shift->SUPER::internal_initialize_from_tables(@_)}, 'green_gear_t'];
-}
-
 1;
