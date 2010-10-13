@@ -2,11 +2,13 @@
 # $Id$
 test_setup('Freiker');
 login_as('wheel');
+date_time_now(Bivio_Test()->TEST_NOW);
 follow_link('register_kid');
 submit_form({
     first => 'Jonathan',
+    qr{street.*1}i => '1213 Mockingbird',
     zaptag => 1237,
-    kilometers => 17,
+    miles => 17,
 });
 verify_text('02/18/2009');
 follow_link('kids');
@@ -35,6 +37,7 @@ submit_form({
 verify_no_text('1237');
 verify_text('1235');
 follow_link('spreadsheet');
+verify_text(Bivio_Test()->TEACHER);
 verify_text('1235');
 verify_no_text('1237');
 go_back();
