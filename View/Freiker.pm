@@ -80,11 +80,12 @@ sub _form {
 	    }],
 	    qw(miles kilometers),
 	),
-	'-optional',
+	'-optional_address',
 	"$model.Address.street1",
 	"$model.Address.street2",
 	"$model.Address.city",
 	"$model.Address.state",
+	'-optional_statistics',
 	"$model.birth_year",
         ["$model.User.gender", {class => "radio_grid"}],
     ]));
