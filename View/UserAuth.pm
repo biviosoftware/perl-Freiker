@@ -14,6 +14,11 @@ sub create {
 	   UserRegisterForm.Email.email
 	   UserRegisterForm.Address.zip
 	   UserRegisterForm.Address.country
+	   -optional_address
+	   UserRegisterForm.Address.street1
+	   UserRegisterForm.Address.street2
+	   UserRegisterForm.Address.city
+	   UserRegisterForm.Address.state
         },
     ]));
 }
