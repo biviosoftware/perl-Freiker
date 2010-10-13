@@ -9,6 +9,8 @@ my($_D) = b_use('Type.Date');
 my($_G_UNKNOWN) = b_use('Type.Gender')->UNKNOWN;
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 my($_K) = b_use('Type.Kilometers');
+my($_PI) = b_use('Type.PrimaryId');
+my($_USLF) = b_use('Model.UserSettingsListForm');
 
 sub execute_empty {
     my($self) = @_;
@@ -18,33 +20,45 @@ sub execute_empty {
 	my($d) = $self->get('User.birth_date');
 	$self->internal_put_field(birth_year =>
 	    $d ? $_D->get_parts($d, 'year') : undef);
+	$self->internal_put_field(
+	    'SchoolClass.school_class_id'
+	    => $self->get('curr.SchoolClass.school_class_id'),
+	) if $self->get('allow_school_class');
+	my($fi) = $self->new_other('FreikerInfo')->unauth_load_or_die({user_id => $uid});
+	if (my $km = $fi->get('distance_kilometers')) {
+	    $self->internal_put_field(
+		kilometers => $km,
+		miles => $_K->to_miles($km),
+	    );
+	}
     }
     else {
 	$self->internal_put_field('User.gender' => $_G_UNKNOWN);
     }
     my($m) = $self->new_other('Address');
     $self->load_from_model_properties($m)
-	if $uid && $m->unauth_load({realm_id => $uid})
-	|| $m->unauth_load({realm_id => $self->req('auth_id')});
-    if (my $km = $m->unsafe_get('street2')) {
-	$self->internal_put_field(
-	    kilometers => $km,
-	    miles => $_K->to_miles($km),
-	);
-    }
+	if $uid
+	&& $m->unauth_load({realm_id => $uid})
+	&& $m->get('zip')
+        || $self->get('in_parent_realm')
+	&& $m->unauth_load({realm_id => $self->req('auth_id')});
     return shift->SUPER::execute_empty(@_);
 }
 
 sub execute_ok {
     my($self) = @_;
     my($req) = $self->get_request;
-    _update_address($self);
+    _update_school_class($self);
     if (my $by = $self->unsafe_get('birth_year')) {
 	$self->internal_put_field(
 	    'User.birth_date' => $_D->date_from_parts(1, 1, $by));
     }
-    $self->get_model('User')
-	->update($self->get_model_properties('User'));
+    $self->update_model_properties('User');
+    $self->unauth_create_or_update_model_properties('Address');
+    $self->internal_put_field(
+	'FreikerInfo.distance_kilometers' => $self->get('in_miles')
+	    ? $_K->from_miles($self->get('miles')) : $self->get('kilometers'));
+    $self->unauth_create_or_update_model_properties('FreikerInfo');
     return;
 }
 
@@ -53,10 +67,9 @@ sub internal_initialize {
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
         visible => [
-	    {
-		name => 'User.first_name',
-		constraint => 'NOT_NULL',
-	    },
+	    'User.first_name',
+	    'User.middle_name',
+	    'User.last_name',
 	    {
 		name => 'birth_year',
 		type => 'Year',
@@ -65,21 +78,30 @@ sub internal_initialize {
 	    $self->field_decl([
 		[qw(kilometers Kilometers)],
 		[qw(miles Miles)],
+		'SchoolClass.school_class_id',
+		'Address.street1',
+		'Address.street2',
+		'Address.city',
+		'Address.state',
 		'Address.zip',
-	    ], undef, 'NOT_NULL'),
+	    ]),
 	    'User.gender',
 	],
 	other => [
 	    $self->field_decl(
 		[
-		    [qw(in_miles Boolean)],
-		    'User.last_name',
+		    'allow_school_class',
+		    'in_parent_realm',
+		    'allow_club_id',
+		    'in_miles',
 		],
+		'Boolean',
 	    ),
+	    'curr.SchoolClass.school_class_id',
 	    'User.birth_date',
-	    [qw(FreikerCode.user_id User.user_id)],
+	    [qw(FreikerCode.user_id User.user_id FreikerInfo.user_id Address.realm_id)],
 	    'Address.country',
-	    'Address.street2',
+	    'FreikerInfo.distance_kilometers',
 	],
     });
 }
@@ -93,29 +115,45 @@ sub internal_pre_execute {
     my($m) = $self->new_other('Address');
     # Prior to adding CA, US users didn't necessarily have addresses
     my($country) = $m->unsafe_load ? $m->get('country') : 'US';
+    my($in_parent_realm) = $self->req(qw(auth_realm type))->eq_user;
     $self->internal_put_field(
 	'Address.country' => $country,
+	allow_club_id => $in_parent_realm,
+	allow_school_class => $in_parent_realm ? 0 : 1,
 	in_miles => _is_us($country),
+	in_parent_realm => $in_parent_realm,
     );
     $self->new_other('DistanceList')
 	->load_all({in_miles => $self->get('in_miles')});
+    if ($self->get('allow_school_class')) {
+	$self->new_other('SchoolClassList')->load_with_school_year;
+	my($uid) = $self->get('FreikerCode.user_id');
+	$self->internal_put_field(
+	    'curr.SchoolClass.school_class_id'
+	     => $uid
+	     && $self->new_other('RealmUser')
+	     ->unsafe_school_class_for_freiker($uid),
+	);
+    }
     return;
 }
 
 sub validate {
     my($self) = @_;
-    $self->internal_clear_error(
-	$self->unsafe_get('in_miles') ? 'kilometers' : 'miles',
-    );
+    $_USLF->validate_user_names($self);
+    $self->validate_not_null($self->unsafe_get('in_miles') ? 'miles' : 'kilometers');
     return
 	unless $self->in_error;
     $self->validate_address;
+    _validate_school_class($self);
     return;
 }
 
 sub validate_address {
     my($self, $model) = @_;
     $model ||= $self;
+    $model->validate_not_null('Address.country');
+    $model->validate_not_null('Address.zip');
     return
 	if $model->in_error;
     my($cc, $zip) = $model->get(qw(Address.country Address.zip));
@@ -140,19 +178,30 @@ sub _is_us {
     return (shift || '') eq 'US' ? 1 : 0;
 }
 
-sub _update_address {
-    my($self, $new_uid) = @_;
-    my($p) = $self->get_model_properties('Address');
-    my($m) = $self->new_other('Address');
-    $p->{realm_id} = $self->get('FreikerCode.user_id');
-    $p->{street2} = $self->get('in_miles')
-	? $_K->from_miles($self->get('miles')) : $self->get('kilometers');
-    if ($m->unauth_load({realm_id => $p->{realm_id}})) {
-	$m->update($p);
+sub _update_school_class {
+    my($self, $curr_uid) = @_;
+    return
+	unless $self->get('allow_school_class');
+    my($new) = $self->unsafe_get('SchoolClass.school_class_id');
+    my($ru) = $self->new_other('RealmUser');
+    unless (
+	my $curr = $self->unsafe_get('curr.SchoolClass.school_class_id')
+    ) {
+	return
+	    if $_PI->is_equal($curr, $new);
+	$ru->unauth_delete_freiker($curr, $curr_uid);
     }
-    else {
-	$m->create($p);
-    }
+    $ru->create_freiker_unless_exists($curr_uid, $new);
+    return;
+}
+
+sub _validate_school_class {
+    my($self) = @_;
+    return
+	unless $self->get('allow_school_class')
+	and my $scid = $self->unsafe_get('SchoolClass.school_class_id');
+    $self->internal_put_error('SchoolClass.school_class_id' => 'NOT_FOUND')
+	unless $self->req('Model.SchoolClassList')->find_row_by_id($scid);
     return;
 }
 
