@@ -30,14 +30,19 @@ sub internal_initialize {
         order_by => ['Ride.ride_date'],
 	parent_id => [qw(Ride.user_id RealmUser.user_id)],
 	auth_id => ['RealmUser.realm_id'],
-	other => ['Ride.ride_upload_id'],
+	other => [
+	    'Ride.ride_upload_id',
+	    ['RealmUser.role' => [$_FREIKER]],
+	],
     });
 }
 
 sub internal_prepare_statement {
     my($self) = @_;
     $_D->throw(MODEL_NOT_FOUND => {
-	entity => $self->get_user_id,
+	entity => $self->new_other('RealmOwner')
+	    ->unauth_load_or_die({realm_id => $self->get_user_id}),
+	realm => $self->req('auth_realm'),
 	message => 'not a member of this school or family',
     }) unless $self->new_other('RealmUser')->unsafe_load({
 	user_id => $self->get_user_id,
