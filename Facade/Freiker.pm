@@ -333,7 +333,8 @@ EOF
 	    'list_action.FORUM_FILE_TREE_LIST' => 'Files',
 	]],
 	[separator => [
-	    optional => 'Optional information used for statistical purposes',
+	    optional_address => 'Optional information to help us contact you',
+	    optional_statistics => 'Optional information used for statistical purposes',
 	]],
 	[[qw(FreikerList ClubFreikerList)] => [
 	    [qw(User.first_name display_name)] => 'Kid',
