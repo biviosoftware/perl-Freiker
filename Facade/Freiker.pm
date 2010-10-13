@@ -266,7 +266,7 @@ my($_SELF) = __PACKAGE__->new({
 	[PrizeRideCount => [
 	    ride_count => 'Trip Count',
 	]],
-	[[qw(SchoolClassSelectList SchoolClassList)] => [
+	[SchoolClassList => [
 	    display_name => __PACKAGE__->init_from_prior_group('school_class_id'),
 	    'RealmOwner.display_name.select'=> 'Select Class',
 	]],
