@@ -39,6 +39,32 @@ sub initialize_test_data {
 sub internal_upgrade_db_freiker_info {
     my($self) = @_;
     $self->initialize_fully;
+    $self->run(<<'EOF');
+CREATE TABLE freiker_info_t (
+  user_id NUMERIC(18) NOT NULL,
+  modified_date_time DATE NOT NULL,
+  distance_kilometers NUMERIC(4,1),
+  CONSTRAINT freiker_info_t1 PRIMARY KEY(user_id)
+)
+/
+CREATE INDEX freiker_info_t2 ON freiker_info_t (
+  user_id
+)
+/
+ALTER TABLE freiker_info_t
+  ADD CONSTRAINT freiker_info_t3
+  FOREIGN KEY (user_id)
+  REFERENCES user_t(user_id)
+/
+CREATE INDEX freiker_info_t4 ON freiker_info_t (
+  modified_date_time
+)
+/
+CREATE INDEX freiker_info_t5 ON freiker_info_t (
+  distance_kilometers
+)
+/
+EOF
     $self->model('User')
 	->do_iterate(
 	    sub {
@@ -98,6 +124,72 @@ sub internal_upgrade_db_freiker_info {
 	    return 1;
 	},
     );
+    return;
+}
+
+sub internal_upgrade_db_school_class {
+    my($self) = @_;
+    $self->run(<<'EOF');
+CREATE TABLE school_class_t (
+  school_class_id NUMERIC(18) NOT NULL,
+  club_id NUMERIC(18) NOT NULL,
+  school_year_id NUMERIC(18) NOT NULL,
+  school_grade NUMERIC(2) NOT NULL,
+  CONSTRAINT school_class_t1 primary key(school_class_id)
+)
+/
+
+CREATE TABLE school_year_t (
+  school_year_id NUMERIC(18) NOT NULL,
+  club_id NUMERIC(18) NOT NULL,
+  start_date DATE NOT NULL,
+  CONSTRAINT school_year_t1 primary key(school_year_id)
+)
+/
+--
+-- school_class_t
+--
+ALTER TABLE school_class_t
+  ADD CONSTRAINT school_class_t2
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/
+CREATE INDEX school_class_t3 ON school_class_t (
+  club_id
+)
+/
+CREATE INDEX school_class_t4 ON school_class_t (
+  school_grade
+)
+/
+
+--
+-- school_year_t
+--
+ALTER TABLE school_year_t
+  ADD CONSTRAINT school_year_t2
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/
+CREATE INDEX school_year_t3 ON school_year_t (
+  club_id
+)
+/
+CREATE UNIQUE INDEX school_year_t4 ON school_year_t (
+  club_id,
+  start_date
+)
+/
+CREATE SEQUENCE school_class_s
+  MINVALUE 100024
+  CACHE 1 INCREMENT BY 100000
+/
+CREATE SEQUENCE school_year_s
+  MINVALUE 100029
+  CACHE 1 INCREMENT BY 100000
+/
+EOF
+    
     return;
 }
 
