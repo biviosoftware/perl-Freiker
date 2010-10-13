@@ -28,14 +28,11 @@ sub internal_initialize {
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
         visible => [
-	    {
-		name => 'Address.country',
-		constraint => 'NOT_NULL',
-	    },
-	    {
-		name => 'Address.zip',
-		constraint => 'NOT_NULL',
-	    },
+	    $self->field_decl(
+#TODO: need to add street, etc.
+		[qw(Address.zip Address.country)],
+		{constraint => 'NOT_NULL'},
+	    ),
 	],
     });
 }
