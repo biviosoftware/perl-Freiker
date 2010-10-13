@@ -30,91 +30,22 @@ sub audit_clubs {
 	if @$clubs <= 1;
     my($curr_club, $curr_dt) = @{shift(@$clubs)}
 	{qw(RealmUser.realm_id RealmUser.creation_date_time)};
-    my($old_uid, $display)
-	= $req->get('auth_user')->get(qw(realm_id display_name));
+    my($old_uid) = $req->get('auth_user')->get(qw(realm_id));
     my($fid) = $self->model('RealmUser')
 	->unsafe_family_id_for_freiker($old_uid);
-    my($u) = $self->model('User')->unauth_load_or_die({user_id => $old_uid});
-    my($user_values) = {map(($_ => $u->get($_)), qw(gender birth_date))};
+    my($user_values) = _compute_user_values($self, $old_uid);
     foreach my $club (@$clubs) {
 	my($prev_club) = $club->{'RealmUser.realm_id'};
 	$req->with_realm($prev_club, sub {
-	    my($ru) = $self->model('RealmUser')->load({user_id => $old_uid});
-	    my($rides) = $self->model('FreikerClubRideList')->load_all({
-		parent_id => $old_uid,
-	    });
-	    my($switch_date) = $rides->get_result_set_size
-		? $rides->set_cursor_or_die(0)->get('Ride.ride_date')
-		: $ru->get('creation_date_time');
-
-	    my($new_uid) = ($self->model('User')->create_realm({
-		%{$user_values},
-		first_name => $display,
-		last_name => '(' . $_D->to_string($switch_date) . ')',
-		middle_name => '',
-	    }, {}))[0]->get('user_id');
-	    my($v) = $ru->get_shallow_copy;
-	    $ru->delete;
-	    $ru->create({%$v, user_id => $new_uid});
-	    $ru->create({
-		%$v,
-		realm_id => $fid,
-		user_id => $new_uid,
-		role => $_FREIKER,
-	    }) if $fid;
-	    $self->model('RealmDAG')->create({
-		parent_id => $old_uid,
-		child_id => $new_uid,
-		realm_dag_type => $_RECIPROCAL_RIGHTS,
-	    });
-	    $self->model('FreikerCode')->do_iterate(
-		sub {
-		    shift->update({user_id => $new_uid});
-		    return 1;
-		},
-		'freiker_code',
-		{user_id => $old_uid},
-	    );
-	    $rides->do_rows(sub {
-		my($r) = shift->get_model('Ride');
-		my($v) = $r->get_shallow_copy;
-		$r->delete;
-		$r->create({
-		    %$v,
-		    user_id => $new_uid,
-		});
-		return 1;
-	    });
-	    # Only works the first time, that is, all manual rides are copied
-	    # to the most recent school.  Too complicated to bracket the dates,
-	    # and not likely to happen after first release.
-	    $self->model('Ride')->do_iterate(
-		sub {
-		    my($it) = @_;
-		    if ($_DT->compare($it->get('ride_date'), $switch_date) <= 0) {
-			my($v) = $it->get_shallow_copy;
-			$it->delete;
-			$it->create({%$v, user_id => $new_uid});
-		    }
-		    return 1;
-		},
-		'unauth_iterate_start',
-		'ride_date',
-		{user_id => $old_uid, ride_upload_id => undef},
-	    );
-	    foreach my $model (qw(PrizeCoupon PrizeReceipt)) {
-		$self->model($model)->do_iterate(
-		    sub {
-			my($it) = @_;
-			$it->update({user_id => $new_uid})
-			    if $_DT->compare($it->get('creation_date_time'), $curr_dt) < 0;
-			return 1;
-		    },
-		    'unauth_iterate_start',
-		    'creation_date_time',
-		    {user_id => $old_uid},
-		);
-	    }
+	    my($switch_date, $ru, $rides) = _compute_switch_date($self, $old_uid);
+	    my($new_uid) = _update_user($self, $user_values, $switch_date);
+	    _update_realm_user($self, $ru, $new_uid, $fid);
+	    _update_school_classes($self, $old_uid, $new_uid);
+	    _update_freiker_info($self, $old_uid, $new_uid);
+	    _create_realm_dag($self, $old_uid, $new_uid);
+	    _update_freiker_code($self, $old_uid, $new_uid);
+	    _update_rides($self, $old_uid, $new_uid, $rides, $switch_date);
+	    _update_prize($self, $old_uid, $new_uid, $curr_dt);
 	});
     }
     return;
@@ -197,6 +128,161 @@ sub _clubs {
 	    },
 	),
     })];
+}
+
+sub _compute_switch_date {
+    my($self, $old_uid) = @_;
+    my($ru) = $self->model('RealmUser')->load({user_id => $old_uid});
+    my($rides) = $self->model('FreikerClubRideList')->load_all({
+	parent_id => $old_uid,
+    });
+    return (
+	$rides->get_result_set_size
+	    ? $rides->set_cursor_or_die(0)->get('Ride.ride_date')
+	    : $ru->get('creation_date_time'),
+	$ru,
+	$rides,
+    );
+}
+
+sub _compute_user_values {
+    my($self, $old_uid) = @_;
+    my($u) = $self->model('User')->unauth_load_or_die({user_id => $old_uid});
+    my($user_values) = $u->get_shallow_copy;
+    delete($user_values->{user_id});
+    $user_values->{last_name} =~ s/\s*\($_D->TO_STRING_REGEX\)//
+	if $user_values->{last_name};
+    return $user_values;
+}
+
+sub _create_realm_dag {
+    my($self, $old_uid, $new_uid) = @_;
+    $self->model('RealmDAG')->create({
+	parent_id => $old_uid,
+	child_id => $new_uid,
+	realm_dag_type => $_RECIPROCAL_RIGHTS,
+    });
+    return;
+}
+
+sub _update_freiker_code {
+    my($self, $old_uid, $new_uid) = @_;
+    $self->model('FreikerCode')->do_iterate(
+	sub {
+	    shift->update({user_id => $new_uid});
+	    return 1;
+	},
+	'freiker_code',
+	{user_id => $old_uid},
+    );
+    return;
+}
+
+sub _update_freiker_info {
+    my($self, $old_uid, $new_uid) = @_;
+    $self->model('FreikerInfo')->create({
+	%{
+	    $self->model('FreikerInfo')
+		->unauth_load_or_die({user_id => $old_uid})
+		->get_shallow_copy
+	},
+	user_id => $new_uid,
+	modified_date_time => undef,
+    });
+    $self->model('Address')->create({
+	%{
+	    $self->model('Address')
+		->unauth_load_or_die({realm_id => $old_uid})
+		->get_shallow_copy
+	},
+	realm_id => $new_uid,
+    });
+    return;
+}
+
+sub _update_prize {
+    my($self, $old_uid, $new_uid, $curr_dt) = @_;
+    foreach my $model (qw(PrizeCoupon PrizeReceipt)) {
+	$self->model($model)->do_iterate(
+	    sub {
+		my($it) = @_;
+		$it->update({user_id => $new_uid})
+		    if $_DT->compare($it->get('creation_date_time'), $curr_dt) < 0;
+		return 1;
+	    },
+	    'unauth_iterate_start',
+	    'creation_date_time',
+	    {user_id => $old_uid},
+	);
+    }
+    return;
+}
+
+sub _update_realm_user {
+    my($self, $ru, $new_uid, $fid) = @_;
+    my($v) = $ru->get_shallow_copy;
+    $ru->delete;
+    $ru->create({%$v, user_id => $new_uid});
+    $ru->create({
+	%$v,
+	realm_id => $fid,
+	user_id => $new_uid,
+	role => $_FREIKER,
+    }) if $fid;
+    return;
+}
+
+sub _update_rides {
+    my($self, $old_uid, $new_uid, $rides, $switch_date) = @_;
+    $rides->do_rows(sub {
+	my($r) = shift->get_model('Ride');
+	my($v) = $r->get_shallow_copy;
+	$r->delete;
+	$r->create({
+	    %$v,
+	    user_id => $new_uid,
+	});
+	return 1;
+    });
+    # Only works the first time, that is, all manual rides are copied
+    # to the most recent school.  Too complicated to bracket the dates,
+    # and not likely to happen after first release.
+    $self->model('Ride')->do_iterate(
+	sub {
+	    my($it) = @_;
+	    if ($_DT->compare($it->get('ride_date'), $switch_date) <= 0) {
+		my($v) = $it->get_shallow_copy;
+		$it->delete;
+		$it->create({%$v, user_id => $new_uid});
+	    }
+	    return 1;
+	},
+	'unauth_iterate_start',
+	'ride_date',
+	{user_id => $old_uid, ride_upload_id => undef},
+    );
+    return;
+}
+
+sub _update_school_classes {
+    my($self, $old_uid, $new_uid) = @_;
+    return;
+}
+
+sub _update_user {
+    my($self, $user_values, $switch_date) = @_;
+    return (
+	$self->model('User')->create_realm(
+	    {
+		%{$user_values},
+		last_name =>
+		    ($user_values->{last_name} ? ($user_values->{last_name} . ' ')
+			 : '')
+		    . '(' . $_D->to_string($switch_date) . ')',
+	    },
+	    {},
+	),
+    )[0]->get('user_id');
 }
 
 1;
