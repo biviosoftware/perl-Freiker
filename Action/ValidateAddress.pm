@@ -34,7 +34,7 @@ sub execute {
 	    my($it) = @_;
 	    return 1
 		if $addr->unauth_load({realm_id => $it->get('RealmUser.user_id')})
-		&& $addr->get('street2');
+		&& $addr->get('zip');
 	    $uid = $it->get('RealmUser.user_id');
 	    return 0;
 	})
