@@ -9,6 +9,7 @@ my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 my($_FREIKOMETER) = $_FREIKER->FREIKOMETER;
 my($_CLUB) = b_use('Auth.RealmType')->CLUB;
 my($_USER) = $_CLUB->USER;
+my($_SCHOOL_CLASS) = $_CLUB->SCHOOL_CLASS;
 
 sub club_id_for_freiker {
     return _club_id(user_id => @_);
@@ -36,6 +37,16 @@ sub create_freiker_unless_exists {
     return $self->create($v)
 	unless $self->unauth_load($v);
     return $self;
+}
+
+sub unauth_delete_freiker {
+    my($self, $realm_id, $user_id) = @_;
+    $self->unauth_delete({
+	realm_id => $realm_id,
+	user_id => $user_id,
+	role => $_FREIKER,
+    });
+    return;
 }
 
 sub is_registered_freiker {
@@ -91,16 +102,15 @@ sub set_realm_for_freikometer {
 }
 
 sub unsafe_family_id_for_freiker {
-    my($self, $user_id) = @_;
-    return $self->new_other('FreikerRealmList')->map_iterate(
-	sub {
-	    my($it) = @_;
-	    return $it->get('RealmOwner_2.realm_type')->eq_user
-		? shift->get('RealmUser.realm_id') : ();
-	},
-	'unauth_iterate_start',
-	{auth_id => $user_id},
-    )->[0];
+    return _unsafe_realm_ids(shift, $_USER, @_)->[0];
+}
+
+sub unsafe_school_class_for_freiker {
+    my($self) = shift;
+    return _find_class(
+	$self,
+	_unsafe_realm_ids($self, $_SCHOOL_CLASS, @_),
+    );
 }
 
 sub _club_id {
@@ -114,6 +124,18 @@ sub _club_id {
     )->[0] || _not_freiker($self, $which, $value);
 }
 
+sub _find_class {
+    my($self, $realm_ids) = @_;
+    return undef
+	unless @$realm_ids;
+    return $self->req('Model.SchoolClassList')->map_rows(
+	sub {
+	    my($id) = $self->get('SchoolClass.school_class_id');
+	    return grep($id eq $_, @$realm_ids) ? $id : ();
+	},
+    )->[0];
+}
+
 sub _not_freiker {
     my($self, $which, $value) = @_;
     $self->throw_die(MODEL_NOT_FOUND => {
@@ -121,6 +143,19 @@ sub _not_freiker {
 	message => "$which: not a freiker",
     });
     # DOES NOT RETURN
+}
+
+sub _unsafe_realm_ids {
+    my($self, $realm_type, $user_id) = @_;
+    return $self->new_other('FreikerRealmList')->map_iterate(
+	sub {
+	    my($it) = @_;
+	    return $it->get('RealmOwner_2.realm_type') == $realm_type
+		? shift->get('RealmUser.realm_id') : ();
+	},
+	'unauth_iterate_start',
+	{auth_id => $user_id},
+    );
 }
 
 1;
