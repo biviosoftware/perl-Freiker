@@ -499,6 +499,23 @@ sub get_delegate_info {
 	    View.Freiker->code_form
 	    next=CLUB_FREIKER_RIDE_LIST
 	)],
+	[qw(
+	    SCHOOL_CLASS_HOME
+	    554
+	    SCHOOL_CLASS
+	    DATA_READ
+	    Action.ClientRedirect->execute_next
+	    next=SITE_ROOT
+	)],
+	[qw(
+	    CLUB_SCHOOL_CLASS_LIST_FORM
+	    555
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.SchoolClassListForm
+	    View.Club->school_class_list_form
+	    next=CLUB_FREIKER_LIST
+	)],
     ]);
 }
 
