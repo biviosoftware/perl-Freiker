@@ -59,7 +59,20 @@ sub _form {
 		row_control => ["Model.$model", 'allow_club_id'],
 	    }],
 	),
+	["$model.SchoolClass.school_class_id" => {
+	    wf_class => 'Select',
+	    choices => ['Model.SchoolClassList'],
+	    list_id_field => 'SchoolClass.school_class_id',
+	    list_display_field => 'display_name',
+	    unknown_label => 'Select Class',
+	    row_control => And(
+		["Model.$model", 'allow_school_class'],
+		['Model.SchoolClassList', '->get_result_set_size'],
+	    ),
+	}],
 	"$model.User.first_name",
+	"$model.User.middle_name",
+	"$model.User.last_name",
 	"$model.Address.zip",
 	map(
 	    ["$model.$_", {
@@ -67,7 +80,11 @@ sub _form {
 	    }],
 	    qw(miles kilometers),
 	),
-	"-optional",
+	'-optional',
+	"$model.Address.street1",
+	"$model.Address.street2",
+	"$model.Address.city",
+	"$model.Address.state",
 	"$model.birth_year",
         ["$model.User.gender", {class => "radio_grid"}],
     ]));
