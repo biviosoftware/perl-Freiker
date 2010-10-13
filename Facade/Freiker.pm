@@ -82,9 +82,11 @@ my($_SELF) = __PACKAGE__->new({
 	]}],
 	[ThreePartPage_want_SearchForm => 0],
 	[ThreePartPage_want_ForumDropDown => 1],
+	[ThreePartPage_want_dock_left_standard => 1],
     ],
     Task => [
 	[MERCHANT_HOME => '?'],
+	[SCHOOL_CLASS_HOME => '?'],
 	[ADM_FREIKOMETER_LIST => ['adm/zaps', 'adm/freikometers']],
 	[ALL_CLUB_SUMMARY_LIST => ['pub/trip-summary', 'pub/ride-summary']],
 	[BOT_FREIKOMETER_DOWNLOAD => '?/fm-down/*'],
@@ -137,6 +139,7 @@ my($_SELF) = __PACKAGE__->new({
 	[GREEN_GEAR_LIST => '?/green-gears'],
 	[CLUB_RIDE_FILL_FORM => ['?/fill-trips', '?/fill-rides']],
 	[CLUB_FREIKER_PRIZE_DELETE => '?/return-prize'],
+	[CLUB_SCHOOL_CLASS_LIST_FORM => '?/classes'],
 	[USER_ACCEPT_TERMS_FORM => 'bp/Accept_Terms'],
     ],
     Text => [
@@ -154,6 +157,7 @@ my($_SELF) = __PACKAGE__->new({
 	[club_name => 'Official Name'],
 	[freiker_code => q{ZapTag}],
 	[club_id => q{School}],
+	[school_class_id => 'Class'],
 	[ride_count => 'Trips'],
 	[prize_debit => 'Spent'],
 	[prize_credit => 'Credits'],
@@ -165,12 +169,13 @@ my($_SELF) = __PACKAGE__->new({
 	[parent_first_name => 'Parent First Name'],
 	[parent_zip => 'Parent Zip'],
 	[parent_email => 'Email'],
-	[kilometers => 'Kilometers'],
+	[[qw(kilometers distance_kilometers)] => 'Kilometers'],
 	[miles => 'Miles'],
 	['User.gender' => 'Gender'],
-	['birth_year' => q{Year of Birth}],
+	[birth_year => q{Year of Birth}],
 	['User.birth_date' => 'Birthday'],
 	[list_actions => 'Actions'],
+	[school_grade => 'Grade'],
 	[[qw(GroupUserList.privileges_name RoleSelectList.display_name)] => [
 	    FREIKOMETER => 'ZAP',
 	]],
@@ -182,7 +187,7 @@ my($_SELF) = __PACKAGE__->new({
 	     country => 'Country Code',
 	     'country.desc' => 'Official two-letter country code (US, CA, MX, etc.)',
 	     zip => 'Postal Code',
-	     'zip.desc' => q{US kids, please enter your 9-digit US zip code (ZIP+4). Link('Look it up at the USPS.', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});.  Other kids should enter their complete postal code, excluding any country prefix.},
+	     'zip.desc' => q{For US residents, please enter a 9-digit US zip code (ZIP+4). Link('Look it up at the USPS.', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});.  Other users should enter their complete postal code, excluding any country prefix.},
 	]],
 	[ClubRegisterForm => [
 	    'club_size' => 'Number of Students',
@@ -261,6 +266,10 @@ my($_SELF) = __PACKAGE__->new({
 	[PrizeRideCount => [
 	    ride_count => 'Trip Count',
 	]],
+	[[qw(SchoolClassSelectList SchoolClassList)] => [
+	    display_name => __PACKAGE__->init_from_prior_group('school_class_id'),
+	    'RealmOwner.display_name.select'=> 'Select Class',
+	]],
 	[UserRegisterForm => [
 	    prose => [
 		prologue => q{P('In order to better serve you, we validate all email addresses.  When you click Register, we will email you a link which will ask you to set your password.');},
@@ -282,11 +291,13 @@ EOF
 	    'RealmOwner.display_name.desc' => q{Your first and last name, not your business or school's name.},
 	    ok_button => 'I accept. Create my account.',
 	]],
+	['FreikerCodeForm.prose.prologue' => q{If(['Model.FreikerCodeForm', 'in_parent_realm'], Prose(q{Enter the new Boltage Code from the ZapTag on your kid's backpack.  If the ZapTag is missing from your kid's backpack, or you need another ZapTag for a new backpack, vs_wheel_contact<(>)<;>.}), vs_text_as_prose('FreikerForm.prose.prologue'));}],
+	['FreikerForm.prose.prologue' => q{If(['!', 'form_model', 'in_parent_realm'], Link("Click here to edit your school's class list.", 'CLUB_SCHOOL_CLASS_LIST_FORM'));}],
 	[[qw(FreikerForm FreikerCodeForm)] => [
-	    prose => [
-		prologue => q{Enter the new Boltage Code from the ZapTag on your kid's backpack.  If the ZapTag is missing from your kid's backpack, or you need another ZapTag for a new backpack, vs_wheel_contact();.},
-	    ],
-	    'User.first_name' => q{First Name},
+	    'User.first_name' => q{First},
+	    'User.first_name.desc' => q{Only one of First, Middle, or Last is required.},
+	    'User.middle_name' => q{Middle},
+	    'User.last_name' => q{Last},
 	    'birth_year' => q{Year of Birth},
 	    'User.gender' => q{Gender},
 	    kilometers => 'Kilometers to School',
@@ -325,8 +336,8 @@ EOF
 	    optional => 'Optional information used for statistical purposes',
 	]],
 	[[qw(FreikerList ClubFreikerList)] => [
-	    'Address.street2' => 'Distance',
-	    'RealmOwner.display_name' => 'Kid',
+	    [qw(User.first_name display_name)] => 'Kid',
+	    school_class_display_name => 'Teacher',
 	    empty_list_prose => 'No Kids as yet.',
 	]],
 	[FreikerListQueryForm => [
@@ -364,6 +375,10 @@ EOF
 	[UserPasswordQueryForm => [
 	    'prose.prologue' => q{P_prose('Please enter the email address you used to register and click Send.  You will receive an email with a link to reset your password.');},
 	    ok_button => 'Send',
+	]],
+	[[qw(SchoolClassListForm SchoolClassList)] => [
+	    'prose.prologue' => q{To add a class, enter the information in a blank row.  To delete a class, clear the values in the row.},
+	    'RealmOwner.display_name' => 'Teacher',
 	]],
 	[prose => [
 	    wiki_by_line => '',
@@ -453,6 +468,7 @@ EOF
 	    MERCHANT_FILE => 'Files',
 	    CLUB_FREIKER_SELECT => 'Deliver Prize',
 	    CLUB_FREIKER_PRIZE_CONFIRM => 'Confirm Prize Selection',
+	    CLUB_SCHOOL_CLASS_LIST_FORM => 'Classes',
 	    CLUB_FREIKER_PRIZE_SELECT => 'Select Prize',
 	    CLUB_FREIKER_MANUAL_RIDE_FORM => 'Give Trips',
 	    GENERAL_PRIZE_LIST => 'Possible Prizes',
@@ -479,8 +495,8 @@ EOF
 	    merchant => 'Merchant',
 	]],
 	['task_menu.title' => [
-#TODO: Remove 1/15/08
-	    GENERAL_CONTACT => 'Contact',
+	    [qw(sort_001)] => "\0\1",
+	    [qw(sort_002)] => "\0\2",
 	    CLUB_FREIKER_LIST => 'Kids',
 	    CLUB_FREIKER_LIST_CSV => 'Spreadsheet',
 	    CLUB_RIDE_DATE_LIST => 'Trips',
@@ -491,15 +507,11 @@ EOF
 	    FAMILY_FREIKER_LIST => 'Your family',
 	    FAMILY_PRIZE_COUPON_LIST => 'Past prizes',
 	    FAMILY_PRIZE_SELECT => 'Choose prize',
-	    LOGIN => 'Login',
 	    MERCHANT_PRIZE => 'Add prize',
 	    MERCHANT_PRIZE_REDEEM => 'Redeem coupon',
 	    MERCHANT_PRIZE_LIST => 'Donated prizes',
 	    MERCHANT_REGISTER => 'Register new merchant',
 	    PAYPAL_FORM => 'Donate',
-	    SITE_ROOT => 'Home',
-	    USER_CREATE => 'Register',
-	    USER_PASSWORD => 'Account',
 	    back_to_family => 'Your family',
 	    back_to_club => 'Kids',
 	]],

@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Test;
 use strict;
-use Bivio::Base 'Bivio::Test';
+use Bivio::Base 'Bivio';
 use Bivio::Biz::Action;
 use Bivio::Test::ListModel;
 use Bivio::Test::Request;
@@ -72,6 +72,10 @@ sub CHILD_WITHOUT_RIDES {
     return shift->MAX_CHILD_INDEX_WITH_RIDES + 1;
 }
 
+sub COUNTRY {
+    return 'US';
+}
+
 sub NEED_ACCEPT_TERMS {
     return 'need_accept_terms';
 }
@@ -92,6 +96,11 @@ sub SCHOOL_BASE {
     return _string('bunit', @_);
 }
 
+sub SCHOOL_GRADE {
+    return b_use('Type.SchoolGrade')->from_int(_number(2, @_));
+;
+}
+
 sub SCHOOL_NAME {
     my($proto, $which) = @_;
     # Loosely coupled with UserRegisterForm
@@ -110,6 +119,10 @@ sub SPONSOR_NAME {
     my($proto, $which) = @_;
     return $_RN->from_display_name_and_zip(
 	$proto->SPONSOR($which), $proto->ZIP($which));
+}
+
+sub TEACHER {
+    return _string(Lehrer => @_);
 }
 
 sub TEST_NOW {

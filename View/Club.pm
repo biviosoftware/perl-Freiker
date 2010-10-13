@@ -21,12 +21,20 @@ sub freiker_list {
     $self->internal_put_base_attr(vs_freiker_list_selector());
     return $self->internal_body_and_tools(
 	vs_paged_list(ClubFreikerList => [
-	    'RealmOwner.display_name',
+	    ['display_name', {
+		column_order_by => [qw(
+		    User.last_name_sort
+		    User.first_name_sort
+		    User.middle_name_sort
+		)],
+	    }],
 	    'freiker_codes',
 	    'ride_count',
-	    'parent_display_name_sort',
+	    ['parent_display_name', {
+		column_order_by => ['parent_display_name_sort'],
+	    }],
 	    'parent_email',
-            ['Address.street2', {
+            ['FreikerInfo.distance_kilometers', {
 		column_heading => If(
 		    ['->in_miles'],
 		    vs_text('miles'),
@@ -48,26 +56,31 @@ sub freiker_list {
 
 sub freiker_list_csv {
     my($self) = @_;
-    return shift->internal_body(CSV(ClubFreikerList => [qw(
-	RealmOwner.display_name
-	freiker_codes
-	ride_count
-	parent_first_name
-        parent_middle_name
-        parent_last_name
-        parent_zip
-	parent_email),
-        ['Address.street2', {
-	    column_heading => If(
-		['Model.ClubFreikerList', '->in_miles'],
-		vs_text('miles'),
-		vs_text('kilometers'),
-	       ),
-	}], qw(
-        Address.zip
-        User.gender
-        birth_year
-    )]));
+    return shift->internal_body(CSV(ClubFreikerList => [
+	qw(
+	    User.last_name
+	    User.first_name
+	    User.middle_name
+	    freiker_codes
+	    ride_count
+	    parent_first_name
+	    parent_middle_name
+	    parent_last_name
+	    parent_zip
+	    parent_email
+	    FreikerInfo.distance_kilometers
+	    miles
+	    Address.street1
+	    Address.street2
+	    Address.city
+	    Address.state
+	    Address.zip
+	    User.gender
+	    birth_year
+	    school_grade
+	    school_class_display_name
+        ),
+    ]));
 
 }
 
@@ -93,6 +106,7 @@ sub internal_body_and_tools {
 		CLUB_RIDE_FILL_FORM
 		GREEN_GEAR_FORM
 		GREEN_GEAR_LIST
+		CLUB_SCHOOL_CLASS_LIST_FORM
 	    ),
 	], {
 	    want_more_threshold => 2,
@@ -195,9 +209,22 @@ sub register {
 }
 
 sub ride_fill_form {
-     return shift->internal_body_and_tools(
+    return shift->internal_body_and_tools(
 	vs_simple_form(ClubRideFillForm => [
 	    'ClubRideFillForm.Ride.ride_date',
+	]),
+    );
+}
+
+sub school_class_list_form {
+    return shift->internal_body_and_tools(
+	vs_list_form(SchoolClassListForm => [
+	    'SchoolClassListForm.RealmOwner.display_name',
+	    {
+		field => 'SchoolClass.school_grade',
+		unknown_label => 'Select',
+		enum_sort => 'as_int',
+	    },
 	]),
     );
 }
