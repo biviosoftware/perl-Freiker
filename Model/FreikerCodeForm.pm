@@ -1,4 +1,4 @@
-# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2010 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::FreikerCodeForm;
 use strict;
@@ -54,7 +54,10 @@ sub internal_initialize {
 	    },
 	],
 	other => [
-	    $self->field_decl([[qw(allow_club_id Boolean)]]),
+	    $self->field_decl(
+		[qw(allow_club_id in_parent_realm)],
+		'Boolean',
+	    ),
 	],
     });
 }
@@ -63,7 +66,6 @@ sub internal_pre_execute {
     my($self) = @_;
     shift->SUPER::internal_pre_execute(@_);
     $self->new_other('ClubList')->load_all;
-    $self->internal_put_field(allow_club_id => $self->req(qw(auth_realm type))->eq_user);
     $self->internal_put_field('Club.club_id' => $self->req('auth_id'))
 	unless $self->get('allow_club_id');
     return;
@@ -119,7 +121,7 @@ sub _update_user {
     my($ru) = $self->new_other('RealmUser')
 	->create_freiker_unless_exists($curr_uid, $self->get('Club.club_id'));
     $ru->create_freiker_unless_exists($curr_uid, $self->req('auth_id'))
-	if $self->req(qw(auth_realm type))->eq_user;
+	if $self->get('in_parent_realm');
     return
 	if $curr_uid eq $code_uid;
     _iterate_rides($self, $code_uid, sub {
@@ -149,6 +151,9 @@ sub _update_user {
 	);
     }
     $self->new_other('User')->unauth_delete_realm($code_uid);
+#TODO: Implicit coupling.  This will copy existing FreikerInfo, which hasn't
+#      been updated yet, because FreikerForm has not yet updated it yet, which
+#      likely includes a distance calculation
     $self->req->with_user($curr_uid, sub {$_F->audit_clubs});
     return;
 }
