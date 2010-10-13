@@ -50,6 +50,27 @@ CREATE INDEX freiker_code_t7 ON freiker_code_t (
 /
 
 --
+-- freiker_info_t
+--
+CREATE INDEX freiker_info_t2 ON freiker_info_t (
+  user_id
+)
+/
+ALTER TABLE freiker_info_t
+  ADD CONSTRAINT freiker_info_t3
+  FOREIGN KEY (user_id)
+  REFERENCES user_t(user_id)
+/
+CREATE INDEX freiker_info_t4 ON freiker_info_t (
+  modified_date_time
+)
+/
+CREATE INDEX freiker_info_t5 ON freiker_info_t (
+  distance_kilometers
+)
+/
+
+--
 -- green_gear_t
 --
 CREATE INDEX green_gear_t2 ON green_gear_t (
@@ -284,5 +305,40 @@ CREATE INDEX ride_upload_t5 ON ride_upload_t (
 /
 CREATE INDEX ride_upload_t4 ON ride_upload_t (
   creation_date_time
+)
+/
+
+--
+-- school_class_t
+--
+ALTER TABLE school_class_t
+  ADD CONSTRAINT school_class_t2
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/
+CREATE INDEX school_class_t3 ON school_class_t (
+  club_id
+)
+/
+CREATE INDEX school_class_t4 ON school_class_t (
+  school_grade
+)
+/
+
+--
+-- school_year_t
+--
+ALTER TABLE school_year_t
+  ADD CONSTRAINT school_year_t2
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/
+CREATE INDEX school_year_t3 ON school_year_t (
+  club_id
+)
+/
+CREATE UNIQUE INDEX school_year_t4 ON school_year_t (
+  club_id,
+  start_date
 )
 /

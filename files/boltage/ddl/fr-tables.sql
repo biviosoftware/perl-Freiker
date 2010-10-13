@@ -21,6 +21,14 @@ CREATE TABLE freiker_code_t (
 )
 /
 
+CREATE TABLE freiker_info_t (
+  user_id NUMERIC(18) NOT NULL,
+  modified_date_time DATE NOT NULL,
+  distance_kilometers NUMERIC(4,1),
+  CONSTRAINT freiker_info_t1 PRIMARY KEY(user_id)
+)
+/
+
 CREATE TABLE green_gear_t (
   green_gear_id NUMERIC(18) NOT NULL,
   club_id NUMERIC(18) NOT NULL,
@@ -100,5 +108,22 @@ CREATE TABLE ride_upload_t (
   creation_date_time DATE NOT NULL,
   freikometer_user_id NUMERIC(18) NOT NULL,
   CONSTRAINT ride_upload_t1 PRIMARY KEY(ride_upload_id)
+)
+/
+
+CREATE TABLE school_class_t (
+  school_class_id NUMERIC(18) NOT NULL,
+  club_id NUMERIC(18) NOT NULL,
+  school_year_id NUMERIC(18) NOT NULL,
+  school_grade NUMERIC(2) NOT NULL,
+  CONSTRAINT school_class_t1 primary key(school_class_id)
+)
+/
+
+CREATE TABLE school_year_t (
+  school_year_id NUMERIC(18) NOT NULL,
+  club_id NUMERIC(18) NOT NULL,
+  start_date DATE NOT NULL,
+  CONSTRAINT school_year_t1 primary key(school_year_id)
 )
 /
