@@ -21,6 +21,8 @@ follow_link('register_kid');
 verify_no_text(qr{kilometers to school}i);
 submit_form({
     first => 'Bobby',
+    middle => 'Joe',
+    last => 'Boy',
     '^zaptag' => '1237',
     '^school' => 'bunit Elementary',
     birth => '1999',
@@ -34,7 +36,7 @@ submit_form({
     '^zaptag' => '1238',
     '^school' => 'bunit Elementary',
 });
-verify_text('Bobby (1238, 1237)');
+verify_text('Bobby Joe Boy (1238, 1237)');
 follow_link('missing');
 my($d) = test_use('Type.Date');
 my($now) = get_test_now_as_date();
@@ -67,7 +69,7 @@ test_conformance();
 do_logout();
 login_as('1237');
 follow_link('bobby');
-verify_text('Bobby (1238, 1237)');
+verify_text('Bobby Joe Boy (1238, 1237)');
 do_logout();
 test_deviance(qr{not.*registered.*please.*click}i);
 login_as('1239');
