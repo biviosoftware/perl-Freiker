@@ -1,4 +1,4 @@
-# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2010 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 my($today, $child_id, $school_id) = do('./RideList.PL');
 my($_D) = class('Type.Date');
@@ -59,8 +59,10 @@ my($other) = {
 	    'Address.zip' => Freiker::Test->ZIP,
 	},
 	'Model.Address' => {
-	    street2 => '2.4',
 	    zip => Freiker::Test->ZIP,
+	},
+	'Model.FreikerInfo' => {
+	    distance_kilometers => '2.4',
 	},
     }],
     empty_case({
