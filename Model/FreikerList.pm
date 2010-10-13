@@ -13,13 +13,13 @@ my($_USER) = b_use('Auth.Role')->USER->as_sql_param;
 my($_YQ) = b_use('Type.YearQuery');
 my($_B) = b_use('Type.Boolean');
 my($_DATE) = $_D->to_sql_value('?');
-my($_LOCATION) = b_use('Model.Address')->DEFAULT_LOCATION;
+my($_LOCATION) = b_use('Model.Address')->DEFAULT_LOCATION->as_sql_param;
 my($_PARENT_EMAIL) = <<"EOF";
 (SELECT e.email
     FROM realm_owner_t ro, realm_user_t ru, email_t e
     WHERE ro.realm_type = @{[b_use('Auth.RealmType')->USER->as_sql_param]}
     AND ru.role = $_FREIKER
-    AND e.location = @{[$_LOCATION->as_sql_param]}
+    AND e.location = $_LOCATION
     AND ru.realm_id = ro.realm_id
     AND realm_user_t.user_id = ru.user_id
     AND e.realm_id = ro.realm_id
@@ -65,12 +65,14 @@ sub internal_initialize {
 	can_iterate => 1,
 	want_page_count => 0,
 	primary_key => [
-	    [qw(RealmUser.user_id RealmOwner.realm_id User.user_id)],
+	    [qw(RealmUser.user_id RealmOwner.realm_id User.user_id FreikerInfo.user_id Address.realm_id)],
 	],
 	order_by => [
-	    'RealmOwner.display_name',
+	    'User.last_name_sort',
+	    'User.first_name_sort',
+	    'User.middle_name_sort',
  	    {
- 		name => "parent_display_name_sort",
+ 		name => 'parent_display_name_sort',
  		type => 'DisplayName',
  		constraint => 'NONE',
  		select_value => "(SELECT COALESCE(u.last_name,'') || '!!!' || COALESCE(u.first_name,'') || '!!!' || COALESCE(u.middle_name,'')
@@ -109,16 +111,25 @@ sub internal_initialize {
 		select_value => "$_PARENT_EMAIL AS parent_email",
 		sort_order => 0,
 	    },
-	    'Address.street2',
+	    'FreikerInfo.distance_kilometers',
 	    'Address.zip',
 	    'User.first_name',
 	    'User.gender',
 	    'User.birth_date',
 
 	],
-	other_query_keys => [qw(fr_trips fr_year fr_registered
-                                fr_begin fr_end)],
+	other_query_keys => [qw(
+	    fr_trips
+	    fr_year
+	    fr_registered
+	    fr_begin
+	    fr_end
+	)],
 	other => [
+	    'Address.street1',
+	    'Address.street2',
+	    'Address.city',
+	    'Address.state',
  	    map(+{
  		name => "parent_${_}_name",
  		type => 'Name',
@@ -149,66 +160,81 @@ sub internal_initialize {
                      FROM realm_user_t ru, address_t a, realm_owner_t ro
                      WHERE ru.role = $_FREIKER
                      AND ru.realm_id = a.realm_id
-                     AND a.location = @{[$_LOCATION->as_sql_param]}
+                     AND a.location = $_LOCATION
                      AND realm_user_t.user_id = ru.user_id
                      AND ru.realm_id = ro.realm_id
                      AND ro.realm_type = $_USER
                  ) AS parent_zip",
 	    },
-	    {
-		name => 'can_select_prize',
-		type => 'Boolean',
-		constraint => 'NOT_NULL',
-	    },
-	    {
-		name => 'prize_select_list',
-		type => 'Model.PrizeSelectList',
-		constraint => 'NOT_NULL',
-	    },
+ 	    {
+ 		name => 'school_class_display_name',
+ 		type => 'DisplayName',
+ 		constraint => 'NONE',
+ 		select_value => "(select ro.display_name
+                     FROM realm_user_t ru, school_class_t sc, realm_owner_t ro, school_year_t sy
+                     WHERE ru.role = $_FREIKER
+                     AND realm_user_t.user_id = ru.user_id
+                     AND ru.realm_id = sc.school_class_id
+                     AND sc.school_class_id = ro.realm_id
+                     AND sc.school_year_id = sy.school_year_id
+                     AND sy.start_date = $_DATE
+                 ) AS school_class_display_name",
+ 	    },
+ 	    {
+ 		name => 'school_grade',
+ 		type => 'SchoolGrade',
+ 		constraint => 'NONE',
+ 		select_value => "(select school_grade
+                     FROM realm_user_t ru, school_class_t sc, school_year_t sy
+                     WHERE ru.role = $_FREIKER
+                     AND realm_user_t.user_id = ru.user_id
+                     AND ru.realm_id = sc.school_class_id
+                     AND sc.school_year_id = sy.school_year_id
+                     AND sy.start_date = $_DATE
+                 ) AS school_grade",
+ 	    },
 	    {
 		name => 'RealmUser.role',
 		in_select => 0,
 	    },
+	    $self->field_decl(
+		[
+		    [qw(can_select_prize Boolean)],
+		    [qw(prize_select_list Model.PrizeSelectList)],
+		    [qw(freiker_codes StringArray)],
+		    [qw(birth_year Year NONE)],
+		    [qw(miles Miles)],
+		    [qw(display_name DisplayName)],
+		],
+		'NOT_NULL',
+	    ),
 	    {
-		name => 'freiker_codes',
-		type => 'StringArray',
-		constraint => 'NOT_NULL',
+		name => 'Address.location',
+		in_select => 0,
 	    },
- 	    {
- 		name => 'birth_year',
- 		type => 'Year',
- 		constraint => 'NONE',
- 	    },
-	    $self->field_decl([qw(
-		Address.realm_id
-		Address.location
-	    )], {in_select => 0}),
 	],
 	group_by => [qw(
 	    RealmUser.user_id
 	    RealmOwner.display_name
 	    RealmUser.realm_id
-	    Address.street2
 	    Address.country
+	    RealmOwner.display_name
+	    Address.street1
+	    Address.street2
+	    Address.city
+	    Address.state
             Address.zip
             User.first_name
+            User.first_name_sort
             User.middle_name
+            User.middle_name_sort
             User.last_name
+            User.last_name_sort
             User.gender
             User.birth_date
+	    FreikerInfo.distance_kilometers
         )],
-	from => <<"EOF",
-            FROM @{[join(',', @{$self->internal_initialize_from_tables})]},
-            realm_user_t LEFT JOIN address_t ON (
-	        address_t.location = @{[$_LOCATION->as_sql_param]}
-		AND address_t.realm_id = realm_user_t.user_id
-	    )
-EOF
     });
-}
-
-sub internal_initialize_from_tables {
-    return [qw(realm_owner_t user_t)];
 }
 
 sub internal_post_load_row {
@@ -220,10 +246,13 @@ sub internal_post_load_row {
     );
     $row->{birth_year} = $row->{'User.birth_date'}
  	&& $_D->get_parts($row->{'User.birth_date'}, 'year');
-    $row->{'Address.street2'} = $_K->to_miles($row->{'Address.street2'})
-       if $row->{'Address.street2'} && $self->in_miles;
+    $row->{miles} = $row->{'FreikerInfo.distance_kilometers'}
+	&& $_K->to_miles($row->{'FreikerInfo.distance_kilometers'});
     $row->{'User.gender'} = undef
        if $row->{'User.gender'} && $row->{'User.gender'}->eq_unknown ;
+    $row->{display_name} = $_U->concat_last_first_middle(
+	@$row{qw(User.last_name User.first_name User.middle_name)},
+    );
     return 1;
 }
 
@@ -245,14 +274,19 @@ sub internal_pre_load {
 	$x->{$which} = ($_D->from_literal($v))[0]
 	    || $x->{$which};
     }
+    my($sy_date) = $self->new_other('SchoolYear')
+	->this_year_start_date;
     unshift(
 	@$params,
 	map(@$x{qw(begin_date date)}, 1..4),
+	$sy_date,
+	$sy_date,
 	$self->req('auth_id'),
     );
     my($where) = shift->SUPER::internal_pre_load(@_);
     return join(
 	' AND ',
+	"address_t.location = $_LOCATION",
         'realm_user_t.realm_id = ?',
 	"realm_user_t.role = $_FREIKER",
 	_get_from_query($self, 'fr_registered') ? "$_PARENT_EMAIL IS NOT NULL"
