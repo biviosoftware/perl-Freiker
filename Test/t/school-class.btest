@@ -1,0 +1,27 @@
+# Copyright (c) 2010 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+home_page();
+do_test_backdoor(TestData => 'reset_freikers');
+login_as('wheel');
+follow_link('register_kid');
+verify_no_text(qr{\bClass:});
+follow_link('class_list');
+submit_form(OK => {
+    Teacher_0 => my $t1 = random_string(),
+    Grade_0 => '1st',
+    Teacher_1 => my $t2 = random_string(),
+    Grade_1 => '2nd',
+});
+submit_form({
+    tag => '1237',
+    class => qr{$t1},
+    first => my $kid = random_string(),
+    miles => 3,
+});
+follow_link('kids');
+follow_link_in_table(qw(kid kid), $kid, qw(action info));
+submit_form({
+    class => qr{$t2},
+});
+    

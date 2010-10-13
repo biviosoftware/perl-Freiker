@@ -1,0 +1,30 @@
+# Copyright (c) 2010 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+ListModel();
+my($today) = do('./SetupRides.PL');
+[
+    load_all => [
+        [] => [
+	    map({
+		my($sg, $dn) = Bivio_Test()->CHILD ne $_ ? (undef, undef)
+		    : (Bivio_Test()->SCHOOL_GRADE, Bivio_Test()->TEACHER);
+		+{
+		    'RealmOwner.display_name' => $_,
+		    school_grade => $sg,
+		    school_class_display_name => $dn,
+		},
+	    }
+		qw(
+		    1237
+		    1238
+		    1239
+		    1242
+		    child
+		    child1
+		    child6
+		    child7
+		),
+	    ),
+	],
+    ],
+];

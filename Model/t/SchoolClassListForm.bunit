@@ -1,0 +1,28 @@
+# Copyright (c) 2010 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+FormModel({
+    comparator => 'nested_contains',
+    compute_return => sub {
+	return model('SchoolClassList')->load_with_school_year->map_rows;
+    },
+});
+req()->set_realm('bunit1123456790');
+[
+    map({
+	my($in, $out) = @$_;
+	my($i) = 0;
+	[{
+	    empty_row_count => 3,
+	    map((
+		"RealmOwner.display_name_$i" => $_->[0],
+		'SchoolClass.school_grade_' . $i++ => $_->[1] && SchoolGrade($_->[1]),
+	    ), @$in),
+	}] => sub {[map(+{display_name => $_}, @$out)]},
+    } [
+        [[qw(Mary G_1)]] => ['1st Mary'],
+    ], [
+        [[qw(Larry G_2)]] => ['2nd Larry'],
+    ], [
+        [[undef, undef], [qw(Clark G_3)], [qw(Bob G_4)]] => ['3rd Clark', '4th Bob'],
+    ]),
+];
