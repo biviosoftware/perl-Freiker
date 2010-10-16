@@ -230,10 +230,17 @@ sub reset_freikers {
     if ($which == 0) {
 	$self->model('SchoolClassListForm')
 	    ->process({
-		'RealmOwner.display_name_0' => $_T->TEACHER(0),
-		'SchoolClass.school_grade_0' => $_T->SCHOOL_GRADE(0),
+		map(
+		    (
+			"RealmOwner.display_name_$_" => $_T->TEACHER($_),
+			"SchoolClass.school_grade_$_" => $_T->SCHOOL_GRADE($_),
+		    ),
+		    0..2,
+		),
 	    });
-	$scid = $self->req('Model.SchoolClass', 'school_class_id');
+	$scid ||= $self->model('SchoolClass')
+	    ->load({school_grade => $_T->SCHOOL_GRADE(0)})
+	    ->get('school_class_id');
     }
     foreach my $index (@$indexes) {
 	my($code) = $_T->FREIKER_CODE($index, $which);
