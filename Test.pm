@@ -98,7 +98,6 @@ sub SCHOOL_BASE {
 
 sub SCHOOL_GRADE {
     return b_use('Type.SchoolGrade')->from_int(_number(2, @_));
-;
 }
 
 sub SCHOOL_NAME {
