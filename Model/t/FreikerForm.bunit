@@ -1,0 +1,120 @@
+# Copyright (c) 2010 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+FormModel();
+shell_util(TestData => ['reset_all_freikers']);
+my($school_class_id) = sub {
+    my($index) = @_;
+    return model('SchoolClass', {school_grade => Freiker_Test()->SCHOOL_GRADE($index)})
+	->get('school_class_id');
+};
+[
+    req_state({
+	user => Freiker_Test()->PARENT,
+	realm => Freiker_Test()->PARENT,
+	task => sub {
+	    model('FreikerRideList')
+		->load_all({parent_id => realm_id(Freiker_Test()->CHILD)});
+	    return 'FAMILY_FREIKER_EDIT';
+	},
+    }),
+    [{
+	'User.gender' => Type_Gender()->MALE,
+	birth_year => 1999,
+	'User.first_name' => 'First1',
+	'User.middle_name' => 'Middle1',
+	'User.last_name' => 'Last1',
+	'Address.zip' => '555554444',
+	'Address.state' => 'CO',
+	miles => 7,
+	# Should be ignored
+	kilometers => 9,
+	'SchoolClass.school_class_id' => $school_class_id->(2),
+    }] => [{
+	'Model.RealmOwner' => {
+	    display_name => 'First1 Middle1 Last1',
+	},
+	'Model.User' => {
+	    gender => Type_Gender()->MALE,
+	    first_name => 'First1',
+	    last_name => 'Last1',
+	},
+	'Model.Address' => {
+	    zip => '555554444',
+	    state => 'CO',
+	},
+	'Model.FreikerInfo' => {
+	    distance_kilometers => '11.3',
+	},
+    }],
+    empty_case({
+	# verify other
+	allow_club_id => 1,
+	allow_school_class => 0,
+	in_miles => 1,
+	in_parent_realm => 1,
+	'Address.country' => 'US',
+	'User.middle_name' => 'Middle1',
+	miles => '7.0',
+	'Address.state' => 'CO',
+	'User.gender' => Type_Gender()->MALE,
+	birth_year => 1999,
+	'SchoolClass.school_class_id' => undef,
+    }),
+    req_state_merge({
+	user => Freiker_Test()->WHEEL,
+	realm => Freiker_Test()->SCHOOL_NAME,
+	task => sub {
+	    model('FreikerRideList')
+		->load_all({parent_id => realm_id(Freiker_Test()->CHILD)});
+	    return 'CLUB_FREIKER_EDIT';
+	},
+    }),
+    empty_case({
+	# verify other
+	allow_club_id => 0,
+	allow_school_class => 1,
+	in_miles => 1,
+	in_parent_realm => 0,
+	'Address.country' => 'US',
+	'User.last_name' => 'Last1',
+	'Address.state' => 'CO',
+	'SchoolClass.school_class_id' => $school_class_id->(0),
+    }),
+    [{
+	'User.gender' => Type_Gender()->FEMALE,
+	birth_year => 2001,
+	'User.first_name' => 'First2',
+	'Address.zip' => '888889999',
+	'Address.state' => 'NM',
+	miles => 8,
+	'SchoolClass.school_class_id' => $school_class_id->(2),
+    }] => [{
+	'Model.RealmOwner' => {
+	    display_name => 'First2',
+	},
+	'Model.User' => {
+	    gender => Type_Gender()->FEMALE,
+	},
+	'Model.Address' => {
+	    zip => '888889999',
+	    state => 'NM',
+	},
+	'Model.FreikerInfo' => {
+	    distance_kilometers => '12.9',
+	},
+    }],
+    empty_case({
+	'SchoolClass.school_class_id' => $school_class_id->(2),
+    }),
+    [{
+	'User.gender' => Type_Gender()->MALE,
+	'User.first_name' => 'First3',
+	'Address.zip' => '888889999',
+	'Address.state' => 'NM',
+	miles => 8,
+	'SchoolClass.school_class_id' => undef,
+    }] => not_die(),
+    empty_case({
+	'SchoolClass.school_class_id' => undef,
+    }),
+];
