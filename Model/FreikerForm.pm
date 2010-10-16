@@ -179,19 +179,21 @@ sub _is_us {
 }
 
 sub _update_school_class {
-    my($self, $curr_uid) = @_;
+    my($self) = @_;
     return
 	unless $self->get('allow_school_class');
+    my($curr_uid) = $self->get('FreikerCode.user_id');
     my($new) = $self->unsafe_get('SchoolClass.school_class_id');
     my($ru) = $self->new_other('RealmUser');
-    unless (
+    if (
 	my $curr = $self->unsafe_get('curr.SchoolClass.school_class_id')
     ) {
 	return
-	    if $_PI->is_equal($curr, $new);
+	    if $new && $_PI->is_equal($curr, $new);
 	$ru->unauth_delete_freiker($curr, $curr_uid);
     }
-    $ru->create_freiker_unless_exists($curr_uid, $new);
+    $ru->create_freiker_unless_exists($curr_uid, $new)
+	if $new;
     return;
 }
 
