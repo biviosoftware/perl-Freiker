@@ -34,12 +34,11 @@ sub freiker_list {
 		column_order_by => ['parent_display_name_sort'],
 	    }],
 	    'parent_email',
+	    ['miles', {
+		column_control => ['Model.ClubFreikerList', '->in_miles'],
+	    }],
             ['FreikerInfo.distance_kilometers', {
-		column_heading => If(
-		    ['->in_miles'],
-		    vs_text('miles'),
-		    vs_text('kilometers'),
-	        ),
+		column_control => ['!', 'Model.ClubFreikerList', '->in_miles'],
 	    }],
             'User.gender',
 	    'birth_year',
