@@ -130,7 +130,7 @@ sub _find_class {
 	unless @$realm_ids;
     return $self->req('Model.SchoolClassList')->map_rows(
 	sub {
-	    my($id) = $self->get('SchoolClass.school_class_id');
+	    my($id) = shift->get('SchoolClass.school_class_id');
 	    return grep($id eq $_, @$realm_ids) ? $id : ();
 	},
     )->[0];
