@@ -6,6 +6,7 @@ use Bivio::Base 'Biz.ExpandableListFormModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
+my($_IDI) = __PACKAGE__->instance_data_index;
 
 sub MUST_BE_SPECIFIED_FIELDS {
     return [
@@ -77,4 +78,21 @@ sub internal_initialize_list {
     return shift->SUPER::internal_initialize_list(@_);
 }
 	
+sub validate_row {
+    my($self) = @_;
+    return
+	if $self->get_field_error('RealmOwner.display_name')
+	|| !defined(my $dn = $self->unsafe_get('RealmOwner.display_name'));
+    my($fields) = $self->[$_IDI];
+    $self->internal_put_error('RealmOwner.display_name' => 'EXISTS')
+	if $fields->{lc($dn)}++;
+    return;
+}
+
+sub validate_start {
+    my($self) = @_;
+    $self->[$_IDI] = {};
+    return;
+}
+
 1;

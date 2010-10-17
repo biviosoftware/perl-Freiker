@@ -25,4 +25,13 @@ req()->set_realm('bunit1123456790');
     ], [
         [[undef, undef], [qw(Clark G_3)], [qw(Bob G_4)]] => ['3rd Clark', '4th Bob'],
     ]),
+    error_case({
+	empty_row_count => 1,
+	'RealmOwner.display_name_0' => 'Mary',
+	'SchoolClass.school_grade_0' => SchoolGrade('G_1'),
+	'RealmOwner.display_name_1' => 'mary',
+	'SchoolClass.school_grade_1' => SchoolGrade('G_1'),
+    }, {
+	'RealmOwner.display_name_1' => 'EXISTS',
+    }),
 ];
