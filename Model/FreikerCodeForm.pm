@@ -63,12 +63,16 @@ sub internal_initialize {
 }
 
 sub internal_pre_execute {
-    my($self) = @_;
-    shift->SUPER::internal_pre_execute(@_);
-    $self->new_other('ClubList')->load_all;
-    $self->internal_put_field('Club.club_id' => $self->req('auth_id'))
-	unless $self->get('allow_club_id');
-    return;
+    return shift->call_super_before(
+	\@_,
+	sub {
+	    my($self) = @_;
+	    $self->new_other('ClubList')->load_all;
+	    $self->internal_put_field('Club.club_id' => $self->req('auth_id'))
+		unless $self->get('allow_club_id');
+	    return;
+	},
+    );
 }
 
 sub validate {
