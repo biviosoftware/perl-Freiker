@@ -249,7 +249,7 @@ sub internal_post_load_row {
     $row->{miles} = $row->{'FreikerInfo.distance_kilometers'}
 	&& $_K->to_miles($row->{'FreikerInfo.distance_kilometers'});
     $row->{'User.gender'} = undef
-       if $row->{'User.gender'} && $row->{'User.gender'}->eq_unknown ;
+       if $row->{'User.gender'} && $row->{'User.gender'}->eq_unknown;
     $row->{display_name} = $_U->concat_last_first_middle(
 	@$row{qw(User.last_name User.first_name User.middle_name)},
     );
