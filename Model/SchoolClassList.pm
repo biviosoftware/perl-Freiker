@@ -9,6 +9,11 @@ my($_SY) = b_use('Model.SchoolYear');
 my($_IDI) = __PACKAGE__->instance_data_index;
 my($_UNSPECIFIED_VALUE) = b_use('Type.PrimaryId')->UNSPECIFIED_VALUE;
 
+sub find_by_teacher_name {
+    my($self, $teacher_name) = @_;
+    return $self->find_row_by(teacher_name_lc => lc($teacher_name));
+}
+
 sub find_row_by_id {
     my($self, $id) = @_;
     return $self->find_row_by('SchoolClass.school_class_id', $id);
@@ -29,12 +34,10 @@ sub internal_initialize {
 	    RealmOwner.display_name
 	)],
 	other => [
-	    {
-		name => 'display_name',
-		type => 'DisplayName',
-		constraint => 'NONE',
-	    },
-	    
+	    $self->field_decl([
+		[qw(display_name DisplayName)],
+		[qw(teacher_name_lc DisplayName)],
+	    ]),
 	],
 	auth_id => 'SchoolClass.club_id',
     });
@@ -48,6 +51,7 @@ sub internal_post_load_row {
     $row->{display_name}
 	= ($sg ? $sg->get_short_desc . ' ' : '')
 	. $row->{'RealmOwner.display_name'};
+    $row->{teacher_name_lc} = lc($row->{'RealmOwner.display_name'});
     return 1;
 }
 
