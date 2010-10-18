@@ -44,6 +44,7 @@ my($_SELF) = __PACKAGE__->new({
 	    EXISTS => q{The vs_fe('label'); is already assigned to a kid.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.If(['->is_substitute_user'], SPAN_sui(' To force the assignment, resubmit the form.'));},
 	    MUTUALLY_EXCLUSIVE => q{The vs_fe(q{label}); was scanned on vs_fe(q{detail}); when your kid also rode with his old vs_fe(q{label});.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.If(['->is_substitute_user'], SPAN_sui(' To force the assignment, resubmit the form.'));},
 	]],
+	['SchoolClassListForm.RealmOwner.display_name.EXISTS' => q{A teacher with name appears above.  Teachers' names must be unique.}],
 	['ClubRegisterForm.Website.url.EXISTS' => q{This school's website is already registered.  Please try to find the volunteer at your school.}],
 	['ClubRegisterForm.club_name.EXISTS' => q{Your school is already registered.  Please try to find the volunteer at your school.}],
 	['email.EXISTS' => q{This email is already registered with vs_site_name();.  Link('Click here to login.', 'LOGIN', {no_context => 1});}],
@@ -141,6 +142,8 @@ my($_SELF) = __PACKAGE__->new({
 	[CLUB_FREIKER_PRIZE_DELETE => '?/return-prize'],
 	[CLUB_SCHOOL_CLASS_LIST_FORM => '?/classes'],
 	[USER_ACCEPT_TERMS_FORM => 'bp/Accept_Terms'],
+	[CLUB_FREIKER_IMPORT_EMPTY_CSV => '?/import-kids.csv'],
+	[CLUB_FREIKER_IMPORT_FORM => '?/import-kids'],
     ],
     Text => [
 	[support_email => 'info@boltage.org'],
@@ -310,6 +313,20 @@ EOF
 	[FreikerForm => [
 	    ok_button => 'Update Info',
 	]],
+	[FreikerImportForm => [
+	    'prose.prologue' => q{Use this form to register a group of kids in one go.  Link('Click here for the sample spreadsheet', 'CLUB_FREIKER_IMPORT_EMPTY_CSV');.  You may want Link("to edit your school's class list before uploading", 'CLUB_SCHOOL_CLASS_LIST_FORM');.},
+	    source => 'CSV File',
+	    ok_button => 'Import Kids',
+	    error => [
+		both_kilometers_miles => 'only one of Kilometers or Miles may be specified',
+		none_kilometers_miles => 'one of Kilometers or Miles must be specified',
+		teacher_not_found =>  'Teacher not found in list of classes',
+		freiker_code_not_found => 'ZapTag not found in the database',
+		freiker_code_already_registered => 'ZapTag is already assigned to a kid',
+		country_null => 'Country must be specified for first kid',
+		zip9_invalid => 'US Zip codes must be 9 digits (ZIP+4)',
+	    ],
+	]],
 	[ClubManualRideForm => [
 	    add_days => 'Number of Days',
 	    ok_button => 'Give trips',
@@ -476,6 +493,7 @@ EOF
 	    GREEN_GEAR_LIST => 'Weekly Winners',
 	    GREEN_GEAR_FORM => 'Choose Weekly Winner',
 	    CLUB_FREIKER_PRIZE_DELETE => q{Return Prize for String([qw(Model.ClubPrizeCouponList ->get_display_name)]);},
+	    CLUB_FREIKER_IMPORT_FORM => 'Import Kids',
 	]],
 	['xhtml.title' => [
 	    [qw(FAMILY_FREIKER_RIDE_LIST CLUB_FREIKER_RIDE_LIST)]

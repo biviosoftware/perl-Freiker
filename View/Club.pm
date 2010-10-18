@@ -7,11 +7,11 @@ use Bivio::UI::ViewLanguageAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
-sub ride_date_list {
+sub freiker_import_form {
+    my($self) = @_;
     return shift->internal_body_and_tools(
-	vs_paged_list(ClubRideDateList => [
-	    'Ride.ride_date',
-	    'ride_count',
+	vs_simple_form(FreikerImportForm => [
+	    'FreikerImportForm.source',
 	]),
     );
 }
@@ -106,6 +106,7 @@ sub internal_body_and_tools {
 		GREEN_GEAR_FORM
 		GREEN_GEAR_LIST
 		CLUB_SCHOOL_CLASS_LIST_FORM
+		CLUB_FREIKER_IMPORT_FORM
 	    ),
 	], {
 	    want_more_threshold => 2,
@@ -205,6 +206,15 @@ sub register {
 	ClubRegisterForm.Address.zip
 	ClubRegisterForm.Address.country
     }]));
+}
+
+sub ride_date_list {
+    return shift->internal_body_and_tools(
+	vs_paged_list(ClubRideDateList => [
+	    'Ride.ride_date',
+	    'ride_count',
+	]),
+    );
 }
 
 sub ride_fill_form {
