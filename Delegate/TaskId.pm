@@ -512,8 +512,27 @@ sub get_delegate_info {
 	    555
 	    CLUB
 	    ADMIN_READ&ADMIN_WRITE
+	    Model.Lock
 	    Model.SchoolClassListForm
 	    View.Club->school_class_list_form
+	    next=CLUB_FREIKER_LIST
+	)],
+	[qw(
+	    CLUB_FREIKER_IMPORT_EMPTY_CSV
+	    556
+	    CLUB
+	    ADMIN_READ
+	    Model.FreikerImportForm->execute_empty_csv
+	    next=CLUB_FREIKER_IMPORT_EMPTY_CSV
+	)],
+	[qw(
+	    CLUB_FREIKER_IMPORT_FORM
+	    557
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.Lock
+	    Model.FreikerImportForm
+	    View.Club->freiker_import_form
 	    next=CLUB_FREIKER_LIST
 	)],
     ]);
