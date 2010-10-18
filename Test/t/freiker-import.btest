@@ -1,0 +1,21 @@
+# Copyright (c) 2009 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+login_as('wheel');
+follow_link('import_kids');
+my($csv) = sub {
+    my($kid) = @_;
+    return {
+	csv => file_field('kids.csv', <<"EOF"),
+FirstName,MiddleName,LastName,ZapTag,Country,PostalCode,Miles,Kilometers,Street1,Street2,City,State,BirthYear,Gender,Teacher
+$kid
+EOF
+    };
+};
+my($first) = random_string();
+submit_form($csv->("$first,y,z,1237,us,121212127,,8"));
+verify_text($first);
+follow_link('import_kids');
+my($args) = $csv->("x,y,z,1238,,121212127");
+test_deviance(qr{kilometers or miles.*country must}is);
+submit_form($args);

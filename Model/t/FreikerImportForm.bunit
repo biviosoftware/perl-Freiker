@@ -1,0 +1,51 @@
+# Copyright (c) 2010 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+FormModel();
+require('./SetupRides.PL');
+my($header) = "FirstName,MiddleName,LastName,ZapTag,Country,PostalCode,Miles,Kilometers,Street1,Street2,City,State,BirthYear,Gender,Teacher\n";
+req()->set_user(Freiker_Test()->PARENT);
+my($teacher) = Freiker_Test()->TEACHER(2);
+[
+    EMPTY_CSV => $header,
+    [{
+	source => file_field(<<"EOF"),
+$header
+x1,,,1238,us,123456789,10
+A,B,C,1237,,191919191,5,,s1,,,,1975,,$teacher
+EOF
+    }] => [{
+	'Model.RealmOwner' => {
+	    display_name => 'A B C',
+	},
+	'Model.Address' => {
+	    street1 => 's1',
+	    zip => '191919191',
+	    country => 'US',
+	},
+	'Model.User' => {
+	    birth_date => Date('1/1/1975'),
+	},
+	'Model.RealmUser' => {
+	    realm_id => realm_id($teacher),
+	},
+	'Model.FreikerInfo' => {
+	    distance_kilometers => '8.0',
+	},
+    }],
+    map(
+	error_case(
+	    {
+		source => file_field("$header$_->[0]\n"),
+	    },
+	    {
+		source => qr{$_->[1]}i,
+	    },
+	),
+	['x,,,1237,US,123456789,1' => 'already assigned'],
+	['x,,,1238,US,123456789' => 'Kilometers or Miles'],
+	['x,,,1238,US,123456789,1,,,,,,,,No Such Teacher' => 'teacher not found'],
+	['x,,,1238,,123456789,1,,,,,,,,No Such Teacher' => 'country must be specified'],
+	['x,,,1238,,123456789,1' => 'country must be specified'],
+	['x,,,1238,US,12345,1' => 'zip\+4'],
+    ),
+];
