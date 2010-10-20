@@ -32,11 +32,4 @@ sub internal_initialize {
     });
 }
 
-sub internal_prepare_statement {
-    my($self, $stmt) = @_;
-    $stmt->where(
-	$stmt->GT('Ride.ride_date', [$_D->add_days($_D->now, -60)]));
-    return;
-}
-
 1;

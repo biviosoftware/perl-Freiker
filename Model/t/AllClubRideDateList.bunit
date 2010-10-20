@@ -5,7 +5,9 @@ do('./SetupRides.PL');
 req()->set_realm(undef);
 [
     load_all => [
-	[] => [
+	[{
+	    begin_date => Date()->add_days(Date()->now, -59),
+	}] => [
 	    map({
 		my($day_offset) = $_;
 		map(+{
