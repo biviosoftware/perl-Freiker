@@ -361,6 +361,7 @@ EOF
 	[FreikerListQueryForm => [
 	    fr_year => 'All Years',
 	    fr_trips => 'Has Trips',
+	    fr_all => 'All Schools',
 	    fr_registered => 'Registered',
 	    ok_button => 'Refresh',
 	]],
@@ -389,6 +390,7 @@ EOF
 	    days_1 => 'Day',
 	    days_5 => 'Week',
 	    days_20 => 'Month',
+	    days_10000 => 'All',
 	]],
 	[UserPasswordQueryForm => [
 	    'prose.prologue' => q{P_prose('Please enter the email address you used to register and click Send.  You will receive an email with a link to reset your password.');},
