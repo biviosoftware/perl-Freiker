@@ -10,8 +10,6 @@ my($_SA) = b_use('Type.StringArray');
 my($_D) = b_use('Type.Date');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER->as_sql_param;
 my($_USER) = b_use('Auth.Role')->USER->as_sql_param;
-my($_YQ) = b_use('Type.YearQuery');
-my($_B) = b_use('Type.Boolean');
 my($_DATE) = $_D->to_sql_value('?');
 my($_LOCATION) = b_use('Model.Address')->DEFAULT_LOCATION->as_sql_param;
 my($_PARENT_EMAIL) = <<"EOF";
@@ -28,6 +26,7 @@ EOF
 my($_RIDE_COUNT) = "(SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_date BETWEEN $_DATE AND $_DATE)";
 my($_K) = b_use('Type.Kilometers');
 my($_IDI) = __PACKAGE__->instance_data_index;
+my($_FLQF) = b_use('Model.FreikerListQueryForm');
 
 sub NOT_FOUND_IF_EMPTY {
     return 1;
@@ -302,13 +301,7 @@ sub internal_pre_load {
 }
 
 sub _get_from_query {
-    my($self, $which) = @_;
-    return undef
-	unless my $v = $self->ureq('Model.FreikerListQueryForm', $which)
-	|| $self->get_query->unsafe_get($which);
-    return $which eq 'fr_year' ? $_YQ->unsafe_from_any($v)
-	: $which =~ /^fr_(?:begin|end)/ ? ($_D->from_literal($v))[0]
-        : ($_B->from_literal($v))[0];
+    return $_FLQF->get_value_fr(@_);
 }
 
 sub _in_miles {
