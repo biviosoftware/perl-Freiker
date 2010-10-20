@@ -26,7 +26,7 @@ sub get_value_fr {
 sub internal_query_fields {
     my($self) = @_;
     return [
-	[qw(fr_all TripsQuery)],
+	[qw(fr_all Boolean)],
 	[qw(fr_registered Boolean)],
 	[qw(fr_trips TripsQuery)],
 	[qw(fr_year YearQuery)],
