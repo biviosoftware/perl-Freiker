@@ -282,8 +282,10 @@ sub get_delegate_info {
 	    529
 	    GENERAL
 	    ANYBODY
-	    Model.AllClubSummaryList->execute_load_all
+	    Model.FreikerListQueryForm
+	    Model.AllClubSummaryList->execute_load_all_with_query
 	    View.WikiWidget->all_club_summary_list
+	    next=ALL_CLUB_SUMMARY_LIST
 	)],
 	[qw(
 	    MERCHANT_FILE
