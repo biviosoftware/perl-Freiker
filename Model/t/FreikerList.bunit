@@ -3,7 +3,7 @@
 ListModel();
 my($today) = do('./SetupRides.PL');
 my($parent) = sub {
-    return email('parent'), 'Parent, A';
+    return email('parent'), lc('Parent, A');
 };
 my($need_accept_terms) = sub {
     return email('need_accept_terms'), 'need_accept_terms';
@@ -24,9 +24,12 @@ my($no_parent) = sub {
 	compute_return => sub {
 	    return shift->get('object')->map_rows(
 		sub {
+		    my($it) = @_;
+		    assert_not_equals(qr{!!!}, $it->get('parent_display_name'));
+		    assert_not_equals(qr{!!!}, $it->get('parent_display_name_sort'));
 		    return [map(
 			ref($_) ? $_->as_literal : $_,
-			shift->get(qw(RealmOwner.display_name ride_count prize_debit prize_credit can_select_prize freiker_codes parent_email parent_display_name_sort)),
+			$it->get(qw(RealmOwner.display_name ride_count prize_debit prize_credit can_select_prize freiker_codes parent_email parent_display_name_sort)),
 		    )];
 		},
 	    );

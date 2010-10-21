@@ -74,7 +74,7 @@ sub internal_initialize {
  		name => 'parent_display_name_sort',
  		type => 'DisplayName',
  		constraint => 'NONE',
- 		select_value => "(SELECT COALESCE(u.last_name,'') || '!!!' || COALESCE(u.first_name,'') || '!!!' || COALESCE(u.middle_name,'')
+ 		select_value => "(SELECT COALESCE(u.last_name_sort,'') || '!!!' || COALESCE(u.first_name_sort,'') || '!!!' || COALESCE(u.middle_name_sort,'')
                      FROM realm_user_t ru, user_t u
                      WHERE ru.role = $_FREIKER
                      AND ru.realm_id = u.user_id
@@ -240,8 +240,11 @@ sub internal_post_load_row {
     my($self, $row) = @_;
     $row->{freiker_codes} = $self->internal_freiker_codes($row);
     $row->{can_select_prize} = $self->internal_can_select_prize($row);
-    $row->{parent_display_name_sort} = $_U->concat_last_first_middle(
+    $row->{parent_display_name} = $_U->concat_last_first_middle(
  	split(/!!!/, $row->{parent_display_name} || ''),
+    );
+    $row->{parent_display_name_sort} = $_U->concat_last_first_middle(
+ 	split(/!!!/, $row->{parent_display_name_sort} || ''),
     );
     $row->{birth_year} = $row->{'User.birth_date'}
  	&& $_D->get_parts($row->{'User.birth_date'}, 'year');
