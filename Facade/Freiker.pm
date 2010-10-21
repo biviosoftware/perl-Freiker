@@ -346,7 +346,7 @@ EOF
 	[AdmFreikometerList => [
 	    'RealmOwner.name' => 'ZAP',
 	    'RealmOwner.display_name' => 'MAC',
-	    'RealmFile.modified_date_time' => 'Last Upload',
+	    modified_date_time => 'Last Upload',
 	    'list_action.FORUM_FILE_TREE_LIST' => 'Files',
 	]],
 	[separator => [

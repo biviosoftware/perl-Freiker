@@ -12,7 +12,7 @@ sub freikometer_list {
 	vs_paged_list(AdmFreikometerList => [
 	    'RealmOwner.name',
 	    'RealmOwner.display_name',
-	    ['RealmFile.modified_date_time', {
+	    ['modified_date_time', {
 		mode => 'DATE_TIME',
 	    }],
 	    {
