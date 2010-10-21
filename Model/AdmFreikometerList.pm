@@ -27,6 +27,7 @@ sub internal_initialize {
 	    },
 	],
 	group_by => [
+	    'RealmOwner.realm_id',
 	    'RealmOwner.name',
 	    'RealmOwner.display_name',
 	],
@@ -39,7 +40,6 @@ sub internal_initialize {
 		    RealmUser.role
 		    RealmUser.realm_id
 		    RealmFile.is_folder
-		    RealmOwner.realm_id
 		)],
 		{in_select => 0},
 	    ),
