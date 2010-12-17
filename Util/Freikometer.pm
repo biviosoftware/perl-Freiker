@@ -49,7 +49,7 @@ sub create_zap {
 }
 
 sub do_all {
-    my($self, $method_or_op, @args) = shift->name_args(['Text'], \@_);
+    my($self, $method_or_op, @args) = @_;
     return join(
 	"\n",
 	@{$self->model(
