@@ -15,20 +15,18 @@ sub ddl_files {
 }
 
 sub initialize_db {
-    return shift->call_super_before(\@_, sub {
-        my($self) = @_;
-	$self->new_other('SiteForum')->init;
-	_freiker_distributor($self);
-        return;
-    });
+    my($self) = @_;
+    my(@res) = shift->SUPER::initialize_db(@_);
+    $self->new_other('SiteForum')->init;
+    _freiker_distributor($self);
+    return @res;
 }
 
 sub init_realm_role {
-    return shift->call_super_before(\@_, sub {
-        my($self) = @_;
-	$self->new_other('RealmRole')->copy_all(forum => 'merchant');
-        return;
-    });
+    my($self) = @_;
+    my(@res) = shift->SUPER::init_realm_role(@_);
+    $self->new_other('RealmRole')->copy_all(forum => 'merchant');
+    return @res;
 }
 
 sub initialize_test_data {

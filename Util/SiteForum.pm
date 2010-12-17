@@ -8,10 +8,10 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_C) = b_use('FacadeComponent.Constant');
 
 sub init {
-    return shift->call_super_before(\@_, sub {
-        my($self) = @_;
-	return $self->init_site_zap_realm;
-    });
+    my($self) = @_;
+    my(@res) = shift->SUPER::init(@_);
+    $self->init_site_zap_realm;
+    return @res;
 }
 
 sub init_site_zap_realm {

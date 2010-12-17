@@ -109,39 +109,35 @@ sub internal_initialize {
 }
 
 sub internal_pre_execute {
-    return shift->call_super_before(
-	\@_,
-	sub {
-	    my($self) = @_;
-	    my($frl) = $self->ureq('Model.FreikerRideList');
-	    $self->internal_put_field(
-		'FreikerCode.user_id' => $frl && $frl->get_user_id);
-	    my($m) = $self->new_other('Address');
-	    # Prior to adding CA, US users didn't necessarily have addresses
-	    my($country) = $m->unsafe_load ? $m->get('country') : 'US';
-	    my($in_parent_realm) = $self->req(qw(auth_realm type))->eq_user;
-	    $self->internal_put_field(
-		'Address.country' => $country,
-		allow_club_id => $in_parent_realm,
-		allow_school_class => $in_parent_realm ? 0 : 1,
-		in_miles => _is_us($country),
-		in_parent_realm => $in_parent_realm,
-	    );
-	    $self->new_other('DistanceList')
-		->load_all({in_miles => $self->get('in_miles')});
-	    if ($self->get('allow_school_class')) {
-		$self->new_other('SchoolClassList')->load_with_school_year;
-		my($uid) = $self->get('FreikerCode.user_id');
-		$self->internal_put_field(
-		    'curr.SchoolClass.school_class_id'
-		     => $uid
-		     && $self->new_other('RealmUser')
-		     ->unsafe_school_class_for_freiker($uid),
-		);
-	    }
-	    return;
-	},
+    my($self) = @_;
+    my(@res) = shift->SUPER::internal_pre_execute(@_);
+    my($frl) = $self->ureq('Model.FreikerRideList');
+    $self->internal_put_field(
+	'FreikerCode.user_id' => $frl && $frl->get_user_id);
+    my($m) = $self->new_other('Address');
+    # Prior to adding CA, US users didn't necessarily have addresses
+    my($country) = $m->unsafe_load ? $m->get('country') : 'US';
+    my($in_parent_realm) = $self->req(qw(auth_realm type))->eq_user;
+    $self->internal_put_field(
+	'Address.country' => $country,
+	allow_club_id => $in_parent_realm,
+	allow_school_class => $in_parent_realm ? 0 : 1,
+	in_miles => _is_us($country),
+	in_parent_realm => $in_parent_realm,
     );
+    $self->new_other('DistanceList')
+	->load_all({in_miles => $self->get('in_miles')});
+    if ($self->get('allow_school_class')) {
+	$self->new_other('SchoolClassList')->load_with_school_year;
+	my($uid) = $self->get('FreikerCode.user_id');
+	$self->internal_put_field(
+	    'curr.SchoolClass.school_class_id'
+	     => $uid
+	     && $self->new_other('RealmUser')
+	     ->unsafe_school_class_for_freiker($uid),
+	);
+    }
+    return @res;
 }
 
 sub validate {
