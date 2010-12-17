@@ -6,15 +6,26 @@ DateTime()->set_test_now(undef, req());
 DateTime()->set_test_now(
     my $now = DateTime()->add_days(DateTime()->now, 1),
 );
-unauth_model('RealmFile')
-    ->create_with_content(
-	{
-	    realm_id => realm_id('dz_zap'),
-	    user_id => realm_id('dz_zap'),
-	    path => '/Upload/201010/bla.txt',
+foreach my $realm (qw(dz_zap fm_freikometer)) {
+    req()->with_realm(
+	$realm,
+	sub {
+	    model('RealmFile')->unauth_delete_deep({
+		path => '/Upload',
+		realm_id => req()->get('auth_id'),
+	    });
+	    return;
 	},
-	'anything',
     );
+}
+model('RealmFile')->create_with_content(
+    {
+	realm_id => realm_id('dz_zap'),
+	user_id => realm_id('dz_zap'),
+	path => '/Upload/201010/bla.txt',
+    },
+    'anything',
+);
 [
     load_all => [
 	[] => [{
