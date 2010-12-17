@@ -12,7 +12,7 @@ sub internal_initialize {
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
 	can_iterate => 1,
-        primary_key => [[qw(RealmOwner.realm_id RealmUser.user_id RealmFile.realm_id)]],
+        primary_key => [[qw(RealmOwner.realm_id RealmUser.user_id)]],
 	order_by => [
 	    'RealmOwner.name',
 	    'RealmOwner.display_name',
@@ -20,10 +20,13 @@ sub internal_initialize {
 		name => 'modified_date_time',
 		type => 'DateTime',
 		in_select => 1,
-		select_value =>
-		    b_use('Type.DateTime')
-		        ->from_sql_value('MAX(realm_file_t.modified_date_time)')
-		        . ' AS modified_date_time',
+		select_value => qq{(SELECT
+                    @{[b_use('Type.DateTime')->from_sql_value('MAX(realm_file_t.modified_date_time)')]}
+                    FROM realm_file_t
+                    WHERE realm_file_t.realm_id = realm_owner_t.realm_id
+                    AND realm_file_t.is_folder = 0
+                    AND realm_file_t.path_lc LIKE '$_FOLDER_RE'
+                ) AS modified_date_time},
 	    },
 	],
 	group_by => [
@@ -33,26 +36,15 @@ sub internal_initialize {
 	],
 	other => [
 	    ['RealmUser.role', ['FREIKOMETER']],
-	    ['RealmFile.is_folder', [0]],
 	    $self->field_decl(
 		[qw(
-		    RealmFile.realm_file_id
 		    RealmUser.role
 		    RealmUser.realm_id
-		    RealmFile.is_folder
 		)],
 		{in_select => 0},
 	    ),
 	],
     });
-}
-
-sub internal_prepare_statement {
-    my($self, $stmt) = @_;
-    $stmt->where(
-	$stmt->LIKE('RealmFile.path_lc', $_FOLDER_RE),
-    );
-    return shift->SUPER::internal_prepare_statement(@_);
 }
 
 1;
