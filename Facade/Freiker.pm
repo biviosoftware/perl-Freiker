@@ -410,7 +410,7 @@ EOF
 	]],
 	[acknowledgement => [
 	    update_address => q{Please update the information below.  We need to make sure your information is current.},
-	    GREEN_GEAR_FORM => q{The new GreenGear winner appears below.  Your School's ZAPs will be updated to ring the GreenGear sound the next time they check in.},
+	    GREEN_GEAR_FORM => q{The new Weekly Winner appears below.  Please notify the kid that he or shee has won.},
 	    CLUB_REGISTER => q{Your school has been registered.},
 	    CLUB_RIDE_FILL_FORM => q{Filled in missing trips for when ZAP was not working.},
 	    MERCHANT_REGISTER => q{Your business has been registered.},
