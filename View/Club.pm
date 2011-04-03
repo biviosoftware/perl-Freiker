@@ -205,6 +205,7 @@ sub register {
 	ClubRegisterForm.Address.state
 	ClubRegisterForm.Address.zip
 	ClubRegisterForm.Address.country
+        ClubRegisterForm.time_zone_selector
     }]));
 }
 
