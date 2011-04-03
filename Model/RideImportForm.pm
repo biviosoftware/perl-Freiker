@@ -9,6 +9,7 @@ my($_IDI) = __PACKAGE__->instance_data_index;
 my($_D) = b_use('Type.Date');
 my($_T) = b_use('Type.Time');
 my($_A) = b_use('IO.Alert');
+my($_TZ) = b_use('Type.TimeZone');
 
 sub COLUMNS {
     return [
@@ -26,8 +27,9 @@ sub execute_ok {
 sub process_record {
     my($self, $row, $count) = @_;
     my($fields) = $self->[$_IDI] ||= _init_fields($self);
+    my($dt) = $fields->{tz}->date_time_from_utc($row->{datetime});
     my($v) = {
-	ride_date => $_D->from_datetime($row->{datetime}),
+	ride_date => $_D->from_datetime($dt),
 	user_id => _user_id($self, $row->{epc}, $count) || return,
     };
     my($r) = $self->new_other('Ride');
@@ -37,7 +39,7 @@ sub process_record {
     }
     $r->create({
 	%$v,
-	ride_time => $_T->from_datetime($row->{datetime}),
+	ride_time => $_T->from_datetime($dt),
 	ride_upload_id => $fields->{ride_upload_id} ||=
 	    $self->new_other('RideUpload')->create({})->get('ride_upload_id'),
 	club_id => $self->req('auth_id'),
@@ -50,6 +52,7 @@ sub _init_fields {
     $self->new_other('Lock')->acquire_unless_exists;
     return {
 	fcl => $self->new_other('FreikerCodeList')->load_all,
+	tz => $_TZ->row_tag_get($self->req),
     };
 }
 
