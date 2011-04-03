@@ -86,6 +86,7 @@ sub initialize_db {
 		'Address.country' => $_T->COUNTRY,
 		'Website.url' => $_T->WEBSITE($n),
 		club_size => 32,
+		time_zone_selector => 'America/Denver',
 	    });
 	    foreach my $x (
 		[qw(create FREIKOMETER)],

@@ -12,6 +12,7 @@ submit_form({
     city => 'y',
     state => 'co',
     post => $z,
+    zone => 'America/Los_Angeles',
 });
 follow_link('codes');
 my($floor) = int($z / 10000) * 10000 + 2000;
