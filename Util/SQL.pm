@@ -191,100 +191,63 @@ EOF
     return;
 }
 
-sub internal_upgrade_db_school_time_zone {
+sub internal_upgrade_db_ride_date_utc_delete {
     my($self) = @_;
-    my($map) = {
-	edgemont070422305 => 'AMERICA_NEW_YORK',
-	gladys207851304 => 'AMERICA_NEW_YORK',
-	mount223052504 => 'AMERICA_NEW_YORK',
-	crabapple300043760 => 'AMERICA_NEW_YORK',
-	oxford386553000 => 'AMERICA_CHICAGO',
-	mcfarland535589216 => 'AMERICA_CHICAGO',
-	trek535941379 => 'AMERICA_CHICAGO',
-	platteville538182139 => 'AMERICA_CHICAGO',
-	seward554061331 => 'AMERICA_CHICAGO',
-	beatrice683103904 => 'AMERICA_CHICAGO',
-	martin787025415 => 'AMERICA_CHICAGO',
-	bryker787031452 => 'AMERICA_CHICAGO',
-	bikesportshop787071548 => 'AMERICA_CHICAGO',
-	patsy78717 => 'AMERICA_CHICAGO',
-	brentwood787572506 => 'AMERICA_CHICAGO',
-	eldorado800274668 => 'AMERICA_DENVER',
-	munroe802192730 => 'AMERICA_DENVER',
-	william802383087 => 'AMERICA_DENVER',
-	horizons803033732 => 'AMERICA_DENVER',
-	crestview803040815 => 'AMERICA_DENVER',
-	foothill803042145 => 'AMERICA_DENVER',
-	casey803044130 => 'AMERICA_DENVER',
-	creekside803055448 => 'AMERICA_DENVER',
-	sanborn805011335 => 'AMERICA_DENVER',
-	burlington805016330 => 'AMERICA_DENVER',
-	eagle805037953 => 'AMERICA_DENVER',
-	calhan808088619 => 'AMERICA_DENVER',
-	matt891062510 => 'AMERICA_LOS_ANGELES',
-	wendell891062832 => 'AMERICA_LOS_ANGELES',
-	susan937283705 => 'AMERICA_LOS_ANGELES',
-	egan940221210 => 'AMERICA_LOS_ANGELES',
-	rita940221631 => 'AMERICA_LOS_ANGELES',
-	almond940222312 => 'AMERICA_LOS_ANGELES',
-	springer94040 => 'AMERICA_LOS_ANGELES',
-	palo943011633 => 'AMERICA_LOS_ANGELES',
-	lincoln950144054 => 'AMERICA_LOS_ANGELES',
-	kennedy950144938 => 'AMERICA_LOS_ANGELES',
-	gault950622525 => 'AMERICA_LOS_ANGELES',
-	starlight950763160 => 'AMERICA_LOS_ANGELES',
-	family974051602 => 'AMERICA_LOS_ANGELES',
-	roosevelt974052997 => 'AMERICA_LOS_ANGELES',
-	stratos981213309 => 'AMERICA_LOS_ANGELES',
-	fatima981992624 => 'AMERICA_LOS_ANGELES',
-	reeves985063299 => 'AMERICA_LOS_ANGELES',
-	roosevelt985064359 => 'AMERICA_LOS_ANGELES',
-	jamesn1m1j4 => 'AMERICA_TORONTO',
-	stmaryn0b1s0 => 'AMERICA_TORONTO',
-    };
     $self->model('RealmOwner')
 	->do_iterate(
 	    sub {
-		my($it) = @_;
+		my($ro) = @_;
 		return 1
-		    if $it->is_default;
-		my($rid, $name) = $it->get(qw(realm_id name));
+		    if $ro->is_default;
+		my($rid, $name) = $ro->get(qw(realm_id name));
 		my($tz) = b_use('Type.TimeZone')
-		    ->from_name($map->{$name} || 'AMERICA_DENVER');
-		$tz->row_tag_replace(
-		    $rid,
-		    $tz,
-		    $self->req,
-		);
-		my($count) = 0;
+		    ->row_tag_get($rid,, $self->req);
+		my($deleted) = 0;
+		my($total) = 0;
 		$self->model('Ride')
 		    ->do_iterate(
 			sub {
 			    my($it) = @_;
 			    my($v) = $it->get_shallow_copy;
-			    my($dt) = $tz->date_time_from_utc(
-				$_DT->from_date_and_time(
-				    $v->{ride_date},
-				    $v->{ride_time},
-				),
+			    my($local) = $_DT->from_date_and_time(
+				$v->{ride_date},
+				$v->{ride_time},
 			    );
-			    $it->unauth_create_or_update_keys({
-				%$v,
-				ride_date => b_use('Type.Date')->from_datetime($dt),
-				ride_time => b_use('Type.Time')->from_datetime($dt),
-			    });
-			    $count++;
+			    my($utc) = $tz->date_time_to_utc($local);
+			    $total++;
+			    if ($_DT->is_equal($utc, $local)) {
+				b_info($name, ': tz is UTC');
+				return 0;
+			    }
+			    my($other) = $it->new;
+			    return 1
+				unless $other->unauth_load({
+				    %$v,
+				    ride_date => b_use('Type.Date')->from_datetime($utc),
+				    ride_time => b_use('Type.Time')->from_datetime($utc),
+				});
+			    $other->unauth_delete;
+			    $deleted++
+				unless "@{[$_DT->get_parts($utc, 'minute', 'second')]}" eq '0 0';
 			    return 1;
 			},
 			'unauth_iterate_start',
 			{club_id => $rid},
 		    );
-		b_info($name, ' ', $count);
+		$total++;
+		b_info($name, ' ', $deleted, ' ', $deleted/$total);
+		die('too many deleted')
+		    if $deleted/$total > 0.05;
 		return 1;
 	    },
 	    'unauth_iterate_start',
-	    {realm_type => [b_use('Auth.RealmType')->CLUB]},
+	    'name asc',
+	    {
+		realm_type => [b_use('Auth.RealmType')->CLUB],
+#		name => ['patsy78717'],
+	    },
 	);
+    die;
     return;
 }
 
