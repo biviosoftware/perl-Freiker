@@ -244,10 +244,8 @@ sub internal_upgrade_db_ride_date_utc_delete {
 	    'name asc',
 	    {
 		realm_type => [b_use('Auth.RealmType')->CLUB],
-#		name => ['patsy78717'],
 	    },
 	);
-    die;
     return;
 }
 
