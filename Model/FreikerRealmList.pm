@@ -20,6 +20,9 @@ sub internal_initialize {
 	    [qw(RealmUser.realm_id RealmOwner_2.realm_id)],
 	    'RealmOwner_2.realm_type',
 	],
+	order_by => [
+	    'RealmOwner_2.realm_type',
+	],
     });
 }
 
