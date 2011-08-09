@@ -5,9 +5,9 @@ do('./SetupRides.PL');
 [
     unauth_load_all => [
 	[{auth_id => realm_id('child')}] => [{
-	    'RealmUser.realm_id' => realm_id(Freiker_Test()->SCHOOL(0)),
-	}, {
 	    'RealmUser.realm_id' => realm_id(Freiker_Test()->PARENT(0)),
+	}, {
+	    'RealmUser.realm_id' => realm_id(Freiker_Test()->SCHOOL(0)),
 	}, {
 	    'RealmUser.realm_id' => realm_id(Freiker_Test()->TEACHER(0)),
 	}],
