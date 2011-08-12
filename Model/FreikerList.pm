@@ -115,7 +115,20 @@ sub internal_initialize {
 	    'User.first_name',
 	    'User.gender',
 	    'User.birth_date',
-
+ 	    {
+ 		name => 'school_class_display_name',
+ 		type => 'DisplayName',
+ 		constraint => 'NONE',
+ 		select_value => "(select ro.display_name
+                     FROM realm_user_t ru, school_class_t sc, realm_owner_t ro, school_year_t sy
+                     WHERE ru.role = $_FREIKER
+                     AND realm_user_t.user_id = ru.user_id
+                     AND ru.realm_id = sc.school_class_id
+                     AND sc.school_class_id = ro.realm_id
+                     AND sc.school_year_id = sy.school_year_id
+                     AND sy.start_date = $_DATE
+                 ) AS school_class_display_name",
+ 	    },
 	],
 	other_query_keys => [qw(
 	    fr_trips
@@ -166,20 +179,6 @@ sub internal_initialize {
                  ) AS parent_zip",
 	    },
  	    {
- 		name => 'school_class_display_name',
- 		type => 'DisplayName',
- 		constraint => 'NONE',
- 		select_value => "(select ro.display_name
-                     FROM realm_user_t ru, school_class_t sc, realm_owner_t ro, school_year_t sy
-                     WHERE ru.role = $_FREIKER
-                     AND realm_user_t.user_id = ru.user_id
-                     AND ru.realm_id = sc.school_class_id
-                     AND sc.school_class_id = ro.realm_id
-                     AND sc.school_year_id = sy.school_year_id
-                     AND sy.start_date = $_DATE
-                 ) AS school_class_display_name",
- 	    },
- 	    {
  		name => 'school_grade',
  		type => 'SchoolGrade',
  		constraint => 'NONE',
@@ -193,8 +192,17 @@ sub internal_initialize {
                  ) AS school_grade",
  	    },
 	    {
+		name => 'class_display_name',
+		type => 'String',
+		constraint => 'NONE',
+	    },
+	    {
 		name => 'RealmUser.role',
 		in_select => 0,
+	    },
+	    {
+		name => 'current_miles',
+		type => 'Miles',
 	    },
 	    $self->field_decl(
 		[
@@ -250,11 +258,17 @@ sub internal_post_load_row {
  	&& $_D->get_parts($row->{'User.birth_date'}, 'year');
     $row->{miles} = $row->{'FreikerInfo.distance_kilometers'}
 	&& $_K->to_miles($row->{'FreikerInfo.distance_kilometers'});
+    $row->{current_miles} = $row->{miles} && $row->{ride_count}
+	&& $row->{miles} * $row->{ride_count};
     $row->{'User.gender'} = undef
        if $row->{'User.gender'} && $row->{'User.gender'}->eq_unknown;
     $row->{display_name} = $_U->concat_last_first_middle(
 	@$row{qw(User.last_name User.first_name User.middle_name)},
     );
+    $row->{class_display_name} = $row->{'school_grade'}
+	&& $row->{'school_class_display_name'}
+	&& join(' ', ($row->{school_grade}->get_short_desc,
+		      $row->{school_class_display_name}));
     return 1;
 }
 
