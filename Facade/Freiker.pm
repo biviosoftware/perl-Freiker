@@ -93,6 +93,7 @@ my($_SELF) = __PACKAGE__->new({
 	[BOT_FREIKOMETER_DOWNLOAD => '?/fm-down/*'],
 	[BOT_FREIKOMETER_UPLOAD => '/fm/*'],
 	[CLUB_FREIKER_LIST => ['?/kids', '?/freikers']],
+	[CLUB_FREIKER_CLASS_LIST_FORM => ['?/kids-class', '?/freikers-form']],
 	[CLUB_FREIKER_LIST_CSV => ['?/kids.csv', '?/freikers.csv']],
 	[CLUB_FREIKER_MANUAL_RIDE_FORM => ['?/give-trips', '?/give-rides']],
 	[CLUB_PRIZE => '?/prize'],
@@ -357,6 +358,13 @@ EOF
 	    [qw(User.first_name display_name)] => 'Kid',
 	    school_class_display_name => 'Teacher',
 	    empty_list_prose => 'No Kids as yet.',
+	    current_miles => 'Current Miles',
+	    current_kilometers => 'Current Kilometers',
+	    class_display_name => 'Current Class',
+	    new_school_class_id => 'Updated Class',
+	]],
+	[ClubFreikerClassListForm => [
+	    ok_button => 'Update',
 	]],
 	[FreikerListQueryForm => [
 	    fr_year => 'All Years',
@@ -440,6 +448,7 @@ at XLink('paypal'); to view details of this transaction.
 EOF
 	    paypal_cancel => q{Your donation has been cancelled.  Please consider donating in the future.},
 	    CLUB_FREIKER_PRIZE_CONFIRM => q{Please give the kid the selected prizes.},
+	    CLUB_FREIKER_CLASS_LIST_FORM => q{Classes Updated},
 	]],
 	[xlink => [
 	    paypal => 'PayPal',
@@ -456,6 +465,7 @@ EOF
 	[title => [
 	    USER_ACCEPT_TERMS_FORM => 'Accept Terms of Service and Privace Policy',
 	    CLUB_FREIKER_LIST => 'Kids',
+	    CLUB_FREIKER_CLASS_LIST_FORM => 'Update Kids Classes',
 	    CLUB_RIDE_DATE_LIST => 'Trips by Date',
 	    CLUB_REGISTER => 'Register Your School',
 	    CLUB_PRIZE => q{Update Prize String(['Model.ClubPrizeList', 'Prize.name']);},
@@ -519,6 +529,7 @@ EOF
 	    [qw(sort_001)] => "\0\1",
 	    [qw(sort_002)] => "\0\2",
 	    CLUB_FREIKER_LIST => 'Kids',
+	    CLUB_FREIKER_CLASS_LIST_FORM => 'Update Kids Classes',
 	    CLUB_FREIKER_LIST_CSV => 'Spreadsheet',
 	    CLUB_RIDE_DATE_LIST => 'Trips',
 	    CLUB_PRIZE => 'Update prize',
