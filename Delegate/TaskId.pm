@@ -545,8 +545,16 @@ sub get_delegate_info {
 	    Action.ValidateAddress
 	    Model.ClubFreikerList->execute_load_page
 	    Model.ClubFreikerClassListForm
-	    View.Club->freiker_list_form
+	    View.Club->freiker_class_list_form
 	    next=CLUB_FREIKER_CLASS_LIST_FORM
+	)],
+	[qw(
+	    CLUB_FREIKER_BY_TEACHER_LIST
+	    559
+	    CLUB
+	    ADMIN_READ
+	    Model.FreikerByTeacherList->execute_load_page
+	    View.Club->freiker_by_teacher_list
 	)],
     ]);
 }
