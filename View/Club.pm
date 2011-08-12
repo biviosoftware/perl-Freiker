@@ -7,6 +7,39 @@ use Bivio::UI::ViewLanguageAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
+sub freiker_class_list_form {
+    my($self) = @_;
+    return $self->internal_body_and_tools(
+	vs_simple_form('ClubFreikerClassListForm', [
+	    vs_paged_list('ClubFreikerClassListForm', [
+		['display_name', {
+		    column_order_by => [qw(
+			User.last_name_sort
+			User.first_name_sort
+			User.middle_name_sort
+		    )],
+		}],
+		'freiker_codes',
+		['class_display_name', {
+		    column_order_by => [qw(
+			school_class_display_name
+			school_grade
+		    )],
+		}],
+		['new_school_class_id', {
+		    wf_class => 'Select',
+		    choices => ['Model.SchoolClassList'],
+		    list_id_field => 'SchoolClass.school_class_id',
+		    list_display_field => 'display_name',
+		    unknown_label => 'Select Class',
+		    row_control => ['Model.SchoolClassList', '->get_result_set_size'],
+		}],
+	    ]),
+	]),
+    );
+    return;
+}
+
 sub freiker_import_form {
     my($self) = @_;
     return shift->internal_body_and_tools(
@@ -30,18 +63,15 @@ sub freiker_list {
 	    }],
 	    'freiker_codes',
 	    'ride_count',
-	    ['parent_display_name', {
-		column_order_by => ['parent_display_name_sort'],
-	    }],
-	    'parent_email',
 	    ['miles', {
 		column_control => ['Model.ClubFreikerList', '->in_miles'],
 	    }],
             ['FreikerInfo.distance_kilometers', {
 		column_control => ['!', 'Model.ClubFreikerList', '->in_miles'],
 	    }],
-            'User.gender',
-	    'birth_year',
+	    'current_miles',
+	    'school_class_display_name',
+	    'school_grade',
 	    vs_freiker_list_actions(qw(CLUB ClubFreikerList)),
 	]),
 	[
@@ -107,6 +137,7 @@ sub internal_body_and_tools {
 		GREEN_GEAR_LIST
 		CLUB_SCHOOL_CLASS_LIST_FORM
 		CLUB_FREIKER_IMPORT_FORM
+		CLUB_FREIKER_CLASS_LIST_FORM
 	    ),
 	], {
 	    want_more_threshold => 2,
