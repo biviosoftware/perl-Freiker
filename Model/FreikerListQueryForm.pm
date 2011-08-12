@@ -8,6 +8,26 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_YQ) = b_use('Type.YearQuery');
 my($_B) = b_use('Type.Boolean');
 my($_D) = b_use('Type.Date');
+my($_PI) = b_use('Type.PrimaryId');
+
+sub execute_empty {
+    my($self) = @_;
+    my($query) = $self->req('query');
+    $query
+	? $self->internal_put_field(
+	    $query->{fr_trips} ? (fr_trips => 1) : (),
+	    $query->{fr_registered} ? (fr_registered => 1) : (),
+	    $query->{fr_all} ? (fr_all => 1) : (),
+	    $query->{fr_begin} ? (fr_begin => $_D->from_literal($query->{fr_begin})) : (),
+	    $query->{fr_end} ? (fr_end => $_D->from_literal($query->{fr_end})) : (),
+	    $query->{fr_year} ? (fr_year => $_YQ->from_literal($query->{fr_year})) : (),
+	) : $self->internal_put_field(
+	    fr_trips => 1,
+	    fr_begin => $_YQ->get_default->first_date_of_school_year,
+	    fr_end => $_D->now,
+	);
+    return;
+}
 
 sub filter_keys {
     return [qr{^fr_\w+$}, @{shift->SUPER::filter_keys(@_)}];
