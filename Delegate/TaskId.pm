@@ -537,6 +537,17 @@ sub get_delegate_info {
 	    View.Club->freiker_import_form
 	    next=CLUB_FREIKER_LIST
 	)],
+	[qw(
+	    CLUB_FREIKER_CLASS_LIST_FORM
+	    558
+	    CLUB
+	    ADMIN_READ
+	    Action.ValidateAddress
+	    Model.ClubFreikerList->execute_load_page
+	    Model.ClubFreikerClassListForm
+	    View.Club->freiker_list_form
+	    next=CLUB_FREIKER_CLASS_LIST_FORM
+	)],
     ]);
 }
 
