@@ -15,7 +15,7 @@ sub compile_short_desc {
 
 sub first_date_of_school_year {
     my($self) = @_;
-    return _first($self->as_int);
+    return _first_date($self->as_int);
 }
 
 sub get_default {
