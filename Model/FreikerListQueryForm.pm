@@ -9,9 +9,12 @@ my($_YQ) = b_use('Type.YearQuery');
 my($_B) = b_use('Type.Boolean');
 my($_D) = b_use('Type.Date');
 my($_PI) = b_use('Type.PrimaryId');
+my($_RT) = b_use('Auth.RealmType');
 
 sub execute_empty {
     my($self) = @_;
+    return
+	unless $self->req('task')->has_realm_type($_RT->CLUB);
     my($query) = $self->req('query');
     $query
 	? $self->internal_put_field(
