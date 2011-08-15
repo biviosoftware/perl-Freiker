@@ -50,6 +50,10 @@ submit_form({
 });
 verify_text('Larry');
 login_as('wheel');
+submit_form(Refresh => {
+    dates => '01/01/2000',
+    to => Type_Date()->to_string(Type_Date()->local_today),
+});
 follow_link_in_table('kid', 'kid', "$last, Milton A", 'action', 'info');
 
 

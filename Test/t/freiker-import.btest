@@ -14,6 +14,10 @@ EOF
 };
 my($first) = random_string();
 submit_form($csv->("$first,y,z,1237,us,121212127,,8"));
+submit_form(Refresh => {
+    dates => '01/01/2000',
+    to => Type_Date()->to_string(Type_Date()->local_today),
+});
 verify_text($first);
 follow_link('import_kids');
 my($args) = $csv->("x,y,z,1238,,121212127");

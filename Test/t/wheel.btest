@@ -12,6 +12,10 @@ submit_form({
 });
 verify_text('02/18/2009');
 follow_link('kids');
+submit_form(Refresh => {
+    dates => '01/01/2000',
+    to => Type_Date()->to_string(Type_Date()->local_today),
+});
 verify_table(kid => [
     [qw(kid trips)],
     [qw(jonathan 1)],
@@ -22,6 +26,10 @@ submit_form({
 });
 verify_text('02/16/2009');
 follow_link('kids');
+submit_form(Refresh => {
+    dates => '01/01/2000',
+    to => Type_Date()->to_string(Type_Date()->local_today),
+});
 follow_link_in_table(qw(kid kid jonathan action tag));
 test_deviance('not a valid ZapTag');
 submit_form({

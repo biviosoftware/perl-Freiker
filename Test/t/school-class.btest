@@ -20,8 +20,11 @@ submit_form({
     miles => 3,
 });
 follow_link('kids');
+submit_form(Refresh => {
+    dates => '01/01/2000',
+    to => Type_Date()->to_string(Type_Date()->local_today),
+});
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
     class => qr{$t2},
 });
-    
