@@ -13,6 +13,7 @@ sub get_delegate_info {
 	CLUB_SIZE => [100, 'ClubSize'],
 	UNUSED_101 => [101],
 	NEED_ACCEPT_TERMS => [102, 'BooleanFalseDefault'],
+	HAS_GRADUATED => [103, 'BooleanFalseDefault'],
     ];
 }
 
