@@ -32,7 +32,17 @@ sub freiker_class_list_form {
 		    list_id_field => 'SchoolClass.school_class_id',
 		    list_display_field => 'display_name',
 		    unknown_label => 'Select Class',
-		    row_control => ['Model.SchoolClassList', '->get_result_set_size'],
+		}],
+		['has_graduated', {
+		    column_data_class => 'centered_cell',
+		    column_widget => Simple([sub {
+			return shift->get('has_graduated')
+			    ? vs_text('ClubFreikerList.has_graduated_true')
+			    : vs_text('ClubFreikerList.has_graduated_false');
+		    }]),
+		}],
+		['new_has_graduated', {
+		    column_data_class => 'centered_cell',
 		}],
 	    ]),
 	]),
@@ -72,6 +82,14 @@ sub freiker_list {
 	    'current_miles',
 	    'school_class_display_name',
 	    'school_grade',
+	    ['has_graduated', {
+		column_data_class => 'centered_cell',
+		column_widget => Simple([sub {
+		    return shift->get('has_graduated')
+			? vs_text('ClubFreikerList.has_graduated_true')
+			: vs_text('ClubFreikerList.has_graduated_false');
+		}]),
+	    }],
 	    vs_freiker_list_actions(qw(CLUB ClubFreikerList)),
 	]),
 	[
