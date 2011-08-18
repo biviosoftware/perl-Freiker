@@ -39,7 +39,7 @@ sub vs_freiker_list_actions {
 
 sub vs_freiker_list_selector {
     my($proto, $fields) = @_;
-    $fields ||= [qw(fr_begin fr_end fr_trips fr_registered)];
+    $fields ||= [qw(fr_begin fr_end fr_trips fr_registered fr_current)];
     my($f) = b_use('Model.FreikerListQueryForm');
     return (
 	selector => Join([
