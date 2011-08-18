@@ -131,9 +131,9 @@ sub get_delegate_info {
 	    512
 	    CLUB
 	    ADMIN_READ
-	    Action.ValidateAddress
 	    Model.FreikerListQueryForm
 	    Model.ClubFreikerList->execute_load_page
+	    Action.ValidateAddress
 	    View.Club->freiker_list
 	    next=CLUB_FREIKER_LIST
 	)],
@@ -542,8 +542,6 @@ sub get_delegate_info {
 	    558
 	    CLUB
 	    ADMIN_READ
-	    Action.ValidateAddress
-	    Model.ClubFreikerList->execute_load_page
 	    Model.ClubFreikerClassListForm
 	    View.Club->freiker_class_list_form
 	    next=CLUB_FREIKER_CLASS_LIST_FORM
