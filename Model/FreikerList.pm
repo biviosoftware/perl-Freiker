@@ -24,9 +24,11 @@ my($_PARENT_EMAIL) = <<"EOF";
 )
 EOF
 my($_RIDE_COUNT) = "(SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_date BETWEEN $_DATE AND $_DATE)";
+my($_HAS_GRADUATED) = b_use('Type.RowTagKey')->HAS_GRADUATED->as_sql_param;
 my($_K) = b_use('Type.Kilometers');
 my($_IDI) = __PACKAGE__->instance_data_index;
 my($_FLQF) = b_use('Model.FreikerListQueryForm');
+my($_RTK) = b_use('Type.RowTagKey');
 
 sub NOT_FOUND_IF_EMPTY {
     return 1;
@@ -55,7 +57,7 @@ sub internal_freiker_codes {
     my($self, $row) = @_;
     return $_SA->new($self->new_other('UserFreikerCodeList')
 	->get_codes($row->{'RealmUser.user_id'}));
-} 
+}
 
 sub internal_initialize {
     my($self) = @_;
@@ -134,6 +136,7 @@ sub internal_initialize {
 	    fr_trips
 	    fr_year
 	    fr_registered
+	    fr_current
 	    fr_begin
 	    fr_end
 	)],
@@ -219,6 +222,19 @@ sub internal_initialize {
 		name => 'Address.location',
 		in_select => 0,
 	    },
+	    {
+		name => 'has_graduated',
+		type => 'BooleanFalseDefault',
+		constraint => 'NONE',
+		select_value => "(SELECT rt.value
+                     FROM realm_user_t ru, row_tag_t rt
+                     WHERE ru.role = $_FREIKER
+                     AND realm_user_t.realm_id = ru.realm_id
+                     AND realm_user_t.user_id = ru.user_id
+                     AND ru.user_id = rt.primary_id
+                     AND rt.key = $_HAS_GRADUATED
+                ) AS has_graduated",
+	    },
 	],
 	group_by => [qw(
 	    RealmUser.user_id
@@ -290,7 +306,7 @@ sub internal_pre_load {
 	$x->{$which} = ($_D->from_literal($v))[0]
 	    || $x->{$which};
     }
-    my($sy_date) = $self->new_other('SchoolYear')
+    my($sy_date) = $self->new_other('SchoolYear')->set_ephemeral
 	->this_year_start_date;
     unshift(
 	@$params,
@@ -312,6 +328,27 @@ sub internal_pre_load {
 		unless _get_from_query($self, 'fr_trips');
 	    push(@$params, @$x{qw(begin_date date)});
 	    return "$_RIDE_COUNT > 0";
+	}->(),
+	sub {
+	    return
+		unless _get_from_query($self, 'fr_current');
+	    my($not_in) = 'realm_user_t.user_id NOT IN (';
+	    my($found) = 0;
+	    map({
+		$not_in .= '?,';
+		push(@$params, $_);
+		$found = 1;
+	    } @{$self->new_other('RowTag')->set_ephemeral->map_iterate(
+		'primary_id',
+		'iterate_start', {
+		    key => $_RTK->HAS_GRADUATED,
+		})}
+	    );
+	    return
+		unless $found;
+	    chop($not_in);
+	    $not_in .= ')';
+	    return $not_in;
 	}->(),
 	$where ? $where : (),
     );
