@@ -360,10 +360,17 @@ EOF
 	    empty_list_prose => 'No Kids as yet.',
 	    current_miles => 'Current Miles',
 	    current_kilometers => 'Current Kilometers',
-	    class_display_name => 'Current Class',
+	    class_display_name => 'Class',
 	    new_school_class_id => 'Updated Class',
+	    has_graduated => 'Graduated',
+	    new_has_graduated => 'Updated Graduated',
+	    has_graduated_false => '',
+	    has_graduated_true => 'x',
 	]],
 	[ClubFreikerClassListForm => [
+	    'prose.prologue' => q{If(['!', 'auth_realm', 'type', '->eq_user'], Link("Click here to edit your school's class list.", 'CLUB_SCHOOL_CLASS_LIST_FORM'));},
+	    has_graduated => '',
+	    new_has_graduated => '',
 	    ok_button => 'Update',
 	]],
 	[FreikerListQueryForm => [
@@ -371,6 +378,7 @@ EOF
 	    fr_trips => 'Has Trips',
 	    fr_all => 'All Schools',
 	    fr_registered => 'Registered',
+	    fr_current => 'Current Students Only',
 	    ok_button => 'Refresh',
 	]],
 	[PayPalForm => [
