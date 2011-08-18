@@ -109,6 +109,9 @@ td.footer_bar_center a {
 td.footer_bar_right {
   padding-left: .5em;
 }
+td.centered_cell {
+  text-align: center;
+}
 div.footer_legal {
   padding-top: 2ex;
 }
