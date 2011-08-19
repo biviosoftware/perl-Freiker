@@ -70,6 +70,10 @@ sub _form {
 		['Model.SchoolClassList', '->get_result_set_size'],
 	    ),
 	}],
+	["$model.has_graduated" => {
+	    wf_class => 'YesNo',
+	    row_control => ["Model.$model", 'allow_school_class'],
+	}],
 	"$model.User.first_name",
 	"$model.User.middle_name",
 	"$model.User.last_name",
