@@ -89,6 +89,7 @@ sub freiker_list {
 			? vs_text('ClubFreikerList.has_graduated_true')
 			: vs_text('ClubFreikerList.has_graduated_false');
 		}]),
+		column_control => ['!', 'Model.FreikerListQueryForm', 'fr_current'],
 	    }],
 	    vs_freiker_list_actions(qw(CLUB ClubFreikerList)),
 	]),
