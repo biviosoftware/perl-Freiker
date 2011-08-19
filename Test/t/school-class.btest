@@ -20,18 +20,12 @@ submit_form({
     miles => 3,
 });
 follow_link('kids');
-submit_form(Refresh => {
-    dates => '01/01/2000',
-    to => Type_Date()->to_string(Type_Date()->local_today),
-});
+show_all_kids();
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
     class => qr{$t2},
 });
-submit_form(Refresh => {
-    dates => '01/01/2000',
-    to => Type_Date()->to_string(Type_Date()->local_today),
-});
+show_all_kids();
 verify_table('Kid', [
     [qw(kid teacher grade graduated)],
     [$kid, $t2, '2nd', ''],
@@ -60,10 +54,7 @@ verify_form({
     'Updated Graduated_' . $row->{_row_index} => 0,
 });
 follow_link('^kids');
-submit_form(Refresh => {
-    dates => '01/01/2000',
-    to => Type_Date()->to_string(Type_Date()->local_today),
-});
+show_all_kids();
 verify_table('Kid', [
     [qw(kid teacher grade graduated)],
     [$kid, $t1, '1st', ''],
@@ -83,11 +74,7 @@ verify_form({
     'Updated Graduated_' . $row->{_row_index} => 1,
 });
 follow_link('^kids');
-submit_form(Refresh => {
-    dates => '01/01/2000',
-    to => Type_Date()->to_string(Type_Date()->local_today),
-    current => 0,
-});
+show_all_kids();
 verify_table('Kid', [
     [qw(kid teacher grade graduated)],
     [$kid, '', '', 'x'],
@@ -107,13 +94,55 @@ verify_form({
     'Updated Graduated_' . $row->{_row_index} => 1,
 });
 follow_link('^kids');
-submit_form(Refresh => {
-    dates => '01/01/2000',
-    to => Type_Date()->to_string(Type_Date()->local_today),
-    current => 0,
-});
+show_all_kids();
 verify_table('Kid', [
     [qw(kid teacher grade graduated)],
     [$kid, '', '', 'x'],
 ]);
-
+follow_link_in_table(qw(kid kid), $kid, qw(action info));
+submit_form({
+    class => "1st $t1",
+});
+show_all_kids();
+verify_table('Kid', [
+    [qw(kid teacher grade graduated)],
+    [$kid, '', '', 'x'],
+]);
+follow_link_in_table(qw(kid kid), $kid, qw(action info));
+submit_form({
+    '_radio#0' => 'No',
+});
+show_all_kids();
+verify_table('Kid', [
+    [qw(kid teacher grade graduated)],
+    [$kid, '', '', ''],
+]);
+follow_link_in_table(qw(kid kid), $kid, qw(action info));
+submit_form({
+    class => "1st $t1",
+});
+show_all_kids();
+verify_table('Kid', [
+    [qw(kid teacher grade graduated)],
+    [$kid, $t1, '1st', ''],
+]);
+follow_link_in_table(qw(kid kid), $kid, qw(action info));
+submit_form({
+    class => "1st $t1",
+    '_radio#0' => 'Yes',
+});
+show_all_kids();
+verify_table('Kid', [
+    [qw(kid teacher grade graduated)],
+    [$kid, '', '', 'x'],
+]);
+follow_link_in_table(qw(kid kid), $kid, qw(action info));
+submit_form({
+    class => "1st $t1",
+    '_radio#0' => 'No',
+});
+show_all_kids();
+verify_table('Kid', [
+    [qw(kid teacher grade graduated)],
+    [$kid, $t1, '1st', ''],
+]);
