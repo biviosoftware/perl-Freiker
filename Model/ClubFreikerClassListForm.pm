@@ -7,6 +7,7 @@ use Bivio::Base 'Biz.ListFormModel';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_PI) = b_use('Type.PrimaryId');
 my($_B) = b_use('Type.Boolean');
+my($_FF) = b_use('Model.FreikerForm');
 
 sub execute_empty_row {
     my($self) = @_;
@@ -30,32 +31,15 @@ sub execute_ok_end {
 sub execute_ok_row {
     my($self) = @_;
     my($uid) = $self->get('RealmUser.user_id');
-    my($curr_cid) = _get_class_id($self);
-    my($ng) = $self->get('new_has_graduated');
-    unless ($_B->is_equal(
+    $_FF->update_school_class(
+	$self,
+	$uid,
+	_get_class_id($self),
+	$self->get('new_school_class_id'),
 	$self->new_other('RowTag')->set_ephemeral
 	    ->row_tag_get($uid, 'HAS_GRADUATED'),
-	$ng,
-    )) {
-	$self->new_other('RowTag')->set_ephemeral->row_tag_replace(
-	    $uid,
-	    'HAS_GRADUATED',
-	    $self->get('new_has_graduated'),
-	);
-	if ($ng) {
-	    $self->new_other('RealmUser')->set_ephemeral
-		->unauth_delete_freiker($curr_cid, $uid);
-	    return;
-	}
-    }
-    return
-	if $ng || $_PI->is_equal($curr_cid,
-			  my $new_cid = $self->get('new_school_class_id'));
-    my($ru) = $self->new_other('RealmUser')->set_ephemeral;
-    $ru->unauth_delete_freiker($curr_cid, $uid)
-	if $curr_cid;
-    $ru->create_freiker_unless_exists($uid, $new_cid)
-	if $new_cid;
+	$self->get('new_has_graduated'),
+    );
     return;
 }
 
