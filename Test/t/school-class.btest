@@ -28,3 +28,92 @@ follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
     class => qr{$t2},
 });
+submit_form(Refresh => {
+    dates => '01/01/2000',
+    to => Type_Date()->to_string(Type_Date()->local_today),
+});
+verify_table('Kid', [
+    [qw(kid teacher grade graduated)],
+    [$kid, $t2, '2nd', ''],
+]);
+follow_link('update_kids_classes');
+verify_table('Kid', [
+    [qw(kid ^class ^graduated)],
+    [$kid, "2nd $t2", ''],
+]);
+my($row) = find_table_row('kid', 'kid', $kid);
+verify_form({
+    'Updated Class_' . $row->{_row_index} => "2nd $t2",
+    'Updated Graduated_' . $row->{_row_index} => 0,
+});
+submit_form(Update => {
+    'Updated Class_' . $row->{_row_index} => "1st $t1",
+    'Updated Graduated_' . $row->{_row_index} => 0,
+});
+verify_text(qr{classes updated}i);
+verify_table('Kid', [
+    [qw(kid ^class ^graduated)],
+    [$kid, "1st $t1", ''],
+]);
+verify_form({
+    'Updated Class_' . $row->{_row_index} => "1st $t1",
+    'Updated Graduated_' . $row->{_row_index} => 0,
+});
+follow_link('^kids');
+submit_form(Refresh => {
+    dates => '01/01/2000',
+    to => Type_Date()->to_string(Type_Date()->local_today),
+});
+verify_table('Kid', [
+    [qw(kid teacher grade graduated)],
+    [$kid, $t1, '1st', ''],
+]);
+follow_link('update_kids_classes');
+submit_form(Update => {
+    'Updated Class_' . $row->{_row_index} => "Select Class",
+    'Updated Graduated_' . $row->{_row_index} => 1,
+});
+verify_text(qr{classes updated}i);
+verify_table('Kid', [
+    [qw(kid ^class ^graduated)],
+    [$kid, '', 'x'],
+]);
+verify_form({
+    'Updated Class_' . $row->{_row_index} => "Select Class",
+    'Updated Graduated_' . $row->{_row_index} => 1,
+});
+follow_link('^kids');
+submit_form(Refresh => {
+    dates => '01/01/2000',
+    to => Type_Date()->to_string(Type_Date()->local_today),
+    current => 0,
+});
+verify_table('Kid', [
+    [qw(kid teacher grade graduated)],
+    [$kid, '', '', 'x'],
+]);
+follow_link('update_kids_classes');
+submit_form(Update => {
+    'Updated Class_' . $row->{_row_index} => "1st $t1",
+    'Updated Graduated_' . $row->{_row_index} => 1,
+});
+verify_text(qr{classes updated}i);
+verify_table('Kid', [
+    [qw(kid ^class ^graduated)],
+    [$kid, '', 'x'],
+]);
+verify_form({
+    'Updated Class_' . $row->{_row_index} => "Select Class",
+    'Updated Graduated_' . $row->{_row_index} => 1,
+});
+follow_link('^kids');
+submit_form(Refresh => {
+    dates => '01/01/2000',
+    to => Type_Date()->to_string(Type_Date()->local_today),
+    current => 0,
+});
+verify_table('Kid', [
+    [qw(kid teacher grade graduated)],
+    [$kid, '', '', 'x'],
+]);
+
