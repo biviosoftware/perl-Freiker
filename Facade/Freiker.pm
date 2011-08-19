@@ -304,6 +304,7 @@ EOF
 	    'User.last_name' => q{Last},
 	    'birth_year' => q{Year of Birth},
 	    'User.gender' => q{Gender},
+	    has_graduated => 'Has Graduated',
 	    kilometers => 'Kilometers to School',
 	    miles => 'Miles to School',
 	    [qw(miles kilometers)] => [
