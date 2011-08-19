@@ -39,16 +39,6 @@ sub create_freiker_unless_exists {
     return $self;
 }
 
-sub unauth_delete_freiker {
-    my($self, $realm_id, $user_id) = @_;
-    $self->unauth_delete({
-	realm_id => $realm_id,
-	user_id => $user_id,
-	role => $_FREIKER,
-    });
-    return;
-}
-
 sub is_registered_freiker {
     return shift->unsafe_family_id_for_freiker(@_) ? 1 : 0;
 }
@@ -98,6 +88,16 @@ sub set_realm_for_freikometer {
     $req->throw_die(INVALID_OP => {message => "@$r: too many realms found"})
 	if @$r > 1;
     $req->set_realm($r->[0]);
+    return;
+}
+
+sub unauth_delete_freiker {
+    my($self, $realm_id, $user_id) = @_;
+    $self->unauth_delete({
+	realm_id => $realm_id,
+	user_id => $user_id,
+	role => $_FREIKER,
+    });
     return;
 }
 
