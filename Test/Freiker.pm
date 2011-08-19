@@ -62,4 +62,16 @@ sub select_test_now {
     return;
 }
 
+sub show_all_kids {
+    my($self) = @_;
+    $self->submit_form(Refresh => {
+	trips => 0,
+	registered => 0,
+	current => 0,
+	dates => '',
+	to => '',
+    });
+    return;
+}
+
 1;
