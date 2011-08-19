@@ -11,6 +11,7 @@ my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 my($_K) = b_use('Type.Kilometers');
 my($_PI) = b_use('Type.PrimaryId');
 my($_USLF) = b_use('Model.UserSettingsListForm');
+my($_B) = b_use('Type.Boolean');
 
 sub execute_empty {
     my($self) = @_;
@@ -22,7 +23,10 @@ sub execute_empty {
 	    $d ? $_D->get_parts($d, 'year') : undef);
 	$self->internal_put_field(
 	    'SchoolClass.school_class_id'
-	    => $self->get('curr.SchoolClass.school_class_id'),
+		=> $self->get('curr.SchoolClass.school_class_id'),
+	    'has_graduated'
+		=> $self->new_other('RowTag')->set_ephemeral
+		    ->row_tag_get($uid, 'HAS_GRADUATED'),
 	) if $self->get('allow_school_class');
 	my($fi) = $self->new_other('FreikerInfo')->unauth_load_or_die({user_id => $uid});
 	if (my $km = $fi->get('distance_kilometers')) {
@@ -34,6 +38,8 @@ sub execute_empty {
     }
     else {
 	$self->internal_put_field('User.gender' => $_G_UNKNOWN);
+	$self->internal_put_field('has_graduated' => 0)
+	    if $self->get('allow_school_class');
     }
     my($m) = $self->new_other('Address');
     $self->load_from_model_properties($m)
@@ -50,7 +56,14 @@ sub execute_ok {
     my($req) = $self->get_request;
     $self->internal_put_field('User.gender' => $_G_UNKNOWN)
 	unless $self->unsafe_get('User.gender');
-    _update_school_class($self);
+    $self->update_school_class(
+	undef,
+	$self->get('FreikerCode.user_id'),
+	$self->unsafe_get('curr.SchoolClass.school_class_id'),
+	$self->unsafe_get('SchoolClass.school_class_id'),
+	$self->get('curr_has_graduated'),
+	$self->get('has_graduated'),
+    ) if $self->get('allow_school_class');
     if (my $by = $self->unsafe_get('birth_year')) {
 	$self->internal_put_field(
 	    'User.birth_date' => $_D->date_from_parts(1, 1, $by));
@@ -81,6 +94,7 @@ sub internal_initialize {
 		[qw(kilometers Kilometers)],
 		[qw(miles Miles)],
 		'SchoolClass.school_class_id',
+		[qw(has_graduated Boolean)],
 		'Address.street1',
 		'Address.street2',
 		'Address.city',
@@ -96,6 +110,7 @@ sub internal_initialize {
 		    'in_parent_realm',
 		    'allow_club_id',
 		    'in_miles',
+		    'curr_has_graduated',
 		],
 		'Boolean',
 	    ),
@@ -132,12 +147,41 @@ sub internal_pre_execute {
 	my($uid) = $self->get('FreikerCode.user_id');
 	$self->internal_put_field(
 	    'curr.SchoolClass.school_class_id'
-	     => $uid
-	     && $self->new_other('RealmUser')
-	     ->unsafe_school_class_for_freiker($uid),
+		=> $uid
+	        && $self->new_other('RealmUser')
+		    ->unsafe_school_class_for_freiker($uid),
+	    'curr_has_graduated'
+		=> $uid
+		&& $self->new_other('RowTag')->set_ephemeral
+		    ->row_tag_get($uid, 'HAS_GRADUATED'),
 	);
     }
     return @res;
+}
+
+sub update_school_class {
+    my($self, $model, $uid, $curr_cid, $new_cid, $curr_grad, $new_grad) = @_;
+    $self ||= $model;
+    unless ($_B->is_equal($curr_grad, $new_grad)) {
+	$self->new_other('RowTag')->set_ephemeral->row_tag_replace(
+	    $uid,
+	    'HAS_GRADUATED',
+	    $new_grad,
+	);
+	if ($curr_cid && $new_grad) {
+	    $self->new_other('RealmUser')->set_ephemeral
+		->unauth_delete_freiker($curr_cid, $uid);
+	    return;
+	}
+    }
+    return
+	if $new_grad || $_PI->is_equal($curr_cid, $new_cid);
+    my($ru) = $self->new_other('RealmUser')->set_ephemeral;
+    $ru->unauth_delete_freiker($curr_cid, $uid)
+	if $curr_cid;
+    $ru->create_freiker_unless_exists($uid, $new_cid)
+	if $new_cid;
+    return;
 }
 
 sub validate {
@@ -178,25 +222,6 @@ sub _country_zip {
 
 sub _is_us {
     return (shift || '') eq 'US' ? 1 : 0;
-}
-
-sub _update_school_class {
-    my($self) = @_;
-    return
-	unless $self->get('allow_school_class');
-    my($curr_uid) = $self->get('FreikerCode.user_id');
-    my($new) = $self->unsafe_get('SchoolClass.school_class_id');
-    my($ru) = $self->new_other('RealmUser');
-    if (
-	my $curr = $self->unsafe_get('curr.SchoolClass.school_class_id')
-    ) {
-	return
-	    if $new && $_PI->is_equal($curr, $new);
-	$ru->unauth_delete_freiker($curr, $curr_uid);
-    }
-    $ru->create_freiker_unless_exists($curr_uid, $new)
-	if $new;
-    return;
 }
 
 sub _validate_school_class {
