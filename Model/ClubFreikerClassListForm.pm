@@ -49,7 +49,7 @@ sub execute_ok_row {
 	}
     }
     return
-	if $_PI->is_equal($curr_cid,
+	if $ng || $_PI->is_equal($curr_cid,
 			  my $new_cid = $self->get('new_school_class_id'));
     my($ru) = $self->new_other('RealmUser')->set_ephemeral;
     $ru->unauth_delete_freiker($curr_cid, $uid)
