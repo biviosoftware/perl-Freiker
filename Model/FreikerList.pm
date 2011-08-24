@@ -207,6 +207,10 @@ sub internal_initialize {
 		name => 'current_miles',
 		type => 'Miles',
 	    },
+	    {
+		name => 'current_kilometers',
+		type => 'Kilometers',
+	    },
 	    $self->field_decl(
 		[
 		    [qw(can_select_prize Boolean)],
@@ -275,7 +279,10 @@ sub internal_post_load_row {
     $row->{miles} = $row->{'FreikerInfo.distance_kilometers'}
 	&& $_K->to_miles($row->{'FreikerInfo.distance_kilometers'});
     $row->{current_miles} = $row->{miles} && $row->{ride_count}
-	&& $row->{miles} * $row->{ride_count};
+	&& 2 * $row->{miles} * $row->{ride_count};
+    $row->{current_kilometers} = $row->{'FreikerInfo.distance_kilometers'}
+	&& $row->{ride_count}
+	&& 2 * $row->{'FreikerInfo.distance_kilometers'} * $row->{ride_count};
     $row->{'User.gender'} = undef
        if $row->{'User.gender'} && $row->{'User.gender'}->eq_unknown;
     $row->{display_name} = $_U->concat_last_first_middle(
