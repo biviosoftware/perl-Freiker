@@ -61,8 +61,8 @@ sub execute_ok {
 	$self->get('FreikerCode.user_id'),
 	$self->unsafe_get('curr.SchoolClass.school_class_id'),
 	$self->unsafe_get('SchoolClass.school_class_id'),
-	$self->get('curr_has_graduated'),
-	$self->get('has_graduated'),
+	$self->unsafe_get('curr_has_graduated'),
+	$self->unsafe_get('has_graduated'),
     ) if $self->get('allow_school_class');
     if (my $by = $self->unsafe_get('birth_year')) {
 	$self->internal_put_field(
@@ -162,7 +162,7 @@ sub internal_pre_execute {
 sub update_school_class {
     my($self, $model, $uid, $curr_cid, $new_cid, $curr_grad, $new_grad) = @_;
     $self ||= $model;
-    unless ($_B->is_equal($curr_grad, $new_grad)) {
+    unless (!defined($new_grad) || $_B->is_equal($curr_grad, $new_grad)) {
 	$self->new_other('RowTag')->set_ephemeral->row_tag_replace(
 	    $uid,
 	    'HAS_GRADUATED',
@@ -176,7 +176,7 @@ sub update_school_class {
     }
     return
 	if $new_grad || $_PI->is_equal($curr_cid, $new_cid);
-    my($ru) = $self->new_other('RealmUser')->set_ephemeral;
+    my($ru) = $self->new_other('RealmUser');
     $ru->unauth_delete_freiker($curr_cid, $uid)
 	if $curr_cid;
     $ru->create_freiker_unless_exists($uid, $new_cid)
