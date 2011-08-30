@@ -7,6 +7,17 @@ use Bivio::UI::ViewLanguageAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
+sub freiker_by_teacher_list {
+    my($self) = @_;
+    return $self->internal_body_and_tools(
+	vs_paged_list(FreikerByTeacherList => [
+	    'User.first_name',
+	    'FreikerInfo.distance_kilometers',
+	    'SchoolClass.school_class_id',
+	]),
+    );
+}
+
 sub freiker_class_list_form {
     my($self) = @_;
     return $self->internal_body_and_tools(
@@ -67,19 +78,33 @@ sub freiker_list {
 		    User.first_name_sort
 		    User.middle_name_sort
 		)],
+		column_heading_class => 'narrow_heading',
 	    }],
-	    'freiker_codes',
-	    'ride_count',
+	    ['freiker_codes', {
+		column_heading_class => 'narrow_heading',
+	    }],
+	    ['ride_count', {
+		column_heading_class => 'narrow_heading',
+	    }],
 	    ['miles', {
+		column_heading_class => 'narrow_heading',
 		column_control => ['Model.ClubFreikerList', '->in_miles'],
 	    }],
             ['FreikerInfo.distance_kilometers', {
+		column_heading_class => 'narrow_heading',
 		column_control => ['!', 'Model.ClubFreikerList', '->in_miles'],
 	    }],
-	    'current_miles',
-	    'calories',
-	    'class_display_name',
+	    ['current_miles', {
+		column_heading_class => 'narrow_heading',
+	    }],
+	    ['calories', {
+		column_heading_class => 'narrow_heading',
+	    }],
+	    ['class_display_name', {
+		column_heading_class => 'narrow_heading',
+	    }],
 	    ['has_graduated', {
+		column_heading_class => 'narrow_heading',
 		column_data_class => 'centered_cell',
 		column_widget => Simple([sub {
 		    return shift->get('has_graduated')
