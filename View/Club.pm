@@ -21,10 +21,7 @@ sub freiker_class_list_form {
 		}],
 		'freiker_codes',
 		['class_display_name', {
-		    column_order_by => [qw(
-			school_class_display_name
-			school_grade
-		    )],
+		    column_order_by => ['school_class_display_name'],
 		}],
 		['new_school_class_id', {
 		    wf_class => 'Select',
@@ -80,8 +77,8 @@ sub freiker_list {
 		column_control => ['!', 'Model.ClubFreikerList', '->in_miles'],
 	    }],
 	    'current_miles',
-	    'school_class_display_name',
-	    'school_grade',
+	    'calories',
+	    'class_display_name',
 	    ['has_graduated', {
 		column_data_class => 'centered_cell',
 		column_widget => Simple([sub {
