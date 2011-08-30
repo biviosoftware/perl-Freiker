@@ -24,7 +24,7 @@ sub execute_empty_row {
 sub execute_ok_end {
     my($self) = @_;
     return {
-	query => $self->req->get('query'),
+	carry_query => 1,
     };
 }
 
@@ -73,7 +73,6 @@ sub internal_initialize {
 
 sub internal_initialize_list {
     my($self) = shift;
-    $self->new_other('ClubFreikerList')->load_page;
     $self->new_other('SchoolClassList')->load_with_school_year;
     return $self->SUPER::internal_initialize_list(@_);
 }
