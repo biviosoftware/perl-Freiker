@@ -78,7 +78,6 @@ sub freiker_list {
 		    User.first_name_sort
 		    User.middle_name_sort
 		)],
-		column_heading_class => 'narrow_heading',
 	    }],
 	    ['freiker_codes', {
 		column_heading_class => 'narrow_heading',
@@ -100,9 +99,7 @@ sub freiker_list {
 	    ['calories', {
 		column_heading_class => 'narrow_heading',
 	    }],
-	    ['class_display_name', {
-		column_heading_class => 'narrow_heading',
-	    }],
+	    'class_display_name',
 	    ['has_graduated', {
 		column_heading_class => 'narrow_heading',
 		column_data_class => 'centered_cell',
