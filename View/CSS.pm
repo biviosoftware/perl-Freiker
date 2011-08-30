@@ -112,6 +112,9 @@ td.footer_bar_right {
 td.centered_cell {
   text-align: center;
 }
+th.narrow_heading {
+  width: 1px;
+}
 div.footer_legal {
   padding-top: 2ex;
 }
