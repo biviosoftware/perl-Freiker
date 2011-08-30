@@ -20,7 +20,6 @@ sub vs_freiker_list_actions {
 			query => {
 			    'ListQuery.parent_id' => ['RealmUser.user_id'],
 			},
-			no_context => 1,
 		    }),
 		],
 		map(
