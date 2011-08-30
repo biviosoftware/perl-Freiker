@@ -206,10 +206,17 @@ sub internal_initialize {
 	    {
 		name => 'current_miles',
 		type => 'Miles',
+		constraint => 'NONE',
 	    },
 	    {
 		name => 'current_kilometers',
 		type => 'Kilometers',
+		constraint => 'NONE',
+	    },
+	    {
+		name => 'calories',
+		type => 'Integer',
+		constraint => 'NONE',
 	    },
 	    $self->field_decl(
 		[
@@ -292,6 +299,8 @@ sub internal_post_load_row {
 	&& $row->{'school_class_display_name'}
 	&& join(' ', ($row->{school_grade}->get_short_desc,
 		      $row->{school_class_display_name}));
+    $row->{calories} = $row->{current_miles}
+	&& $row->{current_miles} * 42.9;
     return 1;
 }
 
