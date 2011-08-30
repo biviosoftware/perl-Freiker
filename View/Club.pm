@@ -137,6 +137,7 @@ sub freiker_list_csv {
 	    parent_email
 	    FreikerInfo.distance_kilometers
 	    miles
+	    calories
 	    Address.street1
 	    Address.street2
 	    Address.city
