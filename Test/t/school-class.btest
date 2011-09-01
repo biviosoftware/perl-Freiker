@@ -27,8 +27,8 @@ submit_form({
 });
 show_all_kids();
 verify_table('Kid', [
-    [qw(kid teacher grade graduated)],
-    [$kid, $t2, '2nd', ''],
+    [qw(kid class graduated)],
+    [$kid, "2nd $t2", ''],
 ]);
 follow_link('update_kids_classes');
 verify_table('Kid', [
@@ -56,8 +56,8 @@ verify_form({
 follow_link('^kids');
 show_all_kids();
 verify_table('Kid', [
-    [qw(kid teacher grade graduated)],
-    [$kid, $t1, '1st', ''],
+    [qw(kid class graduated)],
+    [$kid, "1st $t1", ''],
 ]);
 follow_link('update_kids_classes');
 submit_form(Update => {
@@ -76,8 +76,8 @@ verify_form({
 follow_link('^kids');
 show_all_kids();
 verify_table('Kid', [
-    [qw(kid teacher grade graduated)],
-    [$kid, '', '', 'x'],
+    [qw(kid class graduated)],
+    [$kid, '', 'x'],
 ]);
 follow_link('update_kids_classes');
 submit_form(Update => {
@@ -96,8 +96,8 @@ verify_form({
 follow_link('^kids');
 show_all_kids();
 verify_table('Kid', [
-    [qw(kid teacher grade graduated)],
-    [$kid, '', '', 'x'],
+    [qw(kid class graduated)],
+    [$kid, '', 'x'],
 ]);
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
@@ -105,8 +105,8 @@ submit_form({
 });
 show_all_kids();
 verify_table('Kid', [
-    [qw(kid teacher grade graduated)],
-    [$kid, '', '', 'x'],
+    [qw(kid class graduated)],
+    [$kid, '', 'x'],
 ]);
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
@@ -114,8 +114,8 @@ submit_form({
 });
 show_all_kids();
 verify_table('Kid', [
-    [qw(kid teacher grade graduated)],
-    [$kid, '', '', ''],
+    [qw(kid class graduated)],
+    [$kid, '', ''],
 ]);
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
@@ -123,8 +123,8 @@ submit_form({
 });
 show_all_kids();
 verify_table('Kid', [
-    [qw(kid teacher grade graduated)],
-    [$kid, $t1, '1st', ''],
+    [qw(kid class graduated)],
+    [$kid, "1st $t1", ''],
 ]);
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
@@ -133,8 +133,8 @@ submit_form({
 });
 show_all_kids();
 verify_table('Kid', [
-    [qw(kid teacher grade graduated)],
-    [$kid, '', '', 'x'],
+    [qw(kid class graduated)],
+    [$kid, '', 'x'],
 ]);
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
@@ -143,6 +143,6 @@ submit_form({
 });
 show_all_kids();
 verify_table('Kid', [
-    [qw(kid teacher grade graduated)],
-    [$kid, $t1, '1st', ''],
+    [qw(kid class graduated)],
+    [$kid, "1st $t1", ''],
 ]);
