@@ -7,15 +7,8 @@ use Bivio::UI::ViewLanguageAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
-sub freiker_by_teacher_list {
-    my($self) = @_;
-    return $self->internal_body_and_tools(
-	vs_paged_list(FreikerByTeacherList => [
-	    'User.first_name',
-	    'FreikerInfo.distance_kilometers',
-	    'SchoolClass.school_class_id',
-	]),
-    );
+sub freiker_by_class_list {
+    return _freiker_list(shift, 'ClubFreikerByClassList');
 }
 
 sub freiker_class_list_form {
@@ -70,55 +63,7 @@ sub freiker_import_form {
 sub freiker_list {
     my($self) = @_;
     $self->internal_put_base_attr(vs_freiker_list_selector());
-    return $self->internal_body_and_tools(
-	vs_paged_list(ClubFreikerList => [
-	    ['display_name', {
-		column_order_by => [qw(
-		    User.last_name_sort
-		    User.first_name_sort
-		    User.middle_name_sort
-		)],
-	    }],
-	    ['freiker_codes', {
-		column_heading_class => 'narrow_heading',
-	    }],
-	    ['ride_count', {
-		column_heading_class => 'narrow_heading',
-	    }],
-	    ['miles', {
-		column_heading_class => 'narrow_heading',
-		column_control => ['Model.ClubFreikerList', '->in_miles'],
-	    }],
-            ['FreikerInfo.distance_kilometers', {
-		column_heading_class => 'narrow_heading',
-		column_control => ['!', 'Model.ClubFreikerList', '->in_miles'],
-	    }],
-	    ['current_miles', {
-		column_heading_class => 'narrow_heading',
-	    }],
-	    ['calories', {
-		column_heading_class => 'narrow_heading',
-	    }],
-	    'class_display_name',
-	    ['has_graduated', {
-		column_heading_class => 'narrow_heading',
-		column_data_class => 'centered_cell',
-		column_widget => Simple([sub {
-		    return shift->get('has_graduated')
-			? vs_text('ClubFreikerList.has_graduated_true')
-			: vs_text('ClubFreikerList.has_graduated_false');
-		}]),
-		column_control => ['!', 'Model.FreikerListQueryForm', 'fr_current'],
-	    }],
-	    vs_freiker_list_actions(qw(CLUB ClubFreikerList)),
-	]),
-	[
-	    {
-		task_id => 'CLUB_FREIKER_LIST_CSV',
-		query => [qw(Model.FreikerListQueryForm ->get_current_query_for_list)],
-	    },
-	],
-    );
+    return _freiker_list($self, 'ClubFreikerList');
 }
 
 sub freiker_list_csv {
@@ -136,7 +81,9 @@ sub freiker_list_csv {
 	    parent_zip
 	    parent_email
 	    FreikerInfo.distance_kilometers
+	    current_kilometers
 	    miles
+	    current_miles
 	    calories
 	    Address.street1
 	    Address.street2
@@ -306,6 +253,71 @@ sub school_class_list_form {
 		enum_sort => 'as_int',
 	    },
 	]),
+    );
+}
+
+sub _freiker_list {
+    my($self, $model) = @_;
+    return $self->internal_body_and_tools(
+	vs_paged_list($model => [
+	    ['display_name', {
+		column_order_by => [qw(
+		    User.last_name_sort
+		    User.first_name_sort
+		    User.middle_name_sort
+		)],
+	    }],
+	    ['freiker_codes', {
+		column_heading_class => 'narrow_heading',
+	    }],
+	    ['ride_count', {
+		column_heading_class => 'narrow_heading',
+	    }],
+	    ['miles', {
+		column_heading_class => 'narrow_heading',
+		column_control => ["Model.$model", '->in_miles'],
+	    }],
+            ['FreikerInfo.distance_kilometers', {
+		column_heading_class => 'narrow_heading',
+		column_control => ['!', "Model.$model", '->in_miles'],
+	    }],
+	    ['current_miles', {
+		column_heading_class => 'narrow_heading',
+	    }],
+	    ['calories', {
+		column_heading_class => 'narrow_heading',
+	    }],
+	    $model eq 'ClubFreikerByClassList'
+		? ()
+		: ['class_display_name', {
+		    column_widget => Link(['class_display_name'], URI({
+			task_id => 'CLUB_FREIKER_BY_CLASS_LIST',
+			query => {
+			    'ListQuery.this' => ['school_class_id'],
+			},
+		    })),
+		}],
+	    $model eq 'ClubFreikerByClassList'
+		? ()
+		: ['has_graduated', {
+		    column_heading_class => 'narrow_heading',
+		    column_data_class => 'centered_cell',
+		    column_widget => Simple([sub {
+			return shift->get('has_graduated')
+			    ? vs_text("$model.has_graduated_true")
+			    : vs_text("$model.has_graduated_false");
+		    }]),
+		    column_control =>
+			['!', 'Model.FreikerListQueryForm', 'fr_current'],
+		}],
+	    vs_freiker_list_actions(qw(CLUB ClubFreikerList)),
+	]),
+	[
+	    {
+		task_id => 'CLUB_FREIKER_LIST_CSV',
+		query => [qw(Model.FreikerListQueryForm ->get_current_query_for_list)],
+	    },
+	],
     );
 }
 
