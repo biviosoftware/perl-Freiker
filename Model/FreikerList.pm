@@ -199,6 +199,20 @@ sub internal_initialize {
 		type => 'String',
 		constraint => 'NONE',
 	    },
+ 	    {
+ 		name => 'school_class_id',
+ 		type => 'DisplayName',
+ 		constraint => 'NONE',
+ 		select_value => "(select sc.school_class_id
+                     FROM realm_user_t ru, school_class_t sc, realm_owner_t ro, school_year_t sy
+                     WHERE ru.role = $_FREIKER
+                     AND realm_user_t.user_id = ru.user_id
+                     AND ru.realm_id = sc.school_class_id
+                     AND sc.school_class_id = ro.realm_id
+                     AND sc.school_year_id = sy.school_year_id
+                     AND sy.start_date = $_DATE
+                 ) AS school_class_id",
+ 	    },
 	    {
 		name => 'RealmUser.role',
 		in_select => 0,
@@ -324,16 +338,18 @@ sub internal_pre_load {
     }
     my($sy_date) = $self->new_other('SchoolYear')->set_ephemeral
 	->this_year_start_date;
-    unshift(
+    my($where) = shift->SUPER::internal_pre_load(@_);
+    push(
 	@$params,
 	map(@$x{qw(begin_date date)}, 1..4),
 	$sy_date,
 	$sy_date,
+	$sy_date,
 	$self->req('auth_id'),
     );
-    my($where) = shift->SUPER::internal_pre_load(@_);
     return join(
 	' AND ',
+	$where ? $where : (),
 	"address_t.location = $_LOCATION",
         'realm_user_t.realm_id = ?',
 	"realm_user_t.role = $_FREIKER",
@@ -366,7 +382,6 @@ sub internal_pre_load {
 	    $not_in .= ')';
 	    return $not_in;
 	}->(),
-	$where ? $where : (),
     );
 }
 
