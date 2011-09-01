@@ -14,7 +14,7 @@ my($_RT) = b_use('Auth.RealmType');
 sub execute_empty {
     my($self) = @_;
     return
-	unless $self->req('task')->has_realm_type($_RT->CLUB);
+	unless $self->req('task')->get('id')->equals_by_name('CLUB_FREIKER_LIST');
     my($query) = $self->req('query');
     $query
 	? $self->internal_put_field(
