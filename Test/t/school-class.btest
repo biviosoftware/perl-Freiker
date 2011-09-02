@@ -21,11 +21,13 @@ submit_form({
 });
 follow_link('kids');
 show_all_kids();
+find_page_with_text($kid);
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
     class => qr{$t2},
 });
 show_all_kids();
+find_page_with_text($kid);
 verify_table('Kid', [
     [qw(kid class graduated)],
     [$kid, "2nd $t2", ''],
@@ -55,6 +57,7 @@ verify_form({
 });
 follow_link('^kids');
 show_all_kids();
+find_page_with_text($kid);
 verify_table('Kid', [
     [qw(kid class graduated)],
     [$kid, "1st $t1", ''],
@@ -75,6 +78,7 @@ verify_form({
 });
 follow_link('^kids');
 show_all_kids();
+find_page_with_text($kid);
 verify_table('Kid', [
     [qw(kid class graduated)],
     [$kid, '', 'x'],
@@ -95,6 +99,7 @@ verify_form({
 });
 follow_link('^kids');
 show_all_kids();
+find_page_with_text($kid);
 verify_table('Kid', [
     [qw(kid class graduated)],
     [$kid, '', 'x'],
@@ -104,6 +109,7 @@ submit_form({
     class => "1st $t1",
 });
 show_all_kids();
+find_page_with_text($kid);
 verify_table('Kid', [
     [qw(kid class graduated)],
     [$kid, '', 'x'],
@@ -113,6 +119,7 @@ submit_form({
     '_radio#0' => 'No',
 });
 show_all_kids();
+find_page_with_text($kid);
 verify_table('Kid', [
     [qw(kid class graduated)],
     [$kid, '', ''],
@@ -122,6 +129,7 @@ submit_form({
     class => "1st $t1",
 });
 show_all_kids();
+find_page_with_text($kid);
 verify_table('Kid', [
     [qw(kid class graduated)],
     [$kid, "1st $t1", ''],
@@ -132,6 +140,7 @@ submit_form({
     '_radio#0' => 'Yes',
 });
 show_all_kids();
+find_page_with_text($kid);
 verify_table('Kid', [
     [qw(kid class graduated)],
     [$kid, '', 'x'],
@@ -142,6 +151,7 @@ submit_form({
     '_radio#0' => 'No',
 });
 show_all_kids();
+find_page_with_text($kid);
 verify_table('Kid', [
     [qw(kid class graduated)],
     [$kid, "1st $t1", ''],
