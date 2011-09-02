@@ -12,25 +12,17 @@ my($_PI) = b_use('Type.PrimaryId');
 my($_RT) = b_use('Auth.RealmType');
 
 sub execute_empty {
-    my($self) = @_;
+    my($self) = shift;
+    $self->SUPER::execute_empty(@_);
     return
 	unless $self->req('task')->get('id')->equals_by_name('CLUB_FREIKER_LIST');
     my($query) = $self->req('query');
-    $query
-	? $self->internal_put_field(
-	    $query->{fr_trips} ? (fr_trips => 1) : (),
-	    $query->{fr_registered} ? (fr_registered => 1) : (),
-	    $query->{fr_current} ? (fr_current => 1) : (),
-	    $query->{fr_all} ? (fr_all => 1) : (),
-	    $query->{fr_begin} ? (fr_begin => $_D->from_literal($query->{fr_begin})) : (),
-	    $query->{fr_end} ? (fr_end => $_D->from_literal($query->{fr_end})) : (),
-	    $query->{fr_year} ? (fr_year => $_YQ->from_literal($query->{fr_year})) : (),
-	) : $self->internal_put_field(
-	    fr_trips => 1,
-	    fr_begin => $_YQ->get_default->first_date_of_school_year,
-	    fr_end => $_D->now,
-	    fr_current => 1,
-	);
+    $self->internal_put_field(
+	fr_trips => 1,
+	fr_begin => $_YQ->get_default->first_date_of_school_year,
+	fr_end => $_D->now,
+	fr_current => 1,
+    ) unless $query;
     return;
 }
 
