@@ -33,6 +33,7 @@ verify_table('Kid', [
     [$kid, "2nd $t2", ''],
 ]);
 follow_link('update_kids_classes');
+find_page_with_text($kid);
 verify_table('Kid', [
     [qw(kid ^class ^graduated)],
     [$kid, "2nd $t2", ''],
@@ -63,6 +64,7 @@ verify_table('Kid', [
     [$kid, "1st $t1", ''],
 ]);
 follow_link('update_kids_classes');
+find_page_with_text($kid);
 submit_form(Update => {
     'Updated Class_' . $row->{_row_index} => "Select Class",
     'Updated Graduated_' . $row->{_row_index} => 1,
@@ -84,6 +86,7 @@ verify_table('Kid', [
     [$kid, '', 'x'],
 ]);
 follow_link('update_kids_classes');
+find_page_with_text($kid);
 submit_form(Update => {
     'Updated Class_' . $row->{_row_index} => "1st $t1",
     'Updated Graduated_' . $row->{_row_index} => 1,
