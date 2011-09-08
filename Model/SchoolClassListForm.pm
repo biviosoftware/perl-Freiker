@@ -77,7 +77,7 @@ sub internal_initialize_list {
     $self->new_other('SchoolClassList')->load_with_school_year($sy);
     return shift->SUPER::internal_initialize_list(@_);
 }
-	
+
 sub validate_row {
     my($self) = @_;
     return
@@ -86,6 +86,8 @@ sub validate_row {
     my($fields) = $self->[$_IDI];
     $self->internal_put_error('RealmOwner.display_name' => 'EXISTS')
 	if $fields->{lc($dn)}++;
+    $self->internal_put_error('SchoolClass.school_grade' => 'NULL')
+	unless $self->unsafe_get('SchoolClass.school_grade');
     return;
 }
 
