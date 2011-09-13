@@ -85,12 +85,11 @@ sub validate_row {
     return
 	if !defined($dn) && !defined($sg);
     $self->internal_put_error('RealmOwner.display_name' => 'NULL')
-	if !defined($dn) && $sg;
+	if !defined($dn) && defined($sg);
     $self->internal_put_error('SchoolClass.school_grade' => 'NULL')
-	if !defined($sg) && $dn;
+	if !defined($sg) && defined($dn);
     return
-	if $self->get_field_error('RealmOwner.display_name')
-	|| $self->get_field_error('SchoolClass.school_grade');
+	if $self->get_field_error('RealmOwner.display_name');
     my($fields) = $self->[$_IDI];
     $self->internal_put_error('RealmOwner.display_name' => 'EXISTS')
 	if $fields->{lc($dn)}++;
