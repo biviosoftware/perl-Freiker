@@ -104,6 +104,7 @@ my($_SELF) = __PACKAGE__->new({
 	[ADM_PRIZE_LIST => 'adm/prizes'],
 	[ADM_PRIZE_COUPON_LIST => 'adm/prize-coupons'],
 	[ADM_PRIZE => 'adm/prize'],
+	[ADM_RIDE_SUMMARY_LIST => 'adm/ride-summary'],
 	[CLUB_REGISTER => '/pub/register-school'],
 	[CLUB_RIDE_DATE_LIST => ['?/trip-dates', '?/ride-dates']],
 	[CLUB_FREIKER_CODE_IMPORT => '?/import-codes'],
@@ -146,6 +147,8 @@ my($_SELF) = __PACKAGE__->new({
 	[USER_ACCEPT_TERMS_FORM => 'bp/Accept_Terms'],
 	[CLUB_FREIKER_IMPORT_EMPTY_CSV => '?/import-kids.csv'],
 	[CLUB_FREIKER_IMPORT_FORM => '?/import-kids'],
+	[CLUB_SUMMARY_BY_SCHOOL_LIST => '?/summary-by-school'],
+	[CLUB_SUMMARY_BY_CLASS_LIST => '?/summary-by-class'],
     ],
     Text => [
 	[support_email => 'info@boltage.org'],
@@ -356,7 +359,7 @@ EOF
 	    optional_address => 'Optional information to help us contact you',
 	    optional_statistics => 'Optional information used for statistical purposes',
 	]],
-	[[qw(FreikerList ClubFreikerList ClubFreikerByClassList)] => [
+	[[qw(FreikerList ClubFreikerList ClubFreikerByClassList AdmRideList)] => [
 	    [qw(User.first_name display_name)] => 'Kid',
 	    school_class_display_name => 'Teacher',
 	    empty_list_prose => 'No Kids as yet.',
@@ -372,12 +375,21 @@ EOF
 	    has_graduated_false => '',
 	    has_graduated_true => 'x',
 	    calories => 'Calories Burned',
+	    co2_saved => 'Pounds of CO2 Saved',
 	]],
 	[ClubFreikerClassListForm => [
 	    'prose.prologue' => q{If(['!', 'auth_realm', 'type', '->eq_user'], Link("Click here to edit your school's class list.", 'CLUB_SCHOOL_CLASS_LIST_FORM'));},
 	    has_graduated => '',
 	    new_has_graduated => '',
 	    ok_button => 'Update',
+	]],
+	[summary_headings => [
+	    ride_count => 'Total Trips',
+	    current_miles => 'Total Miles',
+	    calories => 'Total Calories Burned',
+	    trips => 'Total Trips',
+	    trip_miles => 'Total Miles',
+	    co2_saved => 'Pounds of CO2 Saved',
 	]],
 	[FreikerListQueryForm => [
 	    fr_year => 'All Years',
@@ -521,6 +533,9 @@ EOF
 	    GREEN_GEAR_FORM => 'Choose Weekly Winner',
 	    CLUB_FREIKER_PRIZE_DELETE => q{Return Prize for String([qw(Model.ClubPrizeCouponList ->get_display_name)]);},
 	    CLUB_FREIKER_IMPORT_FORM => 'Import Kids',
+	    CLUB_SUMMARY_BY_SCHOOL_LIST => 'School Trip Summary',
+	    CLUB_SUMMARY_BY_CLASS_LIST => q{Class Trip Summary for String([qw(Model.ClubFreikerByClassList ->get_class_display_name)]);},
+	    ADM_RIDE_SUMMARY_LIST => 'Trip Summary for All Schools',
 	]],
 	['xhtml.title' => [
 	    [qw(FAMILY_FREIKER_RIDE_LIST CLUB_FREIKER_RIDE_LIST)]
@@ -540,9 +555,14 @@ EOF
 	    club => 'School',
 	    merchant => 'Merchant',
 	]],
+	['class_links' => [
+	    CLUB_FREIKER_BY_CLASS_LIST => 'Kids',
+	    CLUB_SUMMARY_BY_CLASS_LIST => 'Trip Summary',
+	]],
 	['task_menu.title' => [
 	    [qw(sort_001)] => "\0\1",
 	    [qw(sort_002)] => "\0\2",
+	    ADM_RIDE_SUMMARY_LIST => 'All Trip Summary',
 	    CLUB_FREIKER_LIST => 'Kids',
 	    CLUB_FREIKER_BY_CLASS_LIST => 'Kids',
 	    CLUB_FREIKER_CLASS_LIST_FORM => 'Update Kids Classes',
@@ -551,6 +571,7 @@ EOF
 	    CLUB_PRIZE => 'Update prize',
 	    CLUB_PRIZE_LIST => 'Available prizes',
 	    CLUB_REGISTER => 'Register new school',
+	    CLUB_SUMMARY_BY_SCHOOL_LIST => 'Trip Summary',
 	    [qw(FAMILY_FREIKER_ADD CLUB_FREIKER_ADD)] => 'Register kid',
 	    FAMILY_FREIKER_LIST => 'Your family',
 	    FAMILY_PRIZE_COUPON_LIST => 'Past prizes',

@@ -555,7 +555,37 @@ sub get_delegate_info {
 	    Model.FreikerListQueryForm
 	    Model.ClubFreikerByClassList->execute_load_page
 	    View.Club->freiker_by_class_list
-	    next=CLUB_FREIKER_LIST
+	    next=CLUB_FREIKER_BY_CLASS_LIST
+	)],
+	[qw(
+	    CLUB_SUMMARY_BY_SCHOOL_LIST
+	    560
+	    CLUB
+	    ADMIN_READ
+	    Model.FreikerListQueryForm
+	    Model.ClubFreikerList->execute_load_all
+	    View.Club->summary_by_school
+	    next=CLUB_SUMMARY_BY_SCHOOL_LIST
+	)],
+	[qw(
+	    CLUB_SUMMARY_BY_CLASS_LIST
+	    561
+	    CLUB
+	    ADMIN_READ
+	    Model.FreikerListQueryForm
+	    Model.ClubFreikerByClassList->execute_load_all
+	    View.Club->summary_by_class
+	    next=CLUB_SUMMARY_BY_CLASS_LIST
+	)],
+	[qw(
+	    ADM_RIDE_SUMMARY_LIST
+	    562
+	    GENERAL
+	    ADMIN_READ
+	    Model.FreikerListQueryForm
+	    Model.AdmRideList->execute_load_page
+	    View.Adm->ride_summary_list
+	    next=ADM_RIDE_SUMMARY_LIST
 	)],
     ]);
 }
