@@ -30,6 +30,14 @@ my($_IDI) = __PACKAGE__->instance_data_index;
 my($_FLQF) = b_use('Model.FreikerListQueryForm');
 my($_RTK) = b_use('Type.RowTagKey');
 
+sub CALORIES_PER_MILE {
+    return 42.9;
+}
+
+sub CO2_POUNDS_PER_MILE {
+    return 1.5 * 1.1;
+}
+
 sub NOT_FOUND_IF_EMPTY {
     return 1;
 }
@@ -232,6 +240,11 @@ sub internal_initialize {
 		type => 'Integer',
 		constraint => 'NONE',
 	    },
+	    {
+		name => 'co2_saved',
+		type => 'Integer',
+		constraint => 'NONE',
+	    },
 	    $self->field_decl(
 		[
 		    [qw(can_select_prize Boolean)],
@@ -314,7 +327,9 @@ sub internal_post_load_row {
 	&& join(' ', ($row->{school_grade}->get_short_desc,
 		      $row->{school_class_display_name}));
     $row->{calories} = $row->{current_miles}
-	&& $row->{current_miles} * 42.9;
+	&& $row->{current_miles} * $self->CALORIES_PER_MILE;
+    $row->{co2_saved} = $row->{current_miles}
+	&& $row->{current_miles} * $self->CO2_POUNDS_PER_MILE;
     return 1;
 }
 
