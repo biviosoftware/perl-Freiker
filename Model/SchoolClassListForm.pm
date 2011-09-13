@@ -80,14 +80,20 @@ sub internal_initialize_list {
 
 sub validate_row {
     my($self) = @_;
+    my($dn) = $self->unsafe_get('RealmOwner.display_name');
+    my($sg) = $self->unsafe_get('SchoolClass.school_grade');
+    return
+	if !defined($dn) && !defined($sg);
+    $self->internal_put_error('RealmOwner.display_name' => 'NULL')
+	if !defined($dn) && $sg;
+    $self->internal_put_error('SchoolClass.school_grade' => 'NULL')
+	if !defined($sg) && $dn;
     return
 	if $self->get_field_error('RealmOwner.display_name')
-	|| !defined(my $dn = $self->unsafe_get('RealmOwner.display_name'));
+	|| $self->get_field_error('SchoolClass.school_grade');
     my($fields) = $self->[$_IDI];
     $self->internal_put_error('RealmOwner.display_name' => 'EXISTS')
 	if $fields->{lc($dn)}++;
-    $self->internal_put_error('SchoolClass.school_grade' => 'NULL')
-	unless $self->unsafe_get('SchoolClass.school_grade');
     return;
 }
 
