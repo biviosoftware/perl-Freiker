@@ -69,4 +69,17 @@ sub prize_list {
 	 vs_prize_list(AdmPrizeList => [qw(THIS_DETAIL ADM_PRIZE)]));
 }
 
+sub ride_summary_list {
+    my($self) = @_;
+    $self->internal_put_base_attr(
+	vs_freiker_list_selector([qw(fr_begin fr_end)]));
+    return $self->internal_body(
+	vs_paged_list('AdmRideList', [
+	    qw(ride_count current_miles calories co2_saved),
+	], {
+	    summary_only => 1,
+	})
+    );
+}
+
 1;
