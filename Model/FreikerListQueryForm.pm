@@ -14,8 +14,13 @@ my($_RT) = b_use('Auth.RealmType');
 sub execute_empty {
     my($self) = shift;
     $self->SUPER::execute_empty(@_);
+    my($tid) = $self->req('task')->get('id');
     return
-	unless $self->req('task')->get('id')->equals_by_name('CLUB_FREIKER_LIST');
+	unless $tid->equals_by_name(qw(
+	    CLUB_FREIKER_LIST
+	    CLUB_SUMMARY_BY_SCHOOL_LIST
+	    ADM_RIDE_SUMMARY_LIST
+	 ));
     my($query) = $self->req('query');
     $self->internal_put_field(
 	fr_trips => 1,
