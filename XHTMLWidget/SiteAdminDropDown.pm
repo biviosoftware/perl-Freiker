@@ -11,6 +11,7 @@ sub initialize {
     my($self) = @_;
     $self->put(extra_items => [
 	'ADM_FREIKOMETER_LIST',
+	'ADM_RIDE_SUMMARY_LIST',
 	'CLUB_REGISTER',
 	{
 	    realm => 'site-contact',
