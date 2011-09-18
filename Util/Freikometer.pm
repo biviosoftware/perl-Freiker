@@ -9,6 +9,9 @@ my($_FP) = b_use('Type.FilePath');
 my($_DT) = b_use('Type.DateTime');
 my($_F) = b_use('IO.File');
 my($_R) = b_use('IO.Ref');
+my($_ZAP_PREFIX) = 'dz';
+my($_FM_PREFIX) = 'fm';
+my($_NAME_RE) = qr{^(?:$_ZAP_PREFIX|$_FM_PREFIX)_}o;
 
 sub USAGE {
     return <<'EOF';
@@ -29,7 +32,7 @@ EOF
 sub create {
     my($self, $name) = @_;
     my($req) = $self->initialize_fully;
-    my($password) = _create($self, 'fm', $name, $name);
+    my($password) = _create($self, $_FM_PREFIX, $name, $name);
     return [
 	$req->is_production ? 'https://fm.freikometer.net'
 	    . $req->format_uri('BOT_FREIKOMETER_UPLOAD')
@@ -45,7 +48,7 @@ sub create_zap {
     $self->usage_error($bp->{ethernet}, ': ethernet already registered')
 	if $self->model('RealmOwner')
         ->unauth_load({display_name => $bp->{ethernet}});
-    return _create($self, 'dz', $bp->{name}, $bp->{ethernet});
+    return _create($self, $_ZAP_PREFIX, $bp->{name}, $bp->{ethernet});
 }
 
 sub do_all {
@@ -143,6 +146,11 @@ sub download_playlist {
 	    }),
 	}),
     );
+}
+
+sub is_freikometer_name {
+    my(undef, $name) = @_;
+    return $name =~ $_NAME_RE ? 1 : 0;
 }
 
 sub join_user_as_member {
