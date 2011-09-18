@@ -587,6 +587,14 @@ sub get_delegate_info {
 	    View.Adm->ride_summary_list
 	    next=ADM_RIDE_SUMMARY_LIST
 	)],
+	[qw(
+	    GROUP_USER_BULLETIN_LIST_CSV
+	    563
+	    ANY_OWNER
+	    ADMIN_READ&FEATURE_GROUP_ADMIN
+	    View.GroupAdmin->user_bulletin_list_csv
+            require_secure=1
+	)],
     ]);
 }
 

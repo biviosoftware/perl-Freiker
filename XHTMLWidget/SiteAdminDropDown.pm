@@ -14,7 +14,11 @@ sub initialize {
 	'ADM_RIDE_SUMMARY_LIST',
 	'CLUB_REGISTER',
 	{
-	    realm => 'site-contact',
+	    realm => vs_constant('site_admin_realm_name'),
+	    task_id => 'GROUP_USER_BULLETIN_LIST_CSV',
+	},
+	{
+	    realm => vs_constant('site_contact_realm_name'),
 	    task_id => 'FORUM_CRM_THREAD_ROOT_LIST',
 	},
     ]);

@@ -149,6 +149,7 @@ my($_SELF) = __PACKAGE__->new({
 	[CLUB_FREIKER_IMPORT_FORM => '?/import-kids'],
 	[CLUB_SUMMARY_BY_SCHOOL_LIST => '?/summary-by-school'],
 	[CLUB_SUMMARY_BY_CLASS_LIST => '?/summary-by-class'],
+	[GROUP_USER_BULLETIN_LIST_CSV => '?/subscribers.csv'],
     ],
     Text => [
 	[support_email => 'info@boltage.org'],
@@ -536,6 +537,10 @@ EOF
 	    CLUB_SUMMARY_BY_SCHOOL_LIST => 'School Trip Summary',
 	    CLUB_SUMMARY_BY_CLASS_LIST => q{Class Trip Summary for String([qw(Model.ClubFreikerByClassList ->get_class_display_name)]);},
 	    ADM_RIDE_SUMMARY_LIST => 'Trip Summary for All Schools',
+	    GROUP_USER_BULLETIN_LIST_CSV => 'Subscribers (CSV)',
+	]],
+	[clear_on_focus_hint => [
+	    GROUP_USER_BULLETIN_LIST_CSV => '',
 	]],
 	['xhtml.title' => [
 	    [qw(FAMILY_FREIKER_RIDE_LIST CLUB_FREIKER_RIDE_LIST)]
