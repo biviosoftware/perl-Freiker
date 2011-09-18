@@ -1,0 +1,6 @@
+# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+login_as('adm');
+follow_link('subscribers');
+verify_text(qr{Email,First.*adm\@.*,,,adm.*parent}s);
