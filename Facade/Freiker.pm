@@ -378,12 +378,16 @@ EOF
 	    co2_saved => 'Pounds of CO2 Saved',
 	]],
 	[[qw(AdmSummaryBySchoolList ClubSummaryByClassList)] => [
-	    'RealmOwner.display_name' => 'School Name',
-	    'RealmOwner.realm_type' => 'Realm Type',
 	    current_miles => 'Total Miles',
 	    current_kilometers => 'Total Kilometers',
 	    calories => 'Calories Burned',
 	    co2_saved => 'Pounds of CO2 Saved',
+	]],
+	[AdmSummaryBySchoolList => [
+	    'RealmOwner.display_name' => 'School',
+	]],
+	[ClubSummaryByClassList => [
+	    'RealmOwner.display_name' => 'Class',
 	]],
 	[ClubFreikerClassListForm => [
 	    'prose.prologue' => q{If(['!', 'auth_realm', 'type', '->eq_user'], Link("Click here to edit your school's class list.", 'CLUB_SCHOOL_CLASS_LIST_FORM'));},
