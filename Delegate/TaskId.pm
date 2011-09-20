@@ -548,24 +548,24 @@ sub get_delegate_info {
 	    next=CLUB_FREIKER_CLASS_LIST_FORM
 	)],
 	[qw(
-	    CLUB_FREIKER_BY_CLASS_LIST
+	    CLUB_FREIKER_CLASS_LIST
 	    559
 	    CLUB
 	    ADMIN_READ
 	    Model.FreikerListQueryForm
-	    Model.ClubFreikerByClassList->execute_load_page
-	    View.Club->freiker_by_class_list
-	    next=CLUB_FREIKER_BY_CLASS_LIST
+	    Model.ClubFreikerClassList->execute_load_page
+	    View.Club->freiker_class_list
+	    next=CLUB_FREIKER_CLASS_LIST
 	)],
 	[qw(
-	    CLUB_SUMMARY_BY_SCHOOL_LIST
+	    ADM_SUMMARY_BY_SCHOOL_LIST
 	    560
-	    CLUB
+	    GENERAL
 	    ADMIN_READ
 	    Model.FreikerListQueryForm
-	    Model.ClubFreikerList->execute_load_all
-	    View.Club->summary_by_school
-	    next=CLUB_SUMMARY_BY_SCHOOL_LIST
+	    Model.AdmSummaryBySchoolList->execute_load_all
+	    View.Adm->summary_by_school_list
+	    next=ADM_SUMMARY_BY_SCHOOL_LIST
 	)],
 	[qw(
 	    CLUB_SUMMARY_BY_CLASS_LIST
@@ -573,23 +573,13 @@ sub get_delegate_info {
 	    CLUB
 	    ADMIN_READ
 	    Model.FreikerListQueryForm
-	    Model.ClubFreikerByClassList->execute_load_all
-	    View.Club->summary_by_class
-	    next=CLUB_SUMMARY_BY_CLASS_LIST
-	)],
-	[qw(
-	    ADM_RIDE_SUMMARY_LIST
-	    562
-	    GENERAL
-	    ADMIN_READ
-	    Model.FreikerListQueryForm
-	    Model.AdmRideList->execute_load_page
-	    View.Adm->ride_summary_list
-	    next=ADM_RIDE_SUMMARY_LIST
+	    Model.ClubSummaryByClassList->execute_load_all
+	    View.Club->summary_by_class_list
+	    next=ADM_SUMMARY_BY_SCHOOL_LIST
 	)],
 	[qw(
 	    GROUP_USER_BULLETIN_LIST_CSV
-	    563
+	    562
 	    ANY_OWNER
 	    ADMIN_READ&FEATURE_GROUP_ADMIN
 	    View.GroupAdmin->user_bulletin_list_csv

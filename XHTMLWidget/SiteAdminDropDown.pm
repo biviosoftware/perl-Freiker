@@ -11,7 +11,7 @@ sub initialize {
     my($self) = @_;
     $self->put(extra_items => [
 	'ADM_FREIKOMETER_LIST',
-	'ADM_RIDE_SUMMARY_LIST',
+	'ADM_SUMMARY_BY_SCHOOL_LIST',
 	'CLUB_REGISTER',
 	{
 	    realm => vs_constant('site_admin_realm_name'),

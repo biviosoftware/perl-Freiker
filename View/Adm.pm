@@ -69,16 +69,17 @@ sub prize_list {
 	 vs_prize_list(AdmPrizeList => [qw(THIS_DETAIL ADM_PRIZE)]));
 }
 
-sub ride_summary_list {
+sub summary_by_school_list {
     my($self) = @_;
     $self->internal_put_base_attr(
 	vs_freiker_list_selector([qw(fr_begin fr_end)]));
     return $self->internal_body(
-	vs_paged_list('AdmRideList', [
+	vs_list('AdmSummaryBySchoolList', [
+	    'RealmOwner.display_name',
 	    qw(ride_count current_miles calories co2_saved),
 	], {
-	    summary_only => 1,
-	})
+	    summarize => 1,
+	}),
     );
 }
 

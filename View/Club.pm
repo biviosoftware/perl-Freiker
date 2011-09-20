@@ -7,8 +7,8 @@ use Bivio::UI::ViewLanguageAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
-sub freiker_by_class_list {
-    return _freiker_list(shift, 'ClubFreikerByClassList');
+sub freiker_class_list {
+    return _freiker_list(shift, 'ClubFreikerClassList');
 }
 
 sub freiker_class_list_form {
@@ -124,7 +124,7 @@ sub internal_body_and_tools {
 		CLUB_SCHOOL_CLASS_LIST_FORM
 		CLUB_FREIKER_IMPORT_FORM
 		CLUB_FREIKER_CLASS_LIST_FORM
-		CLUB_SUMMARY_BY_SCHOOL_LIST
+		CLUB_SUMMARY_BY_CLASS_LIST
 	    ),
 	], {
 	    want_more_threshold => 2,
@@ -253,37 +253,22 @@ sub school_class_list_form {
 		unknown_label => 'Select',
 		enum_sort => 'as_int',
 	    },
-	    {
-		column_heading => String('Links'),
-		column_widget => If(['!', '->is_empty_row'],
-		    Join([
-			map(
-			    Link(vs_text("class_links.$_"), URI({
-				task_id => $_,
-				query => {
-				    'ListQuery.this' => ['SchoolClass.school_class_id'],
-				},
-			    })),
-			    qw(CLUB_FREIKER_BY_CLASS_LIST CLUB_SUMMARY_BY_CLASS_LIST),
-			),
-		    ], {join_separator => ', '}),
-		),
-		column_control => ['Model.SchoolClassListForm',
-				   '->get_non_empty_result_set_size'],
-	    },
 	]),
     );
 }
 
-sub summary_by_school {
+sub summary_by_class_list {
     my($self) = @_;
-    $self->internal_put_base_attr(vs_freiker_list_selector([qw(fr_begin fr_end)]));
-    return _summary($self, 'ClubFreikerList');
-}
-
-sub summary_by_class {
-    my($self) = @_;
-    return _summary($self, 'ClubFreikerByClassList');
+    $self->internal_put_base_attr(
+	vs_freiker_list_selector([qw(fr_begin fr_end)]));
+    return $self->internal_body_and_tools(
+	vs_list('ClubSummaryByClassList', [
+	    'RealmOwner.display_name',
+	    qw(ride_count current_miles calories co2_saved),
+	], {
+	    summarize => 1,
+	}),
+    );
 }
 
 sub _freiker_list {
@@ -317,17 +302,17 @@ sub _freiker_list {
 	    ['calories', {
 		column_heading_class => 'narrow_heading',
 	    }],
-	    $model eq 'ClubFreikerByClassList'
+	    $model eq 'ClubFreikerClassList'
 		? ()
 		: ['class_display_name', {
 		    column_widget => Link(['class_display_name'], URI({
-			task_id => 'CLUB_FREIKER_BY_CLASS_LIST',
+			task_id => 'CLUB_FREIKER_CLASS_LIST',
 			query => {
-			    'ListQuery.this' => ['school_class_id'],
+			    'ListQuery.parent_id' => ['school_class_id'],
 			},
 		    })),
 		}],
-	    $model eq 'ClubFreikerByClassList'
+	    $model eq 'ClubFreikerClassList'
 		? ()
 		: ['has_graduated', {
 		    column_heading_class => 'narrow_heading',
@@ -349,18 +334,6 @@ sub _freiker_list {
 	    },
 	],
     );
-}
-
-sub _summary {
-    my($self, $model) = @_;
-    $self->internal_body_and_tools(
-	vs_list($model, [
-	    qw(ride_count current_miles calories co2_saved)
-	], {
-	    summary_only => 1,
-	})
-    );
-    return;
 }
 
 1;

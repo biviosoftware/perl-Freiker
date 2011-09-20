@@ -18,8 +18,8 @@ sub execute_empty {
     return
 	unless $tid->equals_by_name(qw(
 	    CLUB_FREIKER_LIST
-	    CLUB_SUMMARY_BY_SCHOOL_LIST
-	    ADM_RIDE_SUMMARY_LIST
+	    CLUB_SUMMARY_BY_CLASS_LIST
+	    ADM_SUMMARY_BY_SCHOOL_LIST
 	 ));
     my($query) = $self->req('query');
     $self->internal_put_field(
