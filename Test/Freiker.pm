@@ -11,7 +11,7 @@ sub generate_image {
     my($file) = $self->tmp_file('image.jpg');
     $text =~ s/"/'/g;
     $text =~ s/\s+/ /sg;
-    system(qq{convert -size 150x150 xc:white -fill blue -pointsize 36 -draw 'text 0,100 "$text"' $file}) == 0 || die;
+    system(qq{convert -font helvetica -size 150x150 xc:white -fill blue -pointsize 36 -draw 'text 0,100 "$text"' $file}) == 0 || die;
     return $file;
 }
 
