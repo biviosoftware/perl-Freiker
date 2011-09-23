@@ -121,6 +121,9 @@ div.footer_legal {
 div.footer_legal a {
   text-decoration: underline;
 }
+tr.b_footer_row td {
+  font-weight: bold;
+}
 EOF
 
 sub internal_site_css {
