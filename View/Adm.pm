@@ -75,9 +75,13 @@ sub summary_by_school_list {
 	vs_freiker_list_selector([qw(fr_begin fr_end)]));
     return $self->internal_body(
 	vs_list('AdmSummaryBySchoolList', [
-	    'RealmOwner.display_name',
+	    ['realm_display_name', {
+		column_summary_value =>
+		    vs_text('AdmSummaryBySchoolList.display_name_summary_value'),
+	    }],
 	    qw(ride_count current_miles calories co2_saved),
 	], {
+	    trailing_separator => 1,
 	    summarize => 1,
 	}),
     );
