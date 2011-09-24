@@ -26,6 +26,7 @@ my($_SELF) = __PACKAGE__->new({
 	[[qw(fr_header_background fr_footer_background)] => 0xccdd22],
 	[fr_main_center_border => 0x33ccff],
 	[select_prize => 0xffcf06],
+	[table_separator => 0x000000],
     ],
     Font => [
 	[a_link => 'normal'],
@@ -359,7 +360,7 @@ EOF
 	    optional_address => 'Optional information to help us contact you',
 	    optional_statistics => 'Optional information used for statistical purposes',
 	]],
-	[[qw(FreikerList ClubFreikerList ClubFreikerClassList AdmRideList)] => [
+	[[qw(FreikerList ClubFreikerList ClubFreikerClassList)] => [
 	    [qw(User.first_name display_name)] => 'Kid',
 	    school_class_display_name => 'Teacher',
 	    empty_list_prose => 'No Kids as yet.',
@@ -377,17 +378,22 @@ EOF
 	    calories => 'Calories Burned',
 	    co2_saved => 'Pounds of CO2 Saved',
 	]],
+	[ClubRideList => [
+	    'unassigned_class' => 'Unassigned',
+	]],
 	[[qw(AdmSummaryBySchoolList ClubSummaryByClassList)] => [
+	    class_display_name => 'Class',
+	    display_name_summary_value => 'Totals',
 	    current_miles => 'Total Miles',
 	    current_kilometers => 'Total Kilometers',
 	    calories => 'Calories Burned',
 	    co2_saved => 'Pounds of CO2 Saved',
 	]],
 	[AdmSummaryBySchoolList => [
-	    'RealmOwner.display_name' => 'School',
+	    'realm_display_name' => 'School',
 	]],
 	[ClubSummaryByClassList => [
-	    'RealmOwner.display_name' => 'Class',
+	    'realm_display_name' => 'Class',
 	]],
 	[ClubFreikerClassListForm => [
 	    'prose.prologue' => q{If(['!', 'auth_realm', 'type', '->eq_user'], Link("Click here to edit your school's class list.", 'CLUB_SCHOOL_CLASS_LIST_FORM'));},
