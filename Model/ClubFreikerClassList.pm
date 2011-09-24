@@ -22,8 +22,9 @@ my($_CLASS_ID) = <<"EOF";
 EOF
 
 sub get_class_display_name {
-    my($self) = @_;
-    my($this) = $self->parse_query_from_request->get('parent_id');
+    my($self, $model, $this) = @_;
+    $self ||= $model;
+    $this ||= $self->parse_query_from_request->get('parent_id');
     my($ro) = $self->new_other('RealmOwner');
     $ro->unauth_load({
 	realm_id => $this,
