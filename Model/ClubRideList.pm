@@ -6,6 +6,7 @@ use Bivio::Base 'Model.AdmRideList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_SCHOOL_CLASS) = b_use('Auth.RealmType')->SCHOOL_CLASS->as_sql_param;
+my($_CFCL) = b_use('Model.ClubFreikerClassList');
 
 sub AUTH_ID {
     return 'Ride.club_id';
@@ -36,22 +37,10 @@ sub internal_post_load_row {
     my($self, $row) = @_;
     return 0
 	unless shift->SUPER::internal_post_load_row(@_);
-    if ($row->{class_realm_id}) {
-	my($ro) = $self->new_other('RealmOwner');
-	$ro->unauth_load({
-	    realm_id => $row->{class_realm_id}
-	});
-	$row->{class_display_name} =
-	    join(' ',
-		 $self->new_other('SchoolClass')->load({
-		     school_class_id => $row->{class_realm_id}
-		 })->get('school_grade')->get_short_desc,
-		 $ro->get('display_name'),
-	     );
-    } else {
-	$row->{class_display_name} = b_use('UI.Facade')->get_instance
-	    ->get('Text')->get_value('ClubRideList.unassigned_class', $self->req);
-    }
+    $row->{class_display_name} = $row->{class_realm_id}
+	? $_CFCL->get_class_display_name($self, $row->{class_realm_id})
+	: b_use('UI.Facade')->get_instance->get('Text')
+	    ->get_value('ClubRideList.unassigned_class', $self->req);
     return 1;
 }
 
