@@ -12,11 +12,13 @@ my($_R) = b_use('IO.Ref');
 my($_ZAP_PREFIX) = 'dz';
 my($_FM_PREFIX) = 'fm';
 my($_NAME_RE) = qr{^(?:$_ZAP_PREFIX|$_FM_PREFIX)_}o;
+my($_AR) = b_use('Auth.Role');
 
 sub USAGE {
     return <<'EOF';
 usage: fr-freikometer [options] command [args..]
 commands
+  add_zap_admins -- add superusers, admins of site-zap to all zaps
   create name -- creates freikometer in realm
   create_zap name ethernet -- creates dero zap in realm
   do_all method args -- runs method with args on all fms
@@ -27,6 +29,13 @@ commands
   list_upload -- lists the upload folder
   reboot -- reboots a freikometer
 EOF
+}
+
+sub add_zap_admins {
+    my($self) = @_;
+    $self->initialize_fully;
+    _add_zap_admins($self);
+    return;
 }
 
 sub create {
@@ -173,6 +182,40 @@ sub reboot {
     });
 }
 
+sub _add_user_to_all_zaps {
+    my($self) = @_;
+    $self->model('RealmUser')->do_iterate(sub {
+	$self->req->with_realm(shift->get('user_id'),
+	    sub {$self->join_user_as_member},
+	);
+	return 1;
+    }, 'unauth_iterate_start', {
+	role => $_AR->FREIKOMETER,
+    });
+    return;
+}
+
+sub _add_zap_admins {
+    my($self) = @_;
+    $self->new_other('RealmRole')->do_super_users(
+	sub {_add_user_to_all_zaps($self)},
+    );
+    my($ro) = $self->model('RealmOwner');
+    $ro->unauth_load({
+	name => 'site-zap',
+    });
+    $self->model('RealmUser')->do_iterate(sub {
+	$self->req->with_user(shift->get('user_id'),
+	    sub {_add_user_to_all_zaps($self)},
+	);
+	return 1;
+    }, 'unauth_iterate_start', {
+	realm_id => $ro->get('realm_id'),
+	role => $_AR->ADMINISTRATOR,
+    });
+    return;
+}
+
 sub _create {
     my($self, $prefix, $name, $display_name) = @_;
     my($req) = $self->initialize_fully;
@@ -190,9 +233,7 @@ sub _create {
     $req->set_realm($req->get('auth_user'));
     $self->new_other('RealmRole')->edit_categories('+feature_file');
     $self->new_other('RealmRole')->edit(qw(MEMBER -DATA_WRITE));
-    $self->new_other('RealmRole')->do_super_users(
-	sub {$self->join_user_as_member},
-    );
+    _add_zap_admins($self);
     $self->model('Email')->load_for_auth_user->update({want_bulletin => 0});
     $self->model('RealmFile')->init_realm->map_invoke(
 	create_folder => [
