@@ -5,6 +5,7 @@ Type();
     from_display_name_and_zip => [
         ['A Big School', '123456789'] => 'big123456789',
         ['Crest View Elementary', '123456789'] => 'crest123456789',
+	['#2 Crest View Elementary', '123456789'] => 'crest2123456789',
         ["St. Mary Catholic School", 'N0B 1S0'] => 'stmaryn0b1s0',
     ],
 ];
