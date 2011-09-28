@@ -148,7 +148,7 @@ sub _find_class {
 sub _find_class_for_date {
     my($self, $realm_ids, $date) = @_;
     $self->new_other('SchoolClassList')->load_with_school_year(
-	$self->new_other('SchoolYear')->unsafe_load_year_from_date($date),
+	$self->new_other('SchoolYear')->unsafe_load_year_from_date_as_new($date),
     );
     return _find_class($self, $realm_ids);
 }
