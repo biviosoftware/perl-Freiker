@@ -101,6 +101,15 @@ sub unauth_delete_freiker {
     return;
 }
 
+sub unsafe_school_class_for_freiker_for_date {
+    my($self, $user_id, $date) = @_;
+    return _find_class_for_date(
+	$self,
+	_unsafe_realm_ids($self, $_SCHOOL_CLASS, $user_id),
+	$date,
+    );
+}
+
 sub unsafe_family_id_for_freiker {
     return _unsafe_realm_ids(shift, $_USER, @_)->[0];
 }
@@ -134,6 +143,14 @@ sub _find_class {
 	    return grep($id eq $_, @$realm_ids) ? $id : ();
 	},
     )->[0];
+}
+
+sub _find_class_for_date {
+    my($self, $realm_ids, $date) = @_;
+    $self->new_other('SchoolClassList')->load_with_school_year(
+	$self->new_other('SchoolYear')->unsafe_load_year_from_date($date),
+    );
+    return _find_class($self, $realm_ids);
 }
 
 sub _not_freiker {
