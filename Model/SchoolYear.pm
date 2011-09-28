@@ -34,20 +34,32 @@ sub internal_initialize {
 
 sub this_year_start_date {
     my($y, $m) = $_D->get_parts($_D->now, 'year', 'month');
-    return _start_date($y + ($m <= 6 ? -1 : 0));
+    return _start_date($y, $m);
 }
 
 sub unsafe_load_last_year_as_new {
     my($self) = @_;
-    my($other) = $self->new;
-    return $other->unsafe_load({
-	start_date => $_D->add_years($self->get('start_date'), -1)})
-	? $other : undef;
+    return _unsafe_load_year_as_new(
+	$self, $_D->add_years($self->get('start_date'), -1));
+}
+
+sub unsafe_load_year_from_date_as_new {
+    my($self, $date) = @_;
+    my($y, $m) = $_D->get_parts($date, 'year', 'month');
+    return _unsafe_load_year_as_new($self, _start_date($y, $m));
 }
 
 sub _start_date {
-    my($year) = @_;
-    return $_D->date_from_parts(1, 8, $year);
+    my($year, $month) = @_;
+    return $_D->date_from_parts(1, 8, $year + ($month <= 6 ? -1 : 0));
+}
+
+sub _unsafe_load_year_as_new {
+    my($self, $start_date) = @_;
+    my($other) = $self->new;
+    return $other->unsafe_load({
+	start_date => $start_date,
+    }) ? $other : undef;
 }
 
 1;
