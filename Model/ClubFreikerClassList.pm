@@ -22,7 +22,7 @@ my($_CLASS_ID) = <<"EOF";
 EOF
 
 sub get_class_display_name {
-    my($self, $model, $this) = @_;
+    my($self, $model, $this, $with_year) = @_;
     $self ||= $model;
     $this ||= $self->parse_query_from_request->get('parent_id');
     my($ro) = $self->new_other('RealmOwner');
@@ -32,8 +32,15 @@ sub get_class_display_name {
     my($sc) = $self->new_other('SchoolClass')->load({
 	school_class_id => $this,
     });
+    my($sy) = $self->new_other('SchoolYear')->load({
+	school_year_id => $sc->get('school_year_id'),
+    });
+    my(undef, undef, $y) = $_D->to_date_parts(
+	$_D->from_literal($sy->get('start_date')));
     return join(' ',
-        ($sc->get('school_grade')->get_short_desc, $ro->get('display_name')));
+		$sc->get('school_grade')->get_short_desc,
+		$ro->get('display_name'),
+		$with_year ? "($y)" : ());
 }
 
 sub internal_initialize {
