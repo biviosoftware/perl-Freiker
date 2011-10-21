@@ -1,0 +1,49 @@
+# Copyright (c) 2011 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+Request('initialize_fully');
+my($freikometer) = Freiker_Test()->FREIKOMETER;
+req()->set_realm_and_user($freikometer, $freikometer);
+my($commit) = sub {commit(); return 1};
+my($now) = DateTime()->now;
+DateTime()->now_as_year;
+DateTime()->set_test_now(DateTime()->add_days(
+    $now, -(ShellUtil_RealmFile()->DAYS_TO_KEEP_FREIKOMETER_FILES + 1)));
+my($content) = random_string();
+my($folder) = random_string();
+my($filename) = random_string();
+shell_util('RealmFile' => [
+    -input => \$content,
+    create => "/Upload/old_$folder/$filename",
+]);
+DateTime()->set_test_now($now);
+shell_util('RealmFile' => [
+    -input => \$content,
+    create => "/Upload/new_$folder/$filename",
+]);
+[
+    class() => [
+	purge_freikometer_files => $commit,
+	sub {
+	    model('RealmFile')->load({
+		path => "/Upload/old_$folder/$filename",
+	    });
+	} => MODEL_NOT_FOUND(),
+	sub {
+	    model('RealmFile')->load({
+		path => '/Upload/old_$folder',
+	    });
+	} => MODEL_NOT_FOUND(),
+	sub {
+	    model('RealmFile')->load({
+		path => "/Upload/new_$folder/$filename",
+	    });
+	} => not_die(),
+	sub {
+	    model('RealmFile')->unauth_delete_deep({
+		path => "/Upload/new_$folder",
+		override_is_read_only => 1,
+		override_versioning => 1,
+	    });
+	} => not_die(),
+    ],
+];
