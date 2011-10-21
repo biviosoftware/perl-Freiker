@@ -9,6 +9,7 @@ use Freiker::Test;
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_DT) = b_use('Type.DateTime');
 my($_T);
+my($_LM) = b_use('Biz.ListModel');
 
 sub ddl_files {
     return shift->SUPER::ddl_files(['bOP', 'fr']);
@@ -122,6 +123,28 @@ EOF
 	    return 1;
 	},
     );
+    return;
+}
+
+sub internal_upgrade_db_purge_freikometer_files {
+    my($self) = @_;
+    my($count) = 0;
+    $_LM->new_anonymous({
+	primary_key => ['RealmOwner.realm_id'],
+	other => [
+	    ['RealmUser.role', ['FREIKOMETER']],
+	    [qw(RealmOwner.realm_id RealmUser.user_id)],
+	    'RealmOwner.name',
+	],
+    })->do_iterate(sub {
+	my($it) = @_;
+	$self->req->with_realm($it->get('RealmOwner.realm_id'), sub {
+	    $count += $self->model('RealmFile')->delete_all;
+	}) if $it->get('RealmOwner.name') =~ /^fm_.*/;
+	return 1;
+    });
+    $count += $self->new_other('RealmFile')->purge_freikometer_files;
+    print("$count files deleted\n");
     return;
 }
 
