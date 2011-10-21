@@ -15,11 +15,13 @@ shell_util('RealmFile' => [
     -input => \$content,
     create => "/Upload/old_$folder/$filename",
 ]);
-DateTime()->set_test_now($now);
+DateTime()->set_test_now(DateTime()->add_days(
+    $now, -(ShellUtil_RealmFile()->DAYS_TO_KEEP_FREIKOMETER_FILES - 1)));
 shell_util('RealmFile' => [
     -input => \$content,
     create => "/Upload/new_$folder/$filename",
 ]);
+DateTime()->set_test_now($now);
 [
     class() => [
 	purge_freikometer_files => $commit,
@@ -30,7 +32,7 @@ shell_util('RealmFile' => [
 	} => MODEL_NOT_FOUND(),
 	sub {
 	    model('RealmFile')->load({
-		path => '/Upload/old_$folder',
+		path => "/Upload/old_$folder",
 	    });
 	} => MODEL_NOT_FOUND(),
 	sub {
