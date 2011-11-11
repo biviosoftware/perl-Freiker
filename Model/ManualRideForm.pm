@@ -14,10 +14,8 @@ sub execute_ok {
     my($d) = $self->get('Ride.ride_date');
     my($freiker_id) = $frl->get_user_id;
     $req->with_user($freiker_id, sub {
-	my($crl) = $self->new_other('ClubRideDateList');
-	return $self->internal_put_error('Ride.ride_date' => 'DATE_RANGE')
-	    unless $crl->is_date_ok($d);
-	my($cid) = $crl->get_query->get('auth_id');
+	my($cid) = $self->new_other('RealmUser')
+	    ->club_id_for_freiker($freiker_id);
         $req->with_realm($req->get('auth_user_id'), sub {
 	    $self->new_other('Lock')->acquire_unless_exists;
 	    return $self->internal_put_error('Ride.ride_date' => 'EXISTS')
