@@ -80,6 +80,7 @@ sub merge_overrides {
     $proto->default_merge_overrides({
 	version => 10,
 	root => 'Freiker',
+	uri => 'boltage',
 	prefix => 'fr',
 	owner => 'bivio Software, Inc.',
     }));
