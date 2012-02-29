@@ -62,7 +62,7 @@ sub merge_overrides {
         }),
         'Bivio::UI::Facade' => {
 	    default => 'Freiker',
-	    http_suffix => 'www.freiker.org',
+	    http_host => 'www.freiker.org',
 	    mail_host => 'freiker.org',
         },
         $proto->merge_http_log({
