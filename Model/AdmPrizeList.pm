@@ -5,11 +5,10 @@ use strict;
 use Bivio::Base 'Biz.ListModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_P) = Bivio::Biz::Model->get_instance('Prize');
-my($_LOC) = __PACKAGE__->use('Model.Website')->DEFAULT_LOCATION;
+my($_P);
 
 sub image_path {
-    return $_P->image_path(shift, 'Prize.');
+    return ($_P ||= b_use('Model.Prize')->get_instance)->image_path(shift, 'Prize.');
 }
 
 sub image_uri {
@@ -42,7 +41,7 @@ sub internal_initialize {
 	    'Prize.retail_price',
 	    'Website.url',
 	    ['Prize.realm_id', 'RealmOwner.realm_id', 'Website.realm_id'],
-	    ['Website.location', [$_LOC]],
+	    ['Website.location', [b_use('Model.Website')->DEFAULT_LOCATION]],
 	],
     });
 }
