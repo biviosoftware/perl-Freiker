@@ -1,4 +1,4 @@
-# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2012 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::PrizeSelectList;
 use strict;
@@ -6,7 +6,7 @@ use Bivio::Base 'Model.ClubPrizeList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_IDI) = __PACKAGE__->instance_data_index;
-my($_DD) = __PACKAGE__->use('Model.TxnCodeBase')->DEFAULT_DISTRIBUTOR;
+my($_DD) = b_use('Model.TxnCodeBase')->DEFAULT_DISTRIBUTOR;
 
 sub FREIKER_LIST {
     return 'FreikerList';

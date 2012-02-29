@@ -1,12 +1,12 @@
-# Copyright (c) 2007 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2007-2012 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Model::Prize;
 use strict;
 use Bivio::Base 'Model.RealmBase';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_IFN) = Bivio::Type->get_instance('ImageFileName');
-my($_PS) = Bivio::Type->get_instance('PrizeStatus');
+my($_IFN) = b_use('Type.ImageFileName');
+my($_PS) = b_use('Type.PrizeStatus');
 
 sub cascade_delete {
     my($self) = shift;
