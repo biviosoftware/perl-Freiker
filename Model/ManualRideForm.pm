@@ -18,6 +18,8 @@ sub execute_ok {
 	    ->club_id_for_freiker($freiker_id);
         $req->with_realm($req->get('auth_user_id'), sub {
 	    $self->new_other('Lock')->acquire_unless_exists;
+	    return $self->internal_put_error('Ride.ride_date' => 'DATE_RANGE')
+		if $_D->compare_defined($d, $_D->local_today) > 0;
 	    return $self->internal_put_error('Ride.ride_date' => 'EXISTS')
 		if $frl->find_row_by_date($d);
 	    $self->new_other('Ride')->create({
