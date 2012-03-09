@@ -54,7 +54,9 @@ my($_SELF) = __PACKAGE__->new({
 	['Ride.ride_date.EXISTS' => q{The kid was already credited for this date.  Please enter a different date.}],
 	['PrizeConformForm.Prize.name.TOO_FEW' => q{You do not have enough available trips to chose this prize}],
 	['UserLoginForm.login.OFFLINE_USER' => q{Not a registered Boltage Code.  Link('Please click on this link to register.', 'USER_CREATE');}],
-	['AdmSubstituteUserForm.login.OFFLINE_USER' => q{Boltage Code not registered.  User must register before you can act as user.}],
+	[[qw(AdmSubstituteUserForm SiteAdminSubstituteUserForm)] => [
+	    'login.OFFLINE_USER' => q{Boltage Code not registered.  User must register before you can act as user.},
+	]],
 	['FreikerSelectForm.FreikerCode.freiker_code.NOT_FOUND' => q{Boltage Code is not in our database.}],
 	['FreikerSelectForm.FreikerCode.freiker_code.PERMISSION_DENIED' => q{Kid is not at this school.}],
 	['GreenGearForm.GreenGear.begin_date.GREATER_THAN_ZERO' => q{Weekly Winner must be after most recent Weekly Winner (DateTime(['Model.GreenGearList', 'GreenGear.end_date']);)}],
