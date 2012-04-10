@@ -272,6 +272,21 @@ sub internal_upgrade_db_ride_date_utc_delete {
     return;
 }
 
+sub internal_upgrade_db_ride_type {
+    my($self) = @_;
+    $self->run(<<'EOF');
+ALTER TABLE ride_t
+    ADD COLUMN ride_type NUMBERIC(2)
+/
+UPDATE ride_t SET ride_type = 1
+/
+ALTER TABLE ride_t
+    ALTER COLUMN ride_type SET NOT NULL
+/
+EOF
+    return;
+}
+
 sub _freiker_distributor {
     my($self) = @_;
     my($req) = $self->req;

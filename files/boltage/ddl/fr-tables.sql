@@ -98,6 +98,7 @@ CREATE TABLE ride_t (
   ride_date DATE NOT NULL,
   ride_time DATE NOT NULL,
   ride_upload_id NUMERIC(18),
+  ride_type NUMERIC(2) NOT NULL,
   CONSTRAINT ride_t1 PRIMARY KEY(user_id, ride_date)
 )
 /

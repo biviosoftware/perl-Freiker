@@ -7,6 +7,7 @@ use Bivio::Base 'Model.RealmBase';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_NO_TIME) = b_use('Type.Time')->time_from_parts(0, 0, 0);
 my($_C) = b_use('SQL.Connection');
+my($_RT) = b_use('Type.RideType');
 
 sub NO_TIME {
     return $_NO_TIME;
@@ -28,6 +29,7 @@ sub count_all {
 sub create {
     my($self, $values) = @_;
     $values->{ride_time} ||= $_NO_TIME;
+    $values->{ride_type} ||= $_RT->BIKE;
     return shift->SUPER::create(@_);
 }
 
@@ -42,6 +44,7 @@ sub internal_initialize {
             ride_date => ['Date', 'PRIMARY_KEY'],
 	    ride_time => ['Time', 'NOT_NULL'],
 	    ride_upload_id => ['RideUpload.ride_upload_id', 'NONE'],
+	    ride_type => ['RideType', 'NOT_NULL'],
         },
     });
 }
