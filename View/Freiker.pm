@@ -35,6 +35,7 @@ sub ride_list {
 	}],
 	body => vs_paged_list(FreikerRideList => [
 	    'Ride.ride_date',
+	    'Ride.ride_type',
 	]),
     );
 }
@@ -43,6 +44,36 @@ sub manual_ride_form {
     return shift->internal_body(vs_simple_form(ManualRideForm => [qw{
         ManualRideForm.Ride.ride_date
     }]));
+}
+
+sub manual_ride_list_form {
+    return shift->internal_body(
+	vs_list_form(RealmFreikerManualRideListForm => [
+	    {
+		field => 'Ride.ride_date',
+		allow_undef => 1,
+	    },
+	    ['Ride.ride_type', {
+		wf_want_select => 1,
+		enum_sort => 'as_int',
+		event_handler => SameModeSelectHandler(),
+	    }],
+	    ['use_type_for_all', {
+		column_heading => '',
+		column_widget => If(['!',
+		    [[qw(->req Model.RealmFreikerManualRideListForm)],
+		        '->get_list_model'], '->get_cursor'],
+		    SameModeCheckbox({
+			field => 'use_type_for_all',
+			label => vs_text(
+			    'RealmFreikerManualRideListForm.use_type_for_all'),
+			event_handler => SameModeCheckboxHandler(),
+		    }),
+		),
+	    }],
+	    '*ok_button cancel_button',
+	]),
+    );
 }
 
 sub _form {

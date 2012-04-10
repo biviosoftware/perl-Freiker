@@ -585,6 +585,26 @@ sub get_delegate_info {
 	    View.GroupAdmin->user_bulletin_list_csv
             require_secure=1
 	)],
+	[qw(
+	    CLUB_FREIKER_MANUAL_RIDE_LIST_FORM
+	    563
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.ManualRideList->execute_load_none
+	    Model.RealmFreikerManualRideListForm
+	    View.Freiker->manual_ride_list_form
+	    next=CLUB_FREIKER_LIST
+	)],
+	[qw(
+	    FAMILY_FREIKER_MANUAL_RIDE_LIST_FORM
+	    564
+	    USER
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.ManualRideList->execute_load_none
+	    Model.RealmFreikerManualRideListForm
+	    View.Freiker->manual_ride_list_form
+	    next=FAMILY_FREIKER_LIST
+	)],
     ]);
 }
 

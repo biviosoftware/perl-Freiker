@@ -118,6 +118,7 @@ my($_SELF) = __PACKAGE__->new({
 	[CLUB_FREIKER_EDIT => '?/edit-kid'],
 	[CLUB_FREIKER_RIDE_LIST => ['?/trips', '?/rides']],
 	[CLUB_MANUAL_RIDE_FORM => ['?/add-trip', '?/add-ride']],
+	[CLUB_FREIKER_MANUAL_RIDE_LIST_FORM => ['?/add-trips', '?/add-rides']],
 	[FAMILY_FREIKER_ADD => '?/register-kid'],
 	[FAMILY_FREIKER_CODE_ADD => '?/add-tag'],
 	[FAMILY_FREIKER_EDIT => '?/edit-kid'],
@@ -129,6 +130,7 @@ my($_SELF) = __PACKAGE__->new({
 	[FAMILY_PRIZE_COUPON_LIST => '?/prize-coupons'],
 	[FAMILY_PRIZE_SELECT => '?/select-prize'],
 	[FAMILY_PRIZE_PICKUP => '?/pickup-prize'],
+	[FAMILY_FREIKER_MANUAL_RIDE_LIST_FORM => ['?/add-trips', '?/add-rides']],
 	[FAVICON_ICO => '/favicon.ico'],
 	[LOCAL_FILE_PLAIN => ['i/*', 'f/*', 'h/*', 'm/*']],
 	[MERCHANT_PRIZE => '?/prize'],
@@ -192,6 +194,7 @@ my($_SELF) = __PACKAGE__->new({
 	]],
 	[Ride => [
 	    ride_date => 'Date',
+	    ride_type => 'Modality',
 	]],
 	['WikiView.start_page' => 'Home'],
 	[Address => [
@@ -349,6 +352,15 @@ We allow a certain number of missed trips as a courtesy to parents.
 When there are too many missed trips, this list will no longer show.
 Please enter the date of the missing trip for
 String([qw(Model.FreikerRideList ->get_display_name)]);.
+EOF
+	    ],
+	]],
+	[RealmFreikerManualRideListForm => [
+	    use_type_for_all => 'Same Mode for All',
+	    ok_button => 'Add trip<(>s<)>',
+	    prose => [
+		prologue => <<'EOF',
+Last Trip: DateTime([qw(Model.RealmFreikerManualRideListForm last_ride ride_date)], 'DATE'); (String([qw(Model.RealmFreikerManualRideListForm last_ride ride_type ->get_short_desc)]);)
 EOF
 	    ],
 	]],
@@ -556,6 +568,8 @@ EOF
 	    ADM_SUMMARY_BY_SCHOOL_LIST => 'Trip Summary by School',
 	    CLUB_SUMMARY_BY_CLASS_LIST => 'Trip Summary by Class',
 	    GROUP_USER_BULLETIN_LIST_CSV => 'Subscribers (CSV)',
+	    CLUB_FREIKER_MANUAL_RIDE_LIST_FORM => q{Add Missing Trips for String([qw(Model.RealmFreikerManualRideListForm RealmOwner.display_name)]);},
+	    FAMILY_FREIKER_MANUAL_RIDE_LIST_FORM => q{Add Missing Trips for String([qw(Model.RealmFreikerManualRideListForm RealmOwner.display_name)]);},
 	]],
 	[clear_on_focus_hint => [
 	    GROUP_USER_BULLETIN_LIST_CSV => '',

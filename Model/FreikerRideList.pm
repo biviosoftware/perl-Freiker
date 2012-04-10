@@ -32,6 +32,7 @@ sub internal_initialize {
 	auth_id => ['RealmUser.realm_id'],
 	other => [
 	    'Ride.ride_upload_id',
+	    'Ride.ride_type',
 	    ['RealmUser.role' => [$_FREIKER]],
 	],
     });
