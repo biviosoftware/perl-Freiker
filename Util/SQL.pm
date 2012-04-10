@@ -276,7 +276,7 @@ sub internal_upgrade_db_ride_type {
     my($self) = @_;
     $self->run(<<'EOF');
 ALTER TABLE ride_t
-    ADD COLUMN ride_type NUMBERIC(2)
+    ADD COLUMN ride_type NUMERIC(2)
 /
 UPDATE ride_t SET ride_type = 1
 /
