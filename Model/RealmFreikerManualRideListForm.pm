@@ -10,7 +10,7 @@ my($_RU) = b_use('Model.RealmUser');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 
 sub MUST_BE_SPECIFIED_FIELDS {
-    return [qw(start.Ride.ride_date Ride.ride_type)];
+    return [qw(Ride.ride_date Ride.ride_type)];
 }
 
 sub ROW_INCREMENT {
@@ -32,8 +32,6 @@ sub execute_ok_row {
     my($d) = $self->get('Ride.ride_date');
     return
 	unless $d;
-    return $self->internal_put_error('Ride.ride_date', 'INVALID')
-	if $_D->is_weekend($d);
     my($uid) = $self->get('RealmUser.user_id');
     my($r) = $self->new_other('Ride');
     $r->unauth_load({
@@ -96,6 +94,7 @@ sub internal_pre_execute {
     $self->internal_put_field('RealmOwner.display_name'
 	=> $self->new_other('RealmOwner')
 	    ->unauth_load_or_die({realm_id => $uid})->get('display_name'));
+    $self->internal_put_field(last_ride => undef);
     $self->new_other('Ride')->do_iterate(sub {
 	$self->internal_put_field(last_ride => shift);
 	return 0;
