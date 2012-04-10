@@ -1,0 +1,33 @@
+# Copyright (c) 2012 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+my($child_id);
+FormModel({
+    setup_request => sub {
+	model('ManualRideList')->execute_load_none;
+	req()->put(query => {
+	    p => $child_id,
+	});
+    },
+});
+req()->set_realm_and_user(qw(bunit123456789 adm));
+$child_id = model('FreikerCodeList')->load_all
+    ->find_row_by_code('1234')
+    ->get('FreikerCode.user_id');
+[
+    [{
+	'Ride.ride_date_1' => Date('1/1/2012'),
+	'Ride.ride_type_1' => RideType('BUS')->as_sql_param,
+	empty_row_count => 9,
+    }] => [{
+	'Model.Ride' => {
+	    ride_date => Date('1/1/2012'),
+	    ride_type => RideType('BUS'),
+	},
+    }],
+    inline_case(sub {
+	req()->set_realm('bunit1123456790');
+    }),
+    [{
+	empty_row_count => 10,
+    }] => DIE(),
+];
