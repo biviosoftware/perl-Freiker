@@ -360,7 +360,7 @@ EOF
 	    ok_button => 'Add trip<(>s<)>',
 	    prose => [
 		prologue => <<'EOF',
-Last Trip: DateTime([qw(Model.RealmFreikerManualRideListForm last_ride ride_date)], 'DATE'); (String([qw(Model.RealmFreikerManualRideListForm last_ride ride_type ->get_short_desc)]);)
+Last Trip: If([qw(Model.RealmFreikerManualRideListForm last_ride)], Join([DateTime([qw(Model.RealmFreikerManualRideListForm last_ride ride_date)], 'DATE'), (String([qw(Model.RealmFreikerManualRideListForm last_ride ride_type ->get_short_desc)]))]), 'None');
 EOF
 	    ],
 	]],
