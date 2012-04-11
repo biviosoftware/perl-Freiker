@@ -3,9 +3,8 @@
 my($child_id);
 FormModel({
     setup_request => sub {
-	model('ManualRideList')->execute_load_none;
-	req()->put(query => {
-	    p => $child_id,
+	model('ManualRideList' => {
+	    parent_id => $child_id,
 	});
     },
 });
