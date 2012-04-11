@@ -17,8 +17,15 @@ sub ROW_INCREMENT {
     return 10;
 }
 
+sub execute_cancel {
+    return {
+	carry_query => 1,
+    },
+}
+
 sub execute_empty_row {
     my($self) = @_;
+    shift->SUPER::execute_empty_row(@_);
     return
 	unless $self->unsafe_get('last_ride');
     $self->internal_put_field(
@@ -27,10 +34,17 @@ sub execute_empty_row {
     return;
 }
 
+sub execute_ok_end {
+    return {
+	carry_query => 1,
+    } unless shift->in_error;
+    return;
+}
+
 sub execute_ok_row {
     my($self) = @_;
     my($d) = $self->get('Ride.ride_date');
-    return
+    return $self->internal_clear_error('Ride.ride_date')
 	unless $d;
     my($uid) = $self->get('RealmUser.user_id');
     my($r) = $self->new_other('Ride');
@@ -38,6 +52,8 @@ sub execute_ok_row {
 	user_id => $uid,
 	ride_date => $d,
     });
+    return $self->internal_put_error('Ride.ride_date' => 'DATE_RANGE')
+	if $_D->compare_defined($d, $_D->local_today) > 0;
     return $self->internal_put_error('Ride.ride_date', 'EXISTS')
 	if $r->is_loaded;
     $r->create({
@@ -81,8 +97,7 @@ sub internal_initialize {
 sub internal_pre_execute {
     my($self) = @_;
     my(@res) = shift->SUPER::internal_pre_execute(@_);
-    my($uid) = $self->req('query')
-	->{b_use('SQL.ListQuery')->to_char('parent_id')};
+    my($uid) = $self->req('Model.ManualRideList')->get_query->get('parent_id');
     my($ru) = $self->new_other('RealmUser');
     $ru->unsafe_load({
 	user_id => $uid,
@@ -91,9 +106,15 @@ sub internal_pre_execute {
     b_die($uid, ': user is not a FREIKER in this realm')
 	unless $ru->is_loaded;
     $self->internal_put_field('RealmUser.user_id' => $uid);
-    $self->internal_put_field('RealmOwner.display_name'
-	=> $self->new_other('RealmOwner')
-	    ->unauth_load_or_die({realm_id => $uid})->get('display_name'));
+    $self->internal_put_field('RealmOwner.display_name'	=>
+	join(' ',
+	    $self->new_other('RealmOwner')
+		->unauth_load_or_die({realm_id => $uid})
+		->get('display_name'),
+	     $self->new_other('UserFreikerCodeList')
+		 ->get_display_name($uid),
+	 ),
+    );
     $self->internal_put_field(last_ride => undef);
     $self->new_other('Ride')->do_iterate(sub {
 	$self->internal_put_field(last_ride => shift);
@@ -102,6 +123,10 @@ sub internal_pre_execute {
 	user_id => $uid,
     });
     return @res;
+}
+
+sub is_empty_row {
+    return shift->get('Ride.ride_date') ? 0 : 1;
 }
 
 1;
