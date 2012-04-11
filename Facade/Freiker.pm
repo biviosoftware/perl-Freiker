@@ -194,7 +194,7 @@ my($_SELF) = __PACKAGE__->new({
 	]],
 	[Ride => [
 	    ride_date => 'Date',
-	    ride_type => 'Modality',
+	    ride_type => 'Mode',
 	]],
 	['WikiView.start_page' => 'Home'],
 	[Address => [
