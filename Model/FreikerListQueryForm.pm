@@ -9,7 +9,7 @@ my($_YQ) = b_use('Type.YearQuery');
 my($_B) = b_use('Type.Boolean');
 my($_D) = b_use('Type.Date');
 my($_PI) = b_use('Type.PrimaryId');
-my($_RT) = b_use('Auth.RealmType');
+my($_RT) = b_use('Type.RideType');
 
 sub execute_empty {
     my($self) = shift;
@@ -42,6 +42,7 @@ sub get_value_fr {
 	|| $list->get_query->unsafe_get($which);
     return $which eq 'fr_year' ? $_YQ->unsafe_from_any($v)
 	: $which =~ /^fr_(?:begin|end)/ ? ($_D->from_literal($v))[0]
+	: $which eq 'fr_type' ? $_RT->unsafe_from_any($v)
         : ($_B->from_literal($v))[0];
 }
 
@@ -55,6 +56,7 @@ sub internal_query_fields {
 	[qw(fr_year YearQuery)],
         [qw(fr_begin Date)],
         [qw(fr_end Date)],
+        [qw(fr_type RideType)],
     ];
 }
 
