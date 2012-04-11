@@ -6,10 +6,8 @@ use Bivio::Base 'Model.NumberedList';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
-sub execute_load_none {
-    my($proto, $req) = @_;
-    $proto->new($req)->load_page({count => 0});
-    return;
+sub LOAD_ALL_SIZE {
+    return 0;
 }
 
 1;
