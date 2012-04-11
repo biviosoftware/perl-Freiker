@@ -23,7 +23,7 @@ my($_PARENT_EMAIL) = <<"EOF";
     AND e.realm_id = ro.realm_id
 )
 EOF
-my($_RIDE_COUNT) = "(SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_date BETWEEN $_DATE AND $_DATE)";
+my($_RIDE_COUNT) = "(SELECT COUNT(*) FROM ride_t WHERE ride_t.user_id = realm_user_t.user_id AND ride_date BETWEEN $_DATE AND $_DATE AND CAST(ride_type as TEXT) LIKE ?)";
 my($_HAS_GRADUATED) = b_use('Type.RowTagKey')->HAS_GRADUATED->as_sql_param;
 my($_K) = b_use('Type.Kilometers');
 my($_IDI) = __PACKAGE__->instance_data_index;
@@ -147,6 +147,7 @@ sub internal_initialize {
 	    fr_current
 	    fr_begin
 	    fr_end
+	    fr_type
 	)],
 	other => [
 	    'Address.street1',
@@ -338,12 +339,16 @@ sub internal_pre_load {
     my($x) = {
 	date => $_D->get_max,
 	begin_date => $_D->get_min,
+	type => '%',
     };
     if (my $fr_begin = _get_from_query($self, 'fr_begin')) {
 	$x->{begin_date} = $fr_begin;
     }
     if (my $fr_end = _get_from_query($self, 'fr_end')) {
 	$x->{date} = $fr_end;
+    }
+    if (my $fr_type = _get_from_query($self, 'fr_type')) {
+	$x->{type} = $fr_type->as_sql_param;
     }
     foreach my $which (sort(keys(%$x))) {
 	next
@@ -357,6 +362,7 @@ sub internal_pre_load {
     push(
 	@$params,
 	map(@$x{qw(begin_date date)}, 1..4),
+	$x->{type},
 	$sy_date,
 	$sy_date,
 	$sy_date,
@@ -374,6 +380,7 @@ sub internal_pre_load {
 	    return
 		unless _get_from_query($self, 'fr_trips');
 	    push(@$params, @$x{qw(begin_date date)});
+	    push(@$params, $x->{type});
 	    return "$_RIDE_COUNT > 0";
 	}->(),
 	sub {
