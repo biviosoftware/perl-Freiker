@@ -26,7 +26,7 @@ sub vs_freiker_list_actions {
 		    "${which}_$_",
 		    qw(
 			FREIKER_RIDE_LIST
-			MANUAL_RIDE_FORM
+			MANUAL_RIDE_LIST_FORM
 			FREIKER_CODE_ADD
 			FREIKER_EDIT
 		    ),
