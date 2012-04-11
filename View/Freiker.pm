@@ -25,7 +25,7 @@ sub ride_list {
 		    query => {
 			'ListQuery.parent_id' => [[qw(Model.FreikerRideList ->get_query)], 'parent_id'],
 		    },
-		}, "${which}_MANUAL_RIDE_FORM"),
+		}, "${which}_MANUAL_RIDE_LIST_FORM"),
 		{
 		    task_id => "${which}_FREIKER_LIST",
 		    label => "back_to_$which",
@@ -48,7 +48,7 @@ sub manual_ride_form {
 
 sub manual_ride_list_form {
     return shift->internal_body(
-	vs_list_form(RealmFreikerManualRideListForm => [
+	vs_list_form(ManualRideListForm => [
 	    {
 		field => 'Ride.ride_date',
 		allow_undef => 1,
@@ -61,12 +61,12 @@ sub manual_ride_list_form {
 	    ['use_type_for_all', {
 		column_heading => '',
 		column_widget => If(['!',
-		    [[qw(->req Model.RealmFreikerManualRideListForm)],
+		    [[qw(->req Model.ManualRideListForm)],
 		        '->get_list_model'], '->get_cursor'],
 		    SameModeCheckbox({
 			field => 'use_type_for_all',
 			label => vs_text(
-			    'RealmFreikerManualRideListForm.use_type_for_all'),
+			    'ManualRideListForm.use_type_for_all'),
 			event_handler => SameModeCheckboxHandler(),
 		    }),
 		),
