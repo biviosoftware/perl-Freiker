@@ -586,24 +586,24 @@ sub get_delegate_info {
             require_secure=1
 	)],
 	[qw(
-	    CLUB_FREIKER_MANUAL_RIDE_LIST_FORM
+	    CLUB_MANUAL_RIDE_LIST_FORM
 	    563
 	    CLUB
 	    ADMIN_READ&ADMIN_WRITE
-	    Model.ManualRideList->execute_load_none
-	    Model.RealmFreikerManualRideListForm
+	    Model.ManualRideList->execute_load_all_with_query
+	    Model.ManualRideListForm
 	    View.Freiker->manual_ride_list_form
-	    next=CLUB_FREIKER_LIST
+	    next=CLUB_FREIKER_RIDE_LIST
 	)],
 	[qw(
-	    FAMILY_FREIKER_MANUAL_RIDE_LIST_FORM
+	    FAMILY_MANUAL_RIDE_LIST_FORM
 	    564
 	    USER
 	    ADMIN_READ&ADMIN_WRITE
-	    Model.ManualRideList->execute_load_none
-	    Model.RealmFreikerManualRideListForm
+	    Model.ManualRideList->execute_load_all_with_query
+	    Model.ManualRideListForm
 	    View.Freiker->manual_ride_list_form
-	    next=FAMILY_FREIKER_LIST
+	    next=FAMILY_FREIKER_RIDE_LIST
 	)],
     ]);
 }

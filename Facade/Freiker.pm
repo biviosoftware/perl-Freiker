@@ -118,7 +118,7 @@ my($_SELF) = __PACKAGE__->new({
 	[CLUB_FREIKER_EDIT => '?/edit-kid'],
 	[CLUB_FREIKER_RIDE_LIST => ['?/trips', '?/rides']],
 	[CLUB_MANUAL_RIDE_FORM => ['?/add-trip', '?/add-ride']],
-	[CLUB_FREIKER_MANUAL_RIDE_LIST_FORM => ['?/add-trips', '?/add-rides']],
+	[CLUB_MANUAL_RIDE_LIST_FORM => ['?/add-trips', '?/add-rides']],
 	[FAMILY_FREIKER_ADD => '?/register-kid'],
 	[FAMILY_FREIKER_CODE_ADD => '?/add-tag'],
 	[FAMILY_FREIKER_EDIT => '?/edit-kid'],
@@ -130,7 +130,7 @@ my($_SELF) = __PACKAGE__->new({
 	[FAMILY_PRIZE_COUPON_LIST => '?/prize-coupons'],
 	[FAMILY_PRIZE_SELECT => '?/select-prize'],
 	[FAMILY_PRIZE_PICKUP => '?/pickup-prize'],
-	[FAMILY_FREIKER_MANUAL_RIDE_LIST_FORM => ['?/add-trips', '?/add-rides']],
+	[FAMILY_MANUAL_RIDE_LIST_FORM => ['?/add-trips', '?/add-rides']],
 	[FAVICON_ICO => '/favicon.ico'],
 	[LOCAL_FILE_PLAIN => ['i/*', 'f/*', 'h/*', 'm/*']],
 	[MERCHANT_PRIZE => '?/prize'],
@@ -355,12 +355,12 @@ String([qw(Model.FreikerRideList ->get_display_name)]);.
 EOF
 	    ],
 	]],
-	[RealmFreikerManualRideListForm => [
+	[ManualRideListForm => [
 	    use_type_for_all => 'Same Mode for All',
-	    ok_button => 'Add trip<(>s<)>',
+	    ok_button => 'Add trips',
 	    prose => [
 		prologue => <<'EOF',
-Last Trip: If([qw(Model.RealmFreikerManualRideListForm last_ride)], Join([DateTime([qw(Model.RealmFreikerManualRideListForm last_ride ride_date)], 'DATE'), (String([qw(Model.RealmFreikerManualRideListForm last_ride ride_type ->get_short_desc)]))]), 'None');
+Last Trip: If([qw(Model.ManualRideListForm last_ride)], Join([DateTime([qw(Model.ManualRideListForm last_ride ride_date)], 'DATE'), ' (', String([qw(Model.ManualRideListForm last_ride ride_type ->get_short_desc)]), ')']), 'None');
 EOF
 	    ],
 	]],
@@ -516,6 +516,8 @@ EOF
 	[FAMILY_PRIZE_COUPON_LIST => 'Prizes'],
 	[[qw(FAMILY_FREIKER_RIDE_LIST CLUB_FREIKER_RIDE_LIST)] => 'Trips'],
 	[[qw(FAMILY_MANUAL_RIDE_FORM CLUB_MANUAL_RIDE_FORM)] => 'Add missing trip'],
+	[[qw(FAMILY_MANUAL_RIDE_LIST_FORM
+	     CLUB_MANUAL_RIDE_LIST_FORM)] => 'Add missing trips'],
 	[[qw(FAMILY_FREIKER_CODE_ADD CLUB_FREIKER_CODE_ADD)] => 'New ZapTag'],
 	[[qw(FAMILY_FREIKER_EDIT CLUB_FREIKER_EDIT)] => 'Edit info'],
 	[FAMILY_PRIZE_SELECT => 'Select prize'],
@@ -568,8 +570,8 @@ EOF
 	    ADM_SUMMARY_BY_SCHOOL_LIST => 'Trip Summary by School',
 	    CLUB_SUMMARY_BY_CLASS_LIST => 'Trip Summary by Class',
 	    GROUP_USER_BULLETIN_LIST_CSV => 'Subscribers (CSV)',
-	    CLUB_FREIKER_MANUAL_RIDE_LIST_FORM => q{Add Missing Trips for String([qw(Model.RealmFreikerManualRideListForm RealmOwner.display_name)]);},
-	    FAMILY_FREIKER_MANUAL_RIDE_LIST_FORM => q{Add Missing Trips for String([qw(Model.RealmFreikerManualRideListForm RealmOwner.display_name)]);},
+	    CLUB_MANUAL_RIDE_LIST_FORM => q{Add Missing Trips for String([qw(Model.ManualRideListForm RealmOwner.display_name)]);},
+	    FAMILY_MANUAL_RIDE_LIST_FORM => q{Add Missing Trips for String([qw(Model.ManualRideListForm RealmOwner.display_name)]);},
 	]],
 	[clear_on_focus_hint => [
 	    GROUP_USER_BULLETIN_LIST_CSV => '',
@@ -607,6 +609,8 @@ EOF
 	    CLUB_PRIZE_LIST => 'Available prizes',
 	    CLUB_REGISTER => 'Register new school',
 	    CLUB_SUMMARY_BY_SCHOOL_LIST => 'Trip Summary',
+	    [qw(FAMILY_MANUAL_RIDE_LIST_FORM
+		CLUB_MANUAL_RIDE_LIST_FORM)] => 'Add missing trips',
 	    [qw(FAMILY_FREIKER_ADD CLUB_FREIKER_ADD)] => 'Register kid',
 	    FAMILY_FREIKER_LIST => 'Your family',
 	    FAMILY_PRIZE_COUPON_LIST => 'Past prizes',
