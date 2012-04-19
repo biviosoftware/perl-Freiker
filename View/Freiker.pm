@@ -80,7 +80,24 @@ sub _form {
     my($self, $model) = @_;
     return $self->internal_body(vs_simple_form($model => [
 	$model eq 'FreikerForm' ? () : (
-	    "$model.FreikerCode.freiker_code",
+	    [
+		FormFieldLabel({
+		    field => 'freiker_code',
+		    label => Join([
+			vs_text("$model.FreikerCode.freiker_code"),
+			':',
+		    ]),
+		}),
+		Join([
+		    FormField("$model.FreikerCode.freiker_code"),
+		    Join([
+			'&nbsp;&nbsp;',
+			Checkbox('no_freiker_code'),
+		    ], {
+			control => [qw(! ->ureq Model.FreikerRideList)],
+		    }),
+		]),
+	    ],
 	    ["$model.Club.club_id" => {
 		wf_class => 'Select',
 		choices => ['Model.ClubList'],
