@@ -14,6 +14,7 @@ my($_RA) = b_use('ShellUtil.RealmAdmin');
 my($_DT) = b_use('Type.DateTime');
 my($_T) = b_use('Bivio.Test');
 my($_TU) = b_use('ShellUtil.TestUser');
+my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 
 sub USAGE {
     return <<'EOF';
@@ -36,7 +37,8 @@ sub child_ride_dates {
     my($self, $child_index, $as_date) = @_;
     $child_index ||= 0;
     return []
-	if $child_index > $_T->MAX_CHILD_INDEX_WITH_RIDES;
+	unless $child_index <= $_T->MAX_CHILD_INDEX_WITH_RIDES
+	    || $child_index == $_T->NO_TAG_WITH_RIDES_CHILD_INDEX;
     my($now) = $_D->now;
     $as_date = $as_date ? sub {$_D->to_string(shift)} : sub {shift};
     return [map(
@@ -213,14 +215,14 @@ sub reset_freikers {
 	{club_id => $club_id},
     );
     $self->model('SchoolYear')->test_unauth_delete_all({club_id => $club_id});
-    foreach my $u (@{$_SA->sort_unique([
-	map(
-	    $fc->unsafe_load({
-		freiker_code => $_T->FREIKER_CODE($_, $which),
-	    }) ? ($fc->get('user_id'), $fc->delete)[0] : (),
-	    @$indexes,
-	),
-    ])}) {
+    foreach my $u (@{$self->model('RealmUser')->map_iterate(
+	sub {shift->get('user_id')},
+	'iterate_start',
+	{role => $_FREIKER},
+    )}) {
+	$self->model('FreikerCode')->delete_all({
+	    user_id => $u,
+	});
 	$req->with_realm($u => sub {
 	    $self->model('Ride')->cascade_delete({});
 	    $self->model('User')->unauth_delete_realm($u);
@@ -279,6 +281,22 @@ sub reset_freikers {
 	return;
     });
 #TODO: put in coupons not redeemed
+    map({
+	my($index) = $_T->MAX_CHILD_INDEX + $_;
+	$req->with_realm($_T->PARENT($which), sub {
+	    $self->model('FreikerRideList')->delete_from_request;
+	    $self->model(FreikerRideList => {
+		parent_id => $self->unauth_model(RealmOwner => {
+		    name => _freiker_form($self, $which, $index, $club_id),
+		})->get('realm_id'),
+	    });
+	    foreach my $d (@{$self->child_ride_dates($index)}) {
+		$self->model('ManualRideForm')->process({
+		    'Ride.ride_date' => $d,
+		});
+	    }
+	})
+    } (0 .. 1));
     $req->with_realm($_T->PARENT($which), sub {
 	my($code) = $_T->FREIKER_CODE(2, $which);
 	my($index) = 1;
@@ -390,12 +408,15 @@ sub reset_prizes_for_school {
 
 sub _freiker_form {
     my($self, $which, $index, $club_id, $code) = @_;
+    my($no_code) = defined($code) ? 0 : 1;
     $self->model(FreikerCodeForm => {
-	'User.first_name' =>
-	    my $name = $_T->CHILD($index, $which),
+	'User.first_name' => my $name = $no_code
+	    ? $_T->CHILD_NO_TAG($index, $which)
+	    : $_T->CHILD($index, $which),
 	'Club.club_id' => $club_id,
 	'FreikerCode.club_id' => $club_id,
 	'FreikerCode.freiker_code' => $code,
+	no_freiker_code => $no_code,
 	'User.gender' => $_T->DEFAULT_GENDER,
 	birth_year => $_T->DEFAULT_BIRTH_YEAR,
 	'Address.zip' => $_T->ZIP($which),
@@ -403,7 +424,7 @@ sub _freiker_form {
 	miles => $_T->DEFAULT_MILES,
     });
     $self->req('Model.RealmOwner')->update({name => $name});
-    return;
+    return $name;
 }
 
 sub _register_user {

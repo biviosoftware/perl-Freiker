@@ -14,7 +14,7 @@ submit_form(OK => {
     Grade_1 => '2nd',
 });
 submit_form({
-    tag => '1237',
+    '^zaptag' => '1237',
     class => qr{$t1},
     first => my $kid = random_string(),
     miles => 3,

@@ -7,7 +7,7 @@ follow_link('register_kid');
 submit_form({
     first => 'Jonathan',
     qr{street.*1}i => '1213 Mockingbird',
-    zaptag => 1237,
+    '^zaptag' => 1237,
     miles => 17,
 });
 verify_text('02/18/2009');
