@@ -10,7 +10,7 @@ my($uris) = [map(
 	go_back();
 	$x;
     }
-    qw(trips missing tag info),
+    qw(^trips missing tag info),
 )];
 foreach my $user (qw(wheel adm parent)) {
     login_as($user);
