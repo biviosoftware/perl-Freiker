@@ -124,7 +124,20 @@ sub unsafe_school_class_for_freiker {
 
 sub _club_id {
     my($which, $self, $value) = @_;
-    return $self->new_other('FreikerCode')->map_iterate(
+    my($club_id);
+    $self->new_other('RealmUser')->do_iterate(sub {
+	my($ru) = @_;
+        my($c) = $ru->new_other('Club');
+	$club_id = $c->get('club_id')
+	    if $c->unauth_load({
+		club_id => $ru->get('realm_id'),
+	    });
+	return $club_id ? 0 : 1;
+    }, 'unauth_iterate_start', 'creation_date_time desc', {
+	$which => $value,
+	role => $_FREIKER,
+    }) if $which eq 'user_id';
+    return $club_id || $self->new_other('FreikerCode')->map_iterate(
 	sub {shift->get('club_id')},
 	'unauth_iterate_start',
 	# Most recent entry is probably most relevant
