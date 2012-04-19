@@ -9,13 +9,13 @@ do('./SetupRides.PL');
 	    rank_days_1 => 1,
 	    days_1 => 1,
 	    days_5 => 9,
-	    days_20 => 25,
+	    days_20 => 26,
 	}, {
 	    'RealmOwner.display_name' => Freiker::Test->SCHOOL_BASE(1),
 	    rank_days_1 => 2,
 	    days_1 => 1,
 	    days_5 => 9,
-	    days_20 => 25,
+	    days_20 => 26,
 	}],
     ],
 ];
