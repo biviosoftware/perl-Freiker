@@ -8,6 +8,22 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Bivio.Die');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 
+sub assert_access {
+    my($self, $model, $user_id) = @_;
+    $model ||= $self;
+    $user_id ||= $model->get_user_id;
+    $_D->throw(MODEL_NOT_FOUND => {
+	entity => $model->new_other('RealmOwner')
+	    ->unauth_load_or_die({realm_id => $user_id}),
+	realm => $model->req('auth_realm'),
+	message => 'not a member of this school or family',
+    }) unless $model->new_other('RealmUser')->unsafe_load({
+	user_id => $user_id,
+	role => $_FREIKER,
+    });
+    return;
+}
+
 sub get_display_name {
     my($self) = @_;
     my($uid) = $self->get_user_id;
@@ -40,15 +56,7 @@ sub internal_initialize {
 
 sub internal_prepare_statement {
     my($self) = @_;
-    $_D->throw(MODEL_NOT_FOUND => {
-	entity => $self->new_other('RealmOwner')
-	    ->unauth_load_or_die({realm_id => $self->get_user_id}),
-	realm => $self->req('auth_realm'),
-	message => 'not a member of this school or family',
-    }) unless $self->new_other('RealmUser')->unsafe_load({
-	user_id => $self->get_user_id,
-	role => $_FREIKER,
-    });
+    $self->assert_access;
     return shift->SUPER::internal_prepare_statement(@_);
 }
 
