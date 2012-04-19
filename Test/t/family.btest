@@ -43,7 +43,8 @@ my($now) = get_test_now_as_date();
 submit_form('cancel');
 go_back();
 submit_form({
-    date => $now,
+    date_0 => $now,
+    mode_0 => Type_RideType('BIKE')->as_int,
 });
 verify_table(Date => [
     ['Date'],
