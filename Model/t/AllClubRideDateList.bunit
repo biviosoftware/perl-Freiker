@@ -12,7 +12,7 @@ req()->set_realm(undef);
 		my($day_offset) = $_;
 		map(+{
 		    'RealmOwner.display_name' => Freiker::Test->SCHOOL($_),
-		    ride_count => ($day_offset > 0 && $day_offset <= Freiker::Test->MAX_CHILD_INDEX_WITH_RIDES)
+		    ride_count => (($day_offset > 0 && $day_offset <= Freiker::Test->MAX_CHILD_INDEX_WITH_RIDES) || $day_offset == Freiker::Test->NO_TAG_WITH_RIDES_CHILD_INDEX)
 			? 2 : 1,
 		}, 0 .. 1),
 	    } 0 .. 59),
