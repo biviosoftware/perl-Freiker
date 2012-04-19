@@ -16,7 +16,9 @@ sub get_display_name {
     my($self, $uid_or_codes) = @_;
     $uid_or_codes = $self->get_codes($uid_or_codes)
 	unless ref($uid_or_codes);
-    return '(' . join(', ', @$uid_or_codes) . ')';
+    return '(' . join(', ', @$uid_or_codes) . ')'
+	unless @$uid_or_codes <= 0;
+    return '';
 }
 
 sub get_most_recent {
