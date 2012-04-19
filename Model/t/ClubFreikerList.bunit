@@ -23,6 +23,8 @@ my($today) = do('./SetupRides.PL');
 		    child1
 		    child6
 		    child7
+		    childnotag8
+		    childnotag9
 		),
 	    ),
 	],
