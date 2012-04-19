@@ -15,8 +15,10 @@ sub freiker_codes_for_user {
     my($self, $user_id) = @_;
     $self->load_all
 	unless $self->is_loaded;
-    return $_SA->new($self->find_row_by('FreikerCode.user_id' => $user_id)
-	->get('freiker_codes'));
+    my($row) = $self->find_row_by('FreikerCode.user_id' => $user_id);
+    return $_SA->new($row->get('freiker_codes'))
+	if $row;
+    return $_SA->new;
 }
 
 sub internal_initialize {
