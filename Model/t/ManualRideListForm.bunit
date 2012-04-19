@@ -13,6 +13,13 @@ $child_id = model('FreikerCodeList')->load_all
     ->find_row_by_code('1234')
     ->get('FreikerCode.user_id');
 [
+    error_case({
+	'Ride.ride_date_1' => Date('1/1/2012'),
+	'Ride.ride_type_1' => RideType('UNKNOWN')->as_sql_param,
+	empty_row_count => 9,
+    } => {
+	'Ride.ride_type_1' => 'UNSPECIFIED',
+    }),
     [{
 	'Ride.ride_date_1' => Date('1/1/2012'),
 	'Ride.ride_type_1' => RideType('BUS')->as_sql_param,
@@ -23,10 +30,11 @@ $child_id = model('FreikerCodeList')->load_all
 	    ride_type => RideType('BUS'),
 	},
     }],
-    inline_case(sub {
-	req()->set_realm('bunit1123456790');
+    error_case({
+	'Ride.ride_date_1' => Date('1/1/2012'),
+	'Ride.ride_type_1' => RideType('WALK')->as_sql_param,
+	empty_row_count => 9,
+    } => {
+	'Ride.ride_date_1' => 'EXISTS',
     }),
-    [{
-	empty_row_count => 10,
-    }] => DIE(),
 ];
