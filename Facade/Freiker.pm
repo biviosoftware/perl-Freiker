@@ -44,6 +44,7 @@ my($_SELF) = __PACKAGE__->new({
 	    NOT_FOUND => q{This is not a valid vs_fe('label'); for your school.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.},
 	    EXISTS => q{The vs_fe('label'); is already assigned to a kid.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.If(['->is_substitute_user'], SPAN_sui(' To force the assignment, resubmit the form.'));},
 	    MUTUALLY_EXCLUSIVE => q{The vs_fe(q{label}); was scanned on vs_fe(q{detail}); when your kid also rode with his old vs_fe(q{label});.  This may not be the right number.  If you are sure the number is correct, vs_wheel_contact();.If(['->is_substitute_user'], SPAN_sui(' To force the assignment, resubmit the form.'));},
+	    SYNTAX_ERROR => q{Field must be blank if registering without ZapTag.},
 	]],
 	['SchoolClassListForm.RealmOwner.display_name.EXISTS' => q{A teacher with name appears above.  Teachers' names must be unique.}],
 	['ClubRegisterForm.Website.url.EXISTS' => q{This school's website is already registered.  Please try to find the volunteer at your school.}],
@@ -317,10 +318,11 @@ EOF
 	    has_graduated => 'Has Graduated',
 	    kilometers => 'Kilometers to School',
 	    miles => 'Miles to School',
+	    no_freiker_code => 'Register without ZapTag',
 	    [qw(miles kilometers)] => [
 		desc => q{One-way distance from your home to this kid's school.  Kids with multiple homes, calculate the distance from the home associated with the postal code above.},
 	    ],
-	    ok_button => q{If([qw(Model.FreikerCodeForm FreikerCode.user_id)], 'Add ZapTag', 'Register kid');},
+	    ok_button => q{If([qw(->ureq Model.FreikerRideList)], 'Add ZapTag', 'Register kid');},
 	]],
 	[FreikerForm => [
 	    ok_button => 'Update Info',

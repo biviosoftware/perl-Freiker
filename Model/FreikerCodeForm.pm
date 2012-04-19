@@ -24,12 +24,12 @@ sub execute_empty {
 sub execute_ok {
     my($self) = @_;
     return
-	unless my $code_uid = _validate_club($self);
+	unless my $uid = _validate_club($self);
     return
-	unless _validate_user($self, $code_uid);
+	unless _validate_user($self, $uid);
     return
-	unless _validate_rides($self, $code_uid);
-    _update_user($self, $code_uid);
+	unless _validate_rides($self, $uid);
+    _update_user($self, $uid);
     return shift->SUPER::execute_ok(@_) || {
     	query => {
 	    'ListQuery.parent_id' => $self->get('FreikerCode.user_id'),
@@ -44,6 +44,11 @@ sub internal_initialize {
         version => 1,
         visible => [
 	    'FreikerCode.freiker_code',
+	    {
+		name => 'no_freiker_code',
+		type => 'Boolean',
+		constraint => 'NONE',
+	    },
 	    'Club.club_id',
 	],
 	hidden => [
@@ -73,6 +78,8 @@ sub internal_pre_execute {
 
 sub validate {
     my($self) = @_;
+    $self->internal_clear_error('FreikerCode.freiker_code')
+	if $self->unsafe_get('no_freiker_code');
     $self->internal_clear_error('Club.club_id')
 	unless $self->get('allow_club_id');
     return shift->SUPER::validate(@_);
@@ -169,11 +176,24 @@ sub _validate_club {
     }
     $self->internal_put_field(
 	'FreikerCode.club_id' => $self->get('Club.club_id'));
-    return $self->internal_put_error('FreikerCode.freiker_code' => 'NOT_FOUND')
-	unless my $fcl = $self->new_other('FreikerCodeList')->unauth_load_all({
-	    auth_id => $self->get('FreikerCode.club_id'),
-	})->find_row_by_code($self->get('FreikerCode.freiker_code'));
-    return $fcl->get('FreikerCode.user_id');
+    if ($self->unsafe_get('no_freiker_code')) {
+	return $self->internal_put_error(
+	    'FreikerCode.freiker_code' => 'SYNTAX_ERROR')
+	    if $self->get('FreikerCode.freiker_code');
+	my($uid) = $self->new_other('User')->create_freiker({
+	    %{$self->get_model_properties('User')},
+	});
+	$self->internal_put_field('FreikerCode.user_id' => $uid);
+	return $uid;
+    } else {
+	return $self->internal_put_error(
+	    'FreikerCode.freiker_code' => 'NOT_FOUND')
+	    unless my $fcl = $self->new_other('FreikerCodeList')
+		->unauth_load_all({
+		    auth_id => $self->get('FreikerCode.club_id'),
+		})->find_row_by_code($self->get('FreikerCode.freiker_code'));
+	return $fcl->get('FreikerCode.user_id');
+    }
 }
 
 sub _validate_rides {
@@ -217,9 +237,9 @@ sub _validate_rides {
 
 sub _validate_user {
     my($self, $code_uid) = @_;
-    if (my $fid = $self->new_other('RealmUser')
-	    ->unsafe_family_id_for_freiker($code_uid)
-    ) {
+    my($fid) = $self->new_other('RealmUser')
+	->unsafe_family_id_for_freiker($code_uid);
+    if (! $self->unsafe_get('no_freiker_code') && $fid) {
 	$self->internal_put_error('FreikerCode.freiker_code' => 'EXISTS');
 	return 0
 	    unless _super_user_override($self);

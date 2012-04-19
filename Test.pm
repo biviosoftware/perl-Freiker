@@ -26,9 +26,22 @@ sub CA_ZIP {
 }
 
 sub CHILD {
-    my(undef, $index, $which) = @_;
-    return _string(
-	child => undef, _number(0, undef, $which) * 10 + ($index || 0));
+    my($proto, $index, $which, $base) = @_;
+    $base ||= 'child';
+    return _string($base => undef,
+	_number(0, undef, $which) * 10 + ($index || 0));
+}
+
+sub CHILD_WITHOUT_RIDES {
+    return shift->MAX_CHILD_INDEX_WITH_RIDES + 1;
+}
+
+sub CHILD_NO_TAG {
+    return shift->CHILD(@_, 'childnotag');
+}
+
+sub COUNTRY {
+    return 'US';
 }
 
 sub DEFAULT_BIRTH_YEAR {
@@ -39,12 +52,12 @@ sub DEFAULT_GENDER {
     return $_FEMALE;
 }
 
-sub DEFAULT_MILES {
-    return '5.0';
-}
-
 sub DEFAULT_KILOMETERS {
     return '8.0';
+}
+
+sub DEFAULT_MILES {
+    return '5.0';
 }
 
 sub EPC {
@@ -68,12 +81,8 @@ sub MAX_CHILD_INDEX_WITH_RIDES {
     return shift->MAX_CHILD_INDEX - 3;
 }
 
-sub CHILD_WITHOUT_RIDES {
-    return shift->MAX_CHILD_INDEX_WITH_RIDES + 1;
-}
-
-sub COUNTRY {
-    return 'US';
+sub MAX_CHILD_INDEX_WITH_TAGS_AND_RIDES {
+    return shift->MAX_CHILD_INDEX - 5;
 }
 
 sub NEED_ACCEPT_TERMS {
@@ -82,6 +91,14 @@ sub NEED_ACCEPT_TERMS {
 
 sub NEED_ACCEPT_TERMS_CHILD_INDEX {
     return shift->CHILD_WITHOUT_RIDES + 1;
+}
+
+sub NO_TAG_WITH_RIDES_CHILD_INDEX {
+    return shift->MAX_CHILD_INDEX;
+}
+
+sub NO_TAG_WITHOUT_RIDES_CHILD_INDEX {
+    return shift->MAX_CHILD_INDEX + 1;
 }
 
 sub PARENT {
