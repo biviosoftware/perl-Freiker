@@ -310,6 +310,7 @@ sub _freiker_distributor {
 			'RealmUser.realm_id' => $self->req(qw(Model.Merchant merchant_id)),
 			'User.user_id' => $ral->get('RealmUser.user_id'),
 		    }),
+		    return 1;
 	        });
 		return;
 	    },
