@@ -97,14 +97,8 @@ sub internal_initialize {
 sub internal_pre_execute {
     my($self) = @_;
     my(@res) = shift->SUPER::internal_pre_execute(@_);
+    # SECURITY: Ensure user can access this Freiker
     my($uid) = $self->req('Model.ManualRideList')->get_query->get('parent_id');
-    my($ru) = $self->new_other('RealmUser');
-    $ru->unsafe_load({
-	user_id => $uid,
-	role => $_FREIKER,
-    });
-    b_die($uid, ': user is not a FREIKER in this realm')
-	unless $ru->is_loaded;
     $self->internal_put_field('RealmUser.user_id' => $uid);
     $self->internal_put_field('RealmOwner.display_name'	=>
 	join(' ',
