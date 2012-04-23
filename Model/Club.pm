@@ -59,7 +59,7 @@ sub create_realm {
 	});
 	return 1;
     });
-    return $self;
+    return ($self, $ro);
 }
 
 sub internal_create_realm_administrator_id {
