@@ -46,16 +46,21 @@ sub execute_ok_row {
     my($d) = $self->get('Ride.ride_date');
     return $self->internal_clear_error('Ride.ride_date')
 	unless $d;
+    return $self->internal_put_error('Ride.ride_date' => 'DATE_RANGE')
+	if $_D->compare_defined($d, $_D->local_today) > 0;
+    return $self->internal_put_error('Ride.ride_date' => 'SYNTAX_ERROR')
+	if $_D->is_weekend($d);
     my($uid) = $self->get('RealmUser.user_id');
     my($r) = $self->new_other('Ride');
     $r->unauth_load({
 	user_id => $uid,
 	ride_date => $d,
     });
-    return $self->internal_put_error('Ride.ride_date' => 'DATE_RANGE')
-	if $_D->compare_defined($d, $_D->local_today) > 0;
-    return $self->internal_put_error('Ride.ride_date', 'EXISTS')
+    return $self->internal_put_error('Ride.ride_date' => 'EXISTS')
 	if $r->is_loaded;
+    $self->internal_put_field('Ride.ride_type' =>
+				  $self->get('Ride.ride_type_0'))
+	if $self->unsafe_get('use_type_for_all_0');
     $r->create({
 	user_id => $uid,
 	club_id => $_RU->club_id_for_freiker($uid),
@@ -119,8 +124,14 @@ sub internal_pre_execute {
     return @res;
 }
 
-sub is_empty_row {
-    return shift->get('Ride.ride_date') ? 0 : 1;
+sub validate_row {
+    my($self) = @_;
+    my($no_date) = $self->unsafe_get('Ride.ride_date') ? 0 : 1;
+    $self->internal_clear_error('Ride.ride_date')
+	if $no_date;
+    $self->internal_clear_error('Ride.ride_type')
+	if $self->get('use_type_for_all_0') || $no_date;
+    return;
 }
 
 1;
