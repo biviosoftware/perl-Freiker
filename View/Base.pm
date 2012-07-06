@@ -37,9 +37,7 @@ sub internal_xhtml_adorned_attrs {
 	xhtml_header_right => vs_header_su_link(
 	    Link(
 		Image('logo'),
-		URI(b_use('Action.ClientRedirect')
-		    ->uri_parameters(
-			'http://www.boltage.org', 'task_id')),
+		URI({task_id => 'MY_SITE'}),
 	    ),
 	),
 	xhtml_footer_left => undef,
