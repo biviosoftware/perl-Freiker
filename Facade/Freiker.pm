@@ -51,8 +51,11 @@ my($_SELF) = __PACKAGE__->new({
 	['ClubRegisterForm.club_name.EXISTS' => q{Your school is already registered.  Please try to find the volunteer at your school.}],
 	['email.EXISTS' => q{This email is already registered with vs_site_name();.  Link('Click here to login.', 'LOGIN', {no_context => 1});}],
 	['Ride.ride_date.NOT_FOUND' => q{This date was not a school day. Or, the ZAP did not send the trips to boltage.org (yet).  The ZAP stores the trips until it can get a network connection.  Sometimes the network is down for days.}],
-	['Ride.ride_date.DATE_RANGE' => q{Date cannot be in the future}],
-	['Ride.ride_date.EXISTS' => q{The kid was already credited for this date.  Please enter a different date.}],
+	['Ride.ride_date' => [
+	    DATE_RANGE => q{Date cannot be in the future},
+	    SYNTAX_ERROR => q{Date cannot be on a weekend},
+	    EXISTS => q{The kid was already credited for this date.  Please enter a different date.},
+	]],
 	['PrizeConformForm.Prize.name.TOO_FEW' => q{You do not have enough available trips to chose this prize}],
 	['UserLoginForm.login.OFFLINE_USER' => q{Not a registered Boltage Code.  Link('Please click on this link to register.', 'USER_CREATE');}],
 	[[qw(AdmSubstituteUserForm SiteAdminSubstituteUserForm)] => [
