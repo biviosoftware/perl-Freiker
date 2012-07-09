@@ -312,7 +312,7 @@ EOF
 	['FreikerForm.prose.prologue' => q{If(['!', 'form_model', 'in_parent_realm'], Link("Click here to edit your school's class list.", 'CLUB_SCHOOL_CLASS_LIST_FORM'));}],
 	[[qw(FreikerForm FreikerCodeForm)] => [
 	    'User.first_name' => q{First},
-	    'User.first_name.desc' => q{Only one of First, Middle, or Last is required.},
+	    'User.first_name.desc' => q{Only one of First or Last is required.},
 	    'User.middle_name' => q{Middle},
 	    'User.last_name' => q{Last},
 	    'birth_year' => q{Year of Birth},
