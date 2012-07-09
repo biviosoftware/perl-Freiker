@@ -26,7 +26,6 @@ submit_form({
 test_conformance();
 submit_form({
     first => 'Bruce',
-    middle => 'A',
     last => my $last = random_string(),
     '^zaptag' => 1237,
     '^school' => 'bunit Elementary',
@@ -54,6 +53,6 @@ submit_form(Refresh => {
     dates => '01/01/2000',
     to => Type_Date()->to_string(Type_Date()->local_today),
 });
-follow_link_in_table('kid', 'kid', "$last, Milton A", 'action', 'info');
+follow_link_in_table('kid', 'kid', "$last, Milton", 'action', 'info');
 
 
