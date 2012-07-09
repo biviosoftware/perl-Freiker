@@ -217,7 +217,7 @@ sub validate_address {
 
 sub _country_zip {
     my($model, $cc) = @_;
-    return _is_us($cc) ? b_use('Type.USZipCode9')
+    return _is_us($cc) ? b_use('Type.USZipCode')
 	: $model->get_field_type('Address.zip');
 }
 

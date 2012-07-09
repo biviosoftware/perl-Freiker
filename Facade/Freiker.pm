@@ -205,7 +205,6 @@ my($_SELF) = __PACKAGE__->new({
 	     country => 'Country Code',
 	     'country.desc' => 'Official two-letter country code (US, CA, MX, etc.)',
 	     zip => 'Postal Code',
-	     'zip.desc' => q{For US residents, please enter a 9-digit US zip code (ZIP+4). Link('Look it up at the USPS.', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});.  Other users should enter their complete postal code, excluding any country prefix.},
 	]],
 	[ClubRegisterForm => [
 	    'club_size' => 'Number of Students',
@@ -341,7 +340,7 @@ EOF
 		freiker_code_not_found => 'ZapTag not found in the database',
 		freiker_code_already_registered => 'ZapTag is already assigned to a kid',
 		country_null => 'Country must be specified for first kid',
-		zip9_invalid => 'US Zip codes must be 9 digits (ZIP+4)',
+		zip_invalid => 'US Zip codes must be 5 or 9 digits',
 	    ],
 	]],
 	[ClubManualRideForm => [

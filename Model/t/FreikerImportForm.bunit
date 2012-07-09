@@ -46,6 +46,6 @@ EOF
 	['x,,,1238,US,123456789,1,,,,,,,,No Such Teacher' => 'teacher not found'],
 	['x,,,1238,,123456789,1,,,,,,,,No Such Teacher' => 'country must be specified'],
 	['x,,,1238,,123456789,1' => 'country must be specified'],
-	['x,,,1238,US,12345,1' => 'zip\+4'],
+	['x,,,1238,US,123456,1' => '5 or 9'],
     ),
 ];

@@ -7,7 +7,7 @@ use Bivio::Base 'Model.CSVImportForm';
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_IDI) = __PACKAGE__->instance_data_index;
 my($_T) = b_use('FacadeComponent.Text');
-my($_USZC) = b_use('Type.USZipCode9');
+my($_USZC) = b_use('Type.USZipCode');
 my($_K) = b_use('Type.Kilometers');
 
 sub COLUMNS {
@@ -123,7 +123,7 @@ sub _validate_address {
 #TODO: Modularize
 	unless $row->{country} eq 'US';
     my($v) = $_USZC->from_literal($row->{postalcode});
-    return _error($self, $row_count, 'zip9_invalid', $row->{postalcode})
+    return _error($self, $row_count, 'zip_invalid', $row->{postalcode})
 	unless $v;
     $row->{postalcode} = $v;
     return;
