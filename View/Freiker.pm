@@ -123,7 +123,6 @@ sub _form {
 	    row_control => ["Model.$model", 'allow_school_class'],
 	}],
 	"$model.User.first_name",
-	"$model.User.middle_name",
 	"$model.User.last_name",
 	"$model.Address.zip",
 	map(
