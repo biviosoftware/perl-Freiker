@@ -12,10 +12,21 @@ my($other) = {
     'User.first_name' => 'Bruce',
 };
 [
+    empty_case({
+	'FreikerCode.freiker_code' => undef,
+	'Club.club_id' => undef,
+	'User.last_name' => 'Parent',
+	'Address.street1' => undef,
+	'Address.zip' => Freiker::Test->CA_ZIP,
+	'Address.country' => 'CA',
+	kilometers => undef,
+	miles => undef,
+    }),
     [{
 	%$other,
 	'FreikerCode.freiker_code' => Freiker_Test()->FREIKER_CODE(3),
 	'Club.club_id' => realm_id(Freiker::Test->SCHOOL_NAME),
+	'Address.street1' => '123 Main St',
 	'Address.zip' => Freiker::Test->CA_ZIP,
 	kilometers => 8,
     }] => [{
@@ -26,6 +37,16 @@ my($other) = {
 	    user_id => sub {$child_id = shift},
 	},
     }],
+    empty_case({
+	'FreikerCode.freiker_code' => undef,
+	'Club.club_id' => realm_id(Freiker::Test->SCHOOL_NAME),
+	'User.last_name' => 'Parent',
+	'Address.street1' => '123 Main St',
+	'Address.zip' => Freiker::Test->CA_ZIP,
+	'Address.country' => 'CA',
+	kilometers => '8.0',
+	miles => '5.0',
+    }),
     req_state({
 	'Model.FreikerRideList' => sub {
 	    model(FreikerRideList => {
@@ -35,7 +56,7 @@ my($other) = {
 	},
     }),
     empty_case({
-	'FreikerCode.freiker_code' => undef,,
+	'FreikerCode.freiker_code' => undef,
 	'Club.club_id' => realm_id(Freiker::Test->SCHOOL_NAME),
 	'Address.zip' => Freiker::Test->CA_ZIP,
 	kilometers => '8.0',
