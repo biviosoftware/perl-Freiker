@@ -9,6 +9,7 @@ my($_D) = b_use('Type.Date');
 my($_OVERLAP_SLOP) = 1;
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 my($_F) = b_use('ShellUtil.Freiker');
+my($_K) = b_use('Type.Kilometers');
 
 sub execute_empty {
     my($self) = @_;
@@ -18,7 +19,35 @@ sub execute_empty {
 		->club_id_for_freiker($uid),
 	) if $self->get('allow_club_id');
     }
-    return shift->SUPER::execute_empty(@_);
+    my($res) = shift->SUPER::execute_empty(@_);
+    if ($self->get('in_parent_realm')) {
+	$self->internal_put_field('User.last_name' =>
+	    $self->new_other('User')->load->unsafe_get('last_name'));
+	_put_address($self, $self->new_other('Address')->load);
+	$self->new_other('RealmUser')->do_iterate(sub {
+            my($ru) = @_;
+	    my($uid) = $ru->get('user_id');
+	    return 1
+		if $uid eq $ru->get('realm_id');
+	    my($fi) = $self->new_other('FreikerInfo');
+	    $fi->unauth_load({user_id => $uid});
+	    return 1
+		unless $fi->is_loaded
+		    && (my $k = $fi->unsafe_get('distance_kilometers'));
+	    my($ka) = $self->new_other('Address');
+	    $ka->unauth_load({realm_id => $uid});
+	    return 1
+		unless $ka->is_loaded;
+	    $self->internal_put_field(
+		miles => $_K->to_miles($k),
+		kilometers => $k,
+		'Club.club_id' => $ru->club_id_for_freiker($uid),
+	    );
+	    _put_address($self, $ka);
+	    return 0;
+	});
+    }
+    return $res;
 }
 
 sub execute_ok {
@@ -109,6 +138,16 @@ sub _iterate_rides {
         'ride_date',
 	{user_id => $user_id},
     );
+    return;
+}
+
+sub _put_address {
+    my($self, $model) = @_;
+    map({
+	$self->internal_put_field(
+	    "Address.$_" => $model->unsafe_get($_),
+	);
+    } qw(street1 street2 city state zip country)),
     return;
 }
 
