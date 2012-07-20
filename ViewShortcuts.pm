@@ -45,7 +45,6 @@ sub vs_freiker_list_selector {
     $fields ||= [qw(fr_begin fr_end fr_type fr_trips fr_registered fr_current)];
     my($f) = b_use('Model.FreikerListQueryForm');
     my($year_start) = $_YQ->get_default->first_date_of_school_year;
-    my($year_end) = $_D->add_years($_D->add_days($year_start, -1), 1);
     return (
 	selector => Join([
 	    Form($f->simple_package_name, Join([
@@ -69,7 +68,7 @@ sub vs_freiker_list_selector {
 				form_model => [$f->package_name],
 				field => $_,
 				start_date => $year_start,
-				end_date => $year_end,
+				end_date => $_D->local_today,
 			    }),
 			) : $_ eq 'fr_end' ? (
 			    FormFieldLabel({
@@ -85,7 +84,7 @@ sub vs_freiker_list_selector {
 				form_model => [$f->package_name],
 				field => $_,
 				start_date => $year_start,
-				end_date => $year_end,
+				end_date => $_D->local_today,
 			    }),
 			) : $_ eq 'fr_type' ? (
 			    FormFieldLabel({
