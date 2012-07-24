@@ -10,6 +10,7 @@ __PACKAGE__->compile([
     BIKE => 1,
     BUS => 2,
     WALK => 3,
+    CARPOOL => 4,
     OTHER => 99,
 ]);
 
