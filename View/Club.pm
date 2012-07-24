@@ -6,6 +6,8 @@ use Bivio::Base 'View.Base';
 use Bivio::UI::ViewLanguageAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+my($_D) = b_use('Type.Date');
+my($_YQ) = b_use('Type.YearQuery');
 
 sub freiker_class_list {
     return _freiker_list(shift, 'ClubFreikerClassList');
@@ -237,9 +239,15 @@ sub ride_date_list {
 }
 
 sub ride_fill_form {
+    my($f) = b_use('Model.ClubRideFillForm');
     return shift->internal_body_and_tools(
 	vs_simple_form(ClubRideFillForm => [
-	    'ClubRideFillForm.Ride.ride_date',
+	    ['ClubRideFillForm.Ride.ride_date', {
+		want_picker => 1,
+		form_model => [$f->package_name],
+		start_date => $_YQ->get_default->first_date_of_school_year,
+		end_date => $_D->local_today,
+	    }],
 	]),
     );
 }
