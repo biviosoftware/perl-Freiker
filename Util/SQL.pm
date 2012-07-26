@@ -8,8 +8,8 @@ use Freiker::Test;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_DT) = b_use('Type.DateTime');
-my($_T);
 my($_LM) = b_use('Biz.ListModel');
+my($_T) = b_use('UI.Text');
 
 sub ddl_files {
     return shift->SUPER::ddl_files(['bOP', 'fr']);
@@ -33,7 +33,7 @@ sub init_realm_role {
 sub initialize_test_data {
     my($self) = @_;
     return $self->new_other('TestData')->initialize_db;
-}    
+}
 
 sub internal_upgrade_db_freiker_info {
     my($self) = @_;
@@ -210,7 +210,6 @@ CREATE SEQUENCE school_year_s
   CACHE 1 INCREMENT BY 100000
 /
 EOF
-    
     return;
 }
 
@@ -284,6 +283,39 @@ ALTER TABLE ride_t
     ALTER COLUMN ride_type SET NOT NULL
 /
 EOF
+    return;
+}
+
+sub internal_upgrade_db_school_contact {
+    my($self) = @_;
+    $self->initialize_fully;
+    $self->run(<<'EOF');
+CREATE TABLE school_contact_t (
+  club_id NUMERIC(18) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  display_name TEXT64K NOT NULL,
+  CONSTRAINT school_contact_t1 primary key(club_id)
+)
+/
+--
+-- school_contact_t
+--
+ALTER TABLE school_contact_t
+  ADD CONSTRAINT school_contact_t2
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/
+EOF
+    # default all school contacts to Boltage support
+    $self->model('Club')->do_iterate(sub {
+        my($c) = @_;
+	$self->model('SchoolContact')->create({
+	    club_id => $c->get('club_id'),
+	    email => $_T->get_value('support_email'),
+	    display_name => join(' ', $_T->get_value('site_name'), 'Support'),
+	});
+	return 1;
+    }, 'unauth_iterate_start');
     return;
 }
 
