@@ -55,6 +55,31 @@ EOF
     return;
 }
 
+sub general_contact {
+    my($self) = @_;
+    return shift->internal_body(vs_simple_form(ContactForm => [
+        'ContactForm.from',
+	['ContactForm.to', {
+	    wf_class => 'Select',
+	    choices => ['Model.SchoolContactList'],
+	    list_id_field => 'SchoolContact.email',
+	    list_display_field => 'email_display_name',
+	    unknown_label => 'Select School Contact',
+	}],
+	'ContactForm.subject',
+	'ContactForm.text',
+    ]));
+}
+
+sub general_contact_mail {
+    return shift->internal_put_base_attr(
+	from => ['Model.ContactForm', 'from'],
+	to => ['Model.ContactForm', 'to'],
+	subject => ['Model.ContactForm', 'subject'],
+	body => ['Model.ContactForm', 'text'],
+    );
+}
+
 sub internal_settings_form_extra_fields {
     return [qw(
         UserSettingsListForm.Address.zip
