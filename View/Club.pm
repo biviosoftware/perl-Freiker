@@ -9,6 +9,16 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_YQ) = b_use('Type.YearQuery');
 
+sub contact_form {
+    my($self) = @_;
+    return $self->internal_body_and_tools(
+	vs_simple_form('SchoolContactForm', [qw(
+	    SchoolContactForm.SchoolContact.display_name
+	    SchoolContactForm.SchoolContact.email
+	)]),
+    );
+}
+
 sub freiker_class_list {
     return _freiker_list(shift, 'ClubFreikerClassList');
 }
@@ -127,6 +137,7 @@ sub internal_body_and_tools {
 		CLUB_FREIKER_IMPORT_FORM
 		CLUB_FREIKER_CLASS_LIST_FORM
 		CLUB_SUMMARY_BY_CLASS_LIST
+		CLUB_CONTACT_FORM
 	    ),
 	], {
 	    want_more_threshold => 2,
