@@ -16,6 +16,14 @@ sub get_delegate_info {
 		    ->uri_parameters('http://www.boltage.org')
 		: 'SITE_ROOT',
 	},
+	{
+	    name => 'GENERAL_CONTACT',
+	    items => [qw(
+		Model.SchoolContactList->execute_load_all
+		Model.ContactForm
+		View.UserAuth->general_contact
+	    )],
+	},
 	[qw(
 	    CLUB_HOME
 	    7
@@ -605,6 +613,15 @@ sub get_delegate_info {
 	    View.Freiker->manual_ride_list_form
 	    next=FAMILY_FREIKER_RIDE_LIST
 	)],
+	[qw(
+	    CLUB_CONTACT_FORM
+	    565
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.SchoolContactForm
+	    View.Club->contact_form
+	    next=MY_SITE
+        )],
     ]);
 }
 
