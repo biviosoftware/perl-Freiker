@@ -342,3 +342,12 @@ CREATE UNIQUE INDEX school_year_t4 ON school_year_t (
   start_date
 )
 /
+
+--
+-- school_contact_t
+--
+ALTER TABLE school_contact_t
+  ADD CONSTRAINT school_contact_t2
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/

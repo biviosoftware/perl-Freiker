@@ -128,3 +128,11 @@ CREATE TABLE school_year_t (
   CONSTRAINT school_year_t1 primary key(school_year_id)
 )
 /
+
+CREATE TABLE school_contact_t (
+  club_id NUMERIC(18) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  display_name TEXT64K NOT NULL,
+  CONSTRAINT school_contact_t1 primary key(club_id)
+)
+/
