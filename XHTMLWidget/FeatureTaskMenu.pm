@@ -24,6 +24,7 @@ sub internal_tasks {
 	    task_id => 'CLUB_FREIKER_LIST',
 	    sort_label => 'sort_002',
 	},
+	'GENERAL_CONTACT',
 	grep(
 	    !(ref($_) && ($_->{task_id} || '') eq 'SITE_WIKI_VIEW'),
 	    @{shift->SUPER::internal_tasks(@_)},
