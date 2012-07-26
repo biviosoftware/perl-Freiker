@@ -56,39 +56,31 @@ sub vs_freiker_list_selector {
 			    class => 'element',
 			}) : $_ eq 'fr_begin' ? (
 			    FormFieldLabel({
-				label => SPAN_label('Dates: '),
+				label => SPAN_label('Dates:'),
 				field => $_,
 			    }),
 			    DateField({
 				form_model => [$f->package_name],
+				field => $_,
 				event_handler => DateYearHandler(),
-				field => $_,
-			    }),
-			    DatePicker({
-				form_model => [$f->package_name],
-				field => $_,
-				start_date => $year_start,
+				want_picker => 1,
 				end_date => $_D->local_today,
 			    }),
 			) : $_ eq 'fr_end' ? (
 			    FormFieldLabel({
-				label => SPAN_label(' To: '),
+				label => SPAN_label(' To:'),
 				field => $_,
 			    }),
 			    DateField({
 				form_model => [$f->package_name],
 				field =>  $_,
 				event_handler => DateYearHandler(),
-			    }),
-			    DatePicker({
-				form_model => [$f->package_name],
-				field => $_,
-				start_date => $year_start,
+				want_picker => 1,
 				end_date => $_D->local_today,
 			    }),
 			) : $_ eq 'fr_type' ? (
 			    FormFieldLabel({
-				label => SPAN_label(' Mode: '),
+				label => SPAN_label(' Mode:'),
 				field => $_,
 			    }),
 			    Select({
