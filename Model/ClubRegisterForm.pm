@@ -5,6 +5,19 @@ use strict;
 use Bivio::Base 'Model.OrganizationInfoForm';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+my($_L) = b_use('Type.Location');
+
+sub execute_empty {
+    my($self) = @_;
+    $self->internal_put_field(
+	'SchoolContact.display_name' => $self->req(qw(auth_user display_name)),
+	'SchoolContact.email' => $self->new_other('Email')->unauth_load_or_die({
+	    realm_id => $self->req('auth_user_id'),
+	    location => $_L->get_default,
+	})->get('email'),
+    );
+    return;
+}
 
 sub execute_ok {
     my($self) = @_;
@@ -29,6 +42,9 @@ sub execute_ok {
 			return;
 		    },
 		);
+	    $self->create_model_properties('SchoolContact', {
+		club_id => $ro->get('realm_id'),
+	    });
 	    return;
 	},
     );
@@ -45,6 +61,8 @@ sub internal_initialize {
 		[qw(club_size ClubSize)],
                 [qw(time_zone_selector TimeZoneSelector)],
 	    ], undef, 'NOT_NULL'),
+	    'SchoolContact.display_name',
+	    'SchoolContact.email',
 	],
     });
 }
