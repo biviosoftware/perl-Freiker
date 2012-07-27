@@ -236,6 +236,8 @@ sub register {
 	ClubRegisterForm.Address.state
 	ClubRegisterForm.Address.zip
 	ClubRegisterForm.Address.country
+	ClubRegisterForm.SchoolContact.display_name
+	ClubRegisterForm.SchoolContact.email
         ClubRegisterForm.time_zone_selector
     }]));
 }
