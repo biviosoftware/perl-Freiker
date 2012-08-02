@@ -4,14 +4,17 @@ test_setup('Freiker');
 my($e, $z) = register_random('wheel');
 login_as('adm');
 follow_link(qr{^register.*school}i);
+my($e_adm) = generate_local_email('adm');
 submit_form({
-    name => my $name = "School $z",
+    official_name => my $name = "School $z",
     number => 10,
     website => "http://school$z.org",
     '1.$' => "$z My Street",
     city => 'y',
     state => 'co',
     post => $z,
+    contact_name => 'adm',
+    contact_email => $e_adm,
     zone => 'America/Los_Angeles',
 });
 follow_link('codes');
@@ -31,4 +34,22 @@ submit_form(Refresh => {
     trips => 0,
 });
 verify_text($codes->[0]);
+follow_link('school_contact');
+verify_form({
+    name => 'adm',
+    email => $e_adm,
+});
+submit_form({
+    name => 'wheel',
+    email => $e,
+});
+follow_link(qr{^contact$}i);
+submit_form({
+    your => my $e_my = 'my@email.com',
+    to => $e,
+    subject => 'Need new ZapTag! ' . (my $r1 = random_string()),
+    message => my $r2 = random_string(),
+});
+verify_local_mail($e, qr{$e_my.*$r1.*$r2}s, 1);
+
 
