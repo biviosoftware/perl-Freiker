@@ -49,7 +49,6 @@ my($school_class_id) = sub {
     empty_case({
 	# verify other
 	allow_club_id => 1,
-	allow_school_class => 0,
 	in_miles => 1,
 	in_parent_realm => 1,
 	'Address.country' => 'US',
@@ -58,7 +57,7 @@ my($school_class_id) = sub {
 	'Address.state' => 'CO',
 	'User.gender' => Type_Gender()->MALE,
 	birth_year => 1999,
-	'SchoolClass.school_class_id' => undef,
+	'SchoolClass.school_class_id' => $school_class_id->(2),
     }),
     req_state_merge({
 	user => Freiker_Test()->WHEEL,
@@ -72,13 +71,12 @@ my($school_class_id) = sub {
     empty_case({
 	# verify other
 	allow_club_id => 0,
-	allow_school_class => 1,
 	in_miles => 1,
 	in_parent_realm => 0,
 	'Address.country' => 'US',
 	'User.last_name' => 'Last1',
 	'Address.state' => 'CO',
-	'SchoolClass.school_class_id' => $school_class_id->(0),
+	'SchoolClass.school_class_id' => $school_class_id->(2),
     }),
     [{
 	'User.gender' => Type_Gender()->FEMALE,
@@ -87,7 +85,7 @@ my($school_class_id) = sub {
 	'Address.zip' => '888889999',
 	'Address.state' => 'NM',
 	miles => 8,
-	'SchoolClass.school_class_id' => $school_class_id->(2),
+	'SchoolClass.school_class_id' => $school_class_id->(0),
     }] => [{
 	'Model.RealmOwner' => {
 	    display_name => 'First2',
@@ -104,7 +102,7 @@ my($school_class_id) = sub {
 	},
     }],
     empty_case({
-	'SchoolClass.school_class_id' => $school_class_id->(2),
+	'SchoolClass.school_class_id' => $school_class_id->(0),
     }),
     [{
 	'User.gender' => Type_Gender()->MALE,
