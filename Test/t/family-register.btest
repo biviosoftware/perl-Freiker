@@ -33,6 +33,7 @@ submit_form({
 });
 follow_link('your_family');
 follow_link('edit_info');
+verify_no_text('^school:');
 submit_form({
     first => 'Milton',
 });
