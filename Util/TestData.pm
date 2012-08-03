@@ -88,6 +88,8 @@ sub initialize_db {
 		'Address.country' => $_T->COUNTRY,
 		'Website.url' => $_T->WEBSITE($n),
 		club_size => 32,
+		'SchoolContact.display_name' => $_T->WHEEL($n),
+		'SchoolContact.email' => $_TU->format_email($_T->WHEEL($n)),
 		time_zone_selector => 'America/Denver',
 	    });
 	    foreach my $x (
@@ -152,38 +154,6 @@ sub initialize_db {
 sub nudge_test_now {
     my($self) = @_;
     $_DT->set_test_now($_DT->add_seconds($_DT->now, 1), $self->req);
-    return;
-}
-
-sub reset_need_accept_terms {
-    my($self) = @_;
-    $self->req->with_realm_and_user(
-	$_T->NEED_ACCEPT_TERMS,
-	undef,
-	sub {
-	    $self->model('RowTag')->replace_value(
-		$self->req('auth_id'),
-		'NEED_ACCEPT_TERMS',
-		1,
-	    );
-	    my($addr) = $self->model('Address');
-	    $addr->load->update({zip => undef});
-	    $self->model('FreikerList')->do_iterate(sub {
-	    	return $self->req->with_realm(
-	    	    shift->get('RealmUser.user_id'),
-	    	    sub {
-	    		$self->model('Address')
-	    		    ->load
-	    		    ->update({zip => undef});
-	    		$self->model('FreikerInfo')
-	    		    ->load
-	    		    ->update({distance_kilometers => undef});
-	    		return 1;
-	    	});
-	    });
-	    return;
-	},
-    );
     return;
 }
 
@@ -352,6 +322,38 @@ sub reset_freikometer_playlist {
 	    });
 	}),
     });
+    return;
+}
+
+sub reset_need_accept_terms {
+    my($self) = @_;
+    $self->req->with_realm_and_user(
+	$_T->NEED_ACCEPT_TERMS,
+	undef,
+	sub {
+	    $self->model('RowTag')->replace_value(
+		$self->req('auth_id'),
+		'NEED_ACCEPT_TERMS',
+		1,
+	    );
+	    my($addr) = $self->model('Address');
+	    $addr->load->update({zip => undef});
+	    $self->model('FreikerList')->do_iterate(sub {
+	    	return $self->req->with_realm(
+	    	    shift->get('RealmUser.user_id'),
+	    	    sub {
+	    		$self->model('Address')
+	    		    ->load
+	    		    ->update({zip => undef});
+	    		$self->model('FreikerInfo')
+	    		    ->load
+	    		    ->update({distance_kilometers => undef});
+	    		return 1;
+	    	});
+	    });
+	    return;
+	},
+    );
     return;
 }
 
