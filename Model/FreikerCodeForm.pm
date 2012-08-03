@@ -10,40 +10,45 @@ my($_OVERLAP_SLOP) = 1;
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 my($_F) = b_use('ShellUtil.Freiker');
 my($_K) = b_use('Type.Kilometers');
+my($_LM) = b_use('Biz.ListModel');
 
 sub execute_empty {
     my($self) = @_;
-    if (my $uid = $self->unsafe_get('FreikerCode.user_id')) {
+    my($uid) = $self->unsafe_get('FreikerCode.user_id');
+    if ($uid && $self->unsafe_get('allow_club_id')) {
 	$self->internal_put_field(
 	    'Club.club_id' => $self->new_other('RealmUser')
 		->club_id_for_freiker($uid),
-	) if $self->get('allow_club_id');
+	);
     }
     my($res) = shift->SUPER::execute_empty(@_);
-    if ($self->get('in_parent_realm')) {
-	$self->internal_put_field('User.last_name' =>
+    if (!$uid && $self->get('in_parent_realm')) {
+        $self->internal_put_field('User.last_name' =>
 	    $self->new_other('User')->load->unsafe_get('last_name'));
-	_put_address($self, $self->new_other('Address')->load);
-	$self->new_other('RealmUser')->do_iterate(sub {
-            my($ru) = @_;
-	    my($uid) = $ru->get('user_id');
-	    return 1
-		if $uid eq $ru->get('realm_id');
-	    my($fi) = $self->new_other('FreikerInfo');
-	    $fi->unauth_load({user_id => $uid});
-	    return 1
-		unless $fi->is_loaded
-		    && (my $k = $fi->unsafe_get('distance_kilometers'));
-	    my($ka) = $self->new_other('Address');
-	    $ka->unauth_load({realm_id => $uid});
-	    return 1
-		unless $ka->is_loaded;
+	my($a) = $self->new_other('Address');
+	_put_address($self, $a)
+	    if $a->unsafe_load;
+	$_LM->new_anonymous({
+	    primary_key => ['RealmUser.user_id'],
+	    order_by => [
+		'FreikerInfo.modified_date_time',
+	    ],
+	    other => [
+		[qw(RealmUser.user_id FreikerInfo.user_id Address.realm_id)],
+		'FreikerInfo.distance_kilometers',
+	    ],
+	    auth_id => 'RealmUser.realm_id',
+	})->do_iterate(sub {
+	    my($it) = @_;
 	    $self->internal_put_field(
-		miles => $_K->to_miles($k),
-		kilometers => $k,
-		'Club.club_id' => $ru->club_id_for_freiker($uid),
+		miles => $_K->to_miles($it->get('FreikerInfo.distance_kilometers')),
+		kilometers => $it->get('FreikerInfo.distance_kilometers'),
+		'Club.club_id' => $self->new_other('RealmUser')->club_id_for_freiker($it->get('RealmUser.user_id')),
 	    );
-	    _put_address($self, $ka);
+	    _put_address($self, $self->new_other('Address')->unauth_load_or_die({
+		realm_id => $it->get('RealmUser.user_id'),
+	    }));
+	    _load_class_list($self);
 	    return 0;
 	});
     }
@@ -52,6 +57,12 @@ sub execute_empty {
 
 sub execute_ok {
     my($self) = @_;
+    if ($self->unsafe_get('refresh_class_list')) {
+	$self->internal_stay_on_page;
+	$self->internal_put_field(refresh_class_list => 0);
+	_load_class_list($self);
+	return;
+    }
     return
 	unless my $uid = _validate_club($self);
     return
@@ -86,6 +97,11 @@ sub internal_initialize {
 		type => 'Boolean',
 		constraint => 'NONE',
 	    },
+	    {
+		name => 'refresh_class_list',
+		type => 'Boolean',
+		constraint => 'NONE',
+	    },
 	],
 	other => [
 	    $self->field_decl(
@@ -98,15 +114,19 @@ sub internal_initialize {
 
 sub internal_pre_execute {
     my($self) = @_;
-    my(@res) = shift->SUPER::internal_pre_execute(@_);
+    my($res) = shift->SUPER::internal_pre_execute(@_);
     $self->new_other('ClubList')->load_all;
     $self->internal_put_field('Club.club_id' => $self->req('auth_id'))
-	unless $self->get('allow_club_id');
-    return @res;
+	unless $self->unsafe_get('in_parent_realm');
+    return $res;
 }
 
 sub validate {
     my($self) = @_;
+    if ($self->unsafe_get('refresh_class_list')) {
+	$self->clear_errors;
+	return;
+    }
     $self->internal_clear_error('FreikerCode.freiker_code')
 	if $self->unsafe_get('no_freiker_code');
     $self->internal_clear_error('Club.club_id')
@@ -138,6 +158,17 @@ sub _iterate_rides {
         'ride_date',
 	{user_id => $user_id},
     );
+    return;
+}
+
+sub _load_class_list {
+    my($self) = @_;
+    if ($self->unsafe_get('Club.club_id')) {
+	$self->req->with_realm($self->get('Club.club_id'), sub {
+	    $self->new_other('SchoolClassList')->load_with_school_year;
+	});
+	$self->internal_put_field('skip_class_list' => 1);
+    }
     return;
 }
 
