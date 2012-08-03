@@ -64,7 +64,7 @@ DateTime()->set_test_now(DateTime('2/1/2012 0:0:0'));
     [{
 	'Ride.ride_date_0' => Date('1/9/2012'),
 	'Ride.ride_type_0' => RideType('BIKE')->as_sql_param,
-	'other_kid0' => 1,
+	'sibling0' => 1,
 	empty_row_count => 9,
     }] => [{
 	user_id => $child_id,
@@ -76,13 +76,13 @@ DateTime()->set_test_now(DateTime('2/1/2012 0:0:0'));
 	ride_type => RideType('BIKE'),
     }],
     # ManualRideListForm doesn't complain about or overwrite
-    # existing rides for other_kids
+    # existing rides for siblings
     [{
 	'Ride.ride_date_0' => Date('1/10/2012'),
 	'Ride.ride_type_0' => RideType('BIKE')->as_sql_param,
 	'Ride.ride_date_1' => Date('1/11/2012'),
 	'Ride.ride_type_1' => RideType('BIKE')->as_sql_param,
-	'other_kid0' => 1,
+	'sibling0' => 1,
 	empty_row_count => 8,
     }] => [{
 	user_id => $child_id2,
@@ -93,4 +93,13 @@ DateTime()->set_test_now(DateTime('2/1/2012 0:0:0'));
 	ride_date => Date('1/11/2012'),
 	ride_type => RideType('BIKE'),
     }],
+    inline_case(sub {
+        req()->set_realm_and_user(qw(bunit123456789 adm));
+    }),
+    [{
+	'Ride.ride_date_0' => Date('1/12/2012'),
+	'Ride.ride_type_0' => RideType('BIKE')->as_sql_param,
+	'sibling0' => 1,
+	empty_row_count => 9,
+    }] => DIE(),
 ];
