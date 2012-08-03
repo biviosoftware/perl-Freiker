@@ -6,6 +6,9 @@ use Bivio::Base 'View.Base';
 use Bivio::UI::ViewLanguageAUTOLOAD;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+my($_YQ) = b_use('Type.YearQuery');
+my($_D) = b_use('Type.Date');
+my($_MRLF) = b_use('Model.ManualRideListForm');
 
 sub code_form {
     return _form(shift, 'FreikerCodeForm');
@@ -41,18 +44,26 @@ sub ride_list {
 }
 
 sub manual_ride_form {
-    return shift->internal_body(vs_simple_form(ManualRideForm => [qw{
-        ManualRideForm.Ride.ride_date
-    }]));
+    return shift->internal_body(vs_simple_form(ManualRideForm => [
+	['ManualRideForm.Ride.ride_date', {
+	    want_picker => 1,
+	    form_model => [b_use('Model.ManualRideForm')->package_name],
+	    start_date => $_YQ->get_default->first_date_of_school_year,
+	    end_date => $_D->local_today,
+	}],
+    ]));
 }
 
 sub manual_ride_list_form {
     return shift->internal_body(
 	vs_list_form(ManualRideListForm => [
-	    {
-		field => 'Ride.ride_date',
+	    ['Ride.ride_date', {
+		want_picker => 1,
+		form_model => [b_use('Model.ManualRideListForm')->package_name],
+		start_date => $_YQ->get_default->first_date_of_school_year,
+		end_date => $_D->local_today,
 		allow_undef => 1,
-	    },
+	    }],
 	    ['Ride.ride_type', {
 		wf_want_select => 1,
 		enum_sort => 'as_int',
@@ -71,8 +82,20 @@ sub manual_ride_list_form {
 		    }),
 		),
 	    }],
+	    #TODO: must be a better way to do the row_controls here
+	    [String(' ', {
+		row_control => [qw(->ureq Model.ManualRideListForm sibling_name0)],
+	    })],
+	    [Prose(vs_text('ManualRideListForm.prose.also_siblings'), {
+		row_control => [qw(->ureq Model.ManualRideListForm sibling_name0)],
+	    })],
+	    map({
+		["ManualRideListForm.sibling$_", {
+		    row_control => [qw(->ureq Model.ManualRideListForm), "sibling_name$_"],
+		}],
+	    } (0 .. $_MRLF->LAST_OTHER)),
 	    '*ok_button cancel_button',
-	]),
+	], undef, 1),
     );
 }
 
@@ -105,6 +128,7 @@ sub _form {
 		list_display_field => 'RealmOwner.display_name',
 		unknown_label => 'Select School',
 		row_control => ["Model.$model", 'allow_club_id'],
+		event_handler => SchoolClassListHandler(),
 	    }],
 	),
 	["$model.SchoolClass.school_class_id" => {
@@ -114,14 +138,15 @@ sub _form {
 	    list_display_field => 'display_name',
 	    unknown_label => 'Select Class',
 	    row_control => And(
-		["Model.$model", 'allow_school_class'],
-		['Model.SchoolClassList', '->get_result_set_size'],
+		If([qw(->ureq Model.SchoolClassList)], 1, 0),
+		[qw(Model.SchoolClassList ->get_result_set_size)],
 	    ),
 	}],
-	["$model.has_graduated" => {
-	    wf_class => 'YesNo',
-	    row_control => ["Model.$model", 'allow_school_class'],
-	}],
+	$model eq 'FreikerForm' ? (
+	    ["$model.has_graduated" => {
+		wf_class => 'YesNo',
+	    }],
+	) : (),
 	"$model.User.first_name",
 	"$model.User.last_name",
 	"$model.Address.zip",
