@@ -158,6 +158,7 @@ my($_SELF) = __PACKAGE__->new({
 	[ADM_SUMMARY_BY_SCHOOL_LIST => 'adm/summary-by-school'],
 	[CLUB_SUMMARY_BY_CLASS_LIST => '?/summary-by-class'],
 	[GROUP_USER_BULLETIN_LIST_CSV => '?/subscribers.csv'],
+	[CLUB_CONTACT_FORM => '?/school-contact'],
     ],
     Text => [
 	[support_email => 'info@boltage.org'],
@@ -361,11 +362,15 @@ EOF
 	]],
 	[ManualRideListForm => [
 	    use_type_for_all => 'Same Mode for All',
+	    map((
+		"sibling$_" => qq{String([qw(->req Model.ManualRideListForm sibling_name$_)]);},
+	    ), (0 .. 9)),
 	    ok_button => 'Add trips',
 	    prose => [
 		prologue => <<'EOF',
 Last Trip: If([qw(Model.ManualRideListForm last_ride)], Join([DateTime([qw(Model.ManualRideListForm last_ride ride_date)], 'DATE'), ' (', String([qw(Model.ManualRideListForm last_ride ride_type ->get_short_desc)]), ')']), 'None');
 EOF
+		also_siblings => 'Also add these trips for:',
 	    ],
 	]],
 	[AdmFreikometerList => [
@@ -478,6 +483,21 @@ EOF
 	    MERCHANT_REGISTER => q{Are you a merchant? vs_link('Click here to register your business.', 'MERCHANT_REGISTER');},
 	    GENERAL_USER_PASSWORD_QUERY => q{Forgot your password? Link('Click here to get a new one.', 'GENERAL_USER_PASSWORD_QUERY');},
 	]],
+	[ContactForm => [
+	    to => 'To',
+	]],
+	[ClubRegisterForm => [
+	    SchoolContact => [
+		display_name => 'Support Contact Name',
+		email => 'Support Contact Email',
+	    ],
+	]],
+	[SchoolContactForm => [
+	    SchoolContact => [
+		display_name => 'Name',
+		email => 'Email',
+	    ],
+	]],
 	[acknowledgement => [
 	    update_address => q{Please update the information below.  We need to make sure your information is current.},
 	    GREEN_GEAR_FORM => q{The new Weekly Winner appears below.  Please notify the kid that he or she has won.},
@@ -576,6 +596,7 @@ EOF
 	    GROUP_USER_BULLETIN_LIST_CSV => 'Subscribers (CSV)',
 	    CLUB_MANUAL_RIDE_LIST_FORM => q{Add Missing Trips for String([qw(Model.ManualRideListForm RealmOwner.display_name)]);},
 	    FAMILY_MANUAL_RIDE_LIST_FORM => q{Add Missing Trips for String([qw(Model.ManualRideListForm RealmOwner.display_name)]);},
+	    CLUB_CONTACT_FORM => q{Support Contact},
 	]],
 	[clear_on_focus_hint => [
 	    GROUP_USER_BULLETIN_LIST_CSV => '',
@@ -599,8 +620,8 @@ EOF
 	    merchant => 'Merchant',
 	]],
 	['task_menu.title' => [
-	    [qw(sort_001)] => "\0\1",
-	    [qw(sort_002)] => "\0\2",
+	    sort_001 => "\0\1",
+	    sort_002 => "\0\2",
 	    ADM_RIDE_SUMMARY_LIST => 'All Trip Summary',
 	    ADM_SUMMARY_BY_SCHOOL_LIST => 'Trip Summary by School',
 	    CLUB_SUMMARY_BY_CLASS_LIST => 'Trip Summary by Class',
@@ -613,6 +634,7 @@ EOF
 	    CLUB_PRIZE_LIST => 'Available prizes',
 	    CLUB_REGISTER => 'Register new school',
 	    CLUB_SUMMARY_BY_SCHOOL_LIST => 'Trip Summary',
+	    CLUB_CONTACT_FORM => 'School Contact',
 	    [qw(FAMILY_MANUAL_RIDE_LIST_FORM
 		CLUB_MANUAL_RIDE_LIST_FORM)] => 'Add missing trips',
 	    [qw(FAMILY_FREIKER_ADD CLUB_FREIKER_ADD)] => 'Register kid',
