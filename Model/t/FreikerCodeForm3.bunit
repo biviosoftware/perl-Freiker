@@ -15,6 +15,7 @@ my($other) = {
     empty_case({
 	'FreikerCode.freiker_code' => undef,
 	'Club.club_id' => undef,
+	'SchoolClass.school_class_id' => undef,
 	'User.last_name' => 'Parent',
 	'Address.street1' => undef,
 	'Address.zip' => Freiker::Test->CA_ZIP,
@@ -40,6 +41,7 @@ my($other) = {
     empty_case({
 	'FreikerCode.freiker_code' => undef,
 	'Club.club_id' => realm_id(Freiker::Test->SCHOOL_NAME),
+	'SchoolClass.school_class_id' => undef,
 	'User.last_name' => 'Parent',
 	'Address.street1' => '123 Main St',
 	'Address.zip' => Freiker::Test->CA_ZIP,
