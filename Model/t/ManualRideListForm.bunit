@@ -27,6 +27,7 @@ DateTime()->set_test_now(DateTime('2/1/2012 0:0:0'));
 	empty_row_count => 9,
     }] => [{
 	'Model.Ride' => {
+	    user_id => $child_id,
 	    ride_date => Date('1/2/2012'),
 	    ride_type => RideType('BUS'),
 	},
@@ -54,38 +55,4 @@ DateTime()->set_test_now(DateTime('2/1/2012 0:0:0'));
     } => {
 	'Ride.ride_date_0' => 'SYNTAX_ERROR',
     }),
-    [{
-	'use_type_for_all_0' => 1,
-	'Ride.ride_date_0' => Date('1/3/2012'),
-	'Ride.ride_type_0' => RideType('BUS')->as_sql_param,
-	'Ride.ride_date_1' => Date('1/4/2012'),
-	'Ride.ride_type_1' => RideType('WALK')->as_sql_param,
-	'Ride.ride_type_2' => RideType('WALK')->as_sql_param,
-	empty_row_count => 7,
-    }] => [{
-	'Model.Ride' => {
-	    ride_date => Date('1/3/2012'),
-	    ride_type => RideType('BUS'),
-	},
-	'Model.Ride' => {
-	    ride_date => Date('1/4/2012'),
-	    ride_type => RideType('BUS'),
-	},
-    }],
-    [{
-	'Ride.ride_date_0' => Date('1/5/2012'),
-	'Ride.ride_type_0' => RideType('BUS')->as_sql_param,
-	'Ride.ride_date_1' => Date('1/6/2012'),
-	'Ride.ride_type_1' => RideType('WALK')->as_sql_param,
-	empty_row_count => 8,
-    }] => [{
-	'Model.Ride' => {
-	    ride_date => Date('1/5/2012'),
-	    ride_type => RideType('BUS'),
-	},
-	'Model.Ride' => {
-	    ride_date => Date('1/6/2012'),
-	    ride_type => RideType('WALK'),
-	},
-    }],
 ];
