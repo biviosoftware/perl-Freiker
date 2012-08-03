@@ -9,6 +9,10 @@ my($_D) = b_use('Type.Date');
 my($_RU) = b_use('Model.RealmUser');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 
+sub LAST_OTHER {
+    return 9;
+}
+
 sub MUST_BE_SPECIFIED_FIELDS {
     return [qw(Ride.ride_date Ride.ride_type)];
 }
@@ -67,6 +71,15 @@ sub execute_ok_row {
 	ride_date => $d,
 	ride_type => $self->get('Ride.ride_type'),
     });
+    map({
+	my($id) = $self->get("other_kid_id$_");
+	$r->unauth_create_unless_exists({
+	    user_id => $id,
+	    club_id => $_RU->club_id_for_freiker($id),
+	    ride_date => $d,
+	    ride_type => $self->get('Ride.ride_type'),
+	});
+    } grep($self->get("other_kid$_"), (0 .. $self->LAST_OTHER)));
     return;
 }
 
@@ -90,11 +103,27 @@ sub internal_initialize {
 		constraint => 'NONE',
 		in_list => 1,
 	    },
+	    map(+{
+		name => "other_kid$_",
+		type => 'Boolean',
+		constraint => 'None',
+		in_list => 0,
+	    }, (0 .. $self->LAST_OTHER)),
 	],
 	other => [
 	    'RealmUser.user_id',
 	    'RealmOwner.display_name',
 	    $self->field_decl([[qw(last_ride Freiker::Model::Ride NONE)]]),
+	    map(+{
+		name => "other_kid_name$_",
+		type => 'String',
+		constraint => 'None',
+	    }, (0 .. $self->LAST_OTHER)),
+	    map(+{
+		name => "other_kid_id$_",
+		type => 'RealmUser.user_id',
+		constraint => 'None',
+	    }, (0 .. $self->LAST_OTHER)),
 	],
     });
 }
@@ -120,6 +149,18 @@ sub internal_pre_execute {
 	return 0;
     }, 'unauth_iterate_start', 'ride_date desc', {
 	user_id => $uid,
+    });
+    my($count) = 0;
+    $self->new_other('FreikerList')->do_iterate(sub {
+        my($fl) = @_;
+	return 1
+	    if $fl->get('RealmUser.user_id') == $uid;
+	$self->internal_put_field(
+	    "other_kid_name$count" => $fl->get('User.first_name'),
+	    "other_kid_id$count" => $fl->get('RealmUser.user_id'),
+	);
+	$count++;
+	return 1;
     });
     return @res;
 }
