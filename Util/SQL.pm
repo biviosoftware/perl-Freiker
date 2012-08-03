@@ -27,6 +27,7 @@ sub init_realm_role {
     my($self) = @_;
     my(@res) = shift->SUPER::init_realm_role(@_);
     $self->new_other('RealmRole')->copy_all(forum => 'merchant');
+    $self->internal_upgrade_db_remove_user_calendar;
     return @res;
 }
 
@@ -148,68 +149,12 @@ sub internal_upgrade_db_purge_freikometer_files {
     return;
 }
 
-sub internal_upgrade_db_school_class {
+sub internal_upgrade_db_remove_user_calendar {
     my($self) = @_;
-    $self->run(<<'EOF');
-CREATE TABLE school_class_t (
-  school_class_id NUMERIC(18) NOT NULL,
-  club_id NUMERIC(18) NOT NULL,
-  school_year_id NUMERIC(18) NOT NULL,
-  school_grade NUMERIC(2) NOT NULL,
-  CONSTRAINT school_class_t1 primary key(school_class_id)
-)
-/
-
-CREATE TABLE school_year_t (
-  school_year_id NUMERIC(18) NOT NULL,
-  club_id NUMERIC(18) NOT NULL,
-  start_date DATE NOT NULL,
-  CONSTRAINT school_year_t1 primary key(school_year_id)
-)
-/
---
--- school_class_t
---
-ALTER TABLE school_class_t
-  ADD CONSTRAINT school_class_t2
-  FOREIGN KEY (club_id)
-  REFERENCES club_t(club_id)
-/
-CREATE INDEX school_class_t3 ON school_class_t (
-  club_id
-)
-/
-CREATE INDEX school_class_t4 ON school_class_t (
-  school_grade
-)
-/
-
---
--- school_year_t
---
-ALTER TABLE school_year_t
-  ADD CONSTRAINT school_year_t2
-  FOREIGN KEY (club_id)
-  REFERENCES club_t(club_id)
-/
-CREATE INDEX school_year_t3 ON school_year_t (
-  club_id
-)
-/
-CREATE UNIQUE INDEX school_year_t4 ON school_year_t (
-  club_id,
-  start_date
-)
-/
-CREATE SEQUENCE school_class_s
-  MINVALUE 100024
-  CACHE 1 INCREMENT BY 100000
-/
-CREATE SEQUENCE school_year_s
-  MINVALUE 100029
-  CACHE 1 INCREMENT BY 100000
-/
-EOF
+    $self->req->with_realm(user => sub {
+	$self->new_other('RealmRole')->edit_categories('-feature_calendar');
+        return;
+    });
     return;
 }
 
@@ -281,6 +226,71 @@ UPDATE ride_t SET ride_type = 1
 /
 ALTER TABLE ride_t
     ALTER COLUMN ride_type SET NOT NULL
+/
+EOF
+    return;
+}
+
+sub internal_upgrade_db_school_class {
+    my($self) = @_;
+    $self->run(<<'EOF');
+CREATE TABLE school_class_t (
+  school_class_id NUMERIC(18) NOT NULL,
+  club_id NUMERIC(18) NOT NULL,
+  school_year_id NUMERIC(18) NOT NULL,
+  school_grade NUMERIC(2) NOT NULL,
+  CONSTRAINT school_class_t1 primary key(school_class_id)
+)
+/
+
+CREATE TABLE school_year_t (
+  school_year_id NUMERIC(18) NOT NULL,
+  club_id NUMERIC(18) NOT NULL,
+  start_date DATE NOT NULL,
+  CONSTRAINT school_year_t1 primary key(school_year_id)
+)
+/
+--
+-- school_class_t
+--
+ALTER TABLE school_class_t
+  ADD CONSTRAINT school_class_t2
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/
+CREATE INDEX school_class_t3 ON school_class_t (
+  club_id
+)
+/
+CREATE INDEX school_class_t4 ON school_class_t (
+  school_grade
+)
+/
+
+--
+-- school_year_t
+--
+ALTER TABLE school_year_t
+  ADD CONSTRAINT school_year_t2
+  FOREIGN KEY (club_id)
+  REFERENCES club_t(club_id)
+/
+CREATE INDEX school_year_t3 ON school_year_t (
+  club_id
+)
+/
+CREATE UNIQUE INDEX school_year_t4 ON school_year_t (
+  club_id,
+  start_date
+)
+/
+CREATE SEQUENCE school_class_s
+  MINVALUE 100024
+  CACHE 1 INCREMENT BY 100000
+/
+CREATE SEQUENCE school_year_s
+  MINVALUE 100029
+  CACHE 1 INCREMENT BY 100000
 /
 EOF
     return;
