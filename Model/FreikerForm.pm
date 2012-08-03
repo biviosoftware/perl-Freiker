@@ -22,12 +22,10 @@ sub execute_empty {
 	$self->internal_put_field(birth_year =>
 	    $d ? $_D->get_parts($d, 'year') : undef);
 	$self->internal_put_field(
-	    'SchoolClass.school_class_id'
-		=> $self->get('curr.SchoolClass.school_class_id'),
-	    'has_graduated'
-		=> $self->new_other('RowTag')->set_ephemeral
-		    ->row_tag_get($uid, 'HAS_GRADUATED'),
-	) if $self->get('allow_school_class');
+	    'SchoolClass.school_class_id' => _current_class_id($self, $uid),
+	    'has_graduated' => $self->new_other('RowTag')->set_ephemeral
+		->row_tag_get($uid, 'HAS_GRADUATED'),
+	);
 	my($fi) = $self->new_other('FreikerInfo')->unauth_load_or_die({user_id => $uid});
 	if (my $km = $fi->get('distance_kilometers')) {
 	    $self->internal_put_field(
@@ -38,8 +36,7 @@ sub execute_empty {
     }
     else {
 	$self->internal_put_field('User.gender' => $_G_UNKNOWN);
-	$self->internal_put_field('has_graduated' => 0)
-	    if $self->get('allow_school_class');
+	$self->internal_put_field('has_graduated' => 0);
     }
     my($m) = $self->new_other('Address');
     $self->load_from_model_properties($m)
@@ -56,14 +53,16 @@ sub execute_ok {
     my($req) = $self->get_request;
     $self->internal_put_field('User.gender' => $_G_UNKNOWN)
 	unless $self->unsafe_get('User.gender');
+    my($uid) = $self->unsafe_get('FreikerCode.user_id');
     $self->update_school_class(
 	undef,
 	$self->get('FreikerCode.user_id'),
-	$self->unsafe_get('curr.SchoolClass.school_class_id'),
+	_current_class_id($self, $uid),
 	$self->unsafe_get('SchoolClass.school_class_id'),
-	$self->unsafe_get('curr_has_graduated'),
+	$uid && $self->new_other('RowTag')->set_ephemeral
+	    ->row_tag_get($uid, 'HAS_GRADUATED'),
 	$self->unsafe_get('has_graduated'),
-    ) if $self->get('allow_school_class');
+    );
     if (my $by = $self->unsafe_get('birth_year')) {
 	$self->internal_put_field(
 	    'User.birth_date' => $_D->date_from_parts(1, 1, $by));
@@ -107,9 +106,8 @@ sub internal_initialize {
 	other => [
 	    $self->field_decl(
 		[
-		    'allow_school_class',
 		    'in_parent_realm',
-		    'allow_club_id',
+ 		    'allow_club_id',
 		    'in_miles',
 		    'curr_has_graduated',
 		],
@@ -129,34 +127,27 @@ sub internal_pre_execute {
     my(@res) = shift->SUPER::internal_pre_execute(@_);
     my($frl) = $self->ureq('Model.FreikerRideList');
     $self->internal_put_field(
-	'FreikerCode.user_id' => $frl && $frl->get_user_id);
+	'FreikerCode.user_id' => my $uid = $frl && $frl->get_user_id);
+    my($in_parent_realm) = $self->req(qw(auth_realm type))->eq_user;
     my($m) = $self->new_other('Address');
     # Prior to adding CA, US users didn't necessarily have addresses
     my($country) = $m->unsafe_load ? $m->get('country') : 'US';
-    my($in_parent_realm) = $self->req(qw(auth_realm type))->eq_user;
     $self->internal_put_field(
 	'Address.country' => $country,
-	allow_club_id => $in_parent_realm,
-	allow_school_class => $in_parent_realm ? 0 : 1,
 	in_miles => _is_us($country),
+ 	allow_club_id => $in_parent_realm,
 	in_parent_realm => $in_parent_realm,
     );
-    $self->new_other('DistanceList')
-	->load_all({in_miles => $self->get('in_miles')});
-    if ($self->get('allow_school_class')) {
-	$self->new_other('SchoolClassList')->load_with_school_year;
-	my($uid) = $self->get('FreikerCode.user_id');
-	$self->internal_put_field(
-	    'curr.SchoolClass.school_class_id'
-		=> $uid
-	        && $self->new_other('RealmUser')
-		    ->unsafe_school_class_for_freiker($uid),
-	    'curr_has_graduated'
-		=> $uid
-		&& $self->new_other('RowTag')->set_ephemeral
-		    ->row_tag_get($uid, 'HAS_GRADUATED'),
-	);
-    }
+    $uid
+	? $self->req->with_realm(
+	    $self->new_other('RealmUser')->club_id_for_freiker($uid),
+	    sub {
+		$self->new_other('SchoolClassList')->load_with_school_year;
+	    },
+	)
+	: $in_parent_realm
+	    ? ()
+	    : $self->new_other('SchoolClassList')->load_with_school_year;
     return @res;
 }
 
@@ -221,6 +212,12 @@ sub _country_zip {
 	: $model->get_field_type('Address.zip');
 }
 
+sub _current_class_id {
+    my($self, $uid) = @_;
+    return $uid && $self->new_other('RealmUser')
+	->unsafe_school_class_for_freiker($uid);
+}
+
 sub _is_us {
     return (shift || '') eq 'US' ? 1 : 0;
 }
@@ -228,8 +225,7 @@ sub _is_us {
 sub _validate_school_class {
     my($self) = @_;
     return
-	unless $self->get('allow_school_class')
-	and my $scid = $self->unsafe_get('SchoolClass.school_class_id');
+	unless my $scid = $self->unsafe_get('SchoolClass.school_class_id');
     $self->internal_put_error('SchoolClass.school_class_id' => 'NOT_FOUND')
 	unless $self->req('Model.SchoolClassList')->find_row_by_id($scid);
     return;
