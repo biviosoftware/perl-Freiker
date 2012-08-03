@@ -9,6 +9,7 @@ my($_L) = b_use('Type.Location');
 
 sub execute_empty {
     my($self) = @_;
+    my($res) = shift->SUPER::execute_empty(@_);
     $self->internal_put_field(
 	'SchoolContact.display_name' => $self->req(qw(auth_user display_name)),
 	'SchoolContact.email' => $self->new_other('Email')->unauth_load_or_die({
@@ -16,11 +17,12 @@ sub execute_empty {
 	    location => $_L->get_default,
 	})->get('email'),
     );
-    return;
+    return $res;
 }
 
 sub execute_ok {
     my($self) = @_;
+    my($res) = shift->SUPER::execute_ok(@_);
     $self->internal_catch_field_constraint_error(
 	club_name => sub {
 	    my(undef, $ro) = $self->new_other('Club')->create_realm(
@@ -48,7 +50,7 @@ sub execute_ok {
 	    return;
 	},
     );
-    return;
+    return $res;
 }
 
 sub internal_initialize {
