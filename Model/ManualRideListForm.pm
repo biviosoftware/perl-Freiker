@@ -72,14 +72,14 @@ sub execute_ok_row {
 	ride_type => $self->get('Ride.ride_type'),
     });
     map({
-	my($id) = $self->get("other_kid_id$_");
+	my($id) = $self->get("sibling_id$_");
 	$r->unauth_create_unless_exists({
 	    user_id => $id,
 	    club_id => $_RU->club_id_for_freiker($id),
 	    ride_date => $d,
 	    ride_type => $self->get('Ride.ride_type'),
 	});
-    } grep($self->get("other_kid$_"), (0 .. $self->LAST_OTHER)));
+    } grep($self->get("sibling$_"), (0 .. $self->LAST_OTHER)));
     return;
 }
 
@@ -104,7 +104,7 @@ sub internal_initialize {
 		in_list => 1,
 	    },
 	    map(+{
-		name => "other_kid$_",
+		name => "sibling$_",
 		type => 'Boolean',
 		constraint => 'None',
 		in_list => 0,
@@ -115,12 +115,12 @@ sub internal_initialize {
 	    'RealmOwner.display_name',
 	    $self->field_decl([[qw(last_ride Freiker::Model::Ride NONE)]]),
 	    map(+{
-		name => "other_kid_name$_",
+		name => "sibling_name$_",
 		type => 'String',
 		constraint => 'None',
 	    }, (0 .. $self->LAST_OTHER)),
 	    map(+{
-		name => "other_kid_id$_",
+		name => "sibling_id$_",
 		type => 'RealmUser.user_id',
 		constraint => 'None',
 	    }, (0 .. $self->LAST_OTHER)),
@@ -156,12 +156,12 @@ sub internal_pre_execute {
 	return 1
 	    if $fl->get('RealmUser.user_id') == $uid;
 	$self->internal_put_field(
-	    "other_kid_name$count" => $fl->get('User.first_name'),
-	    "other_kid_id$count" => $fl->get('RealmUser.user_id'),
+	    "sibling_name$count" => $fl->get('User.first_name'),
+	    "sibling_id$count" => $fl->get('RealmUser.user_id'),
 	);
 	$count++;
 	return 1;
-    });
+    }) if $self->req(qw(auth_realm type))->eq_user;
     return @res;
 }
 
