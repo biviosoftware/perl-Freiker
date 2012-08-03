@@ -60,8 +60,8 @@ sub internal_prepare_statement {
     my($sy) = $self->get_school_year;
     $stmt->where(
 	map([
-	    'SchoolClass.school_year_id',
-	    [$sy ? $sy->get('school_year_id') : $_UNSPECIFIED_VALUE],
+	    "SchoolClass.$_",
+	    [$sy ? $sy->get($_) : $_UNSPECIFIED_VALUE],
 	# SECURITY: Although this could be an unauth_load, the club_id
 	#           check is the only thing that makes sense.
         ], qw(school_year_id club_id)),
