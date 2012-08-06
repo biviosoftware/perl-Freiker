@@ -5,7 +5,7 @@ home_page();
 do_test_backdoor(TestData => '-realm fm_freikometer reset_freikometer_folders');
 do_test_backdoor(TestData => 'reset_freikers');
 my($epc) = test_use('Freiker::Test')->EPC;
-my($date) = test_use('Type.DateTime')->local_now_as_file_name;
+my($date) = test_use('Type.DateTime')->now_as_file_name;
 basic_authorization('fm_freikometer');
 send_request(PUT => "/fm/$date.csv", undef, my $content = <<"EOF");
 EPC,DateTime
@@ -27,6 +27,7 @@ go_back();
 follow_link('bunit123456789');
 verify_table(Date => [
     [qw(Date Trips)],
+    #TODO: This should be the school's timezone
     [Type_Date()->to_string(Type_Date()->local_today), 1],
 ]);
 
