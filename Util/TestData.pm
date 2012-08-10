@@ -211,8 +211,9 @@ sub reset_freikers {
 		    0..2,
 		),
 	    });
-	$scid ||= $self->req('Model.SchoolClassList')
-	    ->find_by_teacher_name($_T->TEACHER(0));
+	$scid ||= $self->model('SchoolClassList')->load_with_school_year
+	    ->find_by_teacher_name($_T->TEACHER(0))
+	    ->get('SchoolClass.school_class_id');
     }
     foreach my $index (@$indexes) {
 	my($code) = $_T->FREIKER_CODE($index, $which);
