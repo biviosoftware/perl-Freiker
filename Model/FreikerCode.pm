@@ -6,6 +6,9 @@ use Bivio::Base 'Model.RealmBase';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_EPC) = Bivio::Type->get_instance('EPC');
+my($_BLOCK_SIZE) = 10000;
+my($_R) = b_use('Biz.Random');
+my($_EPC_PREFIX) = '465245494B455201';
 
 sub REALM_ID_FIELD {
     return 'club_id';
@@ -18,6 +21,35 @@ sub create_from_epc_and_code {
 	freiker_code => $code,
 	user_id => $self->new_other('User')->create_freiker($code),
     });
+}
+
+sub generate_for_block {
+    my(undef, $block, $number, $generated) = @_;
+    $generated ||= {};
+    my($code);
+    my($floor) = $block * $_BLOCK_SIZE;
+    my($ceiling) = $floor + $_BLOCK_SIZE;
+    if (defined($number)) {
+	$code = $floor + $number;
+	b_die('specified code already generated')
+	    if $generated->{$code}++;
+    } else {
+	foreach my $try (1..10) {
+	    my($d) = $_R->integer($ceiling, $floor);
+	    next if $generated->{$d}++;
+	    $code = $d;
+	}
+    }
+    return {
+	epc => sprintf("%s%08X", $_EPC_PREFIX, $code),
+	print => $code,
+    } if defined($code);
+    b_die('could not generate code');
+}
+
+sub get_block_for_code {
+    my(undef, $code) = @_;
+    return int($code / $_BLOCK_SIZE);
 }
 
 sub internal_initialize {
