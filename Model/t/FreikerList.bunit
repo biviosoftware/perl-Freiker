@@ -36,6 +36,15 @@ my($no_parent) = sub {
 	},
     } => [
 	bunit123456789 => [
+	    [10001 => 0, 0, 0, 0, 10001, $no_parent->()],
+	    [10002 => 0, 0, 0, 0, 10002, $no_parent->()],
+	    [10003 => 0, 0, 0, 0, 10003, $no_parent->()],
+	    [10004 => 0, 0, 0, 0, 10004, $no_parent->()],
+	    [10005 => 0, 0, 0, 0, 10005, $no_parent->()],
+	    [10006 => 0, 0, 0, 0, 10006, $no_parent->()],
+	    [10007 => 0, 0, 0, 0, 10007, $no_parent->()],
+	    [10008 => 0, 0, 0, 0, 10008, $no_parent->()],
+	    [10009 => 0, 0, 0, 0, 10009, $no_parent->()],
 	    [1237 => 1, 0, 1, 0, 1237, $no_parent->()],
 	    [1238 => 1, 0, 1, 0, 1238, $no_parent->()],
 	    [1239 => 1, 0, 1, 0, 1239, $no_parent->()],
@@ -46,6 +55,7 @@ my($no_parent) = sub {
  	    [child7 => 0, 0, 0, 0, 1241, $need_accept_terms->()],
  	    [childnotag8 => 1, 0, 1, 0, '', $parent->()],
  	    [childnotag9 => 0, 0, 0, 0, '', $parent->()],
+ 	    [generatedcode0 => 0, 0, 0, 0, 10000, $parent->()],
         ],
 	[{
 	    fr_trips => 1,
@@ -66,6 +76,7 @@ my($no_parent) = sub {
 	    [child7 => 0, 0, 0, 0, 1241, $need_accept_terms->()],
 	    [childnotag8 => 1, 0, 1, 0, '', $parent->()],
 	    [childnotag9 => 0, 0, 0, 0, '', $parent->()],
+	    [generatedcode0 => 0, 0, 0, 0, 10000, $parent->()],
         ],
 	[{
 	    date => '2/1/2009',

@@ -15,6 +15,15 @@ my($today) = do('./SetupRides.PL');
 		},
 	    }
 		qw(
+		    10001
+		    10002
+		    10003
+		    10004
+		    10005
+		    10006
+		    10007
+		    10008
+		    10009
 		    1237
 		    1238
 		    1239
@@ -25,6 +34,7 @@ my($today) = do('./SetupRides.PL');
 		    child7
 		    childnotag8
 		    childnotag9
+		    generatedcode0
 		),
 	    ),
 	],
