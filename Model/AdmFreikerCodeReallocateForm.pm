@@ -42,9 +42,7 @@ sub execute_ok {
     $self->check_redirect_to_confirmation_form(
 	'ADM_FREIKER_CODE_REALLOCATE_CONFIRM');
     foreach my $c (@$codes) {
-	$c->update({
-	    club_id => $dest_club_id,
-	});
+	$c->reallocate_code($dest_club_id);
     }
     return;
 }
