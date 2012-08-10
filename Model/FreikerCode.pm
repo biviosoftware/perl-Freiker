@@ -9,6 +9,7 @@ my($_EPC) = Bivio::Type->get_instance('EPC');
 my($_BLOCK_SIZE) = 10000;
 my($_R) = b_use('Biz.Random');
 my($_EPC_PREFIX) = '465245494B455201';
+my($_AR) = b_use('Auth.Role');
 
 sub REALM_ID_FIELD {
     return 'club_id';
@@ -64,6 +65,21 @@ sub internal_initialize {
 	    modified_date_time => ['DateTime', 'NOT_NULL'],
         },
     });
+}
+
+sub reallocate_code {
+    my($self, $dest_club_id) = @_;
+    $self->new_other('RealmUser')->unauth_load_or_die({
+	realm_id => $self->get('club_id'),
+	user_id => $self->get('user_id'),
+	role => $_AR->FREIKER,
+    })->update({
+	realm_id => $dest_club_id,
+    });
+    $self->update({
+	club_id => $dest_club_id,
+    });
+    return;
 }
 
 sub unsafe_get_realm_ids {
