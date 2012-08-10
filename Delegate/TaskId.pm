@@ -622,6 +622,25 @@ sub get_delegate_info {
 	    View.Club->contact_form
 	    next=MY_SITE
         )],
+	[qw(
+	    ADM_FREIKER_CODE_REALLOCATE_FORM
+	    566
+	    GENERAL
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.ClubList->execute_load_all
+	    Model.AdmFreikerCodeReallocateForm
+	    View.Adm->freiker_code_reallocate_form
+	    next=MY_SITE
+        )],
+	[qw(
+	    ADM_FREIKER_CODE_REALLOCATE_CONFIRM
+	    567
+	    GENERAL
+	    ADMIN_READ&ADMIN_WRITE
+	    Model.AdmFreikerCodeReallocateConfirmationForm
+	    View.Adm->freiker_code_reallocate_confirm
+	    next=MY_SITE
+        )],
     ]);
 }
 

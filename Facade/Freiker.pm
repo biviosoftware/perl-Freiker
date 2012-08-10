@@ -72,6 +72,12 @@ my($_SELF) = __PACKAGE__->new({
 	['GreenGearForm.GreenGear.begin_date.UNSUPPORTED_TYPE' => q{None of the eligible kids is registered.  Uncheck the "must be registered" box to select one of these kids, or change the date range.}],
 	['ClubRideFillForm.Ride.ride_date.NOT_NEGATIVE' => q{You are a new school. Please be patient.  You may not fill in trips before the ZAP has been working.}],
 	['ClubRideFillForm.Ride.ride_date.EXISTS' => q{ZAP was working this day.}],
+	['AdmFreikerCodeReallocateForm.FreikerCode.freiker_code.NOT_FOUND' =>
+	     q{ZapTag not found in this school.}],
+	['AdmFreikerCodeReallocateForm.FreikerCode.freiker_code.EXISTS' =>
+	     q{Block contains assigned ZapTags.}],
+	['AdmFreikerCodeReallocateForm.dest.Club.club_id.SYNTAX_ERROR' =>
+	     q{Schools cannot be the same.}],
     ],
     Constant => [
 	[xlink_paypal => {
@@ -159,6 +165,8 @@ my($_SELF) = __PACKAGE__->new({
 	[CLUB_SUMMARY_BY_CLASS_LIST => '?/summary-by-class'],
 	[GROUP_USER_BULLETIN_LIST_CSV => '?/subscribers.csv'],
 	[CLUB_CONTACT_FORM => '?/school-contact'],
+	[ADM_FREIKER_CODE_REALLOCATE_FORM => 'adm/reallocate-tags'],
+	[ADM_FREIKER_CODE_REALLOCATE_CONFIRM => 'adm/reallocate-tags-confirm'],
     ],
     Text => [
 	[support_email => 'info@boltage.org'],
@@ -498,6 +506,17 @@ EOF
 		email => 'Email',
 	    ],
 	]],
+	[AdmFreikerCodeReallocateForm => [
+	    'prose.prologue' => 'Only entire blocks of ZapTags that have not been assigned can be reallocated.',
+	    'source.Club.club_id' => 'From',
+	    'dest.Club.club_id' => 'To',
+	    'FreikerCode.freiker_code' => 'Sample ZapTag',
+	    'FreikerCode.freiker_code.desc' => 'The block that this ZapTag belongs to will be reallocated.',
+	]],
+	[AdmFreikerCodeReallocateConfirmationForm => [
+	    'prose.prologue' => q{Are you sure you want to reallocate all STRONG(String([qw(Model.AdmFreikerCodeReallocateForm num_tags)])); ZapTags starting with STRONG(String([qw(Model.AdmFreikerCodeReallocateForm tag_block)])); from STRONG(String([qw(Model.AdmFreikerCodeReallocateForm source.RealmOwner.display_name)])); to STRONG(String([qw(Model.AdmFreikerCodeReallocateForm dest.RealmOwner.display_name)]));?},
+	    'ok_button' => 'Reallocate',
+	]],
 	[acknowledgement => [
 	    update_address => q{Please update the information below.  We need to make sure your information is current.},
 	    GREEN_GEAR_FORM => q{The new Weekly Winner appears below.  Please notify the kid that he or she has won.},
@@ -531,6 +550,7 @@ EOF
 	    paypal_cancel => q{Your donation has been cancelled.  Please consider donating in the future.},
 	    CLUB_FREIKER_PRIZE_CONFIRM => q{Please give the kid the selected prizes.},
 	    CLUB_FREIKER_CLASS_LIST_FORM => q{Classes Updated},
+	    ADM_FREIKER_CODE_REALLOCATE_CONFIRM => q{ZapTags reallocated.},
 	]],
 	[xlink => [
 	    paypal => 'PayPal',
@@ -597,6 +617,8 @@ EOF
 	    CLUB_MANUAL_RIDE_LIST_FORM => q{Add Missing Trips for String([qw(Model.ManualRideListForm RealmOwner.display_name)]);},
 	    FAMILY_MANUAL_RIDE_LIST_FORM => q{Add Missing Trips for String([qw(Model.ManualRideListForm RealmOwner.display_name)]);},
 	    CLUB_CONTACT_FORM => q{Support Contact},
+	    ADM_FREIKER_CODE_REALLOCATE_FORM => 'Reallocate ZapTags',
+	    ADM_FREIKER_CODE_REALLOCATE_CONFIRM => 'Reallocate ZapTags Confirmation',
 	]],
 	[clear_on_focus_hint => [
 	    GROUP_USER_BULLETIN_LIST_CSV => '',
@@ -635,6 +657,7 @@ EOF
 	    CLUB_REGISTER => 'Register new school',
 	    CLUB_SUMMARY_BY_SCHOOL_LIST => 'Trip Summary',
 	    CLUB_CONTACT_FORM => 'School Contact',
+	    ADM_FREIKER_CODE_REALLOCATE_FORM => 'Reallocate ZapTags',
 	    [qw(FAMILY_MANUAL_RIDE_LIST_FORM
 		CLUB_MANUAL_RIDE_LIST_FORM)] => 'Add missing trips',
 	    [qw(FAMILY_FREIKER_ADD CLUB_FREIKER_ADD)] => 'Register kid',
