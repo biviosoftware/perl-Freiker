@@ -242,6 +242,22 @@ sub reset_freikers {
 		@{$self->child_ride_dates($index)}),
 	) if $index <= $_T->MAX_CHILD_INDEX_WITH_RIDES;
     }
+    my($fcif) = $self->model('FreikerCodeImportForm');
+    foreach my $c (0 .. 9) {
+	my($row) = $fc->generate_for_block($which + 1, $c);
+	$fcif->process_record($row);
+	$req->with_realm($_T->PARENT($which), sub {
+	    $self->model('FreikerCodeForm', {
+		'FreikerCode.freiker_code' => $row->{print},
+		'Club.club_id' =>
+		    $self->unauth_realm_id($_T->SCHOOL_NAME($which)),
+		'User.first_name' => my $name = "generatedcode$which",
+		'Address.zip' => $_T->ZIP($which),
+		'Address.country' => $_T->COUNTRY,
+		miles => $_T->DEFAULT_MILES,
+	    });
+	}) unless $c || $which;
+    }
     $req->with_user($_T->FREIKOMETER($which), sub {
 	my($rif) = $self->model('RideImportForm');
 	foreach my $r (@$rides) {
