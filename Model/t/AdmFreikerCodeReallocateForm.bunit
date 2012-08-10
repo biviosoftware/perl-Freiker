@@ -1,0 +1,43 @@
+# Copyright (c) 2012 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+FormModel({
+    setup_request => sub {
+	model('ClubList')->load_all;
+    },
+});
+[
+    error_case({
+	'FreikerCode.freiker_code' => random_integer(),
+	'source.Club.club_id' => realm_id('bunit123456789'),
+	'dest.Club.club_id' => realm_id('bunit1123456790'),
+    } => {
+	'FreikerCode.freiker_code' => 'NOT_FOUND',
+    }),
+    error_case({
+	'FreikerCode.freiker_code' => 10000,
+	'source.Club.club_id' => realm_id('bunit123456789'),
+	'dest.Club.club_id' => realm_id('bunit1123456790'),
+    } => {
+	'FreikerCode.freiker_code' => 'EXISTS',
+    }),
+    error_case({
+	'FreikerCode.freiker_code' => 20000,
+	'source.Club.club_id' => realm_id('bunit1123456790'),
+	'dest.Club.club_id' => realm_id('bunit1123456790'),
+    } => {
+	'dest.Club.club_id' => 'SYNTAX_ERROR',
+    }),
+    [{
+	'FreikerCode.freiker_code' => 20000,
+	'source.Club.club_id' => realm_id('bunit1123456790'),
+	'dest.Club.club_id' => realm_id('bunit123456789'),
+    }] => not_die(),
+    inline_case(sub {
+        foreach my $c (20000 .. 20009) {
+	    unauth_model('FreikerCode', {
+		freiker_code => $c,
+		club_id => realm_id('bunit123456789'),
+	    });
+	}
+    }),
+];
