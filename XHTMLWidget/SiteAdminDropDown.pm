@@ -12,6 +12,7 @@ sub initialize {
     $self->put(extra_items => [
 	'ADM_FREIKOMETER_LIST',
 	'ADM_SUMMARY_BY_SCHOOL_LIST',
+	'ADM_FREIKER_CODE_REALLOCATE_FORM',
 	'CLUB_REGISTER',
 	{
 	    realm => vs_constant('site_admin_realm_name'),
