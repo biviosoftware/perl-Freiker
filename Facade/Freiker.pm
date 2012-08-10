@@ -512,6 +512,7 @@ EOF
 	    'dest.Club.club_id' => 'To',
 	    'FreikerCode.freiker_code' => 'Sample ZapTag',
 	    'FreikerCode.freiker_code.desc' => 'The block that this ZapTag belongs to will be reallocated.',
+	    'ok_button' => 'Reallocate',
 	]],
 	[AdmFreikerCodeReallocateConfirmationForm => [
 	    'prose.prologue' => q{Are you sure you want to reallocate all STRONG(String([qw(Model.AdmFreikerCodeReallocateForm num_tags)])); ZapTags starting with STRONG(String([qw(Model.AdmFreikerCodeReallocateForm tag_block)])); from STRONG(String([qw(Model.AdmFreikerCodeReallocateForm source.RealmOwner.display_name)])); to STRONG(String([qw(Model.AdmFreikerCodeReallocateForm dest.RealmOwner.display_name)]));?},
