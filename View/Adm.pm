@@ -42,6 +42,37 @@ sub freiker_code_import {
     ]));
 }
 
+sub freiker_code_reallocate_confirm {
+    my($self) = @_;
+    return shift->internal_body(
+	vs_simple_form('AdmFreikerCodeReallocateConfirmationForm'),
+    );
+}
+
+sub freiker_code_reallocate_form {
+    my($self) = @_;
+    my($model) = 'AdmFreikerCodeReallocateForm';
+    return shift->internal_body(
+	vs_simple_form($model => [
+	    "$model.FreikerCode.freiker_code",
+	    ["$model.source.Club.club_id" => {
+		wf_class => 'Select',
+		choices => ['Model.ClubList'],
+		list_id_field => 'Club.club_id',
+		list_display_field => 'RealmOwner.display_name',
+		unknown_label => 'Select School',
+	    }],
+	    ["$model.dest.Club.club_id" => {
+		wf_class => 'Select',
+		choices => ['Model.ClubList'],
+		list_id_field => 'Club.club_id',
+		list_display_field => 'RealmOwner.display_name',
+		unknown_label => 'Select School',
+	    }],
+	]),
+    );
+}
+
 sub prize {
     return shift->internal_body(vs_simple_form(AdmPrizeForm => [
 	['AdmPrizeForm.Prize.prize_status', {wf_want_select => 1}],
