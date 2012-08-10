@@ -2,6 +2,7 @@
 # $Id$
 ShellUtil();
 shell_util(TestData => ['reset_freikers']);
+my($prefix) = '465245494B4552010000';
 [
     [qw(-realm fm_freikometer download_playlist)] => sub {
 	assert_equals(
@@ -19,6 +20,19 @@ shell_util(TestData => ['reset_freikers']);
 		    [qw(6 default)],
 		    [qw(7 default)],
 		    [qw(8 unregistered)],
+		),
+		map(
+		    qq{  '$prefix$_->[0]' => '$_->[1]'},
+		    [qw(2710 default)],
+		    [qw(2711 unregistered)],
+		    [qw(2712 unregistered)],
+		    [qw(2713 unregistered)],
+		    [qw(2714 unregistered)],
+		    [qw(2715 unregistered)],
+		    [qw(2716 unregistered)],
+		    [qw(2717 unregistered)],
+		    [qw(2718 unregistered)],
+		    [qw(2719 unregistered)],
 		),
 	    )
 	    . "\n}\n",
