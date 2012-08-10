@@ -54,7 +54,6 @@ sub freiker_code_reallocate_form {
     my($model) = 'AdmFreikerCodeReallocateForm';
     return shift->internal_body(
 	vs_simple_form($model => [
-	    "$model.FreikerCode.freiker_code",
 	    ["$model.source.Club.club_id" => {
 		wf_class => 'Select',
 		choices => ['Model.ClubList'],
@@ -69,6 +68,7 @@ sub freiker_code_reallocate_form {
 		list_display_field => 'RealmOwner.display_name',
 		unknown_label => 'Select School',
 	    }],
+	    "$model.FreikerCode.freiker_code",
 	]),
     );
 }
