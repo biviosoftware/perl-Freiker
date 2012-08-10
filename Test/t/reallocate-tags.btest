@@ -1,0 +1,25 @@
+# Copyright (c) 2012 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+home_page();
+do_test_backdoor(TestData => 'reset_all_freikers');
+login_as('adm');
+follow_link('reallocate');
+submit_form(Reallocate => {
+    tag => 20000,
+    from => 'bunit1 Elementary',
+    to => 'bunit Elementary',
+});
+verify_text(qr{10.*zaptags starting with.*2.*from.*bunit1 Elementary.*to.*bunit Elementary}i);
+submit_form('Reallocate');
+verify_text(qr{zaptags reallocated}i);
+follow_link('reallocate');
+test_deviance(qr{zaptag not found in this school}i);
+submit_form(Reallocate => {
+    tag => 20000,
+    from => 'bunit1 Elementary',
+    to => 'bunit Elementary',
+});
+test_conformance();
+
+
