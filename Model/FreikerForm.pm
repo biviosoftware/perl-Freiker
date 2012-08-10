@@ -83,7 +83,6 @@ sub internal_initialize {
 	require_context => 1,
         visible => [
 	    'User.first_name',
-	    'User.middle_name',
 	    'User.last_name',
 	    {
 		name => 'birth_year',
