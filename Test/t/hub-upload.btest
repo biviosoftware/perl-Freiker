@@ -1,0 +1,12 @@
+# Copyright (c) 2012 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+test_setup('Freiker');
+home_page();
+my($epc) = test_use('Freiker::Test')->EPC;
+my($date) = test_use('Type.DateTime')->now_as_file_name;
+basic_authorization('sh_hub');
+send_request(PUT => my $uri = "/sh/$date.csv", undef, my $content = <<"EOF");
+EPC,DateTime
+$epc,$date
+EOF
+test_equals(qr{\Q$uri}, get_uri());
