@@ -11,7 +11,8 @@ my($_F) = b_use('IO.File');
 my($_R) = b_use('IO.Ref');
 my($_ZAP_PREFIX) = 'dz';
 my($_FM_PREFIX) = 'fm';
-my($_NAME_RE) = qr{^(?:$_ZAP_PREFIX|$_FM_PREFIX)_}o;
+my($_HUB_PREFIX) = 'sh';
+my($_NAME_RE) = qr{^(?:$_ZAP_PREFIX|$_FM_PREFIX|$_HUB_PREFIX)_}o;
 my($_AR) = b_use('Auth.Role');
 
 sub USAGE {
@@ -21,6 +22,7 @@ commands
   add_zap_admins -- add superusers, admins of site-zap to all zaps
   create name -- creates freikometer in realm
   create_zap name ethernet -- creates dero zap in realm
+  create_hub name -- creates dero zap in realm
   do_all method args -- runs method with args on all fms
   do_command cmd ... -- runs cmd(s) on freikometer in shell
   download file ... -- downloads files to freikometer realm
@@ -49,6 +51,12 @@ sub create {
 	$name,
 	$password
     ];
+}
+
+sub create_hub {
+    my($self, $name) = @_;
+    my($req) = $self->initialize_fully;
+    return _create($self, $_HUB_PREFIX, $name, $name);
 }
 
 sub create_zap {

@@ -35,6 +35,10 @@ sub execute {
     return;
 }
 
+sub execute_hub {
+    return shift->execute(@_);
+}
+
 sub execute_zap {
     my($proto, $req) = @_;
     return

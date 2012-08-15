@@ -95,6 +95,7 @@ sub initialize_db {
 	    foreach my $x (
 		[qw(create FREIKOMETER)],
 		[qw(create_zap ZAP ZAP_ETHERNET)],
+		[qw(create_hub HUB)],
 	    ) {
 		my($method, $name, $display_name) = @$x;
 		$req->set_realm($_T->SCHOOL_NAME($n));

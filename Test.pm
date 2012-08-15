@@ -73,6 +73,10 @@ sub FREIKOMETER {
     return _string(fm_freikometer => @_);
 }
 
+sub HUB {
+    return _string(sh_hub => @_);
+}
+
 sub MAX_CHILD_INDEX {
     return 8;
 }
