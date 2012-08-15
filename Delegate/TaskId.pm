@@ -1,4 +1,4 @@
-# Copyright (c) 2006-2009 bivio Software, Inc.  All Rights Reserved.
+# Copyright (c) 2006-2012 bivio Software, Inc.  All Rights Reserved.
 # $Id$
 package Freiker::Delegate::TaskId;
 use strict;
@@ -435,7 +435,7 @@ sub get_delegate_info {
 	    next=CLUB_PRIZE_COUPON_LIST
 	)],
 	[qw(
-	    ZAP_UPLOAD
+	    BOT_ZAP_UPLOAD
 	    546
 	    GENERAL
 	    ANYBODY
@@ -641,6 +641,15 @@ sub get_delegate_info {
 	    View.Adm->freiker_code_reallocate_confirm
 	    next=MY_SITE
         )],
+	[qw(
+	    BOT_HUB_UPLOAD
+	    568
+	    GENERAL
+	    ANYBODY
+	    Action.FreikometerUpload->execute_hub
+	    Action.EmptyReply
+	    want_basic_authorization=1
+	)],
     ]);
 }
 
