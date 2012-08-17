@@ -34,14 +34,14 @@ submit_form(Refresh => {
     trips => 0,
 });
 verify_text($codes->[0]);
-follow_link('school_contact');
+follow_link('school_profile');
 verify_form({
-    name => 'adm',
-    email => $e_adm,
+    contact_name => 'adm',
+    contact_email => $e_adm,
 });
 submit_form({
-    name => 'wheel',
-    email => $e,
+    contact_name => 'wheel',
+    contact_email => $e,
 });
 follow_link(qr{^contact$}i);
 submit_form({
