@@ -7,7 +7,7 @@ FormModel({
 });
 [
     error_case({
-	'FreikerCode.freiker_code' => random_integer(),
+	'FreikerCode.freiker_code' => 30000,
 	'source.Club.club_id' => realm_id('bunit123456789'),
 	'dest.Club.club_id' => realm_id('bunit1123456790'),
     } => {
