@@ -105,7 +105,7 @@ sub internal_initialize {
 	],
 	other => [
 	    $self->field_decl(
-		[qw(allow_club_id in_parent_realm)],
+		[qw(allow_club_id in_parent_realm allow_tagless)],
 		'Boolean',
 	    ),
 	],
@@ -118,6 +118,7 @@ sub internal_pre_execute {
     $self->new_other('ClubList')->load_all;
     $self->internal_put_field('Club.club_id' => $self->req('auth_id'))
 	unless $self->unsafe_get('in_parent_realm');
+    _get_tagless($self);
     return $res;
 }
 
@@ -128,7 +129,8 @@ sub validate {
 	return;
     }
     $self->internal_clear_error('FreikerCode.freiker_code')
-	if $self->unsafe_get('no_freiker_code');
+	if $self->unsafe_get('no_freiker_code')
+	&& $self->unsafe_get('allow_tagless');
     $self->internal_clear_error('Club.club_id')
 	unless $self->get('allow_club_id');
     return shift->SUPER::validate(@_);
@@ -150,6 +152,17 @@ sub _delete_rides {
     return;
 }
 
+sub _get_tagless {
+    my($self) = @_;
+    if ($self->unsafe_get('Club.club_id')) {
+	$self->internal_put_field(
+	    allow_tagless => $self->new_other('RowTag')
+		->get_value($self->get('Club.club_id'), 'ALLOW_TAGLESS'),
+	);
+    }
+    return;
+}
+
 sub _iterate_rides {
     my($self, $user_id, $op) = @_;
     $self->new_other('Ride')->do_iterate(
@@ -167,7 +180,7 @@ sub _load_class_list {
 	$self->req->with_realm($self->get('Club.club_id'), sub {
 	    $self->new_other('SchoolClassList')->load_with_school_year;
 	});
-	$self->internal_put_field('skip_class_list' => 1);
+	_get_tagless($self);
     }
     return;
 }
