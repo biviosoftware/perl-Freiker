@@ -113,26 +113,31 @@ sub internal_body_and_tools {
     my($proto, $body, $extra) = @_;
     return shift->internal_put_base_attr(
 	body => $body,
-	tools => TaskMenu([
-	    @{$extra || []},
-	    qw(
-		CLUB_FREIKER_ADD
-		CLUB_FREIKER_CODE_IMPORT
-		CLUB_FREIKER_LIST
-		CLUB_RIDE_DATE_LIST
-		CLUB_RIDE_FILL_FORM
-		GREEN_GEAR_FORM
-		GREEN_GEAR_LIST
-		CLUB_SCHOOL_CLASS_LIST_FORM
-		CLUB_FREIKER_IMPORT_FORM
-		CLUB_FREIKER_CLASS_LIST_FORM
-		CLUB_SUMMARY_BY_CLASS_LIST
-		CLUB_PROFILE_FORM
-	    ),
-	], {
-	    want_more_threshold => 2,
-	    want_sorting => 1,
-	}),
+	tools => [sub {
+	    TaskMenu([
+		@{$extra || []},
+		qw(
+		    CLUB_FREIKER_ADD
+		    CLUB_FREIKER_CODE_IMPORT
+		    CLUB_FREIKER_LIST
+		    CLUB_RIDE_DATE_LIST
+		    CLUB_RIDE_FILL_FORM
+		    GREEN_GEAR_FORM
+		    GREEN_GEAR_LIST
+		    CLUB_SCHOOL_CLASS_LIST_FORM
+		    CLUB_FREIKER_IMPORT_FORM
+		    CLUB_FREIKER_CLASS_LIST_FORM
+		    CLUB_SUMMARY_BY_CLASS_LIST
+	        ),
+		$proto->req->is_super_user
+		    || $proto->req->is_substitute_user
+		    ? 'CLUB_PROFILE_FORM'
+		    : (),
+	    ], {
+		want_more_threshold => 2,
+		want_sorting => 1,
+	    }),
+	}],
     );
 }
 

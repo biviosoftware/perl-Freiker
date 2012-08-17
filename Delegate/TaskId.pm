@@ -619,6 +619,7 @@ sub get_delegate_info {
 	    565
 	    CLUB
 	    ADMIN_READ&ADMIN_WRITE
+	    Action.Auth->execute_is_sub_or_super_user
 	    Type.FormMode->execute_edit
 	    Model.Address->execute_load
 	    Model.SchoolContact->execute_load
