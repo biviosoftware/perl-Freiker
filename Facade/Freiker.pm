@@ -502,12 +502,6 @@ EOF
 		email => 'Support Contact Email',
 	    ],
 	]],
-	[SchoolContactForm => [
-	    SchoolContact => [
-		display_name => 'Name',
-		email => 'Email',
-	    ],
-	]],
 	[ClubProfileForm => [
 	    allow_tagless => 'Allow Kids to Register Without a ZapTag',
 	]],
