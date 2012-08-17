@@ -165,9 +165,9 @@ my($_SELF) = __PACKAGE__->new({
 	[ADM_SUMMARY_BY_SCHOOL_LIST => 'adm/summary-by-school'],
 	[CLUB_SUMMARY_BY_CLASS_LIST => '?/summary-by-class'],
 	[GROUP_USER_BULLETIN_LIST_CSV => '?/subscribers.csv'],
-	[CLUB_CONTACT_FORM => '?/school-contact'],
 	[ADM_FREIKER_CODE_REALLOCATE_FORM => 'adm/reallocate-tags'],
 	[ADM_FREIKER_CODE_REALLOCATE_CONFIRM => 'adm/reallocate-tags-confirm'],
+	[CLUB_PROFILE_FORM => '?/school-profile'],
     ],
     Text => [
 	[support_email => 'info@boltage.org'],
@@ -221,6 +221,7 @@ my($_SELF) = __PACKAGE__->new({
 	    'club_size.desc' => 'Total number of students including kids and non-kids.',
 	    'Website.url' => 'School Website',
 	    'Website.url.desc' => 'Example: http://schools.bvsd.org/crestview/index.html',
+	    allow_tagless => 'Allow Kids to Register Without ZapTags',
 	    ok_button => 'Register school',
 	]],
 	[MerchantInfoForm => [
@@ -507,6 +508,9 @@ EOF
 		email => 'Email',
 	    ],
 	]],
+	[ClubProfileForm => [
+	    allow_tagless => 'Allow Kids to Register Without a ZapTag',
+	]],
 	[AdmFreikerCodeReallocateForm => [
 	    'prose.prologue' => 'Only entire blocks of ZapTags that have not been assigned can be reallocated.',
 	    'source.Club.club_id' => 'From',
@@ -618,9 +622,9 @@ EOF
 	    GROUP_USER_BULLETIN_LIST_CSV => 'Subscribers (CSV)',
 	    CLUB_MANUAL_RIDE_LIST_FORM => q{Add Missing Trips for String([qw(Model.ManualRideListForm RealmOwner.display_name)]);},
 	    FAMILY_MANUAL_RIDE_LIST_FORM => q{Add Missing Trips for String([qw(Model.ManualRideListForm RealmOwner.display_name)]);},
-	    CLUB_CONTACT_FORM => q{Support Contact},
 	    ADM_FREIKER_CODE_REALLOCATE_FORM => 'Reallocate ZapTags',
 	    ADM_FREIKER_CODE_REALLOCATE_CONFIRM => 'Reallocate ZapTags Confirmation',
+	    CLUB_PROFILE_FORM => q{School Profile},
 	]],
 	[clear_on_focus_hint => [
 	    GROUP_USER_BULLETIN_LIST_CSV => '',
@@ -658,7 +662,7 @@ EOF
 	    CLUB_PRIZE_LIST => 'Available prizes',
 	    CLUB_REGISTER => 'Register new school',
 	    CLUB_SUMMARY_BY_SCHOOL_LIST => 'Trip Summary',
-	    CLUB_CONTACT_FORM => 'School Contact',
+	    CLUB_PROFILE_FORM => 'School Profile',
 	    ADM_FREIKER_CODE_REALLOCATE_FORM => 'Reallocate ZapTags',
 	    [qw(FAMILY_MANUAL_RIDE_LIST_FORM
 		CLUB_MANUAL_RIDE_LIST_FORM)] => 'Add missing trips',
