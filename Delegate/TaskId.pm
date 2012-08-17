@@ -615,12 +615,16 @@ sub get_delegate_info {
 	    next=FAMILY_FREIKER_RIDE_LIST
 	)],
 	[qw(
-	    CLUB_CONTACT_FORM
+	    CLUB_PROFILE_FORM
 	    565
 	    CLUB
 	    ADMIN_READ&ADMIN_WRITE
-	    Model.SchoolContactForm
-	    View.Club->contact_form
+	    Type.FormMode->execute_edit
+	    Model.Address->execute_load
+	    Model.SchoolContact->execute_load
+	    Model.Website->execute_load
+	    Model.ClubRegisterForm
+	    View.Club->register
 	    next=MY_SITE
         )],
 	[qw(
@@ -651,19 +655,6 @@ sub get_delegate_info {
 	    Action.EmptyReply
 	    want_basic_authorization=1
 	)],
-	[qw(
-	    CLUB_PROFILE_FORM
-	    569
-	    CLUB
-	    ADMIN_READ&ADMIN_WRITE
-	    Type.FormMode->execute_edit
-	    Model.Address->execute_load
-	    Model.SchoolContact->execute_load
-	    Model.Website->execute_load
-	    Model.ClubRegisterForm
-	    View.Club->register
-	    next=MY_SITE
-        )],
     ]);
 }
 
