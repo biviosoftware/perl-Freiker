@@ -53,7 +53,7 @@ follow_link('bunit123456789');
 verify_table(Date => [
     [qw(Date Trips)],
     # GMT
-    [Type_Date()->to_string(Type_Date()->now),
+    [Type_Date()->to_string(Type_Date()->local_today),
      Freiker_Test()->MAX_CHILD_INDEX],
 ]);
 $values = {
