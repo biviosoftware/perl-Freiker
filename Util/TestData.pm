@@ -21,7 +21,7 @@ sub USAGE {
     return <<'EOF';
 usage: fr-test [options] command [args..]
 commands
-  all_child_ride_dates [as_date] -- all valid ride dates
+  all_child_ride_dates [which [as_date]] -- all valid ride dates
   child_ride_dates [child [as_date]] -- valid ride for the child (child(0) has many rides)
   reset_freikers [which] -- deletes and creates unregistered rides
   reset_freikometer_folders -- clears folders and sets up one download
@@ -31,7 +31,8 @@ EOF
 }
 
 sub all_child_ride_dates {
-    return shift->child_ride_dates(0, @_);
+    my($self, $which, $as_date) = @_;
+    return $self->child_ride_dates($which, 0, $as_date);
 }
 
 sub child_ride_dates {
