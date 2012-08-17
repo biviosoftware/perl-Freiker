@@ -9,16 +9,6 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_YQ) = b_use('Type.YearQuery');
 
-sub contact_form {
-    my($self) = @_;
-    return $self->internal_body_and_tools(
-	vs_simple_form('SchoolContactForm', [qw(
-	    SchoolContactForm.SchoolContact.display_name
-	    SchoolContactForm.SchoolContact.email
-	)]),
-    );
-}
-
 sub freiker_class_list {
     return _freiker_list(shift, 'ClubFreikerClassList');
 }
@@ -137,7 +127,7 @@ sub internal_body_and_tools {
 		CLUB_FREIKER_IMPORT_FORM
 		CLUB_FREIKER_CLASS_LIST_FORM
 		CLUB_SUMMARY_BY_CLASS_LIST
-		CLUB_CONTACT_FORM
+		CLUB_PROFILE_FORM
 	    ),
 	], {
 	    want_more_threshold => 2,
@@ -226,20 +216,29 @@ sub prize_select {
 }
 
 sub register {
-    return shift->internal_body(vs_simple_form(ClubRegisterForm => [qw{
-	ClubRegisterForm.club_name
-	ClubRegisterForm.club_size
-	ClubRegisterForm.Website.url
-	ClubRegisterForm.Address.street1
-	ClubRegisterForm.Address.street2
-	ClubRegisterForm.Address.city
-	ClubRegisterForm.Address.state
-	ClubRegisterForm.Address.zip
-	ClubRegisterForm.Address.country
-	ClubRegisterForm.SchoolContact.display_name
-	ClubRegisterForm.SchoolContact.email
-        ClubRegisterForm.time_zone_selector
-    }]));
+    my($self) = @_;
+    my($method) = $self->req(qw(auth_realm type))->eq_club
+	? 'internal_body_and_tools'
+	: 'internal_body';
+    return shift->$method(vs_simple_form(ClubRegisterForm => [
+	qw{
+	    ClubRegisterForm.club_name
+	    ClubRegisterForm.club_size
+	    ClubRegisterForm.Website.url
+	    ClubRegisterForm.Address.street1
+	    ClubRegisterForm.Address.street2
+	    ClubRegisterForm.Address.city
+	    ClubRegisterForm.Address.state
+	    ClubRegisterForm.Address.zip
+	    ClubRegisterForm.Address.country
+	    ClubRegisterForm.time_zone_selector
+	    ClubRegisterForm.SchoolContact.display_name
+	    ClubRegisterForm.SchoolContact.email
+        },
+	['ClubRegisterForm.allow_tagless', {
+	    wf_class => 'YesNo',
+	}],
+    ]));
 }
 
 sub ride_date_list {
