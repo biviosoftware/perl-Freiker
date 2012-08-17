@@ -14,6 +14,7 @@ sub get_delegate_info {
 	UNUSED_101 => [101],
 	NEED_ACCEPT_TERMS => [102, 'BooleanFalseDefault'],
 	HAS_GRADUATED => [103, 'BooleanFalseDefault'],
+	ALLOW_TAGLESS => [104, 'BooleanFalseDefault'],
     ];
 }
 
