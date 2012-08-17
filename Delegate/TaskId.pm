@@ -63,6 +63,7 @@ sub get_delegate_info {
 	    504
 	    GENERAL
 	    ANY_USER
+	    Type.FormMode->execute_create
 	    Model.ClubRegisterForm
 	    View.Club->register
 	    next=CLUB_FREIKER_LIST
@@ -650,6 +651,19 @@ sub get_delegate_info {
 	    Action.EmptyReply
 	    want_basic_authorization=1
 	)],
+	[qw(
+	    CLUB_PROFILE_FORM
+	    569
+	    CLUB
+	    ADMIN_READ&ADMIN_WRITE
+	    Type.FormMode->execute_edit
+	    Model.Address->execute_load
+	    Model.SchoolContact->execute_load
+	    Model.Website->execute_load
+	    Model.ClubRegisterForm
+	    View.Club->register
+	    next=MY_SITE
+        )],
     ]);
 }
 
