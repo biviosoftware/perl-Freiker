@@ -1,0 +1,29 @@
+# Copyright (c) 2012 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+FormModel();
+req()->set_realm('parent');
+[
+    # bunit1123456790 is not set to allow tagless kids
+    error_case({
+	'FreikerCode.freiker_code' => undef,
+	no_freiker_code => 1,
+	'Club.club_id' => realm_id('bunit1123456790'),
+	'User.first_name' => 'no_tag_kid',
+	miles => 4.44,
+	'Address.zip' => Freiker::Test->ZIP,
+    } => {
+	'FreikerCode.freiker_code' => 'NULL',
+    }),
+    [{
+	'FreikerCode.freiker_code' => undef,
+	no_freiker_code => 1,
+	'Club.club_id' => realm_id('bunit123456789'),
+	'User.first_name' => 'no_tag_kid',
+	miles => 4.44,
+	'Address.zip' => Freiker::Test->ZIP,
+    }] => [{
+	'Model.FreikerInfo' => {
+	    distance_kilometers => b_use('Type.Kilometers')->from_miles(4.44),
+	},
+    }],
+];

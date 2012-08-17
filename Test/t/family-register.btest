@@ -16,6 +16,7 @@ submit_form({
     country => 'CA',
 });
 follow_link('your_family');
+verify_no_text(qr{register without zaptag}i);
 test_deviance(qr{is already assigned});
 submit_form({
     first => 'Bruce',
@@ -42,6 +43,7 @@ verify_table(Kid => [
     ['Milton'],
 ]);
 follow_link(qw(your_family register_kid));
+verify_text(qr{register without zaptag}i);
 submit_form({
     first => 'Larry',
     '^zaptag' => 1238,
