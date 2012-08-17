@@ -117,7 +117,10 @@ sub _form {
 			'&nbsp;&nbsp;',
 			Checkbox('no_freiker_code'),
 		    ], {
-			control => [qw(! ->ureq Model.FreikerRideList)],
+			control => And(
+			    [qw(->ureq Model.FreikerCodeForm allow_tagless)],
+			    [qw(! ->ureq Model.FreikerRideList)],
+			),
 		    }),
 		]),
 	    ],
