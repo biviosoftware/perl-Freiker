@@ -15,6 +15,7 @@ my($_DT) = b_use('Type.DateTime');
 my($_T) = b_use('Bivio.Test');
 my($_TU) = b_use('ShellUtil.TestUser');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
+my($_FM) = b_use('Type.FormMode');
 
 sub USAGE {
     return <<'EOF';
@@ -34,11 +35,11 @@ sub all_child_ride_dates {
 }
 
 sub child_ride_dates {
-    my($self, $child_index, $as_date) = @_;
+    my($self, $which, $child_index, $as_date) = @_;
     $child_index ||= 0;
     return []
 	unless $child_index <= $_T->MAX_CHILD_INDEX_WITH_RIDES
-	    || $child_index == $_T->NO_TAG_WITH_RIDES_CHILD_INDEX;
+	    || (!$which && $child_index == $_T->NO_TAG_WITH_RIDES_CHILD_INDEX);
     my($now) = $_D->now;
     $as_date = $as_date ? sub {$_D->to_string(shift)} : sub {shift};
     return [map(
@@ -82,6 +83,7 @@ sub initialize_db {
 	    );
 	}
 	$req->with_user($_T->WHEEL($n) => sub {
+	    $_FM->CREATE->execute;
 	    $self->model(ClubRegisterForm => {
 		club_name => $_T->SCHOOL($n),
 		'Address.zip' => $_T->ZIP($n),
@@ -91,6 +93,7 @@ sub initialize_db {
 		'SchoolContact.display_name' => $_T->WHEEL($n),
 		'SchoolContact.email' => $_TU->format_email($_T->WHEEL($n)),
 		time_zone_selector => 'America/Denver',
+		allow_tagless => $n ? 0 : 1,
 	    });
 	    foreach my $x (
 		[qw(create FREIKOMETER)],
@@ -241,7 +244,7 @@ sub reset_freikers {
 	push(
 	    @$rides,
 	    map(+{epc => $epc, datetime => $_},
-		@{$self->child_ride_dates($index)}),
+		@{$self->child_ride_dates($which, $index)}),
 	) if $index <= $_T->MAX_CHILD_INDEX_WITH_RIDES;
     }
     my($fcif) = $self->model('FreikerCodeImportForm');
@@ -268,22 +271,24 @@ sub reset_freikers {
 	return;
     });
 #TODO: put in coupons not redeemed
-    map({
-	my($index) = $_T->MAX_CHILD_INDEX + $_;
-	$req->with_realm($_T->PARENT($which), sub {
-	    $self->model('FreikerRideList')->delete_from_request;
-	    $self->model(FreikerRideList => {
-		parent_id => $self->unauth_model(RealmOwner => {
-		    name => _freiker_form($self, $which, $index, $club_id),
-		})->get('realm_id'),
-	    });
-	    foreach my $d (@{$self->child_ride_dates($index)}) {
-		$self->model('ManualRideForm')->process({
-		    'Ride.ride_date' => $d,
+    unless ($which) {
+	map({
+	    my($index) = $_T->MAX_CHILD_INDEX + $_;
+	    $req->with_realm($_T->PARENT($which), sub {
+		$self->model('FreikerRideList')->delete_from_request;
+		$self->model(FreikerRideList => {
+		    parent_id => $self->unauth_model(RealmOwner => {
+			name => _freiker_form($self, $which, $index, $club_id),
+		    })->get('realm_id'),
 		});
-	    }
-	})
-    } (0 .. 1));
+		foreach my $d (@{$self->child_ride_dates($which, $index)}) {
+		    $self->model('ManualRideForm')->process({
+			'Ride.ride_date' => $d,
+		    });
+		}
+	    })
+	} (0 .. 1));
+    }
     $req->with_realm($_T->PARENT($which), sub {
 	my($code) = $_T->FREIKER_CODE(2, $which);
 	my($index) = 1;
