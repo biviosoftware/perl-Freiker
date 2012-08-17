@@ -2,9 +2,9 @@
 # $Id$
 ShellUtil();
 [
-    [qw(child_ride_dates 1)] =>
+    [qw(child_ride_dates 0 1)] =>
 	[to_string([Date()->add_days(Date()->now, -1)])],
-    [qw(child_ride_dates 1 1)] =>
+    [qw(child_ride_dates 0 1 1)] =>
 	[to_string([Date()->to_string(Date()->add_days(Date()->now, -1))])],
     [qw(reset_freikers)] => sub {
 	assert_equals(100 => req()->with_realm('child' => sub {
