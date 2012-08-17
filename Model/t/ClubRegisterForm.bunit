@@ -1,0 +1,74 @@
+# Copyright (c) 2012 bivio Software, Inc.  All Rights Reserved.
+# $Id$
+FormModel({
+    setup_request => sub {
+	class('Type.FormMode')->execute_create;
+	model('TimeZoneList')->load_all;
+	return;
+    },
+});
+req()->set_realm_and_user(qw(adm adm));
+my($adm_email) = b_use('TestLanguage.HTTP')->generate_local_email('adm');
+my($school_id);
+my($name) = 'Test School ' . (my $n = random_integer());
+my($size) = random_integer(500, 100);
+my($url) = "http://testschool$n.com";
+my($street1) = "$n Main St.";
+my($check_row_tag) = sub {
+    my($pid, $key, $value) = @_;
+    unauth_model(RowTag => {
+	primary_id => $pid,
+	key => b_use('Type.RowTagKey')->$key,
+	value => $value,
+    });
+};
+[
+    empty_case({
+	'SchoolContact.display_name' => 'adm',
+	'SchoolContact.email' => $adm_email,
+	'Address.country' => 'US',
+    }),
+    [{
+	club_name => $name,
+	club_size => $size,
+	'Website.url' => $url,
+	'Address.street1' => $street1,
+	'Address.city' => 'Boulder',
+	'Address.state' => 'CO',
+	'Address.zip' => $n,
+	'Address.country' => 'US',
+	'SchoolContact.display_name' => 'adm',
+	'SchoolContact.email' => $adm_email,
+	time_zone_selector => 'America/Denver',
+	allow_tagless => 1,
+    }] => [{
+	'Model.RealmOwner' => {
+	    display_name => $name,
+	},
+	'Model.Website' => {
+	    url => $url,
+	},
+	'Model.Address' => {
+	    street1 => $street1,
+	    city => 'Boulder',
+	    state => 'CO',
+	    zip => $n,
+	    country => 'US',
+	},
+	'Model.SchoolContact' => {
+	    display_name => 'adm',
+	    email => $adm_email,
+	},
+    }],
+    inline_case(sub {
+	$school_id = req('Model.RowTag')->get('primary_id');
+	$check_row_tag->($school_id, 'CLUB_SIZE', $size);
+	$check_row_tag->(
+	    $school_id,
+	    'TIME_ZONE',
+	    req('Model.TimeZoneList')
+		->enum_for_display_name('America/Denver')->as_sql_param,
+	);
+	$check_row_tag->($school_id, 'ALLOW_TAGLESS', 1);
+    }),
+];
