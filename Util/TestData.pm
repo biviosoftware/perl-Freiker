@@ -22,7 +22,7 @@ sub USAGE {
 usage: fr-test [options] command [args..]
 commands
   all_child_ride_dates [which [as_date]] -- all valid ride dates
-  child_ride_dates [child [as_date]] -- valid ride for the child (child(0) has many rides)
+  child_ride_dates [which [child [as_date]]] -- valid ride for the child (child(0) has many rides)
   reset_freikers [which] -- deletes and creates unregistered rides
   reset_freikometer_folders -- clears folders and sets up one download
   reset_need_accept_terms -- sets NEED_ACCEPT_TERMS RowTag for need-accept-terms user
@@ -37,6 +37,7 @@ sub all_child_ride_dates {
 
 sub child_ride_dates {
     my($self, $which, $child_index, $as_date) = @_;
+    $which ||= 0;
     $child_index ||= 0;
     return []
 	unless $child_index <= $_T->MAX_CHILD_INDEX_WITH_RIDES
