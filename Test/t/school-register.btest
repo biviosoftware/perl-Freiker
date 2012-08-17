@@ -51,5 +51,8 @@ submit_form({
     message => my $r2 = random_string(),
 });
 verify_local_mail($e, qr{$e_my.*$r1.*$r2}s, 1);
-
-
+login_as('wheel');
+verify_no_text(qr{school profile}i);
+test_deviance('403 Forbidden');
+visit_uri('/bunit123456789/school-profile');
+test_conformance();
