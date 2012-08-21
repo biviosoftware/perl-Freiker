@@ -10,6 +10,9 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_DT) = b_use('Type.DateTime');
 my($_LM) = b_use('Biz.ListModel');
 my($_T) = b_use('UI.Text');
+my($_RT) = b_use('Type.RideType');
+my($_R) = b_use('Auth.Role');
+my($_RTK) = b_use('Type.RowTagKey');
 
 sub ddl_files {
     return shift->SUPER::ddl_files(['bOP', 'fr']);
@@ -34,6 +37,31 @@ sub init_realm_role {
 sub initialize_test_data {
     my($self) = @_;
     return $self->new_other('TestData')->initialize_db;
+}
+
+sub internal_upgrade_db_default_ride_type {
+    my($self) = @_;
+    my($user_ids) = {};
+    map({
+	$user_ids->{$_} = 1;
+    } @{$self->model('RealmUser')->map_iterate(
+	sub {shift->get('user_id')},
+	'unauth_iterate_start',
+	'user_id',
+	{role => $_R->FREIKER},
+    )});
+    my($count) = 0;
+    map({
+	$self->model('RowTag')->create({
+	    primary_id => $_,
+	    key => $_RTK->from_literal($_RT->ROW_TAG_KEY),
+	    value => $_RT->BIKE->as_sql_param,
+	});
+	$self->print("$count freikers updated\n")
+	    if ++$count % 10000 == 0;
+    } keys(%$user_ids));
+    $self->print("$count freikers updated successfully\n");
+    return;
 }
 
 sub internal_upgrade_db_freiker_info {
