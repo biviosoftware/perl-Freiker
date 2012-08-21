@@ -8,6 +8,7 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_RU) = b_use('Model.RealmUser');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
+my($_RT) = b_use('Type.RideType');
 
 sub LAST_OTHER {
     return 9;
@@ -30,10 +31,8 @@ sub execute_cancel {
 sub execute_empty_row {
     my($self) = @_;
     shift->SUPER::execute_empty_row(@_);
-    return
-	unless $self->unsafe_get('last_ride');
     $self->internal_put_field(
-	'Ride.ride_type' => $self->get('last_ride')->get('ride_type'),
+	'Ride.ride_type' => $self->get('default_ride_type'),
     );
     return;
 }
@@ -114,6 +113,7 @@ sub internal_initialize {
 	    'RealmUser.user_id',
 	    'RealmOwner.display_name',
 	    $self->field_decl([[qw(last_ride Freiker::Model::Ride NONE)]]),
+	    $self->field_decl([[qw(default_ride_type RideType NOT_NULL)]]),
 	    map(+{
 		name => "sibling_name$_",
 		type => 'String',
@@ -150,6 +150,8 @@ sub internal_pre_execute {
     }, 'unauth_iterate_start', 'ride_date desc', {
 	user_id => $uid,
     });
+    $self->internal_put_field(default_ride_type =>
+	$_RT->row_tag_get($uid, $self->req));
     my($count) = 0;
     $self->new_other('FreikerList')->do_iterate(sub {
         my($fl) = @_;

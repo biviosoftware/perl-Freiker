@@ -10,6 +10,7 @@ my($_D) = b_use('Type.Date');
 my($_T) = b_use('Type.Time');
 my($_A) = b_use('IO.Alert');
 my($_TZ) = b_use('Type.TimeZone');
+my($_RT) = b_use('Type.RideType');
 
 sub COLUMNS {
     return [
@@ -28,9 +29,11 @@ sub process_record {
     my($self, $row, $count) = @_;
     my($fields) = $self->[$_IDI] ||= _init_fields($self);
     my($dt) = $fields->{tz}->date_time_from_utc($row->{datetime});
+    my($uid) = _user_id($self, $row->{epc}, $count) || return;
     my($v) = {
 	ride_date => $_D->from_datetime($dt),
-	user_id => _user_id($self, $row->{epc}, $count) || return,
+	user_id => $uid,
+	ride_type => $_RT->row_tag_get($uid, $self->req),
     };
     my($r) = $self->new_other('Ride');
     if ($r->unauth_load($v)) {

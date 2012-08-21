@@ -6,6 +6,7 @@ use Bivio::Base 'Biz.FormModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = Bivio::Type->get_instance('Date');
+my($_RT) = b_use('Type.RideType');
 
 sub execute_ok {
     my($self) = @_;
@@ -26,6 +27,7 @@ sub execute_ok {
 		user_id => $freiker_id,
 		club_id => $cid,
 		ride_date => $d,
+		ride_type => $_RT->row_tag_get($freiker_id, $req),
 	    });
 	});
 	return;
