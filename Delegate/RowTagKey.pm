@@ -15,6 +15,7 @@ sub get_delegate_info {
 	NEED_ACCEPT_TERMS => [102, 'BooleanFalseDefault'],
 	HAS_GRADUATED => [103, 'BooleanFalseDefault'],
 	ALLOW_TAGLESS => [104, 'BooleanFalseDefault'],
+	DEFAULT_RIDE_TYPE => [105, 'RideType'],
     ];
 }
 
