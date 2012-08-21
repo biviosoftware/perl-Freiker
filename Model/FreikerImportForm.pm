@@ -9,6 +9,7 @@ my($_IDI) = __PACKAGE__->instance_data_index;
 my($_T) = b_use('FacadeComponent.Text');
 my($_USZC) = b_use('Type.USZipCode');
 my($_K) = b_use('Type.Kilometers');
+my($_RT) = b_use('Type.RideType');
 
 sub COLUMNS {
     return [
@@ -20,6 +21,7 @@ sub COLUMNS {
 	[qw(PostalCode FreikerCodeForm.Address.zip)],
 	[qw(Miles FreikerCodeForm.miles)],
 	[qw(Kilometers FreikerCodeForm.kilometers)],
+	[qw(DefaultTripMode FreikerCodeForm.default_ride_type)],
 	[qw(Street1 FreikerCodeForm.Address.street1)],
 	[qw(Street2 FreikerCodeForm.Address.street2)],
 	[qw(City FreikerCodeForm.Address.city)],
@@ -94,7 +96,9 @@ sub process_record {
 	map(
 	    (
 		defined($columns->{$_}) ? $columns->{$_} : $_,
-		$row->{$_},
+		$_ =~ /defaulttripmode/
+		    ? $_RT->from_any($row->{$_})
+		    : $row->{$_},
 	    ),
 	    keys(%$row),
 	),
