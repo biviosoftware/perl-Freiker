@@ -159,6 +159,10 @@ sub _form {
 	    }],
 	    qw(miles kilometers),
 	),
+	["$model.default_ride_type" => {
+	    wf_want_select => 1,
+	    enum_sort => 'as_int',
+	}],
 	'-optional_address',
 	"$model.Address.street1",
 	"$model.Address.street2",
