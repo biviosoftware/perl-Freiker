@@ -16,6 +16,7 @@ my($_T) = b_use('Bivio.Test');
 my($_TU) = b_use('ShellUtil.TestUser');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 my($_FM) = b_use('Type.FormMode');
+my($_RT) = b_use('Type.RideType');
 
 sub USAGE {
     return <<'EOF';
@@ -262,6 +263,7 @@ sub reset_freikers {
 		'Address.zip' => $_T->ZIP($which),
 		'Address.country' => $_T->COUNTRY,
 		miles => $_T->DEFAULT_MILES,
+		default_ride_type => $which ? $_RT->BIKE : $_RT->WALK,
 	    });
 	}) unless $c || $which;
     }
@@ -448,6 +450,7 @@ sub _freiker_form {
 	'Address.zip' => $_T->ZIP($which),
 	'Address.country' => $_T->COUNTRY,
 	miles => $_T->DEFAULT_MILES,
+	default_ride_type => $which ? $_RT->BIKE : $_RT->WALK,
     });
     $self->req('Model.RealmOwner')->update({name => $name});
     return $name;
@@ -467,7 +470,7 @@ sub _register_user {
     });
     return;
 }
-    
+
 sub _setup_school {
     my($self, $which) = @_;
     $which ||= 0;
