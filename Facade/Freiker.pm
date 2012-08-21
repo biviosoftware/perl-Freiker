@@ -335,6 +335,7 @@ EOF
 	    [qw(miles kilometers)] => [
 		desc => q{One-way distance from your home to this kid's school.  Kids with multiple homes, calculate the distance from the home associated with the postal code above.},
 	    ],
+	    default_ride_type => 'Default Trip Mode',
 	    ok_button => q{If([qw(->ureq Model.FreikerRideList)], 'Add ZapTag', 'Register kid');},
 	]],
 	[FreikerForm => [
