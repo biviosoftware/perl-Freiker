@@ -12,6 +12,7 @@ my($_K) = b_use('Type.Kilometers');
 my($_PI) = b_use('Type.PrimaryId');
 my($_USLF) = b_use('Model.UserSettingsListForm');
 my($_B) = b_use('Type.Boolean');
+my($_RT) = b_use('Type.RideType');
 
 sub execute_empty {
     my($self) = @_;
@@ -33,10 +34,12 @@ sub execute_empty {
 		miles => $_K->to_miles($km),
 	    );
 	}
-    }
-    else {
+	$self->internal_put_field('default_ride_type' =>
+	    $_RT->row_tag_get($uid, $self->req));
+    } else {
 	$self->internal_put_field('User.gender' => $_G_UNKNOWN);
 	$self->internal_put_field('has_graduated' => 0);
+	$self->internal_put_field('default_ride_type' => $_RT->BIKE);
     }
     my($m) = $self->new_other('Address');
     $self->load_from_model_properties($m)
@@ -73,6 +76,7 @@ sub execute_ok {
 	'FreikerInfo.distance_kilometers' => $self->get('in_miles')
 	    ? $_K->from_miles($self->get('miles')) : $self->get('kilometers'));
     $self->unauth_create_or_update_model_properties('FreikerInfo');
+    $_RT->row_tag_replace($uid, $self->get('default_ride_type'), $self->req);
     return;
 }
 
@@ -89,6 +93,11 @@ sub internal_initialize {
 		name => 'birth_year',
 		type => 'Year',
 		constraint => 'NONE',
+	    },
+	    {
+		name => 'default_ride_type',
+		type => 'RideType',
+		constraint => 'NOT_ZERO_ENUM',
 	    },
 	    $self->field_decl([
 		[qw(kilometers Kilometers)],
