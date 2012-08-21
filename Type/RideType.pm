@@ -14,6 +14,10 @@ __PACKAGE__->compile([
     OTHER => 99,
 ]);
 
+sub ROW_TAG_KEY {
+    return 'DEFAULT_RIDE_TYPE';
+}
+
 sub is_continuous {
     return 0;
 }
