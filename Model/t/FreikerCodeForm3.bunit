@@ -22,6 +22,7 @@ my($other) = {
 	'Address.country' => 'CA',
 	kilometers => undef,
 	miles => undef,
+	default_ride_type => RideType()->BIKE,
     }),
     [{
 	%$other,
@@ -30,6 +31,7 @@ my($other) = {
 	'Address.street1' => '123 Main St',
 	'Address.zip' => Freiker::Test->CA_ZIP,
 	kilometers => 8,
+	default_ride_type => RideType()->WALK,
     }] => [{
 	'Model.FreikerInfo' => {
 	    distance_kilometers => '8.0',
@@ -48,6 +50,7 @@ my($other) = {
 	'Address.country' => 'CA',
 	kilometers => '8.0',
 	miles => '5.0',
+	default_ride_type => RideType()->BIKE,
     }),
     req_state({
 	'Model.FreikerRideList' => sub {
@@ -63,6 +66,7 @@ my($other) = {
 	'Address.zip' => Freiker::Test->CA_ZIP,
 	kilometers => '8.0',
 	miles => '5.0',
+	default_ride_type => RideType()->WALK,
     }),
     error_case({
     	%$other,
@@ -70,6 +74,7 @@ my($other) = {
     	'Club.club_id' => realm_id(Freiker::Test->SCHOOL_NAME),
     	'Address.zip' => Freiker::Test->CA_ZIP,
     	miles => 33,
+	default_ride_type => RideType()->WALK,
     }, {
     	kilometers => 'NULL',
     }),

@@ -2,6 +2,7 @@
 # $Id$
 my($today, $child_id, $school_id) = do('./RideList.PL');
 my($_D) = class('Type.Date');
+my($_RT) = b_use('Type.RideType');
 my($day) = [map($_D->add_days($today, -$_), 0..10)];
 my($fc) = sub {
     return class('Freiker::Test')->FREIKER_CODE(shift);
@@ -42,6 +43,7 @@ my($other) = {
 	'Address.zip' => Freiker::Test->ZIP,
 	miles => Freiker::Test->DEFAULT_MILES,
 	kilometers => Freiker::Test->DEFAULT_KILOMETERS,
+	default_ride_type => $_RT->WALK,
     }),
     [{
 	%$other,
@@ -49,6 +51,7 @@ my($other) = {
 	'Club.club_id' => $school_id,
 	miles => '1.5',
 	'Address.zip' => Freiker::Test->ZIP,
+	default_ride_type => $_RT->BUS,
     }] => [{
 	'Model.FreikerCodeForm' => {
 	    'FreikerCode.freiker_code' => sub {
@@ -64,6 +67,11 @@ my($other) = {
 	'Model.FreikerInfo' => {
 	    distance_kilometers => '2.4',
 	},
+	'Model.RowTag' => {
+	    primary_id => $child_id,
+	    key => $_RT->ROW_TAG_KEY,
+	    value => $_RT->BUS->as_sql_param,
+	},
     }],
     empty_case({
 	'FreikerCode.freiker_code' => undef,
@@ -71,6 +79,7 @@ my($other) = {
 	'Address.zip' => Freiker::Test->ZIP,
 	kilometers => '2.4',
 	miles => '1.5',
+	default_ride_type => $_RT->BUS,
     }),
     error_case({
 	%$other,
@@ -78,6 +87,7 @@ my($other) = {
 	'Club.club_id' => $school_id,
 	miles => 1.5,
 	'Address.zip' => Freiker::Test->ZIP,
+	default_ride_type => $_RT->BUS,
     } => {
 	'FreikerCode.freiker_code' => 'EXISTS',
     }),
@@ -93,6 +103,7 @@ my($other) = {
 	super_user_override => 1,
 	miles => 1.5,
 	'Address.zip' => Freiker::Test->ZIP,
+	default_ride_type => $_RT->BUS,
     } => {
 	'FreikerCode.freiker_code'
 	    => 'MUTUALLY_EXCLUSIVE: '
@@ -112,6 +123,7 @@ my($other) = {
 	super_user_override => 1,
 	miles => 1.5,
 	'Address.zip' => Freiker::Test->ZIP,
+	default_ride_type => $_RT->BUS,
     }] => sub {
 	assert_equals($num_rides + 2, $count->());
 	class('Action.UserLogout')->execute(req());
@@ -130,6 +142,7 @@ my($other) = {
 	'Club.club_id' => $school_id,
 	miles => 1.5,
 	'Address.zip' => Freiker::Test->ZIP,
+	default_ride_type => $_RT->BUS,
     }] => sub {
 	assert_equals($num_rides + 1, $count->());
 	return 1;
@@ -141,6 +154,7 @@ my($other) = {
 	super_user_override => 1,
 	miles => 1.5,
 	'Address.zip' => Freiker::Test->ZIP,
+	default_ride_type => $_RT->BUS,
     } => {
 	'FreikerCode.freiker_code' => 'EXISTS',
     }),
@@ -155,6 +169,7 @@ my($other) = {
 	'Club.club_id' => $school_id,
 	miles => 1.5,
 	'Address.zip' => Freiker::Test->ZIP,
+	default_ride_type => $_RT->BUS,
     } => {
 	'FreikerCode.freiker_code' => 'EXISTS',
     }),
@@ -174,8 +189,10 @@ my($other) = {
 	super_user_override => 1,
 	miles => 1.5,
 	'Address.zip' => Freiker::Test->ZIP,
+	default_ride_type => $_RT->BUS,
     }] => sub {
 	assert_equals(100, $count->());
 	return 1;
     },
 ];
+
