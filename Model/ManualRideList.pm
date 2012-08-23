@@ -11,6 +11,14 @@ sub LOAD_ALL_SIZE {
     return 0;
 }
 
+sub internal_initialize {
+    my($self) = @_;
+    return $self->merge_initialize_info($self->SUPER::internal_initialize, {
+        version => 1,
+        parent_id => ['Ride.user_id'],
+    });
+}
+
 sub internal_prepare_statement {
     my($self) = @_;
     $_FRL->assert_access($self, $self->get_query->get('parent_id'));
