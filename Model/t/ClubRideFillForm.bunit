@@ -18,6 +18,7 @@ $ok_date = Date()->add_days($today, -3);
     }] => [{
 	'Model.Ride' => {
 	    ride_date => $ok_date,
+	    ride_type => RideType()->WALK,
 	},
     }],
     error_case({
