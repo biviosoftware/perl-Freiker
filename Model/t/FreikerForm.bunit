@@ -2,18 +2,20 @@
 # $Id$
 FormModel();
 shell_util(TestData => ['reset_all_freikers']);
+my($_RT) = b_use('Type.RideType');
 my($school_class_id) = sub {
     my($index) = @_;
     return model('SchoolClass', {school_grade => Freiker_Test()->SCHOOL_GRADE($index)})
 	->get('school_class_id');
 };
+my($child_id) = realm_id(Freiker_Test()->CHILD);
 [
     req_state({
 	user => Freiker_Test()->PARENT,
 	realm => Freiker_Test()->PARENT,
 	task => sub {
 	    model('FreikerRideList')
-		->load_all({parent_id => realm_id(Freiker_Test()->CHILD)});
+		->load_all({parent_id => $child_id});
 	    return 'FAMILY_FREIKER_EDIT';
 	},
     }),
@@ -29,6 +31,7 @@ my($school_class_id) = sub {
 	# Should be ignored
 	kilometers => 9,
 	'SchoolClass.school_class_id' => $school_class_id->(2),
+	default_ride_type => $_RT->WALK,
     }] => [{
 	'Model.RealmOwner' => {
 	    display_name => 'First1 Middle1 Last1',
@@ -45,6 +48,11 @@ my($school_class_id) = sub {
 	'Model.FreikerInfo' => {
 	    distance_kilometers => '11.3',
 	},
+	'Model.RowTag' => {
+	    primary_id => $child_id,
+	    key => $_RT->ROW_TAG_KEY,
+	    value => $_RT->WALK->as_sql_param,
+	},
     }],
     empty_case({
 	# verify other
@@ -58,13 +66,14 @@ my($school_class_id) = sub {
 	'User.gender' => Type_Gender()->MALE,
 	birth_year => 1999,
 	'SchoolClass.school_class_id' => $school_class_id->(2),
+	default_ride_type => $_RT->WALK,
     }),
     req_state_merge({
 	user => Freiker_Test()->WHEEL,
 	realm => Freiker_Test()->SCHOOL_NAME,
 	task => sub {
 	    model('FreikerRideList')
-		->load_all({parent_id => realm_id(Freiker_Test()->CHILD)});
+		->load_all({parent_id => $child_id});
 	    return 'CLUB_FREIKER_EDIT';
 	},
     }),
@@ -77,6 +86,7 @@ my($school_class_id) = sub {
 	'User.last_name' => 'Last1',
 	'Address.state' => 'CO',
 	'SchoolClass.school_class_id' => $school_class_id->(2),
+	default_ride_type => $_RT->WALK,
     }),
     [{
 	'User.gender' => Type_Gender()->FEMALE,
@@ -86,6 +96,7 @@ my($school_class_id) = sub {
 	'Address.state' => 'NM',
 	miles => 8,
 	'SchoolClass.school_class_id' => $school_class_id->(0),
+	default_ride_type => $_RT->BUS,
     }] => [{
 	'Model.RealmOwner' => {
 	    display_name => 'First2',
@@ -100,6 +111,11 @@ my($school_class_id) = sub {
 	'Model.FreikerInfo' => {
 	    distance_kilometers => '12.9',
 	},
+	'Model.RowTag' => {
+	    primary_id => $child_id,
+	    key => $_RT->ROW_TAG_KEY,
+	    value => $_RT->BUS->as_sql_param,
+	},
     }],
     empty_case({
 	'SchoolClass.school_class_id' => $school_class_id->(0),
@@ -111,6 +127,7 @@ my($school_class_id) = sub {
 	'Address.state' => 'NM',
 	miles => 8,
 	'SchoolClass.school_class_id' => undef,
+	default_ride_type => $_RT->BIKE,
     }] => not_die(),
     empty_case({
 	'SchoolClass.school_class_id' => undef,
