@@ -255,6 +255,8 @@ sub reset_freikers {
 	my($row) = $fc->generate_for_block($which + 1, $c);
 	$fcif->process_record($row);
 	$req->with_realm($_T->PARENT($which), sub {
+	    # COUPLING: FreikerCodeForm checks FreikerRideList
+	    $self->model('FreikerRideList')->delete_from_request;
 	    $self->model('FreikerCodeForm', {
 		'FreikerCode.freiker_code' => $row->{print},
 		'Club.club_id' =>
