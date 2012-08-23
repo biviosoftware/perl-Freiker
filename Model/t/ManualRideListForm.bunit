@@ -16,14 +16,14 @@ DateTime()->set_test_now(DateTime('2/1/2012 0:0:0'));
 [
     error_case({
 	'Ride.ride_date_0' => Date('1/2/2012'),
-	'Ride.ride_type_0' => RideType('UNKNOWN')->as_sql_param,
+	'Ride.ride_type_0' => RideType('UNKNOWN'),
 	empty_row_count => 9,
     } => {
 	'Ride.ride_type_0' => 'UNSPECIFIED',
     }),
     [{
 	'Ride.ride_date_0' => Date('1/2/2012'),
-	'Ride.ride_type_0' => RideType('BUS')->as_sql_param,
+	'Ride.ride_type_0' => RideType('BUS'),
 	empty_row_count => 9,
     }] => [{
 	'Model.Ride' => {
@@ -32,9 +32,12 @@ DateTime()->set_test_now(DateTime('2/1/2012 0:0:0'));
 	    ride_type => RideType('BUS'),
 	},
     }],
+    empty_case({
+	'Ride.ride_type_0' => RideType('WALK'),
+    }),
     error_case({
 	'Ride.ride_date_0' => Date('1/2/2012'),
-	'Ride.ride_type_0' => RideType('WALK')->as_sql_param,
+	'Ride.ride_type_0' => RideType('WALK'),
 	empty_row_count => 9,
     } => {
 	'Ride.ride_date_0' => 'EXISTS',
@@ -42,7 +45,7 @@ DateTime()->set_test_now(DateTime('2/1/2012 0:0:0'));
     error_case({
 	# Future
 	'Ride.ride_date_0' => Date('2/1/2012'),
-	'Ride.ride_type_0' => RideType('WALK')->as_sql_param,
+	'Ride.ride_type_0' => RideType('WALK'),
 	empty_row_count => 9,
     } => {
 	'Ride.ride_date_0' => 'DATE_RANGE',
@@ -50,7 +53,7 @@ DateTime()->set_test_now(DateTime('2/1/2012 0:0:0'));
     error_case({
 	# Weekend
 	'Ride.ride_date_0' => Date('1/7/2012'),
-	'Ride.ride_type_0' => RideType('WALK')->as_sql_param,
+	'Ride.ride_type_0' => RideType('WALK'),
 	empty_row_count => 9,
     } => {
 	'Ride.ride_date_0' => 'SYNTAX_ERROR',

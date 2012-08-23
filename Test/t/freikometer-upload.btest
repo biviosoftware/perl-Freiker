@@ -25,9 +25,22 @@ follow_link(
 test_equals($content, get_content());
 go_back();
 follow_link('bunit123456789');
+my($local_today) = Type_Date()->to_string(Type_Date()->local_today);
 verify_table(Date => [
     [qw(Date Trips)],
     #TODO: This should be the school's timezone
-    [Type_Date()->to_string(Type_Date()->local_today), 1],
+    [$local_today, 1],
+]);
+follow_link('^kids');
+submit_form(Refresh => {
+    trips => 1,
+    current => 1,
+    dates => $local_today,
+    to => $local_today,
+    mode => 'Walk',
+});
+verify_table(Kid => [
+    [qw(Kid ZapTag Trips)],
+    [qw(child 1234 1)],
 ]);
 
