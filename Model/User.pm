@@ -5,6 +5,7 @@ use strict;
 use Bivio::Base 'Model';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
+my($_RT) = b_use('Type.RideType');
 
 sub create_freiker {
     my($self, $values_or_code) = @_;
@@ -17,6 +18,7 @@ sub create_freiker {
 	->create({user_id => $uid})
 	->new_other('Address')
 	->create({realm_id => $uid});
+    $_RT->row_tag_replace($uid, $_RT->BIKE, $self->req);
     return $uid;
 }
 
