@@ -18,6 +18,9 @@ sub execute_empty {
 		location => $_L->get_default,
 	    })->get('email'),
 	);
+	$self->internal_put_field(
+	    allow_tagless => 0,
+	);
     } else {
 	map({
 	    $self->load_from_model_properties($self->req("Model.$_"));
@@ -84,6 +87,7 @@ sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
+	require_context => 1,
 	visible => [
 	    $self->field_decl([
 		[qw(club_name RealmOwner.display_name)],
