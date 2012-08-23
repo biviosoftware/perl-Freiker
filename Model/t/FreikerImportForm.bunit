@@ -2,7 +2,8 @@
 # $Id$
 FormModel();
 require('./SetupRides.PL');
-my($header) = "FirstName,MiddleName,LastName,ZapTag,Country,PostalCode,Miles,Kilometers,Street1,Street2,City,State,BirthYear,Gender,Teacher\n";
+my($_RT) = b_use('Type.RideType');
+my($header) = "FirstName,MiddleName,LastName,ZapTag,Country,PostalCode,Miles,Kilometers,DefaultTripMode,Street1,Street2,City,State,BirthYear,Gender,Teacher\n";
 req()->set_user(Freiker_Test()->PARENT);
 my($teacher) = Freiker_Test()->TEACHER(2);
 [
@@ -10,8 +11,8 @@ my($teacher) = Freiker_Test()->TEACHER(2);
     [{
 	source => file_field(<<"EOF"),
 $header
-x1,,,1238,us,123456789,10
-A,B,C,1237,,191919191,5,,s1,,,,1975,,$teacher
+x1,,,1238,us,123456789,10,,walk
+A,B,C,1237,,191919191,5,,walk,s1,,,,1975,,$teacher
 EOF
     }] => [{
 	'Model.RealmOwner' => {
@@ -31,6 +32,10 @@ EOF
 	'Model.FreikerInfo' => {
 	    distance_kilometers => '8.0',
 	},
+	'Model.RowTag' => {
+	    key => $_RT->ROW_TAG_KEY,
+	    value => $_RT->WALK->as_sql_param,
+	},
     }],
     map(
 	error_case(
@@ -41,11 +46,13 @@ EOF
 		source => qr{$_->[1]}i,
 	    },
 	),
-	['x,,,1237,US,123456789,1' => 'already assigned'],
-	['x,,,1238,US,123456789' => 'Kilometers or Miles'],
-	['x,,,1238,US,123456789,1,,,,,,,,No Such Teacher' => 'teacher not found'],
-	['x,,,1238,,123456789,1,,,,,,,,No Such Teacher' => 'country must be specified'],
-	['x,,,1238,,123456789,1' => 'country must be specified'],
-	['x,,,1238,US,123456,1' => '5 or 9'],
+	['x,,,1237,US,123456789,1,,walk' => 'already assigned'],
+	['x,,,1238,US,123456789,1,,' => 'defaulttripmode: field may not be empty'],
+	['x,,,1238,US,123456789,1,,notatripmode' => 'defaulttripmode: notatripmode, Not Found'],
+	['x,,,1238,US,123456789,,,walk' => 'Kilometers or Miles'],
+	['x,,,1238,US,123456789,1,,walk,,,,,,,No Such Teacher' => 'teacher not found'],
+	['x,,,1238,,123456789,1,,walk,,,,,,,No Such Teacher' => 'country must be specified'],
+	['x,,,1238,,123456789,1,,walk' => 'country must be specified'],
+	['x,,,1238,US,123456,1,,walk' => '5 or 9'],
     ),
 ];
