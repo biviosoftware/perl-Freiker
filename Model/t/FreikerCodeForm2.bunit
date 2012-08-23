@@ -26,14 +26,14 @@ my($count) = sub {
 	'Address.zip' => Freiker::Test->ZIP(1),
 	miles => 33,
     }] => sub {
-	assert_equals(1, $count->(), 'count');
+	assert_equals(2, $count->(), 'count');
 	my($found) = 0;
 	req()->with_realm(Freiker::Test->SCHOOL_NAME(0), sub {
 	    model('ClubFreikerList')->load_all->do_rows(
 		sub {
 		    my($n, $c)
 			= shift->get(qw(RealmOwner.display_name ride_count));
-		    if ($n =~ /^child1 \(\d+/) {
+		    if ($n =~ /^child1$/) {
 			assert_equals(2, $c);
 			$found++;
 		    }
