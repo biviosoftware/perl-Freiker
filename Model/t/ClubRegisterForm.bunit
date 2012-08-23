@@ -27,6 +27,7 @@ my($check_row_tag) = sub {
 	'SchoolContact.display_name' => 'adm',
 	'SchoolContact.email' => $adm_email,
 	'Address.country' => 'US',
+	allow_tagless => 0,
     }),
     [{
 	club_name => $name,
