@@ -6,7 +6,7 @@ DateTime()->set_test_now(undef, req());
 DateTime()->set_test_now(
     my $now = DateTime()->add_days(DateTime()->now, 1),
 );
-foreach my $realm (qw(dz_zap fm_freikometer)) {
+foreach my $realm (qw(dz_zap fm_freikometer sh_hub)) {
     req()->with_realm(
 	$realm,
 	sub {
@@ -18,26 +18,33 @@ foreach my $realm (qw(dz_zap fm_freikometer)) {
 	},
     );
 }
-model('RealmFile')->create_with_content(
-    {
-	realm_id => realm_id('dz_zap'),
-	user_id => realm_id('dz_zap'),
-	path => '/Upload/201010/bla.txt',
-    },
-    'anything',
-);
+map({
+    model('RealmFile')->create_with_content(
+	{
+	    realm_id => realm_id($_),
+	    user_id => realm_id($_),
+	    path => '/Upload/201010/bla.txt',
+	},
+	'anything',
+    );
+} qw(dz_zap sh_hub));
 [
     load_all => [
-	[] => [{
-	    'RealmOwner.name' => 'dz_zap',
-	    modified_date_time => $now,
-	}, {
-	    'RealmOwner.name' => 'fm_freikometer',
-	    modified_date_time => sub {
-		my($actual) = @_;
-		assert_not_equals($now, $actual);
-		return $actual;
+	[] => [
+	    {
+		'RealmOwner.name' => 'dz_zap',
+		modified_date_time => $now,
+	    }, {
+		'RealmOwner.name' => 'fm_freikometer',
+		modified_date_time => sub {
+		    my($actual) = @_;
+		    assert_not_equals($now, $actual);
+		    return $actual;
+		},
+	    }, {
+		'RealmOwner.name' => 'sh_hub',
+		modified_date_time => $now,
 	    },
-	}],
+	],
     ],
 ];
