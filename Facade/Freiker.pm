@@ -222,7 +222,11 @@ my($_SELF) = __PACKAGE__->new({
 	    'Website.url' => 'School Website',
 	    'Website.url.desc' => 'Example: http://schools.bvsd.org/crestview/index.html',
 	    allow_tagless => 'Allow Kids to Register Without ZapTags',
-	    ok_button => 'Register school',
+	    SchoolContact => [
+		display_name => 'Support Contact Name',
+		email => 'Support Contact Email',
+	    ],
+	    ok_button => q{If([[qw(->req Type.FormMode)], 'eq_create'], 'Register school', 'Update profile');},
 	]],
 	[MerchantInfoForm => [
 	    prose => [
@@ -496,15 +500,6 @@ EOF
 	]],
 	[ContactForm => [
 	    to => 'To',
-	]],
-	[ClubRegisterForm => [
-	    SchoolContact => [
-		display_name => 'Support Contact Name',
-		email => 'Support Contact Email',
-	    ],
-	]],
-	[ClubProfileForm => [
-	    allow_tagless => 'Allow Kids to Register Without a ZapTag',
 	]],
 	[AdmFreikerCodeReallocateForm => [
 	    'prose.prologue' => 'Only entire blocks of ZapTags that have not been assigned can be reallocated.',
