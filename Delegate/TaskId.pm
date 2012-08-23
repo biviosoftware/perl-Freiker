@@ -66,7 +66,9 @@ sub get_delegate_info {
 	    Type.FormMode->execute_create
 	    Model.ClubRegisterForm
 	    View.Club->register
+	    require_context=0
 	    next=CLUB_FREIKER_LIST
+	    cancel=MY_SITE
 	)],
 	[qw(
 	    MERCHANT_PRIZE_RECEIPT
@@ -626,7 +628,8 @@ sub get_delegate_info {
 	    Model.Website->execute_load
 	    Model.ClubRegisterForm
 	    View.Club->register
-	    next=MY_SITE
+	    require_context=1
+	    next=CLUB_FREIKER_LIST
         )],
 	[qw(
 	    ADM_FREIKER_CODE_REALLOCATE_FORM
