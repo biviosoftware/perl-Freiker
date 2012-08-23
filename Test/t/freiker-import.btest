@@ -7,19 +7,27 @@ my($csv) = sub {
     my($kid) = @_;
     return {
 	csv => file_field('kids.csv', <<"EOF"),
-FirstName,MiddleName,LastName,ZapTag,Country,PostalCode,Miles,Kilometers,Street1,Street2,City,State,BirthYear,Gender,Teacher
+FirstName,MiddleName,LastName,ZapTag,Country,PostalCode,Miles,Kilometers,DefaultTripMode,Street1,Street2,City,State,BirthYear,Gender,Teacher
 $kid
 EOF
     };
 };
 my($first) = random_string();
-submit_form($csv->("$first,y,z,1237,us,121212127,,8"));
+submit_form($csv->("$first,y,z,1237,us,121212127,,8,bike"));
 submit_form(Refresh => {
     dates => '01/01/2000',
     to => Type_Date()->to_string(Type_Date()->local_today),
 });
 verify_text($first);
 follow_link('import_kids');
-my($args) = $csv->("x,y,z,1238,,121212127");
+my($args) = $csv->("x,y,z,1238,,121212127,,,bike");
 test_deviance(qr{kilometers or miles.*country must}is);
+submit_form($args);
+test_conformance();
+$args = $csv->("x,y,z,1238,us,121212127,,8,,");
+test_deviance(qr{defaulttripmode: field may not be empty}is);
+submit_form($args);
+test_conformance();
+$args = $csv->("x,y,z,1238,us,121212127,,8,notatripmode");
+test_deviance(qr{defaulttripmode:.*not found}i);
 submit_form($args);
