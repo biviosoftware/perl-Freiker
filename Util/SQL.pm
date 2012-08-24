@@ -158,6 +158,7 @@ EOF
 sub internal_upgrade_db_purge_freikometer_files {
     my($self) = @_;
     my($count) = 0;
+    $self->print_line('deleting fm_* files');
     $_LM->new_anonymous({
 	primary_key => ['RealmOwner.realm_id'],
 	other => [
@@ -168,12 +169,17 @@ sub internal_upgrade_db_purge_freikometer_files {
     })->do_iterate(sub {
 	my($it) = @_;
 	$self->req->with_realm($it->get('RealmOwner.realm_id'), sub {
-	    $count += $self->model('RealmFile')->delete_all;
+	    my($c) = $self->model('RealmFile')->delete_all;
+	    $count += $c;
+	    $self->commit_or_rollback;
+	    $self->print_line(
+		$c . ' deleted from ' . $it->get('RealmOwner.name'));
 	}) if $it->get('RealmOwner.name') =~ /^fm_.*/;
 	return 1;
     });
+    $self->print_line('purging old freikometer files');
     $count += $self->new_other('RealmFile')->purge_freikometer_files;
-    print("$count files deleted\n");
+    $self->print_line("$count files deleted");
     return;
 }
 
