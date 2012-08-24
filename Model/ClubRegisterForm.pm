@@ -23,7 +23,10 @@ sub execute_empty {
 	);
     } else {
 	map({
-	    $self->load_from_model_properties($self->req("Model.$_"));
+	    my($m) = $self->new_other($_);
+	    $m->unsafe_load;
+	    $self->load_from_model_properties($m)
+		if $m->is_loaded;
 	} qw(Address SchoolContact Website));
 	my($rt) = $self->new_other('RowTag');
 	$self->internal_put_field(
@@ -70,7 +73,7 @@ sub execute_ok {
 	    $self->internal_put_field("$_.location" =>
 		b_use("Model.$_")->DEFAULT_LOCATION)
 		unless $_ eq 'SchoolContact';
-	    $self->update_model_properties($_);
+	    $self->create_or_update_model_properties($_);
 	} qw(Address SchoolContact Website));
 	$self->new_other('RealmOwner')->load->update({
 	    display_name => $self->get('club_name'),
