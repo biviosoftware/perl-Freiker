@@ -33,6 +33,8 @@ sub purge_freikometer_files {
 	    $count++;
 	    $self->commit_or_rollback
 		if $count % 100 == 0;
+	    $self->print_line($count)
+		if $count % 10000 == 0;
 	    return 1;
 	},
 	'unauth_iterate_start',
