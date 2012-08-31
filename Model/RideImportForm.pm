@@ -33,7 +33,6 @@ sub process_record {
     my($v) = {
 	ride_date => $_D->from_datetime($dt),
 	user_id => $uid,
-	ride_type => $_RT->row_tag_get($uid, $self->req),
     };
     my($r) = $self->new_other('Ride');
     if ($r->unauth_load($v)) {
@@ -42,6 +41,7 @@ sub process_record {
     }
     $r->create({
 	%$v,
+	ride_type => $_RT->row_tag_get($uid, $self->req),
 	ride_time => $_T->from_datetime($dt),
 	ride_upload_id => $fields->{ride_upload_id} ||=
 	    $self->new_other('RideUpload')->create({})->get('ride_upload_id'),
