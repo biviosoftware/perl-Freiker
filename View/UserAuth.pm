@@ -56,13 +56,12 @@ EOF
 }
 
 sub general_contact {
-    my($self) = @_;
     return shift->internal_body(vs_simple_form(ContactForm => [
         'ContactForm.from',
-	['ContactForm.to', {
+	['ContactForm.SchoolContact.club_id', {
 	    wf_class => 'Select',
 	    choices => ['Model.SchoolContactList'],
-	    list_id_field => 'SchoolContact.email',
+	    list_id_field => 'SchoolContact.club_id',
 	    list_display_field => 'email_display_name',
 	    unknown_label => 'Select School Contact',
 	}],
@@ -72,11 +71,23 @@ sub general_contact {
 }
 
 sub general_contact_mail {
+    my($self) = @_;
     return shift->internal_put_base_attr(
-	from => ['Model.ContactForm', 'from'],
-	to => ['Model.ContactForm', 'to'],
-	subject => ['Model.ContactForm', 'subject'],
-	body => ['Model.ContactForm', 'text'],
+	from => [qw(Model.ContactForm from)],
+	to => [qw(Model.ContactForm to)],
+	subject => Join([
+	    String([qw(Model.ContactForm school_display_name)]),
+	    String([qw(Model.ContactForm subject)]),
+	], {
+	    join_separator => ': ',
+	}),
+	body => Join([
+	    Prose(<<'EOF'),
+String([qw(Model.ContactForm school_display_name)]);:
+
+EOF
+	    String([qw(Model.ContactForm text)]),
+	]),
     );
 }
 
