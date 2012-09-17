@@ -27,14 +27,37 @@ sub execute_empty {
     return;
 }
 
+sub execute_ok {
+    my($self) = @_;
+    my($club_id) = $self->get('SchoolContact.club_id');
+    $self->internal_put_field(
+	to => $self->new_other('SchoolContact')->unauth_load_or_die({
+	    club_id => $club_id,
+	})->get('email'),
+	school_display_name =>
+	    $self->new_other('RealmOwner')->unauth_load_or_die({
+		realm_id => $club_id,
+	    })->get('display_name'),
+    );
+    return shift->SUPER::execute_ok(@_);
+}
+
 sub internal_initialize {
     my($self) = @_;
     return $self->merge_initialize_info($self->SUPER::internal_initialize, {
         version => 1,
         visible => [
+	    'SchoolContact.club_id',
+	],
+	other => [
 	    {
 		name => 'to',
 		type => 'Email.email',
+		constraint => 'NOT_NULL',
+	    },
+	    {
+		name => 'school_display_name',
+		type => 'RealmOwner.display_name',
 		constraint => 'NOT_NULL',
 	    },
 	],
