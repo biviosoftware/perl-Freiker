@@ -46,11 +46,11 @@ submit_form({
 follow_link(qr{^contact$}i);
 submit_form({
     your => my $e_my = 'my@email.com',
-    to => $e,
+    school => "$name - wheel <$e>",
     subject => 'Need new ZapTag! ' . (my $r1 = random_string()),
     message => my $r2 = random_string(),
 });
-verify_local_mail($e, qr{$e_my.*$r1.*$r2}s, 1);
+verify_local_mail($e, qr{$e_my.*$name.*$r1.*$name.*$r2}s, 1);
 login_as('wheel');
 verify_no_text(qr{school profile}i);
 test_deviance('403 Forbidden');
