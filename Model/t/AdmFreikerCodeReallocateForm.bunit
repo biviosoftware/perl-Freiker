@@ -5,6 +5,7 @@ FormModel({
 	model('ClubList')->load_all;
     },
 });
+shell_util(TestData => ['reset_all_freikers']);
 [
     error_case({
 	'FreikerCode.freiker_code' => 30000,
