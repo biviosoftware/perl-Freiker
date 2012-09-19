@@ -39,7 +39,6 @@ sub execute_empty {
     } else {
 	$self->internal_put_field('User.gender' => $_G_UNKNOWN);
 	$self->internal_put_field('has_graduated' => 0);
-	$self->internal_put_field('default_ride_type' => $_RT->BIKE);
     }
     my($m) = $self->new_other('Address');
     $self->load_from_model_properties($m)
@@ -97,7 +96,7 @@ sub internal_initialize {
 	    {
 		name => 'default_ride_type',
 		type => 'RideType',
-		constraint => 'NOT_ZERO_ENUM',
+		constraint => 'NOT_NULL',
 	    },
 	    $self->field_decl([
 		[qw(kilometers Kilometers)],
