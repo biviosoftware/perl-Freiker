@@ -29,7 +29,7 @@ sub count_all {
 sub create {
     my($self, $values) = @_;
     $values->{ride_time} ||= $_NO_TIME;
-    $values->{ride_type} ||= $_RT->BIKE;
+    $values->{ride_type} ||= $_RT->UNKNOWN;
     return shift->SUPER::create(@_);
 }
 

@@ -18,7 +18,7 @@ sub create_freiker {
 	->create({user_id => $uid})
 	->new_other('Address')
 	->create({realm_id => $uid});
-    $_RT->row_tag_replace($uid, $_RT->BIKE, $self->req);
+    $_RT->row_tag_replace($uid, $_RT->UNKNOWN, $self->req);
     return $uid;
 }
 
