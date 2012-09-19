@@ -2,8 +2,8 @@
 # $Id$
 test_setup('Freiker');
 home_page();
+do_test_backdoor(TestData => 'reset_all_freikers');
 do_test_backdoor(TestData => '-realm fm_freikometer reset_freikometer_folders');
-do_test_backdoor(TestData => 'reset_freikers');
 my($epc) = test_use('Freiker::Test')->EPC;
 my($date) = test_use('Type.DateTime')->now_as_file_name;
 basic_authorization('fm_freikometer');
@@ -23,9 +23,48 @@ follow_link(
     "$date.csv",
 );
 test_equals($content, get_content());
+home_page();
+do_logout();
+do_test_backdoor(TestData => '-realm fm_freikometer1 reset_freikometer_folders');
+my($epc1) = test_use('Freiker::Test')->EPC(0, 1);
+my($date1) = test_use('Type.DateTime')->now_as_file_name;
+basic_authorization('fm_freikometer1');
+send_request(PUT => "/fm/$date1.csv", undef, my $content1 = <<"EOF");
+EPC,DateTime
+$epc1,$date1
+EOF
+test_equals(qr{.*Download/test\.sh$}, get_uri());
+test_equals("date\n", get_content());
+home_page();
+do_logout();
+login_as('adm');
+follow_link_in_table(qw(zap zap fm_freikometer1 action files));
+follow_link(
+    'upload',
+    test_use('Type.Date')->local_now_as_file_name =~ /^(\d{6})/,
+    "$date1.csv",
+);
+test_equals($content1, get_content());
 go_back();
-follow_link('bunit123456789');
 my($local_today) = Type_Date()->to_string(Type_Date()->local_today);
+follow_link('bunit123456789');
+verify_table(Date => [
+    [qw(Date Trips)],
+    #TODO: This should be the school's timezone
+    [$local_today, 1],
+]);
+follow_link('^kids');
+submit_form(Refresh => {
+    trips => 1,
+    current => 1,
+    dates => $local_today,
+    to => $local_today,
+});
+verify_table(Kid => [
+    [qw(Kid ZapTag Trips)],
+    [qw(child 1234 1)],
+]);
+follow_link('bunit1123456790');
 verify_table(Date => [
     [qw(Date Trips)],
     #TODO: This should be the school's timezone
@@ -41,6 +80,6 @@ submit_form(Refresh => {
 });
 verify_table(Kid => [
     [qw(Kid ZapTag Trips)],
-    [qw(child 1234 1)],
+    [qw(child10 2234 1)],
 ]);
 

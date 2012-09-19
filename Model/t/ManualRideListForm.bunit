@@ -1,19 +1,28 @@
 # Copyright (c) 2012 bivio Software, Inc.  All Rights Reserved.
 # $Id$
-my($child_id);
-FormModel({
-    setup_request => sub {
-	model('ManualRideList' => {
-	    parent_id => $child_id,
-	});
-    },
-});
-req()->set_realm_and_user(qw(bunit123456789 adm));
-$child_id = model('FreikerCodeList')->load_all
-    ->find_row_by_code('1234')
-    ->get('FreikerCode.user_id');
+FormModel();
+shell_util(TestData => ['reset_all_freikers']);
+my($child_id) = sub {
+    my($which) = @_;
+    model('FreikerCodeList')->load_all
+	->find_row_by_code($which ? '2234' : '1240')
+	->get('FreikerCode.user_id');
+};
 DateTime()->set_test_now(DateTime('2/1/2012 0:0:0'));
 [
+    req_state({
+	user => Freiker_Test()->ADM,
+	realm => 'bunit123456789',
+	task => sub {
+	    model('ManualRideList' => {
+		parent_id => $child_id->(0),
+	    });
+	    return 'CLUB_MANUAL_RIDE_LIST_FORM';
+	},
+    }),
+    empty_case({
+	'Ride.ride_type_0' => RideType('UNKNOWN'),
+    }),
     error_case({
 	'Ride.ride_date_0' => Date('1/2/2012'),
 	'Ride.ride_type_0' => RideType('UNKNOWN'),
@@ -27,13 +36,12 @@ DateTime()->set_test_now(DateTime('2/1/2012 0:0:0'));
 	empty_row_count => 9,
     }] => [{
 	'Model.Ride' => {
-	    user_id => $child_id,
 	    ride_date => Date('1/2/2012'),
 	    ride_type => RideType('BUS'),
 	},
     }],
     empty_case({
-	'Ride.ride_type_0' => RideType('WALK'),
+	'Ride.ride_type_0' => RideType('BUS'),
     }),
     error_case({
 	'Ride.ride_date_0' => Date('1/2/2012'),
@@ -57,5 +65,30 @@ DateTime()->set_test_now(DateTime('2/1/2012 0:0:0'));
 	empty_row_count => 9,
     } => {
 	'Ride.ride_date_0' => 'SYNTAX_ERROR',
+    }),
+    req_state_merge({
+	realm => 'bunit1123456790',
+	task => sub {
+	    model('ManualRideList' => {
+		parent_id => $child_id->(1),
+	    });
+	    return 'CLUB_MANUAL_RIDE_LIST_FORM';
+	},
+    }),
+    empty_case({
+	'Ride.ride_type_0' => RideType('WALK'),
+    }),
+    [{
+	'Ride.ride_date_0' => Date('1/2/2012'),
+	'Ride.ride_type_0' => RideType('BUS'),
+	empty_row_count => 9,
+    }] => [{
+	'Model.Ride' => {
+	    ride_date => Date('1/2/2012'),
+	    ride_type => RideType('BUS'),
+	},
+    }],
+    empty_case({
+	'Ride.ride_type_0' => RideType('WALK'),
     }),
 ];
