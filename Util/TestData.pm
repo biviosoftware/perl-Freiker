@@ -265,7 +265,7 @@ sub reset_freikers {
 		'Address.zip' => $_T->ZIP($which),
 		'Address.country' => $_T->COUNTRY,
 		miles => $_T->DEFAULT_MILES,
-		default_ride_type => $which ? $_RT->BIKE : $_RT->WALK,
+		default_ride_type => $which ? $_RT->WALK : $_RT->UNKNOWN,
 	    });
 	}) unless $c || $which;
     }
@@ -325,8 +325,8 @@ sub reset_freikometer_folders {
     )) {
 	$self->model('RealmFile')->unauth_delete_deep({path => $p});
     }
-    $req->with_realm($_T->FREIKOMETER, sub {
-        $self->req->with_user($_T->FREIKOMETER, sub {
+    $req->with_realm($self->req('auth_id'), sub {
+        $self->req->with_user($self->req('auth_id'), sub {
 	    $self->new_other('Freikometer')->download({
 		filename => 'test.sh',
 		content_type => 'application/x-sh',
@@ -452,7 +452,7 @@ sub _freiker_form {
 	'Address.zip' => $_T->ZIP($which),
 	'Address.country' => $_T->COUNTRY,
 	miles => $_T->DEFAULT_MILES,
-	default_ride_type => $which ? $_RT->BIKE : $_RT->WALK,
+	default_ride_type => $which ? $_RT->WALK : $_RT->UNKNOWN,
     });
     $self->req('Model.RealmOwner')->update({name => $name});
     return $name;
