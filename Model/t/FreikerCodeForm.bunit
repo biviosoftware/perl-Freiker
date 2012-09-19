@@ -43,7 +43,7 @@ my($other) = {
 	'Address.zip' => Freiker::Test->ZIP,
 	miles => Freiker::Test->DEFAULT_MILES,
 	kilometers => Freiker::Test->DEFAULT_KILOMETERS,
-	default_ride_type => $_RT->WALK,
+	default_ride_type => undef,
     }),
     [{
 	%$other,
