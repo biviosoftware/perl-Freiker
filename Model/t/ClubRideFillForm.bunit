@@ -18,7 +18,7 @@ $ok_date = Date()->add_days($today, -3);
     }] => [{
 	'Model.Ride' => {
 	    ride_date => $ok_date,
-	    ride_type => RideType()->WALK,
+	    ride_type => RideType()->UNKNOWN,
 	},
     }],
     error_case({
@@ -31,4 +31,16 @@ $ok_date = Date()->add_days($today, -3);
     }, {
 	'Ride.ride_date' => 'NOT_NEGATIVE',
     }),
+    inline_case(sub {
+	req()->set_realm(Freiker_Test()->SCHOOL_NAME(1));
+	return 1;
+    }),
+    [{
+	'Ride.ride_date' => $ok_date,
+    }] => [{
+	'Model.Ride' => {
+	    ride_date => $ok_date,
+	    ride_type => RideType()->WALK,
+	},
+    }],
 ];
