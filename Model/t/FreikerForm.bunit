@@ -127,9 +127,10 @@ my($child_id) = realm_id(Freiker_Test()->CHILD);
 	'Address.state' => 'NM',
 	miles => 8,
 	'SchoolClass.school_class_id' => undef,
-	default_ride_type => $_RT->BIKE,
+	default_ride_type => RideType()->UNKNOWN,
     }] => not_die(),
     empty_case({
 	'SchoolClass.school_class_id' => undef,
+	default_ride_type => undef,
     }),
 ];

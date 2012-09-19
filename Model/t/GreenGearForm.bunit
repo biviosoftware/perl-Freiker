@@ -7,7 +7,7 @@ my($params) = sub {
     $begin = DateTime()->add_days($saturday, $begin);
     $end = DateTime()->add_days($saturday, $end);
     return {
-	'GreenGear.begin_date' => $begin,,
+	'GreenGear.begin_date' => $begin,
 	'GreenGear.end_date' => $end,
 	'GreenGear.must_be_registered' => $registered,
 	'GreenGear.must_be_unique' => $unique,
@@ -62,8 +62,8 @@ my($create) = sub {
 		birth_year => undef,
 		'User.gender' => Gender('MALE'),
 		miles => 1,
-		'Address.zip' => Freiker::Test->ZIP,
-		default_ride_type => RideType()->BIKE,
+		'Address.zip' => Freiker_Test()->ZIP,
+		default_ride_type => RideType()->UNKNOWN,
 	    });
 	});
 	return;
