@@ -15,7 +15,7 @@ submit_form(OK => {
 });
 submit_form({
     '^zaptag' => '1237',
-    class => qr{$t1},
+    '^class' => qr{$t1},
     first => my $kid = random_string(),
     miles => 3,
 });
@@ -24,7 +24,7 @@ show_all_kids();
 find_page_with_text($kid);
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
-    class => qr{$t2},
+    '^class' => qr{$t2},
 });
 show_all_kids();
 find_page_with_text($kid);
@@ -109,7 +109,7 @@ verify_table('Kid', [
 ]);
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
-    class => "1st $t1",
+    '^class' => "1st $t1",
 });
 show_all_kids();
 find_page_with_text($kid);
@@ -129,7 +129,7 @@ verify_table('Kid', [
 ]);
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
-    class => "1st $t1",
+    '^class' => "1st $t1",
 });
 show_all_kids();
 find_page_with_text($kid);
@@ -139,7 +139,7 @@ verify_table('Kid', [
 ]);
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
-    class => "1st $t1",
+    '^class' => "1st $t1",
     '_radio#0' => 'Yes',
 });
 show_all_kids();
@@ -150,7 +150,7 @@ verify_table('Kid', [
 ]);
 follow_link_in_table(qw(kid kid), $kid, qw(action info));
 submit_form({
-    class => "1st $t1",
+    '^class' => "1st $t1",
     '_radio#0' => 'No',
 });
 show_all_kids();
