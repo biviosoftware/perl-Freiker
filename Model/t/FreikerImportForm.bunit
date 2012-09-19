@@ -12,6 +12,7 @@ my($teacher) = Freiker_Test()->TEACHER(2);
 	source => file_field(<<"EOF"),
 $header
 x1,,,1238,us,123456789,10,,walk
+x2,,,1239,us,123456789,10,,unknown
 A,B,C,1237,,191919191,5,,walk,s1,,,,1975,,$teacher
 EOF
     }] => [{
@@ -48,7 +49,7 @@ EOF
 	),
 	['x,,,1237,US,123456789,1,,walk' => 'already assigned'],
 	['x,,,1238,US,123456789,1,,' => 'defaulttripmode: field may not be empty'],
-	['x,,,1238,US,123456789,1,,notatripmode' => 'defaulttripmode: notatripmode, Not Found'],
+	['x,,,1238,US,123456789,1,,notatripmode' => 'defaulttripmode: notatripmode, Invalid value'],
 	['x,,,1238,US,123456789,,,walk' => 'Kilometers or Miles'],
 	['x,,,1238,US,123456789,1,,walk,,,,,,,No Such Teacher' => 'teacher not found'],
 	['x,,,1238,,123456789,1,,walk,,,,,,,No Such Teacher' => 'country must be specified'],
