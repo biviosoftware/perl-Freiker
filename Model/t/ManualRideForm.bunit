@@ -7,7 +7,7 @@ my($today) = do('./RideList.PL');
     }] => [{
 	'Model.Ride' => {
 	    ride_date => $today,
-	    ride_type => RideType()->WALK,
+	    ride_type => RideType()->UNKNOWN,
 	},
     }],
 ];
