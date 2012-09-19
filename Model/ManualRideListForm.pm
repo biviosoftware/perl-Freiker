@@ -144,14 +144,21 @@ sub internal_pre_execute {
 	 ),
     );
     $self->internal_put_field(last_ride => undef);
+    my($last_ride);
     $self->new_other('Ride')->do_iterate(sub {
-	$self->internal_put_field(last_ride => shift);
+	$self->internal_put_field(last_ride => $last_ride = shift);
 	return 0;
     }, 'unauth_iterate_start', 'ride_date desc', {
 	user_id => $uid,
     });
-    $self->internal_put_field(default_ride_type =>
-	$_RT->row_tag_get($uid, $self->req));
+    my($rt) = $_RT->row_tag_get($uid, $self->req);
+    $self->internal_put_field(
+	default_ride_type => $rt && !$rt->eq_unknown
+	    ? $rt
+	    : $last_ride
+		? $last_ride->unsafe_get('ride_type')
+		: $_RT->UNKNOWN,
+    );
     my($count) = 0;
     $self->new_other('FreikerList')->do_iterate(sub {
         my($fl) = @_;
