@@ -84,14 +84,14 @@ sub manual_ride_list_form {
 	    }],
 	    #TODO: must be a better way to do the row_controls here
 	    [String(' ', {
-		row_control => [qw(->ureq Model.ManualRideListForm sibling_name0)],
+		row_control => [qw(->ureq Model.ManualRideListForm sibling_id0)],
 	    })],
 	    [Prose(vs_text('ManualRideListForm.prose.also_siblings'), {
-		row_control => [qw(->ureq Model.ManualRideListForm sibling_name0)],
+		row_control => [qw(->ureq Model.ManualRideListForm sibling_id0)],
 	    })],
 	    map({
 		["ManualRideListForm.sibling$_", {
-		    row_control => [qw(->ureq Model.ManualRideListForm), "sibling_name$_"],
+		    row_control => [qw(->ureq Model.ManualRideListForm), "sibling_id$_"],
 		}],
 	    } (0 .. $_MRLF->LAST_OTHER)),
 	    '*ok_button cancel_button',
