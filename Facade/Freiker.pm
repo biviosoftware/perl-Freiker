@@ -382,7 +382,7 @@ EOF
 	    ok_button => 'Add trips',
 	    prose => [
 		prologue => <<'EOF',
-Last Trip: If([qw(Model.ManualRideListForm last_ride)], Join([DateTime([qw(Model.ManualRideListForm last_ride ride_date)], 'DATE'), ' (', If([qw(Model.ManualRideListForm last_ride ride_type ->is_specified)], String([qw(Model.ManualRideListForm last_ride ride_type ->get_short_desc)]), 'Unknown'), ')']), 'None');
+Last Trip: If([qw(Model.ManualRideListForm last_ride)], Join([DateTime([qw(Model.ManualRideListForm last_ride ride_date)], 'DATE'), ' (', String([qw(Model.ManualRideListForm last_ride ride_type ->get_short_desc)]), ')']), 'None');
 EOF
 		also_siblings => 'Also add these trips for:',
 	    ],

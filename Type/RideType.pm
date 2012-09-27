@@ -6,7 +6,7 @@ use Bivio::Base 'Type.Enum';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 __PACKAGE__->compile([
-    UNKNOWN => [0, 'Select'],
+    UNKNOWN => 0,
     BIKE => 1,
     BUS => 2,
     WALK => 3,
