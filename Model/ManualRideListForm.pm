@@ -165,7 +165,9 @@ sub internal_pre_execute {
 	return 1
 	    if $fl->get('RealmUser.user_id') == $uid;
 	$self->internal_put_field(
-	    "sibling_name$count" => $fl->get('User.first_name'),
+	    "sibling_name$count" => $fl->get('User.first_name')
+		|| $fl->get('User.middle_name')
+		|| $fl->get('User.last_name'),
 	    "sibling_id$count" => $fl->get('RealmUser.user_id'),
 	);
 	$count++;
