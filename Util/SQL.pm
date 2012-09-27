@@ -64,6 +64,34 @@ sub internal_upgrade_db_default_ride_type {
     return;
 }
 
+sub internal_upgrade_db_default_ride_type2 {
+    my($self) = @_;
+    my($count) = 0;
+    $self->model('RowTag')->do_iterate(sub {
+        shift->delete;
+	$self->print("$count row tags updated\n")
+	    if ++$count % 10000 == 0;
+	return 1;
+    }, 'unauth_iterate_start', {
+	key => $_RTK->from_literal($_RT->ROW_TAG_KEY),
+	value => $_RT->BIKE->as_sql_param,
+    });
+    $self->print("$count row tags updated successfully\n");
+    $count = 0;
+    $self->model('Ride')->do_iterate(sub {
+	shift->update({
+	    ride_type => $_RT->UNKNOWN,
+	});
+	$self->print("$count rides updated\n")
+	    if ++$count % 10000 == 0;
+	return 1;
+    }, 'unauth_iterate_start', {
+	ride_type => $_RT->BIKE,
+    });
+    $self->print("$count rides updated successfully\n");
+    return;
+}
+
 sub internal_upgrade_db_freiker_info {
     my($self) = @_;
     $self->initialize_fully;
