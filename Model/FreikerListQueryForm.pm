@@ -27,7 +27,7 @@ sub execute_empty {
 	fr_begin => $_YQ->get_default->first_date_of_school_year,
 	fr_end => $_D->now,
 	fr_current => 1,
-    ) unless $query;
+    ) unless grep($_ =~ /^fr_/, keys(%$query));
     return;
 }
 
