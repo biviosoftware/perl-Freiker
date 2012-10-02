@@ -259,6 +259,7 @@ sub _validate_club {
     }
     $self->internal_put_field(
 	'FreikerCode.club_id' => $self->get('Club.club_id'));
+    _load_class_list($self);
     if ($self->unsafe_get('no_freiker_code')) {
 	return $self->internal_put_error(
 	    'FreikerCode.freiker_code' => 'SYNTAX_ERROR')
