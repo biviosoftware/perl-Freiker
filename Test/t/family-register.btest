@@ -2,6 +2,21 @@
 # $Id$
 test_setup('Freiker');
 my($e, $z) = register_random('family');
+login_as('adm');
+follow_link('bunit123456789');
+follow_link('^kids$');
+show_all_kids();
+follow_link_in_table(qw(kid kid 1242 actions edit_info));
+follow_link('class_list');
+submit_form(OK => {
+    teacher_0 => my $teacher = random_string(),
+    grade_0 => Type_SchoolGrade()->G_PRE->as_int,
+});
+submit_form({
+    class => $teacher,
+    postal => 12345,
+    miles => 3,
+});
 login_as($e);
 verify_form({
     miles => '',
@@ -51,6 +66,14 @@ submit_form({
     kilometers => 3,
 });
 verify_text('Larry');
+follow_link(qw(your_family register_kid));
+submit_form({
+    first => 'Billy',
+    '^zaptag' => 1242,
+    '^school' => 'bunit Elementary',
+    kilometers => 3,
+});
+verify_text('Billy');
 login_as('wheel');
 submit_form(Refresh => {
     dates => '01/01/2000',
