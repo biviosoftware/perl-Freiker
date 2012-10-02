@@ -27,9 +27,8 @@ sub execute_ok {
 	unless my $num_tags = scalar(@$codes);
     foreach my $c (@$codes) {
 	return $self->internal_put_error('FreikerCode.freiker_code' => 'EXISTS')
-	    if defined($self->new_other('FreikerInfo')->unauth_load_or_die({
-		user_id => $c->get('user_id'),
-	    })->get('distance_kilometers'));
+	    if $self->new_other('RealmUser')
+		->is_registered_freiker($c->get('user_id'));
     }
     foreach my $x (qw(source dest)) {
 	$self->req->with_realm($self->get("$x.Club.club_id"), sub {
