@@ -58,7 +58,7 @@ sub execute_ok {
     my($uid) = $self->unsafe_get('FreikerCode.user_id');
     $self->update_school_class(
 	undef,
-	$self->get('FreikerCode.user_id'),
+	$uid,
 	_current_class_id($self, $uid),
 	$self->unsafe_get('SchoolClass.school_class_id'),
 	$uid && $self->new_other('RowTag')->set_ephemeral
