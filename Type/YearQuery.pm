@@ -8,6 +8,10 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_DEFAULT) = _init(__PACKAGE__);
 
+sub START_MONTH {
+    return 8;
+}
+
 sub compile_short_desc {
     my($proto, $year) = @_;
     return "$year - " . ($year + 1);
@@ -15,7 +19,7 @@ sub compile_short_desc {
 
 sub first_date_of_school_year {
     my($self) = @_;
-    return _first_date($self->as_int);
+    return _first_date($self, $self->as_int);
 }
 
 sub get_default {
@@ -23,8 +27,8 @@ sub get_default {
 }
 
 sub _first_date {
-    my($year) = @_;
-    return $_D->date_from_parts(1, 8, $year);
+    my($proto, $year) = @_;
+    return $_D->date_from_parts(1, $proto->START_MONTH, $year);
 }
 
 sub _init {
@@ -32,7 +36,7 @@ sub _init {
     my($year) = $_D->now_as_year;
     __PACKAGE__->compile(
 	2005,
-	$_D->compare($_D->now, _first_date($year)) >= 0 ? $year : $year - 1,
+	$_D->compare($_D->now, _first_date($proto, $year)) >= 0 ? $year : $year - 1,
     );
     return __PACKAGE__->get_max;
 }
