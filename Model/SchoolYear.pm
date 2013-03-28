@@ -6,6 +6,7 @@ use Bivio::Base 'Model.RealmBase';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
+my($_YQ) = b_use('Type.YearQuery');
 
 sub REALM_ID_FIELD {
     return 'club_id';
@@ -51,7 +52,8 @@ sub unsafe_load_year_from_date_as_new {
 
 sub _start_date {
     my($year, $month) = @_;
-    return $_D->date_from_parts(1, 8, $year + ($month <= 6 ? -1 : 0));
+    return $_D->date_from_parts(
+	1, $_YQ->START_MONTH, $year + ($month <= 6 ? -1 : 0));
 }
 
 sub _unsafe_load_year_as_new {
