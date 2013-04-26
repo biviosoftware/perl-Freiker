@@ -9,7 +9,8 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 __PACKAGE__->new({
     clone => 'Freiker',
-    is_production => 1,
+    #TODO: turn on once ready for production
+    is_production => 0,
     uri => 'fr.boltage',
     FormError => [
 	['prose.detail_prefix' => q{; renseignement supplÈmentaire : }],
@@ -51,6 +52,7 @@ __PACKAGE__->new({
 	['TupleUseList.list_action.FORUM_TUPLE_EDIT' => q{Ajouter une entrÈe}],
 	['ManualRideForm.ok_button' => q{Ajouter un trajet}],
 	['ManualRideListForm.ok_button' => q{Ajouter des trajets}],
+	['ManualRideListForm.use_type_for_all' => q{M√™me moyen de transport pour tous les trajets}],
 	['GroupUserList.privileges_name.ADMINISTRATOR' => q{Administrateur}],
 	['prose.SiteAdminDropDown_label' => q{Administrateur}],
 	['RoleSelectList.display_name.ADMINISTRATOR' => q{Administrateur}],
@@ -280,7 +282,7 @@ vs_text_as_prose('xhtml_copyright_qualifier');}],
 	['GreenGear.begin_date' => q{Premier jour}],
 	['first_name' => q{PrÈnom}],
 	['MailThreadRootList.RealmFile.modified_date_time' => q{PremiËre entrÈe}],
-	['Address.zip.desc' => q{Pour les rÈsidants des USA, veuillez utiliser un code postal de 9 chiffre (Zip+4). Link('Look it up at the USPS.', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});.  Les autres utilisateurs doivent entrer leur code postal complet, excluant le prÈfixe du code du pays.}],
+	['Address.zip.desc' => q{Pour les r√©sidants des √âtats-Unis, veuillez utiliser un code postal de 9 chiffre (Zip+4). Link('Regardez sur le site de USPS', 'http://zip4.usps.com/zip4/welcome.jsp', {link_target => '_blank'});.  Les autres utilisateurs doivent entrer leur code postal complet, excluant le pr√©fixe du code du pays.}],
 	['ActionError.wiki_name.FORBIDDEN' => q{Erreur - AccËs non authorisÈ}],
 	['EmailVerifyForceForm.ok_button' => q{Forcer la vÈrification}],
 	['title.USER_EMAIL_VERIFY_FORCE_FORM' => q{Forcer la vÈrification de l'adresse courriel}],
@@ -451,6 +453,7 @@ vs_text_as_prose('xhtml_copyright_qualifier');}],
 	['FreikerCodeForm.miles' => q{Miles jusqu'‡ l'Ècole}],
 	['FreikerForm.miles' => q{Miles jusqu'‡ l'Ècole}],
 	['MobileToggler.mobile' => q{Cellulaire}],
+	['Ride.ride_type' => q{Moyen de transport}],
 	['FORUM_CALENDAR_EVENT_FORM.edit' => q{Modifier}],
 	['list_action.FORUM_TUPLE_DEF_EDIT' => q{Modifier}],
 	['list_action.FORUM_TUPLE_EDIT' => q{Modifier}],
@@ -543,13 +546,13 @@ vs_text_as_prose('xhtml_copyright_qualifier');}],
 	['separator.optional_address' => q{Renseignements optionnels pour nous aider ‡ vous contacter}],
 	['separator.optional_statistics' => q{Renseignements optionnels utilisÈs ‡ des fins statisques.}],
 	['AcceptanceTestList.outcome' => q{rÈsultat}],
-	['UserRegisterForm.prose.prologue' => q{P('Afin de mieux vous servir, nous validons chacune des adresses courriels. Lorsque vous cliquez sur inscription, nous vous enverrons un enverrons un lien qui vous demandera de choisir un mot de passe.');}],
+	['UserRegisterForm.prose.prologue' => q{P('Afin de mieux vous servir, nous validons chacune des adresses courriels. Lorsque vous cliquez sur inscription, nous vous enverrons un lien qui vous demandera de choisir un mot de passe.');}],
 	['UserRegisterForm.prose.epilogue' => q{P(vs_text_as_prose('LOGIN'));
 P(Join([
     q{En cliquant sur "J'accepte" ci-dessous, vous acceptez les },
-    Link('Terms of Service', '/bp/Terms_of_Service'),
+    Link('Modalit√©s de service', '/bp/Terms_of_Service'),
     ' et les ',
-    Link('Privacy Policy', '/bp/Privacy_Policy'),
+    Link('Politique de confidentialit√©', '/bp/Privacy_Policy'),
     '.',
 ]));
 </p>
@@ -576,16 +579,16 @@ P(Join([
 	['page3.title.GENERAL_CONTACT' => q{Veuillez nous contacter}],
 	['xhtml.title.GENERAL_CONTACT' => q{Veuillez nous contacter}],
 	['form_error_title' => q{Veuillez corriger les erreurs ci-dessous:}],
-	['prose.UserAuth.password_query_mail.body' => q{Veuillez cliquer sur le lien suivant pour rÈinitialiser votre mot de passe:
+	['prose.UserAuth.password_query_mail.body' => q{Veuillez cliquer sur le lien suivant pour r√©initialiser votre mot de passe:
 
 Join([['Model.UserPasswordQueryForm', 'uri']]);
 
-Pour votre sÈcuritÈ, ce lien ne peut Ítre utilisÈ qu'une seule fois 
+Pour votre s√©curit√©, ce lien ne peut √™tre utilis√© qu'une seule fois
 pour programmer votre mot de passe.
 
-Veuillez rÈpondre ‡ ce courriel pour contacter le soutien ‡ la clientËle.
+Veuillez r√©pondre √† ce courriel pour contacter le soutien √† la client√®le.
 Merci,
-vs_site_name(); Support}],
+Support vs_site_name();}],
 	['acknowledgement.CLUB_FREIKER_PRIZE_CONFIRM' => q{Veuillez remettre les prix choisis ‡ l'enfant.}],
 	['page3.title.LOGIN' => q{Ouvrir une session}],
 	['title.LOGIN' => q{Ouvrir une session}],
@@ -682,10 +685,10 @@ vs_site_name(); Support}],
 	['TupleSlotTypeListForm.ok_button' => q{Sauvegarder}],
 	['TupleUseForm.ok_button' => q{Sauvegarder}],
 	['WikiForm.ok_no_validate_button' => q{Sauvegarder}],
-	['AdmSummaryBySchoolList.realm_display_name' => q{Ècole}],
-	['AllClubSummaryList.RealmOwner.display_name' => q{Ècole}],
-	['club_id' => q{Ècole}],
-	['RealmDropDown.club' => q{Ècole}],
+	['AdmSummaryBySchoolList.realm_display_name' => q{…cole}],
+	['AllClubSummaryList.RealmOwner.display_name' => q{…cole}],
+	['club_id' => q{…cole}],
+	['RealmDropDown.club' => q{…cole}],
 	['title.CLUB_PRIZE_LIST' => q{Prix de l'Ècole}],
 	['ClubRegisterForm.Website.url' => q{Site web de l'Ècole}],
 	['DBAccessModelForm.search_button' => q{Recherche}],
@@ -740,7 +743,7 @@ Votre transaction a ÈtÈ complÈtÈe, et un reÁu pour votre achat vous a ÈtÈ envoyÈ
 	['CalendarEventForm.start_date' => q{Date de dÈbut}],
 	['CalendarEventForm.start_time' => q{Heure de dÈbut}],
 	['MotionStatus.start_date_time' => q{Heure de dÈbut}],
-	['state' => q{…tat}],
+	['state' => q{Province/…tat}],
 	['CRMThreadRootList.CRMThread.crm_thread_status' => q{Statut}],
 	['Motion.status' => q{Statut}],
 	['Prize.prize_status' => q{Statut}],
@@ -958,7 +961,7 @@ vs_site_name(); Support}],
 	['RemoteCopyListForm.empty_list_prose' => q{Vous devez crÈer Settings/RemoteCopy.csv afin de complÈter cette opÈration.}],
 	['title.DEFAULT_ERROR_REDIRECT_MISSING_COOKIES' => q{Votre navigateur n'accepte pas les fichiers tÈmoin.}],
 	['xlink.DEFAULT_ERROR_REDIRECT_MISSING_COOKIES' => q{Votre navigateur n'accepte pas les fichiers tÈmoin.}],
-	['acknowledgement.MERCHANT_REGISTER' => q{Votre entreprise a ÈtÈ inscrite.}],
+	['acknowledgement.MERCHANT_REGISTER' => q{Votre entreprise est inscrite.}],
 	['acknowledgement.paypal_cancel' => q{Votre don a ÈtÈ annulÈ. Veuillez penser ‡ nous dans le futur.}],
 	['ContactForm.from' => q{Votre adresse courriel}],
 	['email' => q{Votre adresse courriel}],
