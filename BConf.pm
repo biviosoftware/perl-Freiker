@@ -53,7 +53,7 @@ sub merge_overrides {
 		Model => ['Freiker::Model'],
 		ShellUtil => ['Freiker::Util'],
 		TestLanguage => ['Freiker::Test'],
-		TestUnit => ['Freiker::Test'],
+		TestUnit => ['Freiker::TestUnit'],
 		Type => ['Freiker::Type'],
 		View => ['Freiker::View'],
 		FacadeComponent => ['Freiker::FacadeComponent'],
