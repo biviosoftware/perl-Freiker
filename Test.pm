@@ -3,10 +3,6 @@
 package Freiker::Test;
 use strict;
 use Bivio::Base 'Bivio';
-use Bivio::Biz::Action;
-use Bivio::Test::ListModel;
-use Bivio::Test::Request;
-use Bivio::Util::RealmAdmin;
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_RN) = b_use('Type.RealmName');
