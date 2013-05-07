@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Model::PayPalForm;
 use strict;
-use base 'Bivio::Biz::FormModel';
+use Bivio::Base 'Biz.FormModel';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_ULF) = __PACKAGE__->get_instance('UserLoginForm');
@@ -76,7 +76,7 @@ sub internal_pre_execute {
     $self->throw_die(NOT_FOUND => {
 	message => 'Only works in site realm',
 	enity => $req->get('auth_id'),
-    }) unless Bivio::UI::Constant->get_value(site_realm_id => $req)
+    }) unless b_use('FacadeComponent.Constant')->get_value(site_realm_id => $req)
 	eq $req->get('auth_id');
     return;
 }
