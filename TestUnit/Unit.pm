@@ -9,8 +9,8 @@ my($_FC) = b_use('Type.FreikerCode');
 our($AUTOLOAD);
 
 sub AUTOLOAD {
-    $Bivio::TestUnit::Unit::AUTOLOAD = $AUTOLOAD;
-    return Bivio::TestUnit::Unit::AUTOLOAD(@_);
+    $Bivio::Test::Unit::Unit::AUTOLOAD = $AUTOLOAD;
+    return Bivio::Test::Unit::Unit::AUTOLOAD(@_);
 }
 
 sub builtin_realm_id {
