@@ -17,7 +17,7 @@ sub execute_task_item {
 	$req,
 #TODO: Encapsulate in prepare_html, because never would load GENERAL's WIKI
 	$req->get('auth_realm')->is_general
-	    ? $_C->get_value('site_realm_id') : undef,
+	    ? $_C->get_value('site_realm_id', $req) : undef,
 	undef,
 	$method,
     ) || $_V->execute('Wiki->view', $req);
