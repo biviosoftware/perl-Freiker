@@ -182,7 +182,7 @@ sub reset_freikers {
     my($rides) = [];
     my($now) = $_D->now;
     my($indexes) = [0..$_T->MAX_CHILD_INDEX];
-    $self->model('GreenGear')->cascade_delete({});
+    $self->model('GreenGear')->delete_all({club_id => $self->req('auth_id')});
     $self->model('SchoolClass')->do_iterate(
 	sub {
 	    shift->cascade_delete;
@@ -201,7 +201,9 @@ sub reset_freikers {
 	    user_id => $u,
 	});
 	$req->with_realm($u => sub {
-	    $self->model('Ride')->cascade_delete({});
+	    $self->model('Ride')->cascade_delete({
+		user_id => $u,
+	    });
 	    $self->model('User')->unauth_delete_realm($u);
 	});
     }
