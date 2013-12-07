@@ -2,13 +2,15 @@
 # $Id$
 package Freiker::XHTMLWidget::SameModeSelectHandler;
 use strict;
-use Bivio::Base 'Freiker::XHTMLWidget::SameModeCheckboxHandler';
-use Bivio::UI::ViewLanguageAUTOLOAD;
+use Bivio::Base 'Bivio::UI::Widget';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub get_html_field_attributes {
     my($self, $field_name, $source) = @_;
+    # only respond to select in the first row
+    return ''
+	unless $source->get_list_model->get_cursor == 0;
     return ' onclick="same_mode_for_all(' .
 	join(', ',
 	     $source->get_field_name_for_html('use_type_for_all'),
@@ -16,6 +18,10 @@ sub get_html_field_attributes {
 	     $source->get_list_model->get_result_set_size,
 	     'event',
 	) . ')"';
+}
+
+sub render {
+    return;
 }
 
 1;
