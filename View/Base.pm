@@ -69,7 +69,7 @@ sub _footer_bar {
 		    }),
 		    {cell_class => "footer_bar_$_->[0]"},
 		),
-		[center => Simple('Find us on FaceBook')],
+		[center => vs_text('find_us_on_facebook')],
 		[right => Image('social_fb')],
 	    ),
 	]],
@@ -81,18 +81,15 @@ sub _footer_legal {
     return DIV_footer_legal(
 	Join([
 	    '&copy; 2010 KidCommute, Inc.',
-	    map({
-		(my $text = $_) =~ s/_/ /g;
-		(
-		    '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
-		    Link($text,
-			 URI({
-			     task_id => 'SITE_WIKI_VIEW',
-			     path_info => $_,
-			 }),
-		    ),
-		);
-	    } qw(Privacy_Policy Terms_of_Service)),
+	    map((
+		'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',
+		Link(vs_text(lc($_)),
+		     URI({
+			 task_id => 'SITE_WIKI_VIEW',
+			 path_info => $_,
+		     }),
+		),
+	    ), qw(Privacy_Policy Terms_of_Service)),
 	]),
     );
 }
