@@ -129,7 +129,7 @@ sub _form {
 		choices => ['Model.ClubList'],
 		list_id_field => 'Club.club_id',
 		list_display_field => 'RealmOwner.display_name',
-		unknown_label => 'Select School',
+		unknown_label => vs_text('ClubList.unknown_label'),
 		row_control => ["Model.$model", 'allow_club_id'],
 		event_handler => SchoolClassListHandler(),
 	    }],
@@ -139,7 +139,7 @@ sub _form {
 	    choices => ['Model.SchoolClassList'],
 	    list_id_field => 'SchoolClass.school_class_id',
 	    list_display_field => 'display_name',
-	    unknown_label => 'Select Class',
+	    unknown_label => vs_text('SchoolClassList.unknown_label'),
 	    row_control => And(
 		If([qw(->ureq Model.SchoolClassList)], 1, 0),
 		[qw(Model.SchoolClassList ->get_result_set_size)],
