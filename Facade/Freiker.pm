@@ -2,7 +2,7 @@
 # $Id$
 package Freiker::Facade::Freiker;
 use strict;
-use base 'Bivio::UI::FacadeBase';
+use Bivio::Base 'Bivio::UI::FacadeBase';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
@@ -175,6 +175,9 @@ my($_SELF) = __PACKAGE__->new({
 #TODO:	    [support_phone => '(800) 555-1212'],
 	[site_name => q{Boltage}],
 	[site_copyright => q{KidCommute, Inc.}],
+	[privacy_policy => 'Privacy Policy'],
+	[terms_of_service => 'Terms of Service'],
+	[find_us_on_facebook => 'Find us on FaceBook'],
 	[home_page_uri => '/my-site'],
 	[Image_alt => [
 	    at => 'at sign image to help avoid spam',
@@ -300,7 +303,7 @@ my($_SELF) = __PACKAGE__->new({
 	]],
 	[SchoolClassList => [
 	    display_name => __PACKAGE__->init_from_prior_group('school_class_id'),
-	    'RealmOwner.display_name.select'=> 'Select Class',
+	    unknown_label => 'Select Class',
 	]],
 	[UserRegisterForm => [
 	    prose => [
@@ -496,6 +499,35 @@ EOF
 	    CLUB_REGISTER => q{Would you like to become a volunteer? vs_link('Click here to register your school.', 'CLUB_REGISTER');},
 	    MERCHANT_REGISTER => q{Are you a merchant? vs_link('Click here to register your business.', 'MERCHANT_REGISTER');},
 	    GENERAL_USER_PASSWORD_QUERY => q{Forgot your password? Link('Click here to get a new one.', 'GENERAL_USER_PASSWORD_QUERY');},
+	    UserAuth => [
+		create_mail => [
+		    to => q{Mailbox([['->get_by_regexp', 'Model.\w+RegisterForm'], 'Email.email']);},
+		    subject => q{Join([vs_site_name(), ' Registration Verification']);},
+		    body => <<'EOF'
+Thank you for registering with vs_site_name();.  In order to
+complete your registration, please click on the following link:
+
+String([['->get_by_regexp', 'Model.\w+RegisterForm'], 'uri']);
+
+String([['->get_by_regexp', 'Model.\w+RegisterForm'], 'Email.email']); is the email address we have for you in our database.
+You will use this address to login along with the password you
+will set when you click on the above link.
+
+Thanks for registering.  Every Trip Counts!TM
+
+KidCommute, Inc.
+Link('SITE_ROOT');
+
+KidCommute, Inc. (EIN 56-2539016) is a tax-exempt organization under Section
+501(c)3 of the Internal Revenue Code. Your donation is tax deductible to the
+full extent of the law.  Just $10 will help:
+KidCommute, Inc. (EIN 56-2539016) is a tax-exempt organization under
+Section 501(c)(3) of the Internal Revenue Code. Your donation is tax
+deductible to the full extent of the law - Link('/site/donate');
+
+EOF
+		],
+	    ],
 	]],
 	[ContactForm => [
 	    to => 'To',
@@ -511,6 +543,12 @@ EOF
 	[AdmFreikerCodeReallocateConfirmationForm => [
 	    'prose.prologue' => q{Are you sure you want to reallocate all STRONG(String([qw(Model.AdmFreikerCodeReallocateForm num_tags)])); ZapTags starting with STRONG(String([qw(Model.AdmFreikerCodeReallocateForm tag_block)])); from STRONG(String([qw(Model.AdmFreikerCodeReallocateForm source.RealmOwner.display_name)])); to STRONG(String([qw(Model.AdmFreikerCodeReallocateForm dest.RealmOwner.display_name)]));?},
 	    'ok_button' => 'Reallocate',
+	]],
+	[SchoolContactList => [
+	    unknown_label => 'Select School Contact',
+	]],
+	[ClubList => [
+	    unknown_label => 'Select School',
 	]],
 	[acknowledgement => [
 	    update_address => q{Please update the information below.  We need to make sure your information is current.},
@@ -668,6 +706,7 @@ EOF
 	    back_to_club => 'Kids',
 	]],
     ],
+    b_use('FacadeComponent.Enum')->make_facade_decl([]),
 });
 
 1;
