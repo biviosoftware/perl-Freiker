@@ -65,6 +65,11 @@ sub merge_overrides {
 	    http_host => 'www.freiker.org',
 	    mail_host => 'freiker.org',
         },
+	'Bivio::Delegate::Cookie' => {
+	    tag => 'BOLT',
+	    prior_tags => ['FR'],
+	    domain => '.' . $host,
+	},
         $proto->merge_http_log({
             ignore_list => [
             ],
