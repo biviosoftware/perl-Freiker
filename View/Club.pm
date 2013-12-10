@@ -34,7 +34,7 @@ sub freiker_class_list_form {
 		    choices => ['Model.SchoolClassList'],
 		    list_id_field => 'SchoolClass.school_class_id',
 		    list_display_field => 'display_name',
-		    unknown_label => 'Select Class',
+		    unknown_label => vs_text('SchoolClassList.unknown_label'),
 		}],
 		['has_graduated', {
 		    column_data_class => 'centered_cell',
