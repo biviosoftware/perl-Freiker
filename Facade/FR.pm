@@ -9,9 +9,10 @@ our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 __PACKAGE__->new({
     clone => 'Freiker',
-    #TODO: turn on once ready for production
-    is_production => 0,
+    is_production => 1,
     uri => 'fr.boltage',
+    http_host => 'fr.boltage.org',
+    mail_host => 'fr.boltage.org',
     FormError => [
 	['prose.detail_prefix' => q{; renseignement supplémentaire : }],
     ],
