@@ -21,6 +21,9 @@ sub dev_overrides {
 #	    home_page_uri => "http://$host:$http_port/my-site",
 	    server_startup_timeout => 60,
 	},
+	'Bivio::Delegate::Cookie' => {
+	    domain => '.' . $host,
+	},
     };
 }
 
@@ -68,7 +71,6 @@ sub merge_overrides {
 	'Bivio::Delegate::Cookie' => {
 	    tag => 'BOLT',
 	    prior_tags => ['FR'],
-	    domain => '.' . $host,
 	},
         $proto->merge_http_log({
             ignore_list => [
