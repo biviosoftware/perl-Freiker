@@ -70,7 +70,7 @@ sub merge_overrides {
         },
 	'Bivio::Delegate::Cookie' => {
 	    tag => 'BOLT',
-	    prior_tags => ['FR'],
+	    prior_tags => ['FR', 'my.boltage.org'],
 	},
         $proto->merge_http_log({
             ignore_list => [
