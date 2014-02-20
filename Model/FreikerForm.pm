@@ -10,7 +10,6 @@ my($_G_UNKNOWN) = b_use('Type.Gender')->UNKNOWN;
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 my($_K) = b_use('Type.Kilometers');
 my($_PI) = b_use('Type.PrimaryId');
-my($_USLF) = b_use('Model.UserSettingsListForm');
 my($_B) = b_use('Type.Boolean');
 my($_RT) = b_use('Type.RideType');
 
@@ -53,6 +52,9 @@ sub execute_empty {
 sub execute_ok {
     my($self) = @_;
     my($req) = $self->get_request;
+    _validate_school_class($self);
+    return
+	if $self->in_error;
     $self->internal_put_field('User.gender' => $_G_UNKNOWN)
 	unless $self->unsafe_get('User.gender');
     my($uid) = $self->unsafe_get('FreikerCode.user_id');
@@ -130,6 +132,16 @@ sub internal_initialize {
     });
 }
 
+sub internal_load_class_list {
+    my($self, $club_id) = @_;
+    return $self->req->with_realm(
+	$club_id,
+	sub {
+	    return $self->new_other('SchoolClassList')->load_with_school_year;
+	},
+    );
+}
+
 sub internal_pre_execute {
     my($self) = @_;
     my(@res) = shift->SUPER::internal_pre_execute(@_);
@@ -147,12 +159,12 @@ sub internal_pre_execute {
 	in_parent_realm => $in_parent_realm,
     );
     $uid
-	? $self->req->with_realm(
-	    $self->new_other('RealmUser')->club_id_for_freiker($uid),
-	    sub {
-		$self->new_other('SchoolClassList')->load_with_school_year;
-	    },
-	)
+ 	? $self->req->with_realm(
+ 	    $self->new_other('RealmUser')->club_id_for_freiker($uid),
+ 	    sub {
+ 		$self->new_other('SchoolClassList')->load_with_school_year;
+ 	    },
+ 	)
 	: $in_parent_realm
 	    ? ()
 	    : $self->new_other('SchoolClassList')->load_with_school_year;
@@ -186,12 +198,11 @@ sub update_school_class {
 
 sub validate {
     my($self) = @_;
-    $_USLF->validate_user_names($self);
+    b_use('Model.UserSettingsListForm')->validate_user_names($self);
     $self->validate_not_null($self->unsafe_get('in_miles') ? 'miles' : 'kilometers');
     return
 	unless $self->in_error;
     $self->validate_address;
-    _validate_school_class($self);
     return;
 }
 
@@ -213,7 +224,6 @@ sub validate_address {
     return;
 }
 
-
 sub _country_zip {
     my($model, $cc) = @_;
     return _is_us($cc) ? b_use('Type.USZipCode')
@@ -230,12 +240,21 @@ sub _is_us {
     return (shift || '') eq 'US' ? 1 : 0;
 }
 
+sub _class_list_for_code {
+    my($self) = @_;
+    return $self->internal_load_class_list(
+	$self->new_other('RealmUser')->club_id_for_freiker(
+	    $self->get('FreikerCode.user_id'),
+	),
+    );
+}
+
 sub _validate_school_class {
     my($self) = @_;
     return
 	unless my $scid = $self->unsafe_get('SchoolClass.school_class_id');
     $self->internal_put_error('SchoolClass.school_class_id' => 'NOT_FOUND')
-	unless $self->req('Model.SchoolClassList')->find_row_by_id($scid);
+	unless _class_list_for_code($self)->find_row_by_id($scid);
     return;
 }
 
