@@ -48,7 +48,7 @@ sub execute_empty {
 	    _put_address($self, $self->new_other('Address')->unauth_load_or_die({
 		realm_id => $it->get('RealmUser.user_id'),
 	    }));
-	    _load_class_list($self);
+	    $self->internal_load_class_list($self->get('Club.club_id'));
 	    return 0;
 	});
     }
@@ -60,7 +60,7 @@ sub execute_ok {
     if ($self->unsafe_get('refresh_class_list')) {
 	$self->internal_stay_on_page;
 	$self->internal_put_field(refresh_class_list => 0);
-	_load_class_list($self);
+	$self->internal_load_class_list($self->get('Club.club_id'));
 	return;
     }
     return
@@ -110,6 +110,13 @@ sub internal_initialize {
 	    ),
 	],
     });
+}
+
+sub internal_load_class_list {
+    my($self, $club_id) = @_;
+    my($res) = shift->SUPER::internal_load_class_list($club_id);
+    _get_tagless($self);
+    return $res;
 }
 
 sub internal_pre_execute {
@@ -171,17 +178,6 @@ sub _iterate_rides {
         'ride_date',
 	{user_id => $user_id},
     );
-    return;
-}
-
-sub _load_class_list {
-    my($self) = @_;
-    if ($self->unsafe_get('Club.club_id')) {
-	$self->req->with_realm($self->get('Club.club_id'), sub {
-	    $self->new_other('SchoolClassList')->load_with_school_year;
-	});
-	_get_tagless($self);
-    }
     return;
 }
 
@@ -259,7 +255,7 @@ sub _validate_club {
     }
     $self->internal_put_field(
 	'FreikerCode.club_id' => $self->get('Club.club_id'));
-    _load_class_list($self);
+    $self->internal_load_class_list($self->get('Club.club_id'));
     if ($self->unsafe_get('no_freiker_code')) {
 	return $self->internal_put_error(
 	    'FreikerCode.freiker_code' => 'SYNTAX_ERROR')
