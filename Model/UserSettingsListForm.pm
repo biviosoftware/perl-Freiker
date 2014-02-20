@@ -5,7 +5,6 @@ use strict;
 use Bivio::Base 'Model';
 
 our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
-my($_FCF) = b_use('Model.FreikerCodeForm');
 my($_DEFAULT_LOCATION) = b_use('Model.Address')->DEFAULT_LOCATION;
 
 sub execute_empty {
@@ -48,7 +47,7 @@ sub internal_pre_execute {
 sub validate {
     my($self) = @_;
     shift->SUPER::validate(@_);
-    $_FCF->validate_address($self);
+    b_use('Model.FreikerCodeForm')->validate_address($self);
     return;
 }
 
