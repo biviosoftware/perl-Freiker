@@ -40,9 +40,20 @@ submit_form({
     kilometers => 17,
 });
 test_conformance();
+my($last) = random_string();
+test_deviance(qr{please enter a number}i);
 submit_form({
     first => 'Bruce',
-    last => my $last = random_string(),
+    last => $last,
+    '^zaptag' => 1237,
+    '^school' => 'bunit Elementary',
+    '^class' => $teacher,
+    kilometers => '17 blocks',
+});
+test_conformance();
+submit_form({
+    first => 'Bruce',
+    last => $last,
     '^zaptag' => 1237,
     '^school' => 'bunit Elementary',
     kilometers => 17,
