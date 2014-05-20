@@ -88,7 +88,8 @@ verify_text('Billy');
 follow_link(qw(your_family register_kid));
 submit_form({
     '^school' => 'Select School',
-    refresh_class_list => 1,
+    b_use('Model.FreikerCodeForm')->get_instance
+	->get_field_name_for_html('refresh_class_list') => 1,
 });
 verify_no_text('Register without ZapTag');
 login_as('wheel');
