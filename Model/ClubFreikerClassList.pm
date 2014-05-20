@@ -52,6 +52,8 @@ sub internal_initialize {
 
 sub internal_pre_load {
     my($self, $query, $support, $params) = @_;
+    $self->throw_die('MODEL_NOT_FOUND')
+	unless $query->get('parent_id');
     my($sy_date) = $self->new_other('SchoolYear')->set_ephemeral
 	->this_year_start_date;
     my($where) = shift->SUPER::internal_pre_load(@_);
