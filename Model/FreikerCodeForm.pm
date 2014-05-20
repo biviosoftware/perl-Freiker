@@ -114,9 +114,12 @@ sub internal_initialize {
 
 sub internal_load_class_list {
     my($self, $club_id) = @_;
-    my($res) = shift->SUPER::internal_load_class_list($club_id);
-    _get_tagless($self);
-    return $res;
+    if ($club_id) {
+	my($res) = shift->SUPER::internal_load_class_list($club_id);
+	_get_tagless($self);
+	return $res;
+    }
+    return;
 }
 
 sub internal_pre_execute {
