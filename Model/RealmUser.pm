@@ -4,7 +4,6 @@ package Freiker::Model::RealmUser;
 use strict;
 use Bivio::Base 'Model';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 my($_FREIKOMETER) = $_FREIKER->FREIKOMETER;
 my($_CLUB) = b_use('Auth.RealmType')->CLUB;

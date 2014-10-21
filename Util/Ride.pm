@@ -4,7 +4,6 @@ package Freiker::Util::Ride;
 use strict;
 use Bivio::Base 'Bivio.ShellUtil';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub import_csv {
     my($self) = @_;

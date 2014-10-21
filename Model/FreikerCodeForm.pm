@@ -4,7 +4,6 @@ package Freiker::Model::FreikerCodeForm;
 use strict;
 use Bivio::Base 'Model.FreikerForm';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_OVERLAP_SLOP) = 1;
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;

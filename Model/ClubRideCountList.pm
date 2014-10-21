@@ -4,7 +4,6 @@ package Freiker::Model::ClubRideCountList;
 use strict;
 use Bivio::Base 'Biz.ListModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 #TODO: not the same as  select ride_date, count(user_id) from ride_t where club_id = 100002 group \
 ## by ride_date order by ride_date desc; does not work with Fill Trips');

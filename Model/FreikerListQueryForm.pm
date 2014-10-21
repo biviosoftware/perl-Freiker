@@ -4,7 +4,6 @@ package Freiker::Model::FreikerListQueryForm;
 use strict;
 use Bivio::Base 'Model.ListQueryForm';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_YQ) = b_use('Type.YearQuery');
 my($_B) = b_use('Type.Boolean');
 my($_D) = b_use('Type.Date');

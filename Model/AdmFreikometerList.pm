@@ -4,7 +4,6 @@ package Freiker::Model::AdmFreikometerList;
 use strict;
 use Bivio::Base 'Biz.ListModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FOLDER_RE) = b_use('Model.FreikometerUploadList')->FOLDER_LC . '%';
 
 sub internal_initialize {

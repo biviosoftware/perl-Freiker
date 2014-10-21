@@ -4,7 +4,6 @@ package Freiker::Model::Ride;
 use strict;
 use Bivio::Base 'Model.RealmBase';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_NO_TIME) = b_use('Type.Time')->time_from_parts(0, 0, 0);
 my($_C) = b_use('SQL.Connection');
 my($_RT) = b_use('Type.RideType');

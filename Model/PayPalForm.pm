@@ -4,7 +4,6 @@ package Freiker::Model::PayPalForm;
 use strict;
 use Bivio::Base 'Biz.FormModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_ULF) = __PACKAGE__->get_instance('UserLoginForm');
 my($_PPR) = Bivio::Biz::Action->get_instance('PayPalReturn');
 my($_QUERY_KEY) = Bivio::Biz::Action->get_instance('Acknowledgement');

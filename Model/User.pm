@@ -4,7 +4,6 @@ package Freiker::Model::User;
 use strict;
 use Bivio::Base 'Model';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_RT) = b_use('Type.RideType');
 
 sub create_freiker {

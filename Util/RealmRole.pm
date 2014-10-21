@@ -4,7 +4,6 @@ package Freiker::Util::RealmRole;
 use strict;
 use Bivio::Base 'ShellUtil';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub make_super_user {
     my($self) = @_;

@@ -4,7 +4,6 @@ package Freiker::Version;
 use strict;
 use Bivio::Base 'Bivio::UNIVERSAL';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 =head1 NAME
 
@@ -29,6 +28,9 @@ Please visit http://www.freiker.org for more info.
 =head1 CHANGES
 
   $Log$
+  Revision 1.2  2009/05/19 11:05:07  nagler
+  Various enhancements
+
   Revision 1.1  2008/10/14 21:48:51  nagler
   *** empty log message ***
 

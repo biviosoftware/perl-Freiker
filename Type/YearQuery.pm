@@ -4,7 +4,6 @@ package Freiker::Type::YearQuery;
 use strict;
 use Bivio::Base 'Type.YearWindow';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_DEFAULT) = _init(__PACKAGE__);
 

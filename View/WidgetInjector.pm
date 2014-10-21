@@ -5,7 +5,6 @@ use strict;
 use Bivio::Base 'View';
 use Bivio::UI::ViewLanguageAUTOLOAD;
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_R) = b_use('Model.Ride');
 
 sub public_total_trips_xhtml_widget {

@@ -4,7 +4,6 @@ package Freiker::Model::MerchantInfoForm;
 use strict;
 use Bivio::Base 'Model.OrganizationInfoForm';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_RN) = Bivio::Type->get_instance('RealmName');
 
 sub execute_ok {

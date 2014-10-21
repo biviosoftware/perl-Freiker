@@ -4,7 +4,6 @@ package Freiker::Model::AdmPrizeList;
 use strict;
 use Bivio::Base 'Biz.ListModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_P);
 
 sub image_path {

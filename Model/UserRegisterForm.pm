@@ -4,7 +4,6 @@ package Freiker::Model::UserRegisterForm;
 use strict;
 use Bivio::Base 'Model';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FCF) = b_use('Model.FreikerCodeForm');
 
 sub execute_empty {

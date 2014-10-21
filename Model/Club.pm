@@ -4,7 +4,6 @@ package Freiker::Model::Club;
 use strict;
 use Bivio::Base 'Model';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_ADMIN) = __PACKAGE__->use('Auth.Role')->ADMINISTRATOR;
 my($_GENERAL) = __PACKAGE__->use('Auth.Realm')->get_general->get('id');
 my($_RN) = __PACKAGE__->use('Type.RealmName');

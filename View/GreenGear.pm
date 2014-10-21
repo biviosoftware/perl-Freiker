@@ -5,7 +5,6 @@ use strict;
 use Bivio::Base 'View.Club';
 use Bivio::UI::ViewLanguageAUTOLOAD;
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub list {
     return shift->internal_body_and_tools(

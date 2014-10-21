@@ -4,7 +4,6 @@ package Freiker::Model::AdmFreikerCodeReallocateForm;
 use strict;
 use Bivio::Base 'Model.ConfirmableForm';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FC) = b_use('Model.FreikerCode');
 
 sub execute_ok {

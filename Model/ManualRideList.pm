@@ -4,7 +4,6 @@ package Freiker::Model::ManualRideList;
 use strict;
 use Bivio::Base 'Model.NumberedList';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FRL) = b_use('Model.FreikerRideList');
 
 sub LOAD_ALL_SIZE {

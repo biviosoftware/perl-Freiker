@@ -4,7 +4,6 @@ package Freiker::Model::GreenGearList;
 use strict;
 use Bivio::Base 'Model.ClubFreikerList';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_LOCATION) = b_use('Model.Address')->DEFAULT_LOCATION;
 
 sub internal_initialize {

@@ -4,7 +4,6 @@ package Freiker::Action::FamilyPrizePickup;
 use strict;
 use Bivio::Base 'Biz.Action';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_RU) = __PACKAGE__->use('Model.RealmUser');
 my($_C) = __PACKAGE__->use('FacadeComponent.Constant');
 

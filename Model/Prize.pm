@@ -4,7 +4,6 @@ package Freiker::Model::Prize;
 use strict;
 use Bivio::Base 'Model.RealmBase';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_IFN) = b_use('Type.ImageFileName');
 my($_PS) = b_use('Type.PrizeStatus');
 

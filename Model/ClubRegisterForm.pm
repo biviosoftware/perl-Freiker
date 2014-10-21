@@ -4,7 +4,6 @@ package Freiker::Model::ClubRegisterForm;
 use strict;
 use Bivio::Base 'Model.OrganizationInfoForm';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_L) = b_use('Type.Location');
 
 sub execute_empty {

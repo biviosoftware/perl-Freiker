@@ -4,7 +4,6 @@ package Freiker::Model::UserFreikerCodeList;
 use strict;
 use Bivio::Base 'Model.FreikerCodeList';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub get_codes {
     my($self, $user_id) = @_;

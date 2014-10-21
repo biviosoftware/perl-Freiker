@@ -4,7 +4,6 @@ package Freiker::Model::GroupUserBulletinList;
 use strict;
 use Bivio::Base 'Model.GroupUserList';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_E) = b_use('Type.Email');
 my($_F) = b_use('ShellUtil.Freikometer');
 

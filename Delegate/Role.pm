@@ -4,7 +4,6 @@ package Freiker::Delegate::Role;
 use strict;
 use base 'Bivio::Delegate::Role';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub get_delegate_info {
     return [

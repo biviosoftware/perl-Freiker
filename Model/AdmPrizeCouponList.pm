@@ -4,7 +4,6 @@ package Freiker::Model::AdmPrizeCouponList;
 use strict;
 use Bivio::Base 'Biz.ListModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_SA) = __PACKAGE__->use('Type.StringArray');
 my($_FREIKER_INT) = b_use('Auth.Role')->FREIKER->as_sql_param;
 my($_USER_INT) = b_use('Auth.RealmType')->USER->as_sql_param;

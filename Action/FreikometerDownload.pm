@@ -4,7 +4,6 @@ package Freiker::Action::FreikometerDownload;
 use strict;
 use Bivio::Base 'Action.RealmFile';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FOLDER_RE) = qr{^\Q@{[
     Bivio::Biz::Model->get_instance('FreikometerDownloadList')->FOLDER
 ]}/}io;

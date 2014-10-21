@@ -4,7 +4,6 @@ package Freiker::Model::TxnCodeBase;
 use strict;
 use Bivio::Base 'Model.RealmBase';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub DEFAULT_DISTRIBUTOR {
     return 'freiker803042435';

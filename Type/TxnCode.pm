@@ -5,7 +5,6 @@ use strict;
 use Bivio::Base 'Type.Integer';
 use Bivio::Biz::Random;
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub generate_random {
     my($proto) = @_;

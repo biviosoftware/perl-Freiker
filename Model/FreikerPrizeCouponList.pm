@@ -4,7 +4,6 @@ package Freiker::Model::FreikerPrizeCouponList;
 use strict;
 use Bivio::Base 'Bivio::Biz::ListModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub internal_initialize {
     my($self) = @_;

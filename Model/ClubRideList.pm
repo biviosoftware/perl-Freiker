@@ -4,7 +4,6 @@ package Freiker::Model::ClubRideList;
 use strict;
 use Bivio::Base 'Model.AdmRideList';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_SCHOOL_CLASS) = b_use('Auth.RealmType')->SCHOOL_CLASS->as_sql_param;
 my($_CFCL) = b_use('Model.ClubFreikerClassList');
 my($_D) = b_use('Type.Date');

@@ -4,7 +4,6 @@ package Freiker::Model::ContactForm;
 use strict;
 use Bivio::Base 'Model';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_R) = b_use('Auth.Role');
 my($_ULF) = b_use('Model.UserLoginForm');
 

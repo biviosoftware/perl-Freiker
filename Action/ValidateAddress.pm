@@ -4,7 +4,6 @@ package Freiker::Action::ValidateAddress;
 use strict;
 use Bivio::Base 'Biz.Action';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_M) = b_use('Biz.Model');
 my($_AA) = b_use('Action.Acknowledgement');
 my($_D) = b_use('Bivio.Die');

@@ -4,7 +4,6 @@ package Freiker::Model::ClubList;
 use strict;
 use base 'Bivio::Biz::ListModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub find_row_by_id {
     return shift->find_row_by('Club.club_id', shift);

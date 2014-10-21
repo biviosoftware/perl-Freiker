@@ -4,7 +4,6 @@ package Freiker::Model::GroupUserList;
 use strict;
 use Bivio::Base 'Model';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub internal_post_load_row {
     my($self, $row) = @_;

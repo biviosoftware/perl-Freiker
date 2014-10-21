@@ -4,7 +4,6 @@ package Freiker::BConf;
 use strict;
 use base 'Bivio::BConf';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub dev_overrides {
     my(undef, undef, $host, undef, $http_port) = @_;

@@ -4,7 +4,6 @@ package Freiker::Facade::Freiker;
 use strict;
 use Bivio::Base 'Bivio::UI::FacadeBase';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 my($_SELF) = __PACKAGE__->new({
     clone => undef,

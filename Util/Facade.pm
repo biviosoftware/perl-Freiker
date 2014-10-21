@@ -4,7 +4,6 @@ package Freiker::Util::Facade;
 use strict;
 use Bivio::Base 'Bivio.ShellUtil';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_F) = b_use('UI.Facade');
 my($_IOF) = b_use('IO.File');
 

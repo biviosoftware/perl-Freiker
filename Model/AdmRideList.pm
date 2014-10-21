@@ -4,7 +4,6 @@ package Freiker::Model::AdmRideList;
 use strict;
 use Bivio::Base 'Biz.ListModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FLQF) = b_use('Model.FreikerListQueryForm');
 
 sub LOAD_ALL_SIZE {

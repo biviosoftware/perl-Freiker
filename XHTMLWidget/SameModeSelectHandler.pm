@@ -4,7 +4,6 @@ package Freiker::XHTMLWidget::SameModeSelectHandler;
 use strict;
 use Bivio::Base 'Bivio::UI::Widget';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub get_html_field_attributes {
     my($self, $field_name, $source) = @_;

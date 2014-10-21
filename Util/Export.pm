@@ -4,7 +4,6 @@ package Freiker::Util::Export;
 use strict;
 use Bivio::Base 'Bivio.ShellUtil';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_CSV) = b_use('ShellUtil.CSV');
 my($_D) = b_use('Type.Date');
 my($_T) = b_use('Type.Time');

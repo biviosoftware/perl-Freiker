@@ -4,7 +4,6 @@ package Freiker::Type::BikeDateTime;
 use strict;
 use Bivio::Base 'Type.DateTime';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_TE) = b_use('Bivio.TypeError');
 
 sub from_literal {

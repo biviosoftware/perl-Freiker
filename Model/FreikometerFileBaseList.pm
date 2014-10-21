@@ -4,7 +4,6 @@ package Freiker::Model::FreikometerFileBaseList;
 use strict;
 use Bivio::Base 'Model.RealmFileList';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub FOLDER_LC {
     return lc(shift->FOLDER);

@@ -4,7 +4,6 @@ package Freiker::Model::AllClubSummaryList;
 use strict;
 use Bivio::Base 'Biz.ListModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_RN) = b_use('Type.RealmName');
 my($_DT) = b_use('Type.DateTime');
 my($_D) = b_use('Type.Date');

@@ -4,7 +4,6 @@ package Freiker::Action::WikiView;
 use strict;
 use Bivio::Base 'Action';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_V) = b_use('UI.View');
 my($_C) = b_use('FacadeComponent.Constant');
 

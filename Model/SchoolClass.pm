@@ -4,7 +4,6 @@ package Freiker::Model::SchoolClass;
 use strict;
 use Bivio::Base 'Model.RealmOwnerBase';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub create_realm {
     my($self, $values, $realm_owner) = @_;

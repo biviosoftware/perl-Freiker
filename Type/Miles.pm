@@ -4,7 +4,6 @@ package Freiker::Type::Miles;
 use strict;
 use Bivio::Base 'Type.Kilometers';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub can_be_negative {
     return 0;

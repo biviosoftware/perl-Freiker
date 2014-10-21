@@ -4,7 +4,6 @@ package Freiker::Model::FreikerList;
 use strict;
 use Bivio::Base 'Model.YearBaseList';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_U) = b_use('Model.User');
 my($_SA) = b_use('Type.StringArray');
 my($_D) = b_use('Type.Date');

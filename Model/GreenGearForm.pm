@@ -4,7 +4,6 @@ package Freiker::Model::GreenGearForm;
 use strict;
 use Bivio::Base 'Biz.FormModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_I) = b_use('Type.Integer');
 my($_D) = b_use('Type.Date');
 my($_R) = b_use('Biz.Random');

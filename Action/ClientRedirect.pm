@@ -4,7 +4,6 @@ package Freiker::Action::ClientRedirect;
 use strict;
 use Bivio::Base 'Action';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub uri_parameters {
     my($proto, $uri) = @_;

@@ -4,7 +4,6 @@ package Freiker::Action::FreikometerUpload;
 use strict;
 use Bivio::Base 'Biz.Action';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_DT) = b_use('Type.DateTime');
 my($_FP) = b_use('Type.FilePath');
 my($_D) = b_use('Type.Date');

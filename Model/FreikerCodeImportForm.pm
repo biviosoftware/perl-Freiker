@@ -4,7 +4,6 @@ package Freiker::Model::FreikerCodeImportForm;
 use strict;
 use Bivio::Base 'Model.CSVImportForm';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub COLUMNS {
     return [

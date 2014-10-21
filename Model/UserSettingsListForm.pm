@@ -4,7 +4,6 @@ package Freiker::Model::UserSettingsListForm;
 use strict;
 use Bivio::Base 'Model';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_DEFAULT_LOCATION) = b_use('Model.Address')->DEFAULT_LOCATION;
 
 sub execute_empty {

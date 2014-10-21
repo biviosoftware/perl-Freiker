@@ -4,7 +4,6 @@ package Freiker::Util::Freiker;
 use strict;
 use Bivio::Base 'Bivio.ShellUtil';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 my($_CLUB) = b_use('Auth.RealmType')->CLUB;

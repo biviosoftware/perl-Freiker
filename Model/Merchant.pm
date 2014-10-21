@@ -4,7 +4,6 @@ package Freiker::Model::Merchant;
 use strict;
 use Bivio::Base 'Model.RealmOwnerBase';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub create_realm {
     my($self) = shift->create;

@@ -4,9 +4,7 @@ package Freiker::TestUnit::Unit;
 use strict;
 use Bivio::Base 'TestUnit';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FC) = b_use('Type.FreikerCode');
-our($AUTOLOAD);
 
 sub AUTOLOAD {
     $Bivio::Test::Unit::Unit::AUTOLOAD = $AUTOLOAD;

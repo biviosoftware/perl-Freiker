@@ -4,7 +4,6 @@ package Freiker::Test::Freiker;
 use strict;
 use Bivio::Base 'TestLanguage.HTTP';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub generate_image {
     my($self, $text) = @_;

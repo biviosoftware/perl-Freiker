@@ -4,7 +4,6 @@ package Freiker::Model::ManualRideForm;
 use strict;
 use Bivio::Base 'Biz.FormModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = Bivio::Type->get_instance('Date');
 my($_RT) = b_use('Type.RideType');
 

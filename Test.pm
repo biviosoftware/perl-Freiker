@@ -4,7 +4,6 @@ package Freiker::Test;
 use strict;
 use Bivio::Base 'Bivio';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_RN) = b_use('Type.RealmName');
 my($_DT) = b_use('Type.DateTime');
 my($_FEMALE) = b_use('Type.Gender')->FEMALE;

@@ -4,7 +4,6 @@ package Freiker::Util::Freikometer;
 use strict;
 use Bivio::Base 'Bivio.ShellUtil';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FP) = b_use('Type.FilePath');
 my($_DT) = b_use('Type.DateTime');
 my($_F) = b_use('IO.File');

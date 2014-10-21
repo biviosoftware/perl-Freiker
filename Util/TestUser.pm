@@ -4,7 +4,6 @@ package Freiker::Util::TestUser;
 use strict;
 use Bivio::Base 'ShellUtil';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub create {
     my($self) = shift;

@@ -5,7 +5,6 @@ use strict;
 use Bivio::Base 'Facade.Freiker';
 b_use('IO.ClassLoaderAUTOLOAD');
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 __PACKAGE__->new({
     clone => 'Freiker',

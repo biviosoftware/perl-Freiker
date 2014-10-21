@@ -4,7 +4,6 @@ package Freiker::Model::ClubFreikerClassListForm;
 use strict;
 use Bivio::Base 'Biz.ListFormModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_PI) = b_use('Type.PrimaryId');
 my($_B) = b_use('Type.Boolean');
 my($_FF) = b_use('Model.FreikerForm');

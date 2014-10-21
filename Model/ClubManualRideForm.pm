@@ -4,7 +4,6 @@ package Freiker::Model::ClubManualRideForm;
 use strict;
 use Bivio::Base 'Biz.FormModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_F) = __PACKAGE__->use('ShellUtil.Freiker');
 my($_D) = __PACKAGE__->use('Type.Date');
 

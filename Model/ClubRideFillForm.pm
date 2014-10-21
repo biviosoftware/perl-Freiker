@@ -4,7 +4,6 @@ package Freiker::Model::ClubRideFillForm;
 use strict;
 use Bivio::Base 'Biz.FormModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_RT) = b_use('Type.RideType');
 

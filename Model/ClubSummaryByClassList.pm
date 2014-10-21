@@ -4,7 +4,6 @@ package Freiker::Model::ClubSummaryByClassList;
 use strict;
 use Bivio::Base 'Model.AdmSummaryBySchoolList';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub FIELDS {
     return qw(class_realm_id

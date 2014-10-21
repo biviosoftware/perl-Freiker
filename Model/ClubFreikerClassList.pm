@@ -4,7 +4,6 @@ package Freiker::Model::ClubFreikerClassList;
 use strict;
 use Bivio::Base 'Model.ClubFreikerList';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_R) = b_use('Auth.Role');
 my($_D) = b_use('Type.Date');
 my($_DATE) = $_D->to_sql_value('?');

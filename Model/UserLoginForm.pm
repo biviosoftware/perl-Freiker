@@ -4,7 +4,6 @@ package Freiker::Model::UserLoginForm;
 use strict;
 use Bivio::Base 'Model';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_FC) = __PACKAGE__->use('Type.FreikerCode');
 
 sub internal_validate_login_value {

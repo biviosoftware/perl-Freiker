@@ -4,7 +4,6 @@ package Freiker::Action::Auth;
 use strict;
 use Bivio::Base 'Biz.Action';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_DC) = b_use('Bivio.DieCode');
 
 sub execute_is_sub_or_super_user {

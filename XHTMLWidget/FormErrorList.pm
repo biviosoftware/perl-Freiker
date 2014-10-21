@@ -5,7 +5,6 @@ use strict;
 use Bivio::Base 'HTMLWidget.Tag';
 use Bivio::UI::ViewLanguageAUTOLOAD;
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_SA) = b_use('Type.StringArray');
 
 sub initialize {

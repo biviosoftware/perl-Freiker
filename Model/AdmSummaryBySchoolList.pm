@@ -4,7 +4,6 @@ package Freiker::Model::AdmSummaryBySchoolList;
 use strict;
 use Bivio::Base 'Biz.ListModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_K) = b_use('Type.Kilometers');
 my($_FL) = b_use('Model.FreikerList');
 

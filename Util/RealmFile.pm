@@ -4,7 +4,6 @@ package Freiker::Util::RealmFile;
 use strict;
 use Bivio::Base 'ShellUtil';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_LQ) = b_use('SQL.ListQuery');
 my($_DT) = b_use('Type.DateTime');
 

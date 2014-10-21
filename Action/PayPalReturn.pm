@@ -4,7 +4,6 @@ package Freiker::Action::PayPalReturn;
 use strict;
 use base 'Bivio::Biz::Action';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub execute {
     my(undef, $req) = @_;

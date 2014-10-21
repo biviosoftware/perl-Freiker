@@ -6,7 +6,6 @@ use Bivio::Base 'Bivio::ShellUtil';
 use Freiker::Test;
 use Freiker::Test::Freiker;
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_FF) = b_use('Type.FileField');
 my($_SA) = b_use('Type.StringArray');

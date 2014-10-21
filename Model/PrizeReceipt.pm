@@ -4,7 +4,6 @@ package Freiker::Model::PrizeReceipt;
 use strict;
 use Bivio::Base 'Model.TxnCodeBase';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub TXN_CODE_FIELD {
     return 'receipt_code';

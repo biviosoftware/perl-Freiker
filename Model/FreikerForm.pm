@@ -4,7 +4,6 @@ package Freiker::Model::FreikerForm;
 use strict;
 use Bivio::Base 'Biz.FormModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_G_UNKNOWN) = b_use('Type.Gender')->UNKNOWN;
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;

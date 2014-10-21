@@ -5,7 +5,6 @@ use strict;
 use Bivio::Base 'View';
 use Bivio::UI::ViewLanguageAUTOLOAD;
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub create {
     return shift->internal_body(vs_simple_form(UserRegisterForm => [

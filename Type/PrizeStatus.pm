@@ -4,7 +4,6 @@ package Freiker::Type::PrizeStatus;
 use strict;
 use Bivio::Base 'Type.Enum';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 __PACKAGE__->compile([
     UNAPPROVED => [1],

@@ -4,7 +4,6 @@ package Freiker::Model::SchoolClassList;
 use strict;
 use Bivio::Base 'Biz.ListModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_SY) = b_use('Model.SchoolYear');
 my($_IDI) = __PACKAGE__->instance_data_index;
 my($_UNSPECIFIED_VALUE) = b_use('Type.PrimaryId')->UNSPECIFIED_VALUE;

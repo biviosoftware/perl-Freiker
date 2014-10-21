@@ -4,7 +4,6 @@ package Freiker::Model::FreikerRideList;
 use strict;
 use Bivio::Base 'Model.YearBaseList';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Bivio.Die');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;
 

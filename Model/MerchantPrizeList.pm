@@ -4,7 +4,6 @@ package Freiker::Model::MerchantPrizeList;
 use strict;
 use Bivio::Base 'Model.AdmPrizeList';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub NOT_FOUND_IF_EMPTY {
     return 1;

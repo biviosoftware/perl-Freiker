@@ -4,7 +4,6 @@ package Freiker::Model::ManualRideListForm;
 use strict;
 use Bivio::Base 'Biz.ExpandableListFormModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_RU) = b_use('Model.RealmUser');
 my($_FREIKER) = b_use('Auth.Role')->FREIKER;

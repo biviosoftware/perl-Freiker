@@ -4,7 +4,6 @@ package Freiker::Model::AllClubRideDateList;
 use strict;
 use Bivio::Base 'Model.ClubRideDateList';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = __PACKAGE__->use('Type.Date');
 
 sub internal_initialize {

@@ -4,7 +4,6 @@ package Freiker::Model::ClubPrizeConfirmForm;
 use strict;
 use Bivio::Base 'Model.PrizeConfirmForm';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub PRIZE_SELECT_LIST {
     return 'ClubPrizeSelectList';

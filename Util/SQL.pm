@@ -6,7 +6,6 @@ use Bivio::Base 'ShellUtil';
 use Bivio::Test::Language::HTTP;
 use Freiker::Test;
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_DT) = b_use('Type.DateTime');
 my($_LM) = b_use('Biz.ListModel');
 my($_T) = b_use('FacadeComponent.Text');

@@ -4,7 +4,6 @@ package Freiker::FacadeComponent::Task;
 use strict;
 use Bivio::Base 'FacadeComponent';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub parse_uri {
     my($self, $uri) = (shift, shift);

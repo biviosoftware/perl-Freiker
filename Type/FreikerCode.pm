@@ -4,7 +4,6 @@ package Freiker::Type::FreikerCode;
 use strict;
 use Bivio::Base 'Type.Integer';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_RN) = __PACKAGE__->use('Type.RealmName');
 
 sub get_min {

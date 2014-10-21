@@ -4,7 +4,6 @@ package Freiker::Util::Btest;
 use strict;
 use Bivio::Base 'Bivio.ShellUtil';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 
 sub read_log {
     my($self, $path) = @_;

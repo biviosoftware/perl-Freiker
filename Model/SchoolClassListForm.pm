@@ -4,7 +4,6 @@ package Freiker::Model::SchoolClassListForm;
 use strict;
 use Bivio::Base 'Biz.ExpandableListFormModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_D) = b_use('Type.Date');
 my($_IDI) = __PACKAGE__->instance_data_index;
 

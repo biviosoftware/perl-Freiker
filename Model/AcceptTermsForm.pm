@@ -4,7 +4,6 @@ package Freiker::Model::AcceptTermsForm;
 use strict;
 use Bivio::Base 'Biz.FormModel';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_RT) = b_use('Model.RowTag');
 b_use('Agent.Task')->register(__PACKAGE__);
 

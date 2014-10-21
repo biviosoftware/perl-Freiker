@@ -4,7 +4,6 @@ package Freiker::Model::FreikerCode;
 use strict;
 use Bivio::Base 'Model.RealmBase';
 
-our($VERSION) = sprintf('%d.%02d', q$Revision$ =~ /\d+/g);
 my($_EPC) = Bivio::Type->get_instance('EPC');
 my($_BLOCK_SIZE) = 10000;
 my($_R) = b_use('Biz.Random');
