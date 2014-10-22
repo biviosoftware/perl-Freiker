@@ -5,6 +5,7 @@ use strict;
 use Bivio::Base 'TestUnit';
 
 my($_FC) = b_use('Type.FreikerCode');
+our($AUTOLOAD);
 
 sub AUTOLOAD {
     $Bivio::Test::Unit::Unit::AUTOLOAD = $AUTOLOAD;
